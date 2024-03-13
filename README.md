@@ -1,4 +1,13 @@
 # team_friendship
 The repo for the projlab.
 
-collective kms
+tagválzotók: kis betűs kezdés
+függvénynevek: camel case
+zárójelek:
+    void FvName() {
+      ...
+    }
+
+    if () {
+      ...
+    }
