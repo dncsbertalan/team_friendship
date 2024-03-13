@@ -6,13 +6,47 @@ import Entities.Professor;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Handle actions regarding rooms.
+ */
 public class Map {
+    //################################################################################
+    //                                  ATTRIBUTES
+    //################################################################################
+    /**
+     * Instance of the game.
+     */
     private Game game;
+
+    /**
+     * All the rooms of the labyrinth.
+     */
     private List<Room> rooms;
+
+    /**
+     * The room the students have to secure the slipstick in.
+     */
     private Room winningRoom;
+
+    /**
+     * Instance of the teachers lounge,
+     * because it is not an ordinary room.
+     */
     private TeachersLounge teachersLounge;
+
+    /**
+     * Instance of the main hall,
+     * because it is not an ordinary room.
+     */
     private MainHall mainHall;
 
+    //################################################################################
+    //                                  METHODS
+    //################################################################################
+
+    /**
+     * Constructor of the map.
+     */
     public Map() {
         rooms = new ArrayList<>();
         winningRoom = null;
