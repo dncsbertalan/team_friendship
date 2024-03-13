@@ -6,7 +6,6 @@ public abstract class Item {
 
     private boolean activate;
 
-
     /**
      *
      * @param student
