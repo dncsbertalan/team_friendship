@@ -1,6 +1,6 @@
 package GameManagers;
 import Entities.Professor;
-import Student.*;
+import Entities.*;
 
 /**
  * Initializes the game. Its main task is to handle the actions of the currently active student
