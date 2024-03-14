@@ -21,34 +21,56 @@ public class Game{
      */
     List<Student> students;
     /**
-     * @return List of professors in the game.
+     * List of professors in the game.
      */
     List<Professor> professors;
 
     /**
-     * Returns the students list.
+     * @return list of students
      */
     public List<Student> GetStudents();
 
     /**
-     * @return professors
+     * @return list of professors
      */
     public List<Professor> GetProfessor();
-    /*
 
+    /*
+    * Places student to the desired position.
      */
     public void UpdateStudentMoves();
+
+    /*
+     * Places professor to the desired position.
+     */
     public void UpdateProfessorMoves();
+
+    /*
+    *Enables LastPhase.
+     */
     public void LastPhase(Student student);
+
+    /*
+    *Disables LastPhase.
+     */
     public void LastPhaseOff();
+
+    /**
+    *Ends the game with the given output.
+    * @param b win/lose
+     */
     public void EndGame(boolean b);
 
     /**
-     *
-     * @param ItemClass
-     * @param entity
+     * Checks whether the given entity has an item from the given Itemclass.
+     * @param ItemClass class of the item
+     * @param entity the carrier
      * @return
      */
     public boolean CheckForItem(String ItemClass, Entity entity);
+
+    /**
+     * Checks whether the winning condition is fulfilled.
+     */
     public void CheckForWinningCondition();
 }
