@@ -2,6 +2,7 @@
 The repo for the projlab.
 
 tagváltozók: camel case
+
 függvénynevek: Pascal case
 
 Minden English
