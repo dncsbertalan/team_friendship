@@ -1,9 +1,9 @@
 # team_friendship
 The repo for the projlab.
 
-tagválzotók: kis betűs kezdés
+tagváltozók: camel case
 
-függvénynevek: camel case
+függvénynevek: Pascal case
 
 Minden English
 
