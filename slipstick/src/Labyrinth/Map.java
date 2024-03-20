@@ -2,6 +2,7 @@ package Labyrinth;
 
 import Entities.Student;
 import Entities.Professor;
+import GameManagers.Game;
 
 import java.util.ArrayList;
 import java.util.List;

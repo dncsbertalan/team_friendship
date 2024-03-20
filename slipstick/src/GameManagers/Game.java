@@ -2,6 +2,8 @@ package GameManagers;
 import Entities.Professor;
 import Entities.*;
 
+import java.util.ArrayList;
+
 /**
  * Initializes the game. Its main task is to handle the actions of the currently active student
  * tracked by the RoundManager, move the professors, and serve as the core of the game, bringing
@@ -19,47 +21,61 @@ public class Game{
     /**
      * List of students in the game.
      */
-    List<Student> students;
+    ArrayList<Student> students;
     /**
      * List of professors in the game.
      */
-    List<Professor> professors;
+    ArrayList<Professor> professors;
 
     /**
      * @return list of students
      */
-    public List<Student> GetStudents();
+    public ArrayList<Student> GetStudents() {
+
+    }
 
     /**
      * @return list of professors
      */
-    public List<Professor> GetProfessor();
+    public ArrayList<Professor> GetProfessor() {
+
+    }
 
     /*
     * Places student to the desired position.
      */
-    public void UpdateStudentMoves();
+    public void UpdateStudentMoves() {
+
+    }
 
     /*
      * Places professor to the desired position.
      */
-    public void UpdateProfessorMoves();
+    public void UpdateProfessorMoves() {
+
+    }
 
     /*
     *Enables LastPhase.
      */
-    public void LastPhase(Student student);
+    public void LastPhase(Student student) {
+
+    }
 
     /*
     *Disables LastPhase.
      */
-    public void LastPhaseOff();
+    public void LastPhaseOff() {
+
+    }
 
     /**
     *Ends the game with the given output.
     * @param b win/lose
      */
-    public void EndGame(boolean b);
+    public void EndGame(boolean b) {
+
+    }
 
     /**
      * Checks whether the given entity has an item from the given Itemclass.
@@ -67,10 +83,14 @@ public class Game{
      * @param entity the carrier
      * @return
      */
-    public boolean CheckForItem(String ItemClass, Entity entity);
+    public boolean CheckForItem(String ItemClass, Entity entity) {
+
+    }
 
     /**
      * Checks whether the winning condition is fulfilled.
      */
-    public void CheckForWinningCondition();
+    public void CheckForWinningCondition() {
+
+    }
 }
