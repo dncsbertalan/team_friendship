@@ -119,6 +119,14 @@ public abstract class Entity {
     }
 
     /**
+     * Increases Move count by turns specified
+     * @param turns number of turns specified
+     */
+    public void IncreaseMoveCount(int turns) {
+        remainingTurns += turns;
+    }
+
+    /**
      * Protects Entity
      */
     public void ProtectMe() {

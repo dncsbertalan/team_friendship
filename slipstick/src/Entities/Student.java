@@ -1,5 +1,6 @@
 package Entities;
 
+import GameManagers.Game;
 import Items.Item;
 import Items.SlipStick;
 
@@ -13,6 +14,10 @@ public class Student extends Entity{
      * The selected item
      */
     Item selectedItem;
+
+    public Student(Game g) {
+        super(g);
+    }
 
     /**
      * Select an item from the inventory for further use
@@ -58,14 +63,6 @@ public class Student extends Entity{
      */
     public void ActivateItem(Item item) {
         item.ActivateItem();
-    }
-
-    /**
-     * Increases Move count by turns specified
-     * @param turns number of turns specified
-     */
-    public void IncreaseMoveCount(int turns) {
-        remainingTurns += turns;
     }
 
     /**

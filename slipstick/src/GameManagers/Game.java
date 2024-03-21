@@ -31,14 +31,14 @@ public class Game{
      * @return list of students
      */
     public ArrayList<Student> GetStudents() {
-
+        return null;
     }
 
     /**
      * @return list of professors
      */
     public ArrayList<Professor> GetProfessor() {
-
+        return null;
     }
 
     /*
@@ -84,7 +84,7 @@ public class Game{
      * @return
      */
     public boolean CheckForItem(String ItemClass, Entity entity) {
-
+        return false;
     }
 
     /**

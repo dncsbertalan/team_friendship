@@ -1,5 +1,8 @@
 package GameManagers;
 
+import Entities.Professor;
+import Entities.Student;
+
 /**
  * Responsible for the functioning of game rounds.
  * It determines which entity goes next and how many steps they can take.
@@ -15,7 +18,7 @@ public class RoundManager{
      */
     public void SetActiveStudent(Student student, int steps){
         activeStudent = student;
-        student.steps =  steps;
+        student.IncreaseMoveCount(steps);
     }
 
     /**
@@ -25,7 +28,7 @@ public class RoundManager{
      */
     public void SetActiveProfessor(Professor professor, int steps){
         activeProfessor = professor;
-        professor.steps = steps;
+        professor.IncreaseMoveCount(steps);
     }
 
     /**
