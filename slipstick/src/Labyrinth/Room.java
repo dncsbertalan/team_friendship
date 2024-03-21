@@ -1,6 +1,7 @@
 package Labyrinth;
 
 import Entities.*;
+import GameManagers.Game;
 import Items.*;
 
 import java.util.List;
@@ -13,6 +14,14 @@ import java.util.Random;
  */
 public class Room {
     /**
+     * Reference for the Game object.
+     */
+    private Game game;
+    /**
+     * Reference for the Map object.
+     */
+    private Map map;
+    /**
      * All items placed in the room.
      */
     private List<Item> roomsListOfItems;
@@ -24,6 +33,10 @@ public class Room {
      * All professors placed in the room.
      */
     private List<Professor> roomsListOfProfessors;
+    /**
+     * All rooms that are currently neighbours to this room.
+     */
+    private List<Room> roomsListOfNeighbours;
     /**
      * Shows whether a room is filled with toxic gas.
      */
@@ -40,7 +53,7 @@ public class Room {
      * Constructor.
      * @param c: Room's initial capacity.
      */
-    public Room(int c){
+    public Room(int c, Game g){
         roomsListOfStudents = null;
         roomsListOfProfessors = null;
         roomsListOfItems = null;
@@ -48,6 +61,7 @@ public class Room {
         remainingRoundsBeingGassed = 0;
 
         capacity = c;
+        game = g;
     }
     /**
      * Constructor.
@@ -92,7 +106,10 @@ public class Room {
      * @param r: The destination room for all the current neighbours.
      */
     public void SendAllNeighbours(Room r){
-        //TODO WHEN HASHMAP FOR ALL NEIGHBOURS IS READY
+        for(int i = 0; i < roomsListOfNeighbours.size(); i++){
+                r.AddNeighbour(roomsListOfNeighbours.get(i));
+                this.RemoveNeighbour(roomsListOfNeighbours.get(i));
+        }
     }
     /**
      * The room adds all items placed in it to the other room.
@@ -124,7 +141,12 @@ public class Room {
      * @param r: The destination room for every second current neighbours.
      */
     public void SendSomeNeighbour(Room r){
-        //TODO WHEN HASHMAP FOR ALL NEIGHBOURS IS READY
+        for(int i = 0; i < roomsListOfNeighbours.size(); i++){
+            if(i % 2 == 0){
+                r.AddNeighbour(roomsListOfNeighbours.get(i));
+                this.RemoveNeighbour(roomsListOfNeighbours.get(i));
+            }
+        }
     }
     /**
      * The room adds the item given as a parameter to its own list of items.
@@ -218,5 +240,22 @@ public class Room {
         for(Professor profIter : roomsListOfProfessors){
             profIter.KillStudent(s);
         }
+    }
+    /**
+     * Adds a new neighbour to the room's list of neighbours.
+     * @param r: The room being added as a new neighbour.
+     */
+    void AddNeighbour(Room r){
+        roomsListOfNeighbours.add(r);
+    }
+    /**
+     * Removes a neighbour from the room's list of neighbours.
+     * @param r: The room being removed as a neighbour.
+     */
+    void RemoveNeighbour(Room r){
+        roomsListOfNeighbours.remove(r);
+    }
+    void SetToxicity(){
+        gassed = true;
     }
 }
