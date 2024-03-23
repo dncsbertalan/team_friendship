@@ -111,11 +111,19 @@ public abstract class Entity {
     }
 
     /**
-     * Gets current room
+     * Gets current room.
      * @return entity's current room
      */
     public Room GetCurrentRoom() {
         return room;
+    }
+
+    /**
+     * Sets the current room.
+     * @param room entity's new current room
+     */
+    public void SetCurrentRoom(Room room) {
+        this.room = room;
     }
 
     /**
