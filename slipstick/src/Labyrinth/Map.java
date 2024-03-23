@@ -173,7 +173,7 @@ public class Map {
      * @param room
      * @return {@code true} if the room is winning room, {@code false} if it isn't
      */
-    public boolean isWinningRoom(Room room) {
+    public boolean IsWinningRoom(Room room) {
         return false;
     }
 }
