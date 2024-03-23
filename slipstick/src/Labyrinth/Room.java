@@ -51,6 +51,7 @@ public class Room {
     private int capacity;
     /**
      * Constructor.
+     * @param g: The game object the room will have a reference for.
      * @param c: Room's initial capacity.
      */
     public Room(int c, Game g){
@@ -66,8 +67,9 @@ public class Room {
     /**
      * Constructor.
      * The room's initial capacity is a random value between 2 (inclusive) and 6 (exclusive).
+     * @param g: The game object the room will have a reference for.
      */
-    public Room(){
+    public Room(Game g){
         roomsListOfStudents = null;
         roomsListOfProfessors = null;
         roomsListOfItems = null;
@@ -78,6 +80,8 @@ public class Room {
         int minInclusive = 2;
         int maxExclusive = 6;
         capacity = random.ints(minInclusive, maxExclusive).findFirst().getAsInt();
+
+        game = g;
     }
     /**
      * Sets the room's capacity to the value given as argument.
