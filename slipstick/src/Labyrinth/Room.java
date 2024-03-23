@@ -55,9 +55,10 @@ public class Room {
      * @param c: Room's initial capacity.
      */
     public Room(int c, Game g){
-        roomsListOfStudents = null;
-        roomsListOfProfessors = null;
-        roomsListOfItems = null;
+        roomsListOfStudents = new ArrayList<>();
+        roomsListOfProfessors = new ArrayList<>();
+        roomsListOfItems = new ArrayList<>();
+        roomsListOfNeighbours = new ArrayList<>();
         gassed = false;
         remainingRoundsBeingGassed = 0;
 
