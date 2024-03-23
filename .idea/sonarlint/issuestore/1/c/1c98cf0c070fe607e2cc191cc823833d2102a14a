@@ -1,0 +1,19 @@
+
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(–…¢ÿÿÿÿÿ
+k	java:S116"ORename this field "Name" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÉÌó¢8ß­‡Ùæ1
+[
+java:S5993'"9Change the visibility of this constructor to "protected".(Ù­íîøÿÿÿÿ8á­‡Ùæ1
+j	java:S100."NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ïÀÛ˜8ç­‡Ùæ1
+L	java:S1061"+Replace this use of System.out by a logger.(°”÷¥şÿÿÿÿ8é­‡Ùæ1
+j	java:S1008"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(÷â—¸8ê­‡Ùæ1
+G	java:S106:"+Replace this use of System.out by a logger.(‚òê¹8í­‡Ùæ1
+o	java:S100D"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(é‹èËûÿÿÿÿ8î­‡Ùæ1
+o	java:S100L"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ìì®ıÿÿÿÿ8ï­‡Ùæ1
+o	java:S100V"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¤Í¨ùşÿÿÿÿ8ñ­‡Ùæ1
+j	java:S100^"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(øİŞÏ8ó­‡Ùæ1
+o	java:S100f"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Š¹îÆûÿÿÿÿ8ô­‡Ùæ1
+o	java:S100m"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(İêÍµüÿÿÿÿ8õ­‡Ùæ1
+j	java:S100u"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(»İ™í8ö­‡Ùæ1
+h	java:S100|"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ŞÕÿõúÿÿÿÿ
+J
+java:S1068$"(Remove this unused "game" private field.(Ä¿–øÿÿÿÿ8ú­‡Ùæ1
