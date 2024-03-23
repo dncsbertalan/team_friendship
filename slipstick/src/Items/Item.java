@@ -4,7 +4,12 @@ import Entities.Student;
 
 public abstract class Item {
 
+    public enum ProtectionType {
+        none, tvsz, wetCloth, ffp2Mask
+    }
+
     private boolean activate;
+    private ProtectionType protectionType = ProtectionType.none;
 
     /**
      *
@@ -26,5 +31,9 @@ public abstract class Item {
      */
     public void DeactivateItem() {
 
+    }
+
+    public ProtectionType getProtectionType() {
+        return protectionType;
     }
 }

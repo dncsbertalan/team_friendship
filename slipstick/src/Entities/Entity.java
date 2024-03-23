@@ -1,4 +1,5 @@
 package Entities;
+import GameManagers.Game;
 import Items.Item;
 import Labyrinth.Room;
 
@@ -29,7 +30,15 @@ public abstract class Entity {
      * protected against next death
      */
     boolean onLifeSupport = false;
+    /**
+     * Game
+     */
+    private Game game;
 
+
+    public Entity(Game g) {
+        game = g;
+    }
     /**
      * Tries to move to the specified room
      * @param room the room it's trying to move into
