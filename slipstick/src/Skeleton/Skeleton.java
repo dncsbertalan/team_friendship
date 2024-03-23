@@ -53,6 +53,24 @@ public class Skeleton {
                 case 27:
                     Test_27();
                     break;
+                case 28:
+                    Test_26();
+                    break;
+                case 29:
+                    Test_27();
+                    break;
+                case 30:
+                    Test_26();
+                    break;
+                case 31:
+                    Test_27();
+                    break;
+                case 32:
+                    Test_26();
+                    break;
+                case 33:
+                    Test_27();
+                    break;
 
                 default:
                     System.out.println("Choose a number from the menu!");
@@ -98,6 +116,150 @@ public class Skeleton {
     private static void Test_27() {
         FancyPrint("Test #27");
         System.out.println(testNames.get(27));
+
+        // inits
+        Game game = new Game();
+        Student student = new Student(game);
+        game.AddStudent(student);
+        Room mainHall = new Room();
+        Room room1 = new Room();
+        Room room2 = new Room();
+        room2.AddNeighbour(room1);
+        room1.AddNeighbour(room1);
+        room2.AddStudentToRoom(student); student.SetCurrentRoom(room2);
+        room1.SetToxicity();
+        Map map = new Map(game);
+        map.AddRoom(room1);
+        map.AddRoom(room2);
+        map.AddMainHall(mainHall);
+    }
+
+    /**
+     * Professor entering a gassed room (with protection)
+     */
+    private static void Test_28() {
+        FancyPrint("Test #28");
+        System.out.println(testNames.get(28));
+
+        // inits
+        Game game = new Game();
+        Student student = new Student(game);
+        game.AddStudent(student);
+        Room mainHall = new Room();
+        Room room1 = new Room();
+        Room room2 = new Room();
+        room2.AddNeighbour(room1);
+        room1.AddNeighbour(room1);
+        room2.AddStudentToRoom(student); student.SetCurrentRoom(room2);
+        room1.SetToxicity();
+        Map map = new Map(game);
+        map.AddRoom(room1);
+        map.AddRoom(room2);
+        map.AddMainHall(mainHall);
+    }
+
+    /**
+     * Professor entering a gassed room (without protection)
+     */
+    private static void Test_29() {
+        FancyPrint("Test #29");
+        System.out.println(testNames.get(29));
+
+        // inits
+        Game game = new Game();
+        Student student = new Student(game);
+        game.AddStudent(student);
+        Room mainHall = new Room();
+        Room room1 = new Room();
+        Room room2 = new Room();
+        room2.AddNeighbour(room1);
+        room1.AddNeighbour(room1);
+        room2.AddStudentToRoom(student); student.SetCurrentRoom(room2);
+        room1.SetToxicity();
+        Map map = new Map(game);
+        map.AddRoom(room1);
+        map.AddRoom(room2);
+        map.AddMainHall(mainHall);
+    }
+
+    /**
+     * Student entering a room with a professor (with protection)
+     */
+    private static void Test_30() {
+        FancyPrint("Test #30");
+        System.out.println(testNames.get(30));
+
+        // inits
+        Game game = new Game();
+        Student student = new Student(game);
+        game.AddStudent(student);
+        Room mainHall = new Room();
+        Room room1 = new Room();
+        Room room2 = new Room();
+        room2.AddNeighbour(room1);
+        room1.AddNeighbour(room1);
+        room2.AddStudentToRoom(student); student.SetCurrentRoom(room2);
+        room1.SetToxicity();
+        Map map = new Map(game);
+        map.AddRoom(room1);
+        map.AddRoom(room2);
+        map.AddMainHall(mainHall);
+    }
+
+    /**
+     * Student entering a room with a professor (without protection)
+     */
+    private static void Test_31() {
+        FancyPrint("Test #31");
+        System.out.println(testNames.get(31));
+
+        // inits
+        Game game = new Game();
+        Student student = new Student(game);
+        game.AddStudent(student);
+        Room mainHall = new Room();
+        Room room1 = new Room();
+        Room room2 = new Room();
+        room2.AddNeighbour(room1);
+        room1.AddNeighbour(room1);
+        room2.AddStudentToRoom(student); student.SetCurrentRoom(room2);
+        room1.SetToxicity();
+        Map map = new Map(game);
+        map.AddRoom(room1);
+        map.AddRoom(room2);
+        map.AddMainHall(mainHall);
+    }
+
+    /**
+     * Professor entering a room with a student (with protection)
+     */
+    private static void Test_32() {
+        FancyPrint("Test #32");
+        System.out.println(testNames.get(32));
+
+        // inits
+        Game game = new Game();
+        Student student = new Student(game);
+        game.AddStudent(student);
+        Room mainHall = new Room();
+        Room room1 = new Room();
+        Room room2 = new Room();
+        room2.AddNeighbour(room1);
+        room1.AddNeighbour(room1);
+        room2.AddStudentToRoom(student); student.SetCurrentRoom(room2);
+        room1.SetToxicity();
+        Map map = new Map(game);
+        map.AddRoom(room1);
+        map.AddRoom(room2);
+        map.AddMainHall(mainHall);
+    }
+
+    /**
+     * Professor entering a room with a student (without protection)
+     */
+    private static void Test_33() {
+        FancyPrint("Test #33");
+        System.out.println(testNames.get(33));
 
         // inits
         Game game = new Game();
