@@ -17,6 +17,9 @@ import java.util.Scanner;
 public class Skeleton {
 
     //region Use-case names
+    /**
+     * Here we store the use-case names in order to be easily modified and to stay always the same.
+     */
     private static final HashMap<Integer, String> testNames = new HashMap<>();
     static {
         testNames.put(0, "Exit");
@@ -180,6 +183,7 @@ public class Skeleton {
     }
     //endregion
 
+    //region STUDENT-PROF ENCOUNTER
     /**
      * Student entering a room with a professor (with protection)
      */
@@ -271,7 +275,7 @@ public class Skeleton {
         map.AddRoom(room2);
         map.AddMainHall(mainHall);
     }
-
+    //endregion
     //endregion
 
     //endregion
