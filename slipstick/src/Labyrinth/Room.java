@@ -4,6 +4,7 @@ import Entities.*;
 import GameManagers.Game;
 import Items.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -55,9 +56,10 @@ public class Room {
      * @param c: Room's initial capacity.
      */
     public Room(int c, Game g){
-        roomsListOfStudents = null;
-        roomsListOfProfessors = null;
-        roomsListOfItems = null;
+        roomsListOfStudents = new ArrayList<>();
+        roomsListOfProfessors = new ArrayList<>();
+        roomsListOfItems = new ArrayList<>();
+        roomsListOfNeighbours = new ArrayList<>();
         gassed = false;
         remainingRoundsBeingGassed = 0;
 
@@ -70,9 +72,10 @@ public class Room {
      * @param g: The game object the room will have a reference for.
      */
     public Room(Game g){
-        roomsListOfStudents = null;
-        roomsListOfProfessors = null;
-        roomsListOfItems = null;
+        roomsListOfStudents = new ArrayList<>();
+        roomsListOfProfessors = new ArrayList<>();
+        roomsListOfItems = new ArrayList<>();
+        roomsListOfNeighbours = new ArrayList<>();
         gassed = false;
         remainingRoundsBeingGassed = 0;
 

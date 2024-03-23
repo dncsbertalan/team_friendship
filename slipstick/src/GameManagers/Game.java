@@ -2,6 +2,8 @@ package GameManagers;
 
 import Entities.*;
 import Labyrinth.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,6 +41,11 @@ public class Game {
      * List of professors in the game.
      */
     List<Professor> professors;
+
+    public Game() {
+        this.students = new ArrayList<>();
+        this.professors = new ArrayList<>();
+    }
 
     /**
      * Getter of the students list
