@@ -58,6 +58,7 @@ public class Room {
         roomsListOfStudents = new ArrayList<>();
         roomsListOfProfessors = new ArrayList<>();
         roomsListOfItems = new ArrayList<>();
+        roomsListOfNeighbours = new ArrayList<>();
         gassed = false;
         remainingRoundsBeingGassed = 0;
 
@@ -72,6 +73,7 @@ public class Room {
         roomsListOfStudents = new ArrayList<>();
         roomsListOfProfessors = new ArrayList<>();
         roomsListOfItems = new ArrayList<>();
+        roomsListOfNeighbours = new ArrayList<>();
         gassed = false;
         remainingRoundsBeingGassed = 0;
 
