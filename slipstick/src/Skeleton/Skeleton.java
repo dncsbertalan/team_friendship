@@ -1,5 +1,6 @@
 package Skeleton;
 
+import Entities.Professor;
 import Entities.Student;
 import GameManagers.Game;
 import Items.FFP2Mask;
@@ -20,12 +21,14 @@ public class Skeleton {
     //region Use-case names
     private static final HashMap<Integer, String> testNames = new HashMap<>();
     static {
-        testNames.put(10,"Successful movement between rooms");
-        testNames.put(11,"Unsuccessful movement between rooms");
-        testNames.put(12,"Slipstick acquisition");
-        testNames.put(13,"Slipstick disposal");
-        testNames.put(14,"Winning");
-        testNames.put(15,"Losing");
+        testNames.put(10,"Successful student movement between rooms");
+        testNames.put(11,"Successful professor movement between rooms");
+        testNames.put(12,"Unsuccessful student movement between rooms");
+        testNames.put(13,"Unsuccessful professor movement between rooms");
+        testNames.put(14,"Slipstick acquisition");
+        testNames.put(15,"Slipstick disposal");
+        testNames.put(16,"Winning");
+        testNames.put(17,"Losing");
         testNames.put(26, "Student entering a gassed room (with protection)");
         testNames.put(27, "Student entering a gassed room (without protection)");
         testNames.put(28, "Professor entering a gassed room (with protection)");
@@ -60,9 +63,13 @@ public class Skeleton {
                 case 0:
                     System.exit(0);
                 case 1:
-                    System.out.print("l");
+                    Test_10();
+                    Test_11();
+                    Test_12();
+
                     break;
                 case 2:
+                    Test_10();
                     break;
                 case 26:
                     Test_26();
@@ -95,9 +102,9 @@ public class Skeleton {
         Student student = new Student(game); game.AddStudent(student);
         FFP2Mask ffp2Mask = new FFP2Mask();
         student.PickUpItem(ffp2Mask);
-        Room mainHall = new Room();
-        Room room1 = new Room();
-        Room room2 = new Room();
+        Room mainHall = new Room(game);
+        Room room1 = new Room(game);
+        Room room2 = new Room(game);
         room2.AddNeighbour(room1);
         room1.AddNeighbour(room1);
         room2.AddStudentToRoom(student); student.SetCurrentRoom(room2);
@@ -121,9 +128,9 @@ public class Skeleton {
         Game game = new Game();
         Student student = new Student(game);
         game.AddStudent(student);
-        Room mainHall = new Room();
-        Room room1 = new Room();
-        Room room2 = new Room();
+        Room mainHall = new Room(game);
+        Room room1 = new Room(game);
+        Room room2 = new Room(game);
         room2.AddNeighbour(room1);
         room1.AddNeighbour(room1);
         room2.AddStudentToRoom(student); student.SetCurrentRoom(room2);
@@ -137,9 +144,8 @@ public class Skeleton {
     //endregion
 
     //region bene usekéz
-    @Test
     @DisplayName("Student movement successful")
-    public void Test_10() {
+    public static void Test_10() {
         FancyPrint("Test #10");
         System.out.println(testNames.get(10));
 
@@ -157,14 +163,71 @@ public class Skeleton {
 
         //test
         student.StepInto(r2);
-
-        Assertions.assertEquals(student.GetCurrentRoom(),r2);
+        try {
+            Assertions.assertEquals(student.GetCurrentRoom(), r2);
+        }catch(AssertionError e){
+            System.out.println("Test #10 failed");
+            throw e;
+        }
+        System.out.println("Test #10 passed");
     }
-    /**
-     *
-     */
+    @DisplayName("Professor movement successful")
+    public static void Test_11() {
+        FancyPrint("Test #11");
+        System.out.println(testNames.get(11));
 
-    //endregion
+        //inits
+        Game g = new Game();
+        Room r1 = new Room(g);
+        Room r2 = new Room(g);
+        r2.AddNeighbour(r1);
+        Professor professor = new Professor(g);
+        r1.AddProfessorToRoom(professor);
+        Map map = new Map(g);
+        g.setMap(map);
+        map.AddRoom(r1);
+        map.AddRoom(r2);
+
+        //test
+        professor.StepInto(r2);
+        try {
+            Assertions.assertEquals(professor.GetCurrentRoom(),r2);
+        } catch (AssertionError e) {
+            System.out.println("Test #11 failed");
+            throw e;
+        }
+        System.out.println("Test #11 passed");
+
+    }@DisplayName("Professor movement unsuccessful")
+    public static void Test_12() {
+        FancyPrint("Test #12");
+        System.out.println(testNames.get(12));
+
+        //inits
+        Game g = new Game();
+        Room r1 = new Room(g);
+        Room r2 = new Room(0,g);
+        r2.AddNeighbour(r1);
+        Professor professor = new Professor(g);
+        r1.AddProfessorToRoom(professor);
+        Map map = new Map(g);
+        g.setMap(map);
+        map.AddRoom(r1);
+        map.AddRoom(r2);
+
+        //test
+        professor.StepInto(r2);
+        try {
+            Assertions.assertEquals(professor.GetCurrentRoom(),r1);
+        } catch (AssertionError e) {
+            System.out.println("Test #12 failed");
+            throw e;
+        }
+        System.out.println("Test #12 passed");
+
+    }
+
+        //endregion
     //endregion
 
     //region Helper methods
