@@ -48,11 +48,12 @@ public class Map {
     /**
      * Constructor of the map.
      */
-    public Map() {
+    public Map(Game game) {
         rooms = new ArrayList<>();
         winningRoom = null;
         teachersLounge = null;
         mainHall = null;
+        this.game = game;
     }
 
     /**
@@ -85,7 +86,9 @@ public class Map {
      * @param student
      */
     public void TransferStudentToMainHall(Student student) {
-
+        student.GetCurrentRoom().RemoveStudentFromRoom(student);    // remove student
+        mainHall.AddStudentToRoom(student);                         // add student
+        student.SetCurrentRoom(mainHall);                           // sets student's current room
     }
 
     /**
@@ -93,7 +96,9 @@ public class Map {
      * @param professor
      */
     public void TransferProfessorToTeachersLounge(Professor professor) {
-
+        professor.GetCurrentRoom().RemoveProfessorFromRoom(professor);  // remove prof
+        teachersLounge.AddProfessorToRoom(professor);                   // add prof
+        professor.SetCurrentRoom(teachersLounge);                       // sets prof's current room
     }
 
     /**
@@ -138,11 +143,37 @@ public class Map {
     }
 
     /**
+     * Adds a room to the map.
+     * @param room the room to be added
+     */
+    public void AddRoom(Room room) {
+        rooms.add(room);
+    }
+
+    /**
+     * Adds a main hall to the map.
+     * @param mainHall the main hall to be added.
+     */
+    public void AddMainHall(Room mainHall) {
+        this.mainHall = mainHall;
+        rooms.add(mainHall);
+    }
+
+    /**
+     * Adds a teachers' lounge to the map.
+     * @param teachersLounge the teachers' lounge to be added.
+     */
+    public void AddTeachersLounge(Room teachersLounge) {
+        this.teachersLounge = teachersLounge;
+        rooms.add(teachersLounge);
+    }
+
+    /**
      * Check if a room is winning room.
      * @param room
      * @return {@code true} if the room is winning room, {@code false} if it isn't
      */
-    public boolean isWinningRoom(Room room) {
+    public boolean IsWinningRoom(Room room) {
         return false;
     }
 }
