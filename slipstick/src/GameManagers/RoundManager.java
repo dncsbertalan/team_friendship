@@ -49,6 +49,10 @@ public class RoundManager{
    }
 
     /**
+     *
+     */
+    void nextRound(){}
+    /**
      * Ends current round and notifies other classes.
      */
     void EndOfRound(){
