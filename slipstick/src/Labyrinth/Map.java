@@ -85,7 +85,9 @@ public class Map {
      * @param student
      */
     public void TransferStudentToMainHall(Student student) {
-
+        student.GetCurrentRoom().RemoveStudentFromRoom(student);    // remove student
+        mainHall.AddStudentToRoom(student);                         // add student
+        student.SetCurrentRoom(mainHall);                           // sets student's current room
     }
 
     /**
@@ -93,7 +95,9 @@ public class Map {
      * @param professor
      */
     public void TransferProfessorToTeachersLounge(Professor professor) {
-
+        professor.GetCurrentRoom().RemoveProfessorFromRoom(professor);  // remove prof
+        teachersLounge.AddProfessorToRoom(professor);                   // add prof
+        professor.SetCurrentRoom(teachersLounge);                       // sets prof's current room
     }
 
     /**
