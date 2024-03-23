@@ -48,11 +48,12 @@ public class Map {
     /**
      * Constructor of the map.
      */
-    public Map() {
+    public Map(Game game) {
         rooms = new ArrayList<>();
         winningRoom = null;
         teachersLounge = null;
         mainHall = null;
+        this.game = game;
     }
 
     /**
