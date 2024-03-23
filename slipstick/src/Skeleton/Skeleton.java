@@ -1,8 +1,10 @@
 package Skeleton;
 
+import Entities.Professor;
 import Entities.Student;
 import GameManagers.Game;
 import Items.FFP2Mask;
+import Items.TVSZ;
 import Labyrinth.Map;
 import Labyrinth.Room;
 
@@ -54,22 +56,22 @@ public class Skeleton {
                     Test_27();
                     break;
                 case 28:
-                    Test_26();
+                    Test_28();
                     break;
                 case 29:
-                    Test_27();
+                    Test_29();
                     break;
                 case 30:
-                    Test_26();
+                    Test_30();
                     break;
                 case 31:
-                    Test_27();
+                    Test_31();
                     break;
                 case 32:
-                    Test_26();
+                    Test_32();
                     break;
                 case 33:
-                    Test_27();
+                    Test_33();
                     break;
 
                 default:
@@ -82,7 +84,7 @@ public class Skeleton {
     //region Use-cases
 
     //region Berci use-cases
-
+    // region GAS ROOM
     /**
      * Student entering a gassed room (with protection)
      */
@@ -98,8 +100,7 @@ public class Skeleton {
         Room mainHall = new Room();
         Room room1 = new Room();
         Room room2 = new Room();
-        room2.AddNeighbour(room1);
-        room1.AddNeighbour(room1);
+        room2.AddNeighbour(room1); room1.AddNeighbour(room1);
         room2.AddStudentToRoom(student); student.SetCurrentRoom(room2);
         room1.SetToxicity();
         Map map = new Map(game);
@@ -119,13 +120,11 @@ public class Skeleton {
 
         // inits
         Game game = new Game();
-        Student student = new Student(game);
-        game.AddStudent(student);
+        Student student = new Student(game); game.AddStudent(student);
         Room mainHall = new Room();
         Room room1 = new Room();
         Room room2 = new Room();
-        room2.AddNeighbour(room1);
-        room1.AddNeighbour(room1);
+        room2.AddNeighbour(room1); room1.AddNeighbour(room1);
         room2.AddStudentToRoom(student); student.SetCurrentRoom(room2);
         room1.SetToxicity();
         Map map = new Map(game);
@@ -143,19 +142,19 @@ public class Skeleton {
 
         // inits
         Game game = new Game();
-        Student student = new Student(game);
-        game.AddStudent(student);
-        Room mainHall = new Room();
+        Professor professor = new Professor(game); game.AddProfessor(professor);
+        FFP2Mask ffp2Mask = new FFP2Mask();
+        professor.PickUpItem(ffp2Mask);
+        Room teachersLounge = new Room();
         Room room1 = new Room();
         Room room2 = new Room();
-        room2.AddNeighbour(room1);
-        room1.AddNeighbour(room1);
-        room2.AddStudentToRoom(student); student.SetCurrentRoom(room2);
+        room2.AddNeighbour(room1); room1.AddNeighbour(room1);
+        room2.AddProfessorToRoom(professor); professor.SetCurrentRoom(room2);
         room1.SetToxicity();
         Map map = new Map(game);
         map.AddRoom(room1);
         map.AddRoom(room2);
-        map.AddMainHall(mainHall);
+        map.AddTeachersLounge(teachersLounge);
     }
 
     /**
@@ -167,20 +166,19 @@ public class Skeleton {
 
         // inits
         Game game = new Game();
-        Student student = new Student(game);
-        game.AddStudent(student);
-        Room mainHall = new Room();
+        Professor professor = new Professor(game); game.AddProfessor(professor);
+        Room teachersLounge = new Room();
         Room room1 = new Room();
         Room room2 = new Room();
-        room2.AddNeighbour(room1);
-        room1.AddNeighbour(room1);
-        room2.AddStudentToRoom(student); student.SetCurrentRoom(room2);
+        room2.AddNeighbour(room1); room1.AddNeighbour(room1);
+        room2.AddProfessorToRoom(professor); professor.SetCurrentRoom(room2);
         room1.SetToxicity();
         Map map = new Map(game);
         map.AddRoom(room1);
         map.AddRoom(room2);
-        map.AddMainHall(mainHall);
+        map.AddTeachersLounge(teachersLounge);
     }
+    //endregion
 
     /**
      * Student entering a room with a professor (with protection)
@@ -191,19 +189,19 @@ public class Skeleton {
 
         // inits
         Game game = new Game();
-        Student student = new Student(game);
-        game.AddStudent(student);
-        Room mainHall = new Room();
-        Room room1 = new Room();
-        Room room2 = new Room();
-        room2.AddNeighbour(room1);
-        room1.AddNeighbour(room1);
-        room2.AddStudentToRoom(student); student.SetCurrentRoom(room2);
-        room1.SetToxicity();
+        Student student = new Student(game); game.AddStudent(student);
+        Professor professor = new Professor(game); game.AddProfessor(professor);
+        TVSZ tvsz = new TVSZ();
+            student.PickUpItem(tvsz);
+        Room mainHall = new Room(), room1 = new Room(), room2 = new Room();
+            room2.AddNeighbour(room1);
+            room1.AddNeighbour(room1);
+        room1.AddStudentToRoom(student); student.SetCurrentRoom(room1);
+        room2.AddProfessorToRoom(professor); professor.SetCurrentRoom(room2);
         Map map = new Map(game);
-        map.AddRoom(room1);
-        map.AddRoom(room2);
-        map.AddMainHall(mainHall);
+            map.AddRoom(room1);
+            map.AddRoom(room2);
+            map.AddMainHall(mainHall);
     }
 
     /**
@@ -215,15 +213,13 @@ public class Skeleton {
 
         // inits
         Game game = new Game();
-        Student student = new Student(game);
-        game.AddStudent(student);
-        Room mainHall = new Room();
-        Room room1 = new Room();
-        Room room2 = new Room();
+        Student student = new Student(game); game.AddStudent(student);
+        Professor professor = new Professor(game); game.AddProfessor(professor);
+        Room mainHall = new Room(), room1 = new Room(), room2 = new Room();
         room2.AddNeighbour(room1);
         room1.AddNeighbour(room1);
-        room2.AddStudentToRoom(student); student.SetCurrentRoom(room2);
-        room1.SetToxicity();
+        room1.AddStudentToRoom(student); student.SetCurrentRoom(room1);
+        room2.AddProfessorToRoom(professor); professor.SetCurrentRoom(room2);
         Map map = new Map(game);
         map.AddRoom(room1);
         map.AddRoom(room2);
@@ -239,15 +235,15 @@ public class Skeleton {
 
         // inits
         Game game = new Game();
-        Student student = new Student(game);
-        game.AddStudent(student);
-        Room mainHall = new Room();
-        Room room1 = new Room();
-        Room room2 = new Room();
+        Student student = new Student(game); game.AddStudent(student);
+        Professor professor = new Professor(game); game.AddProfessor(professor);
+        TVSZ tvsz = new TVSZ();
+        student.PickUpItem(tvsz);
+        Room mainHall = new Room(), room1 = new Room(), room2 = new Room();
         room2.AddNeighbour(room1);
         room1.AddNeighbour(room1);
-        room2.AddStudentToRoom(student); student.SetCurrentRoom(room2);
-        room1.SetToxicity();
+        room1.AddStudentToRoom(student); student.SetCurrentRoom(room1);
+        room2.AddProfessorToRoom(professor); professor.SetCurrentRoom(room2);
         Map map = new Map(game);
         map.AddRoom(room1);
         map.AddRoom(room2);
@@ -263,15 +259,13 @@ public class Skeleton {
 
         // inits
         Game game = new Game();
-        Student student = new Student(game);
-        game.AddStudent(student);
-        Room mainHall = new Room();
-        Room room1 = new Room();
-        Room room2 = new Room();
+        Student student = new Student(game); game.AddStudent(student);
+        Professor professor = new Professor(game); game.AddProfessor(professor);
+        Room mainHall = new Room(), room1 = new Room(), room2 = new Room();
         room2.AddNeighbour(room1);
         room1.AddNeighbour(room1);
-        room2.AddStudentToRoom(student); student.SetCurrentRoom(room2);
-        room1.SetToxicity();
+        room1.AddStudentToRoom(student); student.SetCurrentRoom(room1);
+        room2.AddProfessorToRoom(professor); professor.SetCurrentRoom(room2);
         Map map = new Map(game);
         map.AddRoom(room1);
         map.AddRoom(room2);
