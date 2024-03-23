@@ -70,7 +70,13 @@ public class Game {
         this.roundManager = rm;
     }
 
-
+    /**
+     * Returns the map instance of the game.
+     * @return the map instance
+     */
+    public Map GetMap() {
+        return this.map;
+    }
 
     /**
      * Getter of the professors list.

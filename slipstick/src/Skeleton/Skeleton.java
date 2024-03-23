@@ -34,8 +34,6 @@ public class Skeleton {
     }
     //endregion
 
-    private static int ID = 0;
-
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
@@ -52,30 +50,41 @@ public class Skeleton {
                     break;
                 case 2:
                     break;
+
+                //region Berci use-cases
                 case 26:
                     Test_26();
+                    GetKeyToContinue(scanner);
                     break;
                 case 27:
                     Test_27();
+                    GetKeyToContinue(scanner);
                     break;
                 case 28:
                     Test_28();
+                    GetKeyToContinue(scanner);
                     break;
                 case 29:
                     Test_29();
+                    GetKeyToContinue(scanner);
                     break;
                 case 30:
                     Test_30();
+                    GetKeyToContinue(scanner);
                     break;
                 case 31:
                     Test_31();
+                    GetKeyToContinue(scanner);
                     break;
                 case 32:
                     Test_32();
+                    GetKeyToContinue(scanner);
                     break;
                 case 33:
                     Test_33();
+                    GetKeyToContinue(scanner);
                     break;
+                //endregion
 
                 default:
                     System.out.println("Choose a number from the menu!");
@@ -95,23 +104,23 @@ public class Skeleton {
         FancyPrint("Test #26");
         System.out.println(testNames.get(26));
 
-        // inits
+        // Instantiate
         Game game = new Game();
         Student student = new Student(game); game.AddStudent(student);
         FFP2Mask ffp2Mask = new FFP2Mask();
-        student.PickUpItem(ffp2Mask);
-        Room mainHall = new Room(game);
-        Room room1 = new Room(game);
-        Room room2 = new Room(game);
-        room2.AddNeighbour(room1); room1.AddNeighbour(room1);
-        room2.AddStudentToRoom(student); student.SetCurrentRoom(room2);
-        room1.SetToxicity();
+            student.PickUpItem(ffp2Mask);
+        Room mainHall = new Room(game), room1 = new Room(game), room2 = new Room(game);
+            room2.AddNeighbour(room1); room1.AddNeighbour(room1);
+            room2.AddStudentToRoom(student); student.SetCurrentRoom(room2);
+            room1.SetToxicity();
         Map map = new Map(game);
-        map.AddRoom(room1);
-        map.AddRoom(room2);
-        map.AddMainHall(mainHall);
+            map.AddRoom(room1);
+            map.AddRoom(room2);
+            map.AddMainHall(mainHall);
+        game.setMap(map);
 
-        //
+        // Test
+
     }
 
     /**
@@ -134,6 +143,13 @@ public class Skeleton {
         map.AddRoom(room1);
         map.AddRoom(room2);
         map.AddMainHall(mainHall);
+        game.setMap(map);
+
+        // test
+        student.StepInto(room1);
+        if (student.GetCurrentRoom() == mainHall) {
+            System.out.println("Test successful!\nStudent is in the main hall");
+        }
     }
 
     /**
@@ -158,6 +174,7 @@ public class Skeleton {
         map.AddRoom(room1);
         map.AddRoom(room2);
         map.AddTeachersLounge(teachersLounge);
+        game.setMap(map);
     }
 
     /**
@@ -180,6 +197,13 @@ public class Skeleton {
         map.AddRoom(room1);
         map.AddRoom(room2);
         map.AddTeachersLounge(teachersLounge);
+        game.setMap(map);
+
+        // test
+        professor.StepInto(room1);
+        if (professor.GetCurrentRoom() == teachersLounge) {
+            System.out.println("Test successful!\nProfessor is in the theachers' lounge");
+        }
     }
     //endregion
 
@@ -206,6 +230,7 @@ public class Skeleton {
             map.AddRoom(room1);
             map.AddRoom(room2);
             map.AddMainHall(mainHall);
+        game.setMap(map);
     }
 
     /**
@@ -228,6 +253,7 @@ public class Skeleton {
         map.AddRoom(room1);
         map.AddRoom(room2);
         map.AddMainHall(mainHall);
+        game.setMap(map);
     }
 
     /**
@@ -252,6 +278,7 @@ public class Skeleton {
         map.AddRoom(room1);
         map.AddRoom(room2);
         map.AddMainHall(mainHall);
+        game.setMap(map);
     }
 
     /**
@@ -274,6 +301,7 @@ public class Skeleton {
         map.AddRoom(room1);
         map.AddRoom(room2);
         map.AddMainHall(mainHall);
+        game.setMap(map);
     }
     //endregion
     //endregion
@@ -347,6 +375,15 @@ public class Skeleton {
             return false;
         }
         return true;
+    }
+
+    /**
+     * Waits until a key is pressed on the keyboard.
+     * @param scanner a scanner instance
+     */
+    private static void GetKeyToContinue(Scanner scanner) {
+        System.out.print("Press any key to go back to the menu...");
+        scanner.nextLine();
     }
     //endregion
 }

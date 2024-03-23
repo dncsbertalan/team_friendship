@@ -32,23 +32,33 @@ public abstract class Entity {
      * protected against next death
      */
     boolean onLifeSupport = false;
-    /**
-     * Game
-     */
-    private Game game;
 
+    /**
+     * Game instance.
+     */
+    protected Game game;
 
     public Entity(Game g) {
         game = g;
     }
+
     /**
      * Tries to move to the specified room
      * @param room the room it's trying to move into
      */
-    public void StepInto(Room room) {
-        if (room.CanStepIn()){
-            this.room = room;
-        } else System.out.println("Can't step into room");
+    public abstract void StepInto(Room room);
+
+    /**
+     * Notifies the entity that it stepped into a gassed room.
+     */
+    public abstract void SteppedIntoGassedRoom();
+
+    /**
+     * Increases Move count by turns specified
+     * @param turns number of turns specified
+     */
+    public void IncreaseMoveCount(int turns) {
+        remainingTurns += turns;
     }
 
     /**
@@ -103,13 +113,6 @@ public abstract class Entity {
      */
     public boolean CheckRoundMiss() {
         return remainingTurns<=0;
-    }
-
-    /**
-     * Sets inGassedRoom true
-     */
-    public void SteppedIntoGasChamber() {
-        inGassedRoom = true;
     }
 
     /**

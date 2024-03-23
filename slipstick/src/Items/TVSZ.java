@@ -1,6 +1,7 @@
 package Items;
 
 import Constants.Enums;
+import Constants.GameConstants;
 import Entities.Student;
 
 public class TVSZ extends Item {
@@ -11,6 +12,7 @@ public class TVSZ extends Item {
     private int remainigPages;
 
     public TVSZ() {
+        this.remainigPages = GameConstants.TVSZ_MaxUses;
         this.protectionType = Enums.ProtectionType.tvsz;
     }
 
