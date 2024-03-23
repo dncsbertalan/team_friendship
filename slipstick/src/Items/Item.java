@@ -15,7 +15,7 @@ public abstract class Item {
     /**
      * Wether the item is activated or not.
      */
-    private boolean activated;
+    protected boolean activated;
 
     /**
      * The type of protection this item can provide.

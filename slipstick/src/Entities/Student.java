@@ -3,6 +3,7 @@ package Entities;
 import GameManagers.Game;
 import Items.Item;
 import Items.SlipStick;
+import Items.Transistor;
 
 public class Student extends Entity{
     
@@ -102,5 +103,18 @@ public class Student extends Entity{
             }
         }
         return holder;
+    }
+
+    /**
+     * Override of DropItem for transistor usage
+     * @param item the selected item
+     */
+    @Override
+    public void DropItem(Item item) {
+        super.DropItem(item);
+
+        if(item.getClass() == Transistor.class) {
+            item.UseItem(this);
+        }
     }
 }

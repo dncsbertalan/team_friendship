@@ -20,8 +20,9 @@ public class Skeleton {
             switch (in) {
                 case 0:
                     System.exit(0);
+                    break;
                 case 1:
-                    System.out.print("l");
+                    System.out.print("l\n");
                     break;
                 case 2:
                     break;

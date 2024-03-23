@@ -43,10 +43,13 @@ public abstract class Entity {
      * Tries to move to the specified room
      * @param room the room it's trying to move into
      */
-    public void StepInto(Room room) {
+    public boolean StepInto(Room room) {
         if (room.CanStepIn()){
             this.room = room;
-        } else System.out.println("Can't step into room");
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -59,6 +62,7 @@ public abstract class Entity {
             return;
         }
         inventory.add(item);
+        room.RemoveItemFromRoom(item);
     }
 
     /**
