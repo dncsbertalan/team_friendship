@@ -100,9 +100,9 @@ public class Skeleton {
         Student student = new Student(game); game.AddStudent(student);
         FFP2Mask ffp2Mask = new FFP2Mask();
         student.PickUpItem(ffp2Mask);
-        Room mainHall = new Room();
-        Room room1 = new Room();
-        Room room2 = new Room();
+        Room mainHall = new Room(game);
+        Room room1 = new Room(game);
+        Room room2 = new Room(game);
         room2.AddNeighbour(room1); room1.AddNeighbour(room1);
         room2.AddStudentToRoom(student); student.SetCurrentRoom(room2);
         room1.SetToxicity();
@@ -124,9 +124,9 @@ public class Skeleton {
         // inits
         Game game = new Game();
         Student student = new Student(game); game.AddStudent(student);
-        Room mainHall = new Room();
-        Room room1 = new Room();
-        Room room2 = new Room();
+        Room mainHall = new Room(game);
+        Room room1 = new Room(game);
+        Room room2 = new Room(game);
         room2.AddNeighbour(room1); room1.AddNeighbour(room1);
         room2.AddStudentToRoom(student); student.SetCurrentRoom(room2);
         room1.SetToxicity();
@@ -148,9 +148,9 @@ public class Skeleton {
         Professor professor = new Professor(game); game.AddProfessor(professor);
         FFP2Mask ffp2Mask = new FFP2Mask();
         professor.PickUpItem(ffp2Mask);
-        Room teachersLounge = new Room();
-        Room room1 = new Room();
-        Room room2 = new Room();
+        Room teachersLounge = new Room(game);
+        Room room1 = new Room(game);
+        Room room2 = new Room(game);
         room2.AddNeighbour(room1); room1.AddNeighbour(room1);
         room2.AddProfessorToRoom(professor); professor.SetCurrentRoom(room2);
         room1.SetToxicity();
@@ -170,9 +170,9 @@ public class Skeleton {
         // inits
         Game game = new Game();
         Professor professor = new Professor(game); game.AddProfessor(professor);
-        Room teachersLounge = new Room();
-        Room room1 = new Room();
-        Room room2 = new Room();
+        Room teachersLounge = new Room(game);
+        Room room1 = new Room(game);
+        Room room2 = new Room(game);
         room2.AddNeighbour(room1); room1.AddNeighbour(room1);
         room2.AddProfessorToRoom(professor); professor.SetCurrentRoom(room2);
         room1.SetToxicity();
@@ -197,7 +197,7 @@ public class Skeleton {
         Professor professor = new Professor(game); game.AddProfessor(professor);
         TVSZ tvsz = new TVSZ();
             student.PickUpItem(tvsz);
-        Room mainHall = new Room(), room1 = new Room(), room2 = new Room();
+        Room mainHall = new Room(game), room1 = new Room(game), room2 = new Room(game);
             room2.AddNeighbour(room1);
             room1.AddNeighbour(room1);
         room1.AddStudentToRoom(student); student.SetCurrentRoom(room1);
@@ -219,7 +219,7 @@ public class Skeleton {
         Game game = new Game();
         Student student = new Student(game); game.AddStudent(student);
         Professor professor = new Professor(game); game.AddProfessor(professor);
-        Room mainHall = new Room(), room1 = new Room(), room2 = new Room();
+        Room mainHall = new Room(game), room1 = new Room(game), room2 = new Room(game);
         room2.AddNeighbour(room1);
         room1.AddNeighbour(room1);
         room1.AddStudentToRoom(student); student.SetCurrentRoom(room1);
@@ -243,7 +243,7 @@ public class Skeleton {
         Professor professor = new Professor(game); game.AddProfessor(professor);
         TVSZ tvsz = new TVSZ();
         student.PickUpItem(tvsz);
-        Room mainHall = new Room(), room1 = new Room(), room2 = new Room();
+        Room mainHall = new Room(game), room1 = new Room(game), room2 = new Room(game);
         room2.AddNeighbour(room1);
         room1.AddNeighbour(room1);
         room1.AddStudentToRoom(student); student.SetCurrentRoom(room1);
@@ -265,7 +265,7 @@ public class Skeleton {
         Game game = new Game();
         Student student = new Student(game); game.AddStudent(student);
         Professor professor = new Professor(game); game.AddProfessor(professor);
-        Room mainHall = new Room(), room1 = new Room(), room2 = new Room();
+        Room mainHall = new Room(game), room1 = new Room(game), room2 = new Room(game);
         room2.AddNeighbour(room1);
         room1.AddNeighbour(room1);
         room1.AddStudentToRoom(student); student.SetCurrentRoom(room1);
