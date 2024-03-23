@@ -82,6 +82,13 @@ public class Game {
     }
 
     /**
+     * Getter of the map attribute.
+     * @return the map
+     */
+    public Map GetMap(){
+        return map;
+    }
+    /**
      * Appends the professors list with a professors.
      * @param professor: the new professor
      */

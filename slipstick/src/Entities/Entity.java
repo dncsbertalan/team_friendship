@@ -35,21 +35,13 @@ public abstract class Entity {
     /**
      * Game
      */
-    private Game game;
+    protected Game game;
 
 
     public Entity(Game g) {
         game = g;
     }
-    /**
-     * Tries to move to the specified room
-     * @param room the room it's trying to move into
-     */
-    public void StepInto(Room room) {
-        if (room.CanStepIn()){
-            this.room = room;
-        } else System.out.println("Can't step into room");
-    }
+
 
     /**
      * Picks up specified item from current room

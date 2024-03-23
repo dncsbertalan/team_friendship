@@ -3,6 +3,8 @@ package Entities;
 import GameManagers.Game;
 import Items.Item;
 import Items.SlipStick;
+import Labyrinth.Map;
+import Labyrinth.Room;
 
 public class Student extends Entity{
     
@@ -81,7 +83,18 @@ public class Student extends Entity{
         DropAllItems();
         isDead = true;
     }
-
+    /**
+     * Tries to move to the specified room
+     * @param room the room it's trying to move into
+     */
+    public void StepInto(Room room) {
+        if (room.CanStepIn()){
+            this.SetCurrentRoom(room);
+            Map map = game.GetMap();
+            map.TransferStudentToRoom(this,room);
+            System.out.println("Student stepped into room");
+        } else System.out.println("Student can't step into room");
+    }
     /**
      * Player wins
      */

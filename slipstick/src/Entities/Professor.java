@@ -1,6 +1,8 @@
 package Entities;
 
 import GameManagers.Game;
+import Labyrinth.Map;
+import Labyrinth.Room;
 
 public class Professor extends Entity{
 
@@ -8,6 +10,14 @@ public class Professor extends Entity{
         super(g);
     }
 
+    public void StepInto(Room room) {
+        if (room.CanStepIn()){
+            this.SetCurrentRoom(room);
+            Map map = game.GetMap();
+            map.TransferProfessorToRoom(this,room);
+
+        } else System.out.println("Can't step into room");
+    }
     /**
      * Kills all students in the current room
      */

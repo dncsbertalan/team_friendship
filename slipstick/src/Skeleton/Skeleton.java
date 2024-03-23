@@ -5,6 +5,9 @@ import GameManagers.Game;
 import Items.FFP2Mask;
 import Labyrinth.Map;
 import Labyrinth.Room;
+import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 
 import java.util.HashMap;
 import java.util.Scanner;
@@ -17,6 +20,12 @@ public class Skeleton {
     //region Use-case names
     private static final HashMap<Integer, String> testNames = new HashMap<>();
     static {
+        testNames.put(10,"Successful movement between rooms");
+        testNames.put(11,"Unsuccessful movement between rooms");
+        testNames.put(12,"Slipstick acquisition");
+        testNames.put(13,"Slipstick disposal");
+        testNames.put(14,"Winning");
+        testNames.put(15,"Losing");
         testNames.put(26, "Student entering a gassed room (with protection)");
         testNames.put(27, "Student entering a gassed room (without protection)");
         testNames.put(28, "Professor entering a gassed room (with protection)");
@@ -73,6 +82,7 @@ public class Skeleton {
 
     //region Berci use-cases
 
+
     /**
      * Student entering a gassed room (with protection)
      */
@@ -126,6 +136,35 @@ public class Skeleton {
 
     //endregion
 
+    //region bene usekéz
+    @Test
+    @DisplayName("Student movement successful")
+    public void Test_10() {
+        FancyPrint("Test #10");
+        System.out.println(testNames.get(10));
+
+        //inits
+        Game g = new Game();
+        Room r1 = new Room(g);
+        Room r2 = new Room(g);
+        r2.AddNeighbour(r1);
+        Student student = new Student(g);
+        r1.AddStudentToRoom(student);
+        Map map = new Map(g);
+        g.setMap(map);
+        map.AddRoom(r1);
+        map.AddRoom(r2);
+
+        //test
+        student.StepInto(r2);
+
+        Assertions.assertEquals(student.GetCurrentRoom(),r2);
+    }
+    /**
+     *
+     */
+
+    //endregion
     //endregion
 
     //region Helper methods

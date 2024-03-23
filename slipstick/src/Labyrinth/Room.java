@@ -4,6 +4,7 @@ import Entities.*;
 import GameManagers.Game;
 import Items.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -54,9 +55,10 @@ public class Room {
      * @param c: Room's initial capacity.
      */
     public Room(int c, Game g){
-        roomsListOfStudents = null;
-        roomsListOfProfessors = null;
-        roomsListOfItems = null;
+        roomsListOfStudents = new ArrayList<>();
+        roomsListOfProfessors = new ArrayList<>();
+        roomsListOfItems = new ArrayList<>();
+        roomsListOfNeighbours = new ArrayList<>();
         gassed = false;
         remainingRoundsBeingGassed = 0;
 
@@ -67,18 +69,22 @@ public class Room {
      * Constructor.
      * The room's initial capacity is a random value between 2 (inclusive) and 6 (exclusive).
      */
-    public Room(){
-        roomsListOfStudents = null;
-        roomsListOfProfessors = null;
-        roomsListOfItems = null;
+    public Room(Game g){
+        roomsListOfStudents = new ArrayList<>();
+        roomsListOfProfessors = new ArrayList<>();
+        roomsListOfItems = new ArrayList<>();
+        roomsListOfNeighbours = new ArrayList<>();
+
         gassed = false;
         remainingRoundsBeingGassed = 0;
-
+        game = g;
         Random random = new Random();
         int minInclusive = 2;
         int maxExclusive = 6;
         capacity = random.ints(minInclusive, maxExclusive).findFirst().getAsInt();
     }
+
+
     /**
      * Sets the room's capacity to the value given as argument.
      * @param c: the new value for the room's capacity.
@@ -192,6 +198,7 @@ public class Room {
      */
     public void AddStudentToRoom(Student s){
         this.roomsListOfStudents.add(s);
+        s.SetCurrentRoom(this);
     }
     /**
      * The room adds professor to the room's list of entities.
