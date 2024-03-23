@@ -1,0 +1,44 @@
+
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(‚‚ÿ
+
+java:S1186>"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(öÌ”’8Ç¼ªÙæ1
+
+java:S1186G"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(š·ÿ8Ç¼ªÙæ1
+
+java:S1186O"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(âµ£ß8È¼ªÙæ1
+
+java:S1186W"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(åÛä®8È¼ªÙæ1
+
+java:S1186_"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¡êÕá8È¼ªÙæ1
+£
+java:S1186h"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(•ğÁòÿÿÿÿÿ8È¼ªÙæ1
+
+java:S1186q"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(îŞ£ô8È¼ªÙæ1
+
+java:S1186y"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(‚İÓä8È¼ªÙæ1
+¤
+java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(äõÇ¨şÿÿÿÿ8É¼ªÙæ1
+Ÿ
+java:S1186ˆ"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Â÷öŒ8É¼ªÙæ1
+j	java:S100>"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(öÌ”’8Í¼ªÙæ1
+j	java:S100G"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(š·ÿ8Î¼ªÙæ1
+j	java:S100O"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(âµ£ß8Ï¼ªÙæ1
+j	java:S100W"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(åÛä®8Ï¼ªÙæ1
+j	java:S100_"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¡êÕá8Ğ¼ªÙæ1
+o	java:S100h"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(•ğÁòÿÿÿÿÿ8Ğ¼ªÙæ1
+j	java:S100q"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(îŞ£ô8Ñ¼ªÙæ1
+j	java:S100y"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‚İÓä8Ñ¼ªÙæ1
+p	java:S100"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(äõÇ¨şÿÿÿÿ8Ò¼ªÙæ1
+k	java:S100ˆ"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Â÷öŒ8Ò¼ªÙæ1
+H
+java:S1172‘"+Remove this unused method parameter "room".(Ş»ˆ8¼•¹Ùæ1
+J
+java:S1068"(Remove this unused "game" private field.(Ä¿–øÿÿÿÿ8Ó¼ªÙæ1
+K
+java:S1068")Remove this unused "rooms" private field.(¾ì¸ùÿÿÿÿ8Ó¼ªÙæ1
+Q
+java:S1068"/Remove this unused "winningRoom" private field.(Éİ‡ÿÿÿÿÿ8Ó¼ªÙæ1
+T
+java:S1068$"2Remove this unused "teachersLounge" private field.(òÙ¯²øÿÿÿÿ8Ó¼ªÙæ1
+N
+java:S1068*",Remove this unused "mainHall" private field.(ÏÛüœûÿÿÿÿ8Ô¼ªÙæ1

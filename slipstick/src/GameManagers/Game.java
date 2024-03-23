@@ -77,7 +77,7 @@ public class Game {
      * Appends the students list with a student.
      * @param student: the new student
      */
-    void addStudent(Student student){
+    public void AddStudent(Student student){
         students.add(student);
     }
 
@@ -85,7 +85,7 @@ public class Game {
      * Appends the professors list with a professors.
      * @param professor: the new professor
      */
-    void addProfessor(Professor professor){
+    public void AddProfessor(Professor professor){
         professors.add(professor);
     }
     /**

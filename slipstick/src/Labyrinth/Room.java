@@ -240,7 +240,7 @@ public class Room {
      * When a student enters the room, it signals all the professors currently in the room to try and kill the student
      * @param s: The student about to get assassinated.
      */
-    void NotifyProfessors(Student s){
+    public void NotifyProfessors(Student s){
         for(Professor profIter : roomsListOfProfessors){
             profIter.KillStudent(s);
         }
@@ -249,17 +249,17 @@ public class Room {
      * Adds a new neighbour to the room's list of neighbours.
      * @param r: The room being added as a new neighbour.
      */
-    void AddNeighbour(Room r){
+    public void AddNeighbour(Room r){
         roomsListOfNeighbours.add(r);
     }
     /**
      * Removes a neighbour from the room's list of neighbours.
      * @param r: The room being removed as a neighbour.
      */
-    void RemoveNeighbour(Room r){
+    public void RemoveNeighbour(Room r){
         roomsListOfNeighbours.remove(r);
     }
-    void SetToxicity(){
+    public void SetToxicity(){
         gassed = true;
     }
 }

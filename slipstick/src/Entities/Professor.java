@@ -1,6 +1,12 @@
 package Entities;
 
+import GameManagers.Game;
+
 public class Professor extends Entity{
+
+    public Professor(Game g) {
+        super(g);
+    }
 
     /**
      * Kills all students in the current room
