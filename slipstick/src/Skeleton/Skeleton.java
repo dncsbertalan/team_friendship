@@ -15,9 +15,11 @@ public class Skeleton {
             // beolvasás
             String[] cmd = scanner.nextLine().split(" ");
 
-            int in=26;
+            int in = Integer.parseInt(cmd[0]);
 
             switch (in) {
+                case 0:
+                    System.exit(0);
                 case 1:
                     System.out.print("l");
                     break;

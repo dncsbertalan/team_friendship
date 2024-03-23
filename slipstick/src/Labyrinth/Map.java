@@ -33,13 +33,13 @@ public class Map {
      * Instance of the teachers lounge,
      * because it is not an ordinary room.
      */
-    private TeachersLounge teachersLounge;
+    private Room teachersLounge;
 
     /**
      * Instance of the main hall,
      * because it is not an ordinary room.
      */
-    private MainHall mainHall;
+    private Room mainHall;
 
     //################################################################################
     //                                  METHODS
@@ -143,6 +143,6 @@ public class Map {
      * @return {@code true} if the room is winning room, {@code false} if it isn't
      */
     public boolean isWinningRoom(Room room) {
-
+        return false;
     }
 }
