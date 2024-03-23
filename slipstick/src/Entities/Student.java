@@ -91,7 +91,8 @@ public class Student extends Entity{
         if (room.CanStepIn()){
             this.SetCurrentRoom(room);
             Map map = game.GetMap();
-            map.TransferStudentToRoom(this,room);
+            room.RemoveStudentFromRoom(this);
+            room.AddStudentToRoom(this);
             System.out.println("Student stepped into room");
         } else System.out.println("Student can't step into room");
     }

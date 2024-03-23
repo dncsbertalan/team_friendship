@@ -107,8 +107,7 @@ public class Map {
      * @param room
      */
     public void TransferStudentToRoom(Student student, Room room) {
-        room.RemoveStudentFromRoom(student);
-        room.AddStudentToRoom(student);
+        //nem kell ig
     }
 
     /**
@@ -117,7 +116,7 @@ public class Map {
      * @param room
      */
     public void TransferProfessorToRoom(Professor professor, Room room) {
-
+        //mar ezse ig
     }
 
     /**
