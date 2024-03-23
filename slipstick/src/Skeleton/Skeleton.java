@@ -6,12 +6,27 @@ import Items.FFP2Mask;
 import Labyrinth.Map;
 import Labyrinth.Room;
 
+import java.util.HashMap;
 import java.util.Scanner;
 
 /**
  * The static Skeleton class which is used to test the use-cases defined in the week 5 documentation.
  */
 public class Skeleton {
+
+    //region Use-case names
+    private static final HashMap<Integer, String> testNames = new HashMap<>();
+    static {
+        testNames.put(26, "Student entering a gassed room (with protection)");
+        testNames.put(27, "Student entering a gassed room (without protection)");
+        testNames.put(28, "Professor entering a gassed room (with protection)");
+        testNames.put(29, "Professor entering a gassed room (without protection)");
+        testNames.put(30, "Student entering a room with a professor (with protection)");
+        testNames.put(31, "Student entering a room with a professor (without protection)");
+        testNames.put(32, "Professor entering a room with a student (with protection)");
+        testNames.put(33, "Professor entering a room with a student (without protection)");
+    }
+    //endregion
 
     private static int ID = 0;
 
@@ -21,9 +36,16 @@ public class Skeleton {
 
         while (true) {
             // beolvasás
-            String[] cmd = scanner.nextLine().split(" ");
+            //String[] cmd = scanner.nextLine().split(" ");
+            String inputString = scanner.nextLine();
+            int in = 0;
 
-            int in = Integer.parseInt(cmd[0]);
+            try {
+                in = Integer.parseInt(inputString);
+            }
+            catch (NumberFormatException e) {
+                System.out.println("\nERROR: A number must be entered");
+            }
 
             switch (in) {
                 case 0:
@@ -39,6 +61,10 @@ public class Skeleton {
                 case 27:
                     Test_27();
                     break;
+
+                default:
+                    System.out.println("\nChoose a number from the menu!");
+                    break;
             }
         }
     }
@@ -52,7 +78,7 @@ public class Skeleton {
      */
     private static void Test_26() {
         FancyPrint("Test #26");
-        System.out.println("Student entering a gassed room (with protection)");
+        System.out.println(testNames.get(26));
 
         // inits
         Game game = new Game();
@@ -79,7 +105,7 @@ public class Skeleton {
      */
     private static void Test_27() {
         FancyPrint("Test #27");
-        System.out.println("Student entering a gassed room (without protection)");
+        System.out.println(testNames.get(27));
 
         // inits
         Game game = new Game();
@@ -99,16 +125,13 @@ public class Skeleton {
     }
 
     //endregion
-    //endregion
-
-    //region Initializations
 
     //endregion
 
     //region Helper methods
 
     /**
-     * Just a fancy printing method.
+     * Just a fancy printing method. Ends the last line with '\n'.
      * @param text the text to be printed
      */
     private static void FancyPrint(String text) {
@@ -121,6 +144,16 @@ public class Skeleton {
         for (int i = 0; i < text.length() + 4 + 5 + 5; i++) {
             System.out.print("=");
         }
+        System.out.print("\n");
+    }
+
+    /**
+     * Prints the menu to the standard output.
+     */
+    private static void PrintMenu() {
+        FancyPrint("USE-CASE MENU");
+        System.out.println("Choose a number from the menu to select the use-case to be tested!" +
+                "\nThe use-cases: \n");
     }
 
     //endregion
