@@ -5,7 +5,8 @@ import Items.Item;
 import Items.SlipStick;
 
 public class Student extends Entity{
-
+    
+    int steps;
     /**
      * True if student is dead
      */
