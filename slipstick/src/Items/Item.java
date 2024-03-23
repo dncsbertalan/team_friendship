@@ -1,5 +1,6 @@
 package Items;
 
+import Constants.Enums.ProtectionType;
 import Entities.Student;
 
 /**
@@ -7,12 +8,7 @@ import Entities.Student;
  * Contains everything generally assosiated with items.
  */
 public abstract class Item {
-
-    public enum ProtectionType {
-        none, tvsz, wetCloth, ffp2Mask
-    }
-
-    /**
+     /**
      * Wether the item is activated or not.
      */
     private boolean activated;
