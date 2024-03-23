@@ -17,6 +17,7 @@ public class Skeleton {
     //region Use-case names
     private static final HashMap<Integer, String> testNames = new HashMap<>();
     static {
+        testNames.put(0, "Exit");
         testNames.put(26, "Student entering a gassed room (with protection)");
         testNames.put(27, "Student entering a gassed room (without protection)");
         testNames.put(28, "Professor entering a gassed room (with protection)");
@@ -35,17 +36,8 @@ public class Skeleton {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            // beolvasás
-            //String[] cmd = scanner.nextLine().split(" ");
-            String inputString = scanner.nextLine();
-            int in = 0;
-
-            try {
-                in = Integer.parseInt(inputString);
-            }
-            catch (NumberFormatException e) {
-                System.out.println("\nERROR: A number must be entered");
-            }
+            PrintMenu();
+            int in = GetNumberFromInput(scanner);
 
             switch (in) {
                 case 0:
@@ -63,7 +55,7 @@ public class Skeleton {
                     break;
 
                 default:
-                    System.out.println("\nChoose a number from the menu!");
+                    System.out.println("Choose a number from the menu!");
                     break;
             }
         }
@@ -152,9 +144,49 @@ public class Skeleton {
      */
     private static void PrintMenu() {
         FancyPrint("USE-CASE MENU");
-        System.out.println("Choose a number from the menu to select the use-case to be tested!" +
-                "\nThe use-cases: \n");
+        System.out.println("Choose a number from the menu to select the use-case to be tested!\nThe use-cases:\n");
+
+        for (int i = 0; i <= 33; i++) {
+            System.out.println("\t" + i + "\t->\t" + testNames.get(i));
+        }
     }
 
+    /**
+     * Reads the standard input and searches for a number.
+     * @param scanner a scanner
+     * @return the number read from the standard input
+     */
+    private static int GetNumberFromInput(Scanner scanner) {
+        String input;
+        do {
+            System.out.print("\nChoose from the menu: ");
+            input = scanner.nextLine();
+        } while (!IsNumeric(input));
+        return Integer.parseInt(input);
+        /*try {
+            in = Integer.parseInt(inputString);
+        }
+        catch (NumberFormatException e) {
+            System.out.println("\nERROR: A number must be entered");
+        }*/
+    }
+
+    /**
+     * Checks wether a string is a number.
+     * @param str the string
+     * @return true if it is a number, false else
+     */
+    private static boolean IsNumeric(String str) {
+        if (str == null) {
+            return false;
+        }
+        try {
+            Integer.parseInt(str);
+        } catch (NumberFormatException nfe) {
+            System.out.print("\nIncorrect input! A number must be entered.");
+            return false;
+        }
+        return true;
+    }
     //endregion
 }
