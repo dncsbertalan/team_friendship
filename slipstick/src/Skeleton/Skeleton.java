@@ -30,10 +30,10 @@ public class Skeleton {
         testNames.put(3, "Dropping Unpaired transistor");
         testNames.put(4, "Dropping the first Activated, paired transistor");
         testNames.put(5, "Dropping the second Activated, paired transistor");
-        testNames.put(6, "empty");
-        testNames.put(7, "empty");
-        testNames.put(8, "empty");
-        testNames.put(9, "empty");
+        testNames.put(6, "Room division (successful)");
+        testNames.put(7, "Room division (unsuccessful)");
+        testNames.put(8, "Room merge (successful)");
+        testNames.put(9, "Room merge (unsuccessful)");
         testNames.put(10, "Successful student movement between rooms");
         testNames.put(11, "Successful professor movement between rooms");
         testNames.put(12, "Unsuccessful student movement between rooms");
@@ -987,6 +987,43 @@ public class Skeleton {
         TestPrint(success
                 , "The cheese was used successfully"
                 , "The cheese has failed");
+    }
+    //endregion
+
+    //region Room merge/division tests
+
+    /**
+     * Tests dividing a room
+     */
+    private static void Test_6() {
+        TestHead(6);
+
+        // Initializing
+        Game game = new Game();
+        TVSZ t = new TVSZ();
+        FFP2Mask f = new FFP2Mask();
+
+        Room r = new Room(5, game);
+        Room n1 = new Room(3, game);
+        Room n2 = new Room(4, game);
+
+        r.AddItemToRoom(t);
+        r.AddItemToRoom(f);
+        r.AddNeighbour(n1);
+        r.AddNeighbour(n2);
+
+        Map map = new Map(game);
+        map.AddRoom(r);
+        map.AddRoom(n1);
+        map.AddRoom(n2);
+        game.SetMap(map);
+
+        // Test
+        System.out.println("\nStarting test\n");
+        map.SeparateRooms(r);
+        boolean success = map.GetRooms().size() >= 2 && !map.GetRooms().get(3).GetInventory().isEmpty() &&
+                !map.GetRooms().get(3).GetNeighbours().isEmpty();
+        TestPrint(success, "Room division successful", "Room division not successful");
     }
     //endregion
 
