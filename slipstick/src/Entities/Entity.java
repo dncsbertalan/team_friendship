@@ -185,7 +185,8 @@ public abstract class Entity {
 
         return null;
     }
-    public ArrayList<Item> GetInventory(){
+
+    public ArrayList<Item> GetInventory() {
         return inventory;
     }
 }

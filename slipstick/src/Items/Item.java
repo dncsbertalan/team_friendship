@@ -45,4 +45,12 @@ public abstract class Item {
     public ProtectionType GetProtectionType() {
         return this.protectionType;
     }
+
+    /**
+     * Returns the activation state of the item.
+     * @return true if activated
+     */
+    public boolean GetActivation() {
+        return activated;
+    }
 }

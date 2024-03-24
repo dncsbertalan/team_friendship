@@ -81,4 +81,12 @@ public class Transistor extends Item {
         this.pair = transistor;
         transistor.pair = this;
     }
+
+    /**
+     * Gets the transistor that's paired to this one
+     * @return the paired transistor
+     */
+    public Transistor GetPair() {
+        return pair;
+    }
 }
