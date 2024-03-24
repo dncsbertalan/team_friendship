@@ -42,6 +42,11 @@ public class Game {
      */
     List<Professor> professors;
 
+    public Game() {
+        this.students = new ArrayList<>();
+        this.professors = new ArrayList<>();
+    }
+
     /**
      * Getter of the students list
      * @return list of students
@@ -69,7 +74,13 @@ public class Game {
         this.roundManager = rm;
     }
 
-
+    /**
+     * Returns the map instance of the game.
+     * @return the map instance
+     */
+    public Map GetMap() {
+        return this.map;
+    }
 
     /**
      * Getter of the professors list.

@@ -52,6 +52,7 @@ public class Room {
     private int capacity;
     /**
      * Constructor.
+     * @param g: The game object the room will have a reference for.
      * @param c: Room's initial capacity.
      */
     public Room(int c, Game g){
@@ -75,7 +76,6 @@ public class Room {
         roomsListOfProfessors = new ArrayList<>();
         roomsListOfItems = new ArrayList<>();
         roomsListOfNeighbours = new ArrayList<>();
-
         gassed = false;
         remainingRoundsBeingGassed = 0;
 
@@ -83,6 +83,8 @@ public class Room {
         int minInclusive = 2;
         int maxExclusive = 6;
         capacity = random.ints(minInclusive, maxExclusive).findFirst().getAsInt();
+
+        game = g;
     }
     /**
      * Sets the room's capacity to the value given as argument.
@@ -191,12 +193,17 @@ public class Room {
             remainingRoundsBeingGassed--;
         }
     }
+
     /**
      * The room adds student to the room's list of entities.
      * @param s: the student being placed in the room.
      */
     public void AddStudentToRoom(Student s){
         this.roomsListOfStudents.add(s);
+
+        if (gassed) {
+            s.SteppedIntoGassedRoom();
+        }
     }
     /**
      * The room adds professor to the room's list of entities.
@@ -204,8 +211,12 @@ public class Room {
      */
     public void AddProfessorToRoom(Professor p){
         this.roomsListOfProfessors.add(p);
-        p.SetCurrentRoom(this);
+
+        if (gassed) {
+            p.SteppedIntoGassedRoom();
+        }
     }
+
     /**
      * The room removes student from the room's list of entities.
      * @param s: The student being removed from the room.
@@ -213,6 +224,7 @@ public class Room {
     public void RemoveStudentFromRoom(Student s){
         this.roomsListOfStudents.remove(s);
     }
+
     /**
      * The room removes professor from the room's list of entities.
      * @param p: The professor being removed from the room.
@@ -220,9 +232,10 @@ public class Room {
     public void RemoveProfessorFromRoom(Professor p){
         this.roomsListOfProfessors.remove(p);
     }
+
     /**
      * Shows whether a room's capacity is big enough for another entity.
-     * @return: Whether another entity can fit in a room.
+     * @return Whether another entity can fit in a room.
      */
     public boolean CanStepIn(){
         int allEntitiesCount = roomsListOfProfessors.size() + roomsListOfStudents.size();
@@ -233,11 +246,12 @@ public class Room {
     }
     /**
      * Shows whether a room is filled with toxic gas currently.
-     * @return: Whether a room is filled with toxic gas.
+     * @return Whether a room is filled with toxic gas.
      */
     public boolean IsGassed(){
         return gassed;
     }
+
     /**
      * When a student enters the room, it signals all the professors currently in the room to try and kill the student
      * @param s: The student about to get assassinated.
@@ -247,6 +261,7 @@ public class Room {
             profIter.KillStudent(s);
         }
     }
+
     /**
      * Adds a new neighbour to the room's list of neighbours.
      * @param r: The room being added as a new neighbour.
@@ -254,6 +269,7 @@ public class Room {
     public void AddNeighbour(Room r){
         roomsListOfNeighbours.add(r);
     }
+
     /**
      * Removes a neighbour from the room's list of neighbours.
      * @param r: The room being removed as a neighbour.
@@ -261,6 +277,10 @@ public class Room {
     public void RemoveNeighbour(Room r){
         roomsListOfNeighbours.remove(r);
     }
+
+    /**
+     * Makes the room a toxic/gas room permanently.
+     */
     public void SetToxicity(){
         gassed = true;
     }

@@ -4,14 +4,10 @@ import Entities.Professor;
 import Entities.Student;
 import GameManagers.Game;
 import Items.FFP2Mask;
-import Items.SlipStick;
+import Items.TVSZ;
 import Labyrinth.Map;
 import Labyrinth.Room;
-import org.junit.Test;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
 
-import java.sql.SQLOutput;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -21,17 +17,12 @@ import java.util.Scanner;
 public class Skeleton {
 
     //region Use-case names
-    static final HashMap<Integer, String> testNames = new HashMap<>();
-
+    /**
+     * Here we store the use-case names in order to be easily modified and to stay always the same.
+     */
+    private static final HashMap<Integer, String> testNames = new HashMap<>();
     static {
-        testNames.put(10, "Successful student movement between rooms");
-        testNames.put(11, "Successful professor movement between rooms");
-        testNames.put(12, "Unsuccessful student movement between rooms");
-        testNames.put(13, "Unsuccessful professor movement between rooms");
-        testNames.put(14, "Slipstick acquisition");
-        testNames.put(15, "Slipstick disposal");
-        testNames.put(16, "Winning");
-        testNames.put(17, "Losing");
+        testNames.put(0, "Exit");
         testNames.put(26, "Student entering a gassed room (with protection)");
         testNames.put(27, "Student entering a gassed room (without protection)");
         testNames.put(28, "Professor entering a gassed room (with protection)");
@@ -43,43 +34,60 @@ public class Skeleton {
     }
     //endregion
 
-    private static int ID = 0;
-
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            // beolvasás
-            //String[] cmd = scanner.nextLine().split(" ");
-            String inputString = scanner.nextLine();
-            int in = 0;
-
-            try {
-                in = Integer.parseInt(inputString);
-            } catch (NumberFormatException e) {
-                System.out.println("\nERROR: A number must be entered");
-            }
+            PrintMenu();
+            int in = GetNumberFromInput(scanner);
 
             switch (in) {
                 case 0:
                     System.exit(0);
                 case 1:
-                    Test_14();
-
+                    System.out.print("l");
                     break;
                 case 2:
-                    Test_10();
                     break;
+
+                //region Berci use-cases
                 case 26:
                     Test_26();
+                    GetKeyToContinue(scanner);
                     break;
                 case 27:
                     Test_27();
+                    GetKeyToContinue(scanner);
                     break;
+                case 28:
+                    Test_28();
+                    GetKeyToContinue(scanner);
+                    break;
+                case 29:
+                    Test_29();
+                    GetKeyToContinue(scanner);
+                    break;
+                case 30:
+                    Test_30();
+                    GetKeyToContinue(scanner);
+                    break;
+                case 31:
+                    Test_31();
+                    GetKeyToContinue(scanner);
+                    break;
+                case 32:
+                    Test_32();
+                    GetKeyToContinue(scanner);
+                    break;
+                case 33:
+                    Test_33();
+                    GetKeyToContinue(scanner);
+                    break;
+                //endregion
 
                 default:
-                    System.out.println("\nChoose a number from the menu!");
+                    System.out.println("Choose a number from the menu!");
                     break;
             }
         }
@@ -88,8 +96,7 @@ public class Skeleton {
     //region Use-cases
 
     //region Berci use-cases
-
-
+    // region GAS ROOM
     /**
      * Student entering a gassed room (with protection)
      */
@@ -97,26 +104,23 @@ public class Skeleton {
         FancyPrint("Test #26");
         System.out.println(testNames.get(26));
 
-        // inits
+        // Instantiate
         Game game = new Game();
-        Student student = new Student(game);
-        game.AddStudent(student);
+        Student student = new Student(game); game.AddStudent(student);
         FFP2Mask ffp2Mask = new FFP2Mask();
-        student.PickUpItem(ffp2Mask);
-        Room mainHall = new Room(game);
-        Room room1 = new Room(game);
-        Room room2 = new Room(game);
-        room2.AddNeighbour(room1);
-        room1.AddNeighbour(room1);
-        room2.AddStudentToRoom(student);
-        student.SetCurrentRoom(room2);
-        room1.SetToxicity();
+            student.PickUpItem(ffp2Mask);
+        Room mainHall = new Room(game), room1 = new Room(game), room2 = new Room(game);
+            room2.AddNeighbour(room1); room1.AddNeighbour(room1);
+            room2.AddStudentToRoom(student); student.SetCurrentRoom(room2);
+            room1.SetToxicity();
         Map map = new Map(game);
-        map.AddRoom(room1);
-        map.AddRoom(room2);
-        map.AddMainHall(mainHall);
+            map.AddRoom(room1);
+            map.AddRoom(room2);
+            map.AddMainHall(mainHall);
+        game.setMap(map);
 
-        //
+        // Test
+
     }
 
     /**
@@ -128,153 +132,180 @@ public class Skeleton {
 
         // inits
         Game game = new Game();
-        Student student = new Student(game);
-        game.AddStudent(student);
+        Student student = new Student(game); game.AddStudent(student);
         Room mainHall = new Room(game);
         Room room1 = new Room(game);
         Room room2 = new Room(game);
-        room2.AddNeighbour(room1);
-        room1.AddNeighbour(room1);
-        room2.AddStudentToRoom(student);
-        student.SetCurrentRoom(room2);
+        room2.AddNeighbour(room1); room1.AddNeighbour(room1);
+        room2.AddStudentToRoom(student); student.SetCurrentRoom(room2);
         room1.SetToxicity();
         Map map = new Map(game);
         map.AddRoom(room1);
         map.AddRoom(room2);
         map.AddMainHall(mainHall);
+        game.setMap(map);
+
+        // test
+        student.StepInto(room1);
+        if (student.GetCurrentRoom() == mainHall) {
+            System.out.println("Test successful!\nStudent is in the main hall");
+        }
     }
 
+    /**
+     * Professor entering a gassed room (with protection)
+     */
+    private static void Test_28() {
+        FancyPrint("Test #28");
+        System.out.println(testNames.get(28));
+
+        // inits
+        Game game = new Game();
+        Professor professor = new Professor(game); game.AddProfessor(professor);
+        FFP2Mask ffp2Mask = new FFP2Mask();
+        professor.PickUpItem(ffp2Mask);
+        Room teachersLounge = new Room(game);
+        Room room1 = new Room(game);
+        Room room2 = new Room(game);
+        room2.AddNeighbour(room1); room1.AddNeighbour(room1);
+        room2.AddProfessorToRoom(professor); professor.SetCurrentRoom(room2);
+        room1.SetToxicity();
+        Map map = new Map(game);
+        map.AddRoom(room1);
+        map.AddRoom(room2);
+        map.AddTeachersLounge(teachersLounge);
+        game.setMap(map);
+    }
+
+    /**
+     * Professor entering a gassed room (without protection)
+     */
+    private static void Test_29() {
+        FancyPrint("Test #29");
+        System.out.println(testNames.get(29));
+
+        // inits
+        Game game = new Game();
+        Professor professor = new Professor(game); game.AddProfessor(professor);
+        Room teachersLounge = new Room(game);
+        Room room1 = new Room(game);
+        Room room2 = new Room(game);
+        room2.AddNeighbour(room1); room1.AddNeighbour(room1);
+        room2.AddProfessorToRoom(professor); professor.SetCurrentRoom(room2);
+        room1.SetToxicity();
+        Map map = new Map(game);
+        map.AddRoom(room1);
+        map.AddRoom(room2);
+        map.AddTeachersLounge(teachersLounge);
+        game.setMap(map);
+
+        // test
+        professor.StepInto(room1);
+        if (professor.GetCurrentRoom() == teachersLounge) {
+            System.out.println("Test successful!\nProfessor is in the theachers' lounge");
+        }
+    }
     //endregion
 
-    //region bene usekéz
-    @DisplayName("Student movement successful")
-    public static void Test_10() {
-        FancyPrint("Test #10");
-        System.out.println(testNames.get(10));
+    //region STUDENT-PROF ENCOUNTER
+    /**
+     * Student entering a room with a professor (with protection)
+     */
+    private static void Test_30() {
+        FancyPrint("Test #30");
+        System.out.println(testNames.get(30));
 
-        //inits
-        Game g = new Game();
-        Room r1 = new Room(g);
-        Room r2 = new Room(g);
-        r2.AddNeighbour(r1);
-        Student student = new Student(g);
-        r1.AddStudentToRoom(student);
-        Map map = new Map(g);
-        g.setMap(map);
-        map.AddRoom(r1);
-        map.AddRoom(r2);
-        boolean success = true;
-        //test
-        student.StepInto(r2);
-        if(student.GetCurrentRoom()==r2) {
-            System.out.println("Test #14 failed");
-        }else{
-            System.out.println("Test #14 passed");
-        }
-    }
-
-    @DisplayName("Professor movement successful")
-    public static void Test_11() {
-        FancyPrint("Test #11");
-        System.out.println(testNames.get(11));
-
-        //inits
-        Game g = new Game();
-        Room r1 = new Room(g);
-        Room r2 = new Room(g);
-        r2.AddNeighbour(r1);
-        Professor professor = new Professor(g);
-        r1.AddProfessorToRoom(professor);
-        Map map = new Map(g);
-        g.setMap(map);
-        map.AddRoom(r1);
-        map.AddRoom(r2);
-        boolean success = true;
-
-        //test
-        professor.StepInto(r2);
-        if(professor.GetCurrentRoom()==r2) {
-            System.out.println("Test #14 failed");
-        }else{
-            System.out.println("Test #14 passed");
-        }
-    }
-
-    @DisplayName("Student movement successful")
-    public static void Test_12() {
-        FancyPrint("Test #12");
-        System.out.println(testNames.get(12));
-
-        //inits
-        Game g = new Game();
-        Room r1 = new Room(g);
-        Room r2 = new Room(0, g);
-        r2.AddNeighbour(r1);
-        Student student = new Student(g);
-        r1.AddStudentToRoom(student);
-        Map map = new Map(g);
-        g.setMap(map);
-        map.AddRoom(r1);
-        map.AddRoom(r2);
-        boolean success = true;
-        //test
-        student.StepInto(r2);
-        if(student.GetCurrentRoom()==r1) {
-            System.out.println("Test #14 failed");
-        }else{
-            System.out.println("Test #14 passed");
-        }
-
-    }
-
-    @DisplayName("Professor movement unsuccessful")
-    public static void Test_13() {
-        FancyPrint("Test #13");
-        System.out.println(testNames.get(13));
-
-        //inits
-        Game g = new Game();
-        Room r1 = new Room(g);
-        Room r2 = new Room(0, g);
-        r2.AddNeighbour(r1);
-        Professor professor = new Professor(g);
-        r1.AddProfessorToRoom(professor);
-        Map map = new Map(g);
-        g.setMap(map);
-        map.AddRoom(r1);
-        map.AddRoom(r2);
-        boolean success = true;
-
-        //test
-        professor.StepInto(r2);
-        if(professor.GetCurrentRoom()==r1) {
-            System.out.println("Test #14 failed");
-        }else{
-            System.out.println("Test #14 passed");
-        }
-    }
-
-    @DisplayName("Slipstick acquisition")
-    public static void Test_14(){
-        FancyPrint(("Test #14\n"+testNames.get(14)));
-
-        //inits
-        SlipStick slip = new SlipStick();
+        // inits
         Game game = new Game();
-        Student student = new Student(game);
-        game.AddStudent(student);
-        student.PickUpItem(slip);
-
-        //test
-        if(game.IsLastPhase()) {
-            System.out.println("Test #14 failed");
-        }else{
-            System.out.println("Test #14 passed");
-        }
+        Student student = new Student(game); game.AddStudent(student);
+        Professor professor = new Professor(game); game.AddProfessor(professor);
+        TVSZ tvsz = new TVSZ();
+            student.PickUpItem(tvsz);
+        Room mainHall = new Room(game), room1 = new Room(game), room2 = new Room(game);
+            room2.AddNeighbour(room1);
+            room1.AddNeighbour(room1);
+        room1.AddStudentToRoom(student); student.SetCurrentRoom(room1);
+        room2.AddProfessorToRoom(professor); professor.SetCurrentRoom(room2);
+        Map map = new Map(game);
+            map.AddRoom(room1);
+            map.AddRoom(room2);
+            map.AddMainHall(mainHall);
+        game.setMap(map);
     }
 
+    /**
+     * Student entering a room with a professor (without protection)
+     */
+    private static void Test_31() {
+        FancyPrint("Test #31");
+        System.out.println(testNames.get(31));
 
-        //endregion
+        // inits
+        Game game = new Game();
+        Student student = new Student(game); game.AddStudent(student);
+        Professor professor = new Professor(game); game.AddProfessor(professor);
+        Room mainHall = new Room(game), room1 = new Room(game), room2 = new Room(game);
+        room2.AddNeighbour(room1);
+        room1.AddNeighbour(room1);
+        room1.AddStudentToRoom(student); student.SetCurrentRoom(room1);
+        room2.AddProfessorToRoom(professor); professor.SetCurrentRoom(room2);
+        Map map = new Map(game);
+        map.AddRoom(room1);
+        map.AddRoom(room2);
+        map.AddMainHall(mainHall);
+        game.setMap(map);
+    }
+
+    /**
+     * Professor entering a room with a student (with protection)
+     */
+    private static void Test_32() {
+        FancyPrint("Test #32");
+        System.out.println(testNames.get(32));
+
+        // inits
+        Game game = new Game();
+        Student student = new Student(game); game.AddStudent(student);
+        Professor professor = new Professor(game); game.AddProfessor(professor);
+        TVSZ tvsz = new TVSZ();
+        student.PickUpItem(tvsz);
+        Room mainHall = new Room(game), room1 = new Room(game), room2 = new Room(game);
+        room2.AddNeighbour(room1);
+        room1.AddNeighbour(room1);
+        room1.AddStudentToRoom(student); student.SetCurrentRoom(room1);
+        room2.AddProfessorToRoom(professor); professor.SetCurrentRoom(room2);
+        Map map = new Map(game);
+        map.AddRoom(room1);
+        map.AddRoom(room2);
+        map.AddMainHall(mainHall);
+        game.setMap(map);
+    }
+
+    /**
+     * Professor entering a room with a student (without protection)
+     */
+    private static void Test_33() {
+        FancyPrint("Test #33");
+        System.out.println(testNames.get(33));
+
+        // inits
+        Game game = new Game();
+        Student student = new Student(game); game.AddStudent(student);
+        Professor professor = new Professor(game); game.AddProfessor(professor);
+        Room mainHall = new Room(game), room1 = new Room(game), room2 = new Room(game);
+        room2.AddNeighbour(room1);
+        room1.AddNeighbour(room1);
+        room1.AddStudentToRoom(student); student.SetCurrentRoom(room1);
+        room2.AddProfessorToRoom(professor); professor.SetCurrentRoom(room2);
+        Map map = new Map(game);
+        map.AddRoom(room1);
+        map.AddRoom(room2);
+        map.AddMainHall(mainHall);
+        game.setMap(map);
+    }
+    //endregion
+    //endregion
+
     //endregion
 
     //region Helper methods
@@ -301,9 +332,58 @@ public class Skeleton {
      */
     private static void PrintMenu() {
         FancyPrint("USE-CASE MENU");
-        System.out.println("Choose a number from the menu to select the use-case to be tested!" +
-                "\nThe use-cases: \n");
+        System.out.println("Choose a number from the menu to select the use-case to be tested!\nThe use-cases:\n");
+
+        for (int i = 0; i <= 33; i++) {
+            System.out.println("\t" + i + "\t->\t" + testNames.get(i));
+        }
     }
 
+    /**
+     * Reads the standard input and searches for a number.
+     * @param scanner a scanner
+     * @return the number read from the standard input
+     */
+    private static int GetNumberFromInput(Scanner scanner) {
+        String input;
+        do {
+            System.out.print("\nChoose from the menu: ");
+            input = scanner.nextLine();
+        } while (!IsNumeric(input));
+        return Integer.parseInt(input);
+        /*try {
+            in = Integer.parseInt(inputString);
+        }
+        catch (NumberFormatException e) {
+            System.out.println("\nERROR: A number must be entered");
+        }*/
+    }
+
+    /**
+     * Checks wether a string is a number.
+     * @param str the string
+     * @return true if it is a number, false else
+     */
+    private static boolean IsNumeric(String str) {
+        if (str == null) {
+            return false;
+        }
+        try {
+            Integer.parseInt(str);
+        } catch (NumberFormatException nfe) {
+            System.out.print("\nIncorrect input! A number must be entered.");
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Waits until a key is pressed on the keyboard.
+     * @param scanner a scanner instance
+     */
+    private static void GetKeyToContinue(Scanner scanner) {
+        System.out.print("Press any key to go back to the menu...");
+        scanner.nextLine();
+    }
     //endregion
 }
