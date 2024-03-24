@@ -232,4 +232,6 @@ public class Map {
     public boolean IsWinningRoom(Room room) {
         return room == winningRoom;
     }
+
+    public List<Room> GetRooms() { return rooms; }
 }
