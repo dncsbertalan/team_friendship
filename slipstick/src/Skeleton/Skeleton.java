@@ -99,6 +99,9 @@ public class Skeleton {
                     Test_16();
                     GetKeyToContinue(scanner);
                     break;
+                case 17:
+                    Test_17();
+                    GetKeyToContinue(scanner);
                 //endregion
                 //region Berci use-cases
                 case 26:
@@ -377,6 +380,7 @@ public class Skeleton {
     //endregion
 
     //region Bene regiojet
+
     public static void Test_10() {
         FancyPrint("Test #10");
         System.out.println(testNames.get(10));
@@ -395,12 +399,10 @@ public class Skeleton {
         map.AddRoom(r2);
         //test
         student.StepInto(r2);
-        if(student.GetCurrentRoom()==r2) {
-            System.out.println("Test #10 passed student's current room changed");
-        }else{
-            System.out.println("Test #10 failed student's current room not changed");
-
-        }
+        boolean success = student.GetCurrentRoom() == r2;
+        TestPrint(success
+                , "Student's current room changed"
+                , "Student's current room not changed");
     }
 
     public static void Test_11() {
@@ -421,11 +423,10 @@ public class Skeleton {
 
         //test
         professor.StepInto(r2);
-        if(professor.GetCurrentRoom()==r2) {
-            System.out.println("Test #11 passed professor's current room changed");
-        }else{
-            System.out.println("Test #11 failed professor's current room not changed");
-        }
+        boolean success = professor.GetCurrentRoom() == r2;
+        TestPrint(success
+                , "Professor's current room changed"
+                , "Professor's current room not changed");
     }
 
     public static void Test_12() {
@@ -445,12 +446,10 @@ public class Skeleton {
         map.AddRoom(r2);
         //test
         student.StepInto(r2);
-        if(student.GetCurrentRoom()==r1) {
-            System.out.println("Test #12 passed student's current room not changed");
-        }else{
-            System.out.println("Test #12 failed student's current room changed");
-        }
-
+        boolean success = student.GetCurrentRoom() == r1;
+        TestPrint(success
+                , "Student's current room not changed"
+                , "Student's current room changed");
     }
 
     public static void Test_13() {
@@ -471,11 +470,10 @@ public class Skeleton {
 
         //test
         professor.StepInto(r2);
-        if(professor.GetCurrentRoom()==r1) {
-            System.out.println("Test #13 passed professor's current room not changed");
-        }else{
-            System.out.println("Test #13 failed professor's current room changed");
-        }
+        boolean success = professor.GetCurrentRoom() == r1;
+        TestPrint(success
+                , "Professor's current room not changed"
+                , "Professor's current room changed");
     }
 
     public static void Test_14(){
@@ -490,11 +488,10 @@ public class Skeleton {
         student.PickUpItem(slip);
 
         //test
-        if(game.IsLastPhase()) {
-            System.out.println("Test #14 passed last phase activated");
-        }else{
-            System.out.println("Test #14 failed last phase not activated");
-        }
+        boolean success = game.IsLastPhase();
+        TestPrint(success
+                , "Last phase activated"
+                , "Last phase not activated");
     }
 
     public static void Test_15(){
@@ -513,12 +510,12 @@ public class Skeleton {
         //test
         student.SelectItem(slip);
         student.DropSelectedItem();
-        if(!game.IsLastPhase()) {
-            System.out.println("Test #15 passed last phase deactivated ");
-        }else{
-            System.out.println("Test #15 failed last phase not deactivated");
-        }
+        boolean success = !game.IsLastPhase();
+        TestPrint(success
+                , "Last phase deactivated "
+                , "Last phase not deactivated");
     }
+
     public static void Test_16() {
         FancyPrint("Test #16\n");
         System.out.println(testNames.get(16));
@@ -540,14 +537,14 @@ public class Skeleton {
 
         //test
         student.StepInto(r2);
-        if(game.IsEnded()){
-            System.out.println("Test #16 Passed victory");
-        }else{
-            System.out.println("Test #16 Failed game not over");
-        }
+        boolean success = game.IsEnded();
+        TestPrint(success
+                , "Game engded with victory"
+                , "Game not over");
     }
+
     public static void Test_17() {
-        FancyPrint("Test #17\n");
+        FancyPrint("Test #17");
         System.out.println(testNames.get(17));
 
         //init
@@ -559,14 +556,11 @@ public class Skeleton {
         for(int i = 0; i<Constants.GameConstants.MaxRounds; i++) {
             rm.NextRound();
         }
-        if(!game.IsEnded()){
-            System.out.println("Test #16 Passed lose");
-        }else{
-            System.out.println("Test #16 Failed game not over");
-        }
-
+        boolean success = !game.IsEnded();
+        TestPrint(success
+                , "Game ended with lose"
+                , "Game not over");
     }
-
     //endregion
 
 
