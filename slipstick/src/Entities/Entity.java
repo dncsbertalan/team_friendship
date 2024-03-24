@@ -64,6 +64,13 @@ public abstract class Entity {
     }
 
     /**
+     * Gives back the remaining turns of the entity.
+     * @return: the remaining turns of the entity.
+     */
+    public int GetRemainingTurns(){
+        return remainingTurns;
+    }
+    /**
      * Picks up specified item from current room
      * @param item the item getting picked up
      */
@@ -177,5 +184,8 @@ public abstract class Entity {
         }
 
         return null;
+    }
+    public ArrayList<Item> GetInventory(){
+        return inventory;
     }
 }

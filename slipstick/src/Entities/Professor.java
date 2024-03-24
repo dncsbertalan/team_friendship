@@ -8,6 +8,9 @@ import Labyrinth.Map;
 import Labyrinth.Room;
 import Items.FFP2Mask;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Professor extends Entity{
 
     public Professor(Game g) {
@@ -51,8 +54,12 @@ public class Professor extends Entity{
      * Kills all students in the current room.
      */
     public void KillEveryoneInTheRoom() {
+        List<Student> studentsAboutToBeAssassinated = new ArrayList<>();
         for (Student student : this.room.GetStudents()) {
-            this.KillStudent(student);
+            studentsAboutToBeAssassinated.add(student);
+        }
+        for(Student sIter : studentsAboutToBeAssassinated){
+            this.KillStudent(sIter);
         }
     }
 

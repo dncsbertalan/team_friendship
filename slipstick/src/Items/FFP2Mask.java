@@ -25,4 +25,12 @@ public class FFP2Mask extends Item {
     public void DecreaseDurability() {
         this.remainingUses--;
     }
+
+    /**
+     * How many uses are left for the mask.
+     * @return : number of remaining uses.
+     */
+    public int GetRemainingUsees(){
+        return remainingUses;
+    }
 }

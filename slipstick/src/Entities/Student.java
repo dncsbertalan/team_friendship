@@ -137,10 +137,9 @@ public class Student extends Entity{
         if (protectionItem.GetProtectionType() == Enums.ProtectionType.wetCloth) {
             WetCloth wetCloth = (WetCloth) protectionItem;
             System.out.println("\t-> Student (" + this.hashCode() + ") has protective item (" + wetCloth.hashCode() + "), it doesn't die");
-            professor.MissRounds(GameConstants.WetCloth_MissRoundCount);
-            professor.DropAllItems();
+            wetCloth.ProtectStudentFromProfessor(professor);
             Map map = this.game.GetMap();
-            map.TransferProfessorToTeachersLounge(professor);
+            map.TransferStudentToMainHall(this);
         }
 
         if (protectionItem.GetProtectionType() == Enums.ProtectionType.tvsz) {

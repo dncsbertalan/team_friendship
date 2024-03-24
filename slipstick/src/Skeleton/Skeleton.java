@@ -1,12 +1,11 @@
 package Skeleton;
 
+import Constants.Enums;
 import Entities.Professor;
 import Entities.Student;
 import GameManagers.Game;
 import GameManagers.RoundManager;
-import Items.FFP2Mask;
-import Items.SlipStick;
-import Items.TVSZ;
+import Items.*;
 import Labyrinth.Map;
 import Labyrinth.Room;
 
@@ -44,12 +43,12 @@ public class Skeleton {
         testNames.put(17, "empty");
         testNames.put(18, "empty");
         testNames.put(19, "empty");
-        testNames.put(20, "empty");
-        testNames.put(21, "empty");
-        testNames.put(22, "empty");
-        testNames.put(23, "empty");
-        testNames.put(24, "empty");
-        testNames.put(25, "empty");
+        testNames.put(20, "Student using Beer item");
+        testNames.put(21, "Student activating WetCloth item");
+        testNames.put(22, "Activated WetCloth item protecting student");
+        testNames.put(23, "FFP2 Mask item protecting student");
+        testNames.put(24, "FFP2 Mask item protecting professor");
+        testNames.put(25, "TVSZ item protecting student");
         testNames.put(26, "Student entering a gassed room (with protection)");
         testNames.put(27, "Student entering a gassed room (without protection)");
         testNames.put(28, "Professor entering a gassed room (with protection)");
@@ -111,6 +110,32 @@ public class Skeleton {
                     Test_17();
                     GetKeyToContinue(scanner);
                 //endregion
+                    //region kincs usecases
+                case 20:
+                    Test_20();
+                    GetKeyToContinue(scanner);
+                    break;
+                case 21:
+                    Test_21();
+                    GetKeyToContinue(scanner);
+                    break;
+                case 22:
+                    Test_22();
+                    GetKeyToContinue(scanner);
+                    break;
+                case 23:
+                    Test_23();
+                    GetKeyToContinue(scanner);
+                    break;
+                case 24:
+                    Test_24();
+                    GetKeyToContinue(scanner);
+                    break;
+                case 25:
+                    Test_25();
+                    GetKeyToContinue(scanner);
+                    break;
+                    //endregion
                 //region Berci use-cases
                 case 26:
                     Test_26();
@@ -154,6 +179,158 @@ public class Skeleton {
     }
 
     //region Use-cases
+    //region Kincso's Wonderful UseCase Empire
+    private static void Test_20() {
+        TestHead(20);
+
+        // Instantiate
+        Beer b = new Beer();
+        Game g = new Game();
+        Student s = new Student(g);
+        g.AddStudent(s);
+        s.PickUpItem(b);
+        // Test
+        int sBeforeTurns = s.GetRemainingTurns();
+        s.UseItem(b);
+        b.UseItem(s);
+        int sAfterTurns = s.GetRemainingTurns();
+        boolean success = sBeforeTurns < sAfterTurns;
+        TestPrint(success
+                , "Beer gave student an extra turn"
+                , "Beer didn't give student an extra turn");
+
+    }
+    private static void Test_21() {
+        TestHead(21);
+
+        // Instantiate
+        WetCloth wc = new WetCloth();
+        Game g = new Game();
+        Student s = new Student(g);
+        g.AddStudent(s);
+        s.PickUpItem(wc);
+        // Test
+        s.ActivateItem(wc);
+        wc.ActivateItem();
+        boolean success = false;
+        if(wc.GetProtectionType() == Enums.ProtectionType.wetCloth &&
+            s.GetProtectionItem(Enums.ThreatType.professor) == wc){
+            success = true;
+        }
+        TestPrint(success
+                , "Student has activated wet cloth"
+                , "Student does not have an activated wet cloth");
+    }
+    private static void Test_22() {
+        TestHead(22);
+
+        // Instantiate
+        Game g = new Game();
+        WetCloth wc = new WetCloth();
+        Student s = new Student(g);
+        g.AddStudent(s);
+        s.PickUpItem(wc);
+        s.ActivateItem(wc);
+        Professor p = new Professor(g);
+        int pBeforeRemainingTurns = p.GetRemainingTurns();
+        g.AddProfessor(p);
+        Map m = new Map(g);
+        g.SetMap(m);
+        Room r = new Room(g);
+        m.AddRoom(r);
+        r.AddStudentToRoom(s);
+        r.AddProfessorToRoom(p);
+        // Test
+        boolean success = false;
+        if(p.GetInventory().isEmpty() &&
+            s.GetCurrentRoom() != r &&
+            pBeforeRemainingTurns > p.GetRemainingTurns()){
+                success = true;
+        }
+        TestPrint(success
+                , "Activated wet cloth protected student against professor"
+                , "Activated wet cloth didn't protect student against professor");
+    }
+    private static void Test_23() {
+        TestHead(23);
+
+        // Instantiate
+        Game g = new Game();
+        Map m = new Map(g);
+        g.SetMap(m);
+        FFP2Mask ffp2 = new FFP2Mask();
+        Student s = new Student(g);
+        g.AddStudent(s);
+        s.PickUpItem(ffp2);
+        Room r = new Room(g);
+        r.SetToxicity();
+        m.AddRoom(r);
+        int sBeforeTurns = s.GetRemainingTurns();
+        r.AddStudentToRoom(s);
+        // Test
+        boolean success = false;
+        if(ffp2.GetRemainingUsees() == 2 &&
+            sBeforeTurns < s.GetRemainingTurns()){
+            success = true;
+        }
+        TestPrint(success
+                , "FFP2 Mask protected student against gas"
+                , "FFP2 Mask didn't protect student against gas");
+    }
+    private static void Test_24() {
+        TestHead(24);
+
+        // Instantiate
+        Game g = new Game();
+        Map m = new Map(g);
+        g.SetMap(m);
+        FFP2Mask ffp2 = new FFP2Mask();
+        Professor p = new Professor(g);
+        g.AddProfessor(p);
+        p.PickUpItem(ffp2);
+        Room r = new Room(g);
+        r.SetToxicity();
+        m.AddRoom(r);
+        int pBeforeTurns = p.GetRemainingTurns();
+        r.AddProfessorToRoom(p);
+        // Test
+        boolean success = false;
+        if(ffp2.GetRemainingUsees() == 2 &&
+                pBeforeTurns < p.GetRemainingTurns()){
+            success = true;
+        }
+        TestPrint(success
+                , "FFP2 Mask protected professor against gas"
+                , "FFP2 Mask didn't protect professor against gas");
+    }
+    private static void Test_25() {
+        TestHead(25);
+
+        // Instantiate
+        Game g = new Game();
+        Map m = new Map(g);
+        g.SetMap(m);
+        TVSZ tvsz = new TVSZ();
+        Student s = new Student(g);
+        g.AddStudent(s);
+        s.PickUpItem(tvsz);
+        Professor p = new Professor(g);
+        g.AddProfessor(p);
+        Room r = new Room(g);
+        m.AddRoom(r);
+        r.AddStudentToRoom(s);
+        r.AddProfessorToRoom(p);
+        // Test
+        boolean success = false;
+        if(tvsz.GetRemainingPages() == 2 &&
+           p.GetCurrentRoom() != r){
+            success = true;
+        }
+        TestPrint(success
+                , "TVSZ protected student against professor"
+                , "TVSZ didn't protect student against professor");
+    }
+    //endregion
 
     //region Berci use-cases
     // region GAS ROOM

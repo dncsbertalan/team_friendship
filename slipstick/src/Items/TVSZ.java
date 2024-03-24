@@ -25,4 +25,12 @@ public class TVSZ extends Item {
     public void DecreaseUsability() {
         this.remainigPages--;
     }
+
+    /**
+     * How many pages are there still in the TVSZ.
+     * @return : number of remaining pages.
+     */
+    public int GetRemainingPages(){
+        return remainigPages;
+    }
 }

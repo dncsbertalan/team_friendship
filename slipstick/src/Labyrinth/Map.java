@@ -51,9 +51,9 @@ public class Map {
      */
     public Map(Game game) {
         rooms = new ArrayList<>();
-        winningRoom = null;
-        teachersLounge = null;
-        mainHall = null;
+        winningRoom = new Room(game);
+        teachersLounge = new Room(game);
+        mainHall = new Room(game);
         this.game = game;
     }
 
