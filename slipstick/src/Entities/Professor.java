@@ -15,7 +15,6 @@ public class Professor extends Entity{
     public void StepInto(Room room) {
         if (room.CanStepIn()){
             this.SetCurrentRoom(room);
-            Map map = game.GetMap();
             room.RemoveProfessorFromRoom(this);
             room.AddProfessorToRoom(this);
         } else System.out.println("Can't step into room");

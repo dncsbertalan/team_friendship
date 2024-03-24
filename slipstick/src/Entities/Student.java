@@ -105,7 +105,6 @@ public class Student extends Entity{
     public void StepInto(Room room) {
         if (room.CanStepIn()){
             this.SetCurrentRoom(room);
-            Map map = game.GetMap();
             room.RemoveStudentFromRoom(this);
             room.AddStudentToRoom(this);
             System.out.println("Student stepped into room");
