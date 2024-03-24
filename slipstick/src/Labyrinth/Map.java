@@ -6,6 +6,7 @@ import GameManagers.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Handle actions regarding rooms.
@@ -138,8 +139,8 @@ public class Map {
     /**
      * Chooses the room the students have to secure the slipstick in.
      */
-    public void AddWinningRoom() {
-
+    public void AddWinningRoom(Room room) {
+        winningRoom = room;
     }
 
     /**
@@ -174,6 +175,6 @@ public class Map {
      * @return {@code true} if the room is winning room, {@code false} if it isn't
      */
     public boolean IsWinningRoom(Room room) {
-        return false;
+        return room == winningRoom;
     }
 }

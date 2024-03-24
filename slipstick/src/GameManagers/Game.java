@@ -13,6 +13,7 @@ import java.util.List;
  */
 public class Game {
 
+    boolean over = false;
     /**
      * The map where the Game takes place.
      */
@@ -42,11 +43,6 @@ public class Game {
      */
     List<Professor> professors;
 
-    public Game() {
-        this.students = new ArrayList<>();
-        this.professors = new ArrayList<>();
-    }
-
     /**
      * Getter of the students list
      * @return list of students
@@ -63,7 +59,7 @@ public class Game {
      * Setter of the map attribute.
      * @param map: the new map
      */
-    public void setMap(Map map) {
+    public void SetMap(Map map) {
         this.map = map;
     }
     /**
@@ -74,13 +70,7 @@ public class Game {
         this.roundManager = rm;
     }
 
-    /**
-     * Returns the map instance of the game.
-     * @return the map instance
-     */
-    public Map GetMap() {
-        return this.map;
-    }
+
 
     /**
      * Getter of the professors list.
@@ -145,8 +135,7 @@ public class Game {
      * @param b win/lose
      */
     public void EndGame(boolean b) {
-        if(b) System.out.println("Victory");
-        else System.out.println("Lose");
+        over = b;
     }
 
     /**
@@ -158,5 +147,9 @@ public class Game {
 
     public boolean IsLastPhase() {
         return lastPhase;
+    }
+
+    public boolean IsEnded() {
+        return over;
     }
 }
