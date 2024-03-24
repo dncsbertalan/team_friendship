@@ -24,16 +24,22 @@ public class Student extends Entity{
     public Student(Game g) {
         super(g);
     }
+
     @Override
     public void StepInto(Room room) {
         if (room.GetNeighbours().contains(this.room) && room.CanStepIn()){
-            this.SetCurrentRoom(room);
-            room.RemoveStudentFromRoom(this);
+            this.room.RemoveStudentFromRoom(this);
+            this.room = room;
             room.AddStudentToRoom(this);
-            System.out.println("Student stepped into room");
+
+            System.out.println("\t-> Student " + this.hashCode() + ") stepped into room (" + this.room.hashCode() + ")");
+
             if(game.GetMap().IsWinningRoom(room))
                 game.EndGame(true);
-        } else System.out.println("Student can't step into room");
+        }
+        else {
+            System.out.println("\t-> Student " + this.hashCode() + ") cannot step into room (" + room.hashCode() + ")");
+        }
 
     }
 
@@ -106,14 +112,6 @@ public class Student extends Entity{
      */
     public void ActivateItem(Item item) {
         item.ActivateItem();
-    }
-
-    /**
-     * Increases Move count by turns specified
-     * @param turns number of turns specified
-     */
-    public void IncreaseMoveCount(int turns) {
-        remainingTurns += turns;
     }
 
     /**
