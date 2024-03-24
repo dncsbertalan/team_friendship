@@ -1,9 +1,14 @@
 package Entities;
 
+import Constants.Enums;
+import Constants.GameConstants;
 import GameManagers.Game;
+import Items.FFP2Mask;
 import Items.Item;
 import Items.SlipStick;
 import Items.Transistor;
+import Labyrinth.Map;
+import Labyrinth.Room;
 
 public class Student extends Entity{
     
@@ -21,6 +26,45 @@ public class Student extends Entity{
         super(g);
     }
 
+    @Override
+    public void StepInto(Room room) {
+        if (room.GetNeighbours().contains(this.room) && room.CanStepIn()){
+            this.room.RemoveStudentFromRoom(this);
+            this.room = room;
+            room.AddStudentToRoom(this);
+
+            System.out.println("\t-> Student " + this.hashCode() + ") stepped into room (" + this.room.hashCode() + ")");
+
+            if(game.GetMap().IsWinningRoom(room))
+                game.EndGame(true);
+        }
+        else {
+            System.out.println("\t-> Student " + this.hashCode() + ") cannot step into room (" + room.hashCode() + ")");
+        }
+
+    }
+
+    @Override
+    public void SteppedIntoGassedRoom() {
+        System.out.println("\t-> Student (" + this.hashCode() + ") is in gassed room (" + this.room.hashCode() + ")");
+        Item protectionItem = this.GetProtectionItem(Enums.ThreatType.gas);
+
+        if (protectionItem == null) {   // no protection
+            System.out.println("\t-> Student (" + this.hashCode() + ") doesn't have protective item.");
+            this.MissRounds(GameConstants.RoundsMissed_GasRoom);
+            this.DropAllItems();
+            Map map = this.game.GetMap();
+            map.TransferStudentToMainHall(this);
+        }
+        else {  // has protection
+            if (protectionItem.GetProtectionType() == Enums.ProtectionType.ffp2Mask) {
+                FFP2Mask ffp2Mask = (FFP2Mask) protectionItem;
+                System.out.println("\t-> Student (" + this.hashCode() + ") has protective item (" + ffp2Mask.hashCode() + ")");
+                ffp2Mask.DecreaseDurability();
+                this.IncreaseMoveCount(GameConstants.FFP2Mask_MoveCountIncrease);
+            }
+        }
+    }
     /**
      * Select an item from the inventory for further use
      * @param item selected item
@@ -41,7 +85,11 @@ public class Student extends Entity{
      * Drops the selected Item
      */
     public void DropSelectedItem() {
+        if(selectedItem.getClass() == SlipStick.class){
+            game.LastPhase(false,this);
+        }
         DropItem(selectedItem);
+        selectedItem = null;
     }
 
     /**
@@ -68,19 +116,26 @@ public class Student extends Entity{
     }
 
     /**
-     * Increases Move count by turns specified
-     * @param turns number of turns specified
-     */
-    public void IncreaseMoveCount(int turns) {
-        remainingTurns += turns;
-    }
-
-    /**
      * Kills the student
      */
     public void Die() {
         DropAllItems();
         isDead = true;
+    }
+    /**
+     * Picks up specified item from current room
+     * @param item the item getting picked up
+     */
+    @Override
+    public void PickUpItem(Item item) {
+        if (inventory.size() == 5) {
+            System.out.println("Inventory full");
+            return;
+        }
+        if(item.getClass()== SlipStick.class){
+            game.LastPhase(true,this);
+        }
+        inventory.add(item);
     }
 
     /**

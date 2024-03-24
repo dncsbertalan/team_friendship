@@ -6,6 +6,7 @@ import GameManagers.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Handle actions regarding rooms.
@@ -48,11 +49,12 @@ public class Map {
     /**
      * Constructor of the map.
      */
-    public Map() {
+    public Map(Game game) {
         rooms = new ArrayList<>();
         winningRoom = null;
         teachersLounge = null;
         mainHall = null;
+        this.game = game;
     }
 
     /**
@@ -85,7 +87,9 @@ public class Map {
      * @param student
      */
     public void TransferStudentToMainHall(Student student) {
-
+        student.GetCurrentRoom().RemoveStudentFromRoom(student);    // remove student
+        mainHall.AddStudentToRoom(student);                         // add student
+        student.SetCurrentRoom(mainHall);                           // sets student's current room
     }
 
     /**
@@ -93,7 +97,9 @@ public class Map {
      * @param professor
      */
     public void TransferProfessorToTeachersLounge(Professor professor) {
-
+        professor.GetCurrentRoom().RemoveProfessorFromRoom(professor);  // remove prof
+        teachersLounge.AddProfessorToRoom(professor);                   // add prof
+        professor.SetCurrentRoom(teachersLounge);                       // sets prof's current room
     }
 
     /**
@@ -102,7 +108,7 @@ public class Map {
      * @param room
      */
     public void TransferStudentToRoom(Student student, Room room) {
-
+        //nem kell ig
     }
 
     /**
@@ -111,7 +117,7 @@ public class Map {
      * @param room
      */
     public void TransferProfessorToRoom(Professor professor, Room room) {
-
+        //mar ezse ig
     }
 
     /**
@@ -133,8 +139,34 @@ public class Map {
     /**
      * Chooses the room the students have to secure the slipstick in.
      */
-    public void AddWinningRoom() {
+    public void AddWinningRoom(Room room) {
+        winningRoom = room;
+    }
 
+    /**
+     * Adds a room to the map.
+     * @param room the room to be added
+     */
+    public void AddRoom(Room room) {
+        rooms.add(room);
+    }
+
+    /**
+     * Adds a main hall to the map.
+     * @param mainHall the main hall to be added.
+     */
+    public void AddMainHall(Room mainHall) {
+        this.mainHall = mainHall;
+        rooms.add(mainHall);
+    }
+
+    /**
+     * Adds a teachers' lounge to the map.
+     * @param teachersLounge the teachers' lounge to be added.
+     */
+    public void AddTeachersLounge(Room teachersLounge) {
+        this.teachersLounge = teachersLounge;
+        rooms.add(teachersLounge);
     }
 
     /**
@@ -142,7 +174,7 @@ public class Map {
      * @param room
      * @return {@code true} if the room is winning room, {@code false} if it isn't
      */
-    public boolean isWinningRoom(Room room) {
-        return false;
+    public boolean IsWinningRoom(Room room) {
+        return room == winningRoom;
     }
 }

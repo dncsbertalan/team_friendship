@@ -1,6 +1,9 @@
 package Entities;
+
+import Constants.Enums.*;
 import GameManagers.Game;
 import Items.Item;
+import Items.SlipStick;
 import Labyrinth.Room;
 
 import java.util.ArrayList;
@@ -30,19 +33,21 @@ public abstract class Entity {
      * protected against next death
      */
     boolean onLifeSupport = false;
-    /**
-     * Game
-     */
-    private Game game;
 
+    /**
+     * Game instance.
+     */
+    protected Game game;
 
     public Entity(Game g) {
         game = g;
     }
+
     /**
      * Tries to move to the specified room
      * @param room the room it's trying to move into
      */
+
     public boolean StepInto(Room room) {
         if (room.CanStepIn()){
             this.room = room;
@@ -53,12 +58,28 @@ public abstract class Entity {
     }
 
     /**
+     * Notifies the entity that it stepped into a gassed room.
+     */
+    public abstract void SteppedIntoGassedRoom();
+
+    /**
+     * Increases Move count by turns specified
+     * @param turns number of turns specified
+     */
+    public void IncreaseMoveCount(int turns) {
+        remainingTurns += turns;
+    }
+
+    /**
      * Picks up specified item from current room
      * @param item the item getting picked up
      */
     public void PickUpItem(Item item) {
         if (inventory.size() == 5) {
             System.out.println("Inventory full");
+            return;
+        }
+        if (item.getClass() != SlipStick.class) {
             return;
         }
         inventory.add(item);
@@ -108,14 +129,7 @@ public abstract class Entity {
     }
 
     /**
-     * Sets inGassedRoom true
-     */
-    public void SteppedIntoGasChamber() {
-        inGassedRoom = true;
-    }
-
-    /**
-     * Gets current room
+     * Gets current room.
      * @return entity's current room
      */
     public Room GetCurrentRoom() {
@@ -123,9 +137,52 @@ public abstract class Entity {
     }
 
     /**
+     * Sets the current room.
+     * @param room entity's new current room
+     */
+    public void SetCurrentRoom(Room room) {
+        this.room = room;
+    }
+
+    /**
      * Protects Entity
      */
     public void ProtectMe() {
         onLifeSupport = true;
+    }
+
+    /**
+     * Searches the entity's inventory for protective item that can protect the entity from a threat.
+     * @param type the type of threat we look protection against
+     * @return the protective item, null if there aren't any
+     */
+    public Item GetProtectionItem(ThreatType type) {
+
+        // searches for protecting item against gas
+        if (type == ThreatType.gas) {
+            for (Item item : this.inventory) {
+                if (item.GetProtectionType() == ProtectionType.ffp2Mask) {
+                    return item;
+                }
+            }
+        }
+
+        // searches for protecting item against gas
+        if (type == ThreatType.professor) {
+            // prioritize active wet cloth
+            for (Item item : this.inventory) {
+                if (item.GetProtectionType() == ProtectionType.wetCloth) {
+                    return item;
+                }
+            }
+            // if none then look for tvsz
+            for (Item item : this.inventory) {
+                if (item.GetProtectionType() == ProtectionType.tvsz) {
+                    return item;
+                }
+            }
+        }
+
+        return null;
     }
 }
