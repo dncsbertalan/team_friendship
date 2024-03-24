@@ -189,7 +189,7 @@ public class Room {
      * The room is no longer is filled with toxic gas for one less round, if not already 0.
      */
     public void DecreaseRemainingRoundsBeingGassed(){
-        if(remainingRoundsBeingGassed < 0){
+        if(remainingRoundsBeingGassed > 0){
             remainingRoundsBeingGassed--;
         }
     }
@@ -224,7 +224,8 @@ public class Room {
      * The room removes student from the room's list of entities.
      * @param s: The student being removed from the room.
      */
-    public void RemoveStudentFromRoom(Student s){
+    public void RemoveStudentFromRoom(Student s) {
+        System.out.println("\t-> Student (" + s.hashCode() + ") stepped out of room (" + this.hashCode() + ")");
         this.roomsListOfStudents.remove(s);
     }
 
@@ -232,7 +233,8 @@ public class Room {
      * The room removes professor from the room's list of entities.
      * @param p: The professor being removed from the room.
      */
-    public void RemoveProfessorFromRoom(Professor p){
+    public void RemoveProfessorFromRoom(Professor p) {
+        System.out.println("\t-> Professor (" + p.hashCode() + ") stepped out of room (" + this.hashCode() + ")");
         this.roomsListOfProfessors.remove(p);
     }
 
@@ -242,10 +244,7 @@ public class Room {
      */
     public boolean CanStepIn(){
         int allEntitiesCount = roomsListOfProfessors.size() + roomsListOfStudents.size();
-        if(allEntitiesCount == capacity){
-            return false;
-        }
-        return true;
+        return allEntitiesCount != capacity;
     }
     /**
      * Shows whether a room is filled with toxic gas currently.
@@ -260,8 +259,10 @@ public class Room {
      * @param s: The student about to get assassinated.
      */
     public void NotifyProfessors(Student s){
+        // to be fair only one professor tries to kill the student
         for(Professor profIter : roomsListOfProfessors){
             profIter.KillStudent(s);
+            break;
         }
     }
 
@@ -290,5 +291,9 @@ public class Room {
 
     public List<Room> GetNeighbours() {
         return roomsListOfNeighbours;
+    }
+
+    public List<Student> GetStudents() {
+        return roomsListOfStudents;
     }
 }

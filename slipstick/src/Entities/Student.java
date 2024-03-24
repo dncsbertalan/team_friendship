@@ -3,10 +3,7 @@ package Entities;
 import Constants.Enums;
 import Constants.GameConstants;
 import GameManagers.Game;
-import Items.FFP2Mask;
-import Items.Item;
-import Items.SlipStick;
-import Items.Transistor;
+import Items.*;
 import Labyrinth.Map;
 import Labyrinth.Room;
 
@@ -129,9 +126,33 @@ public class Student extends Entity{
     /**
      * Kills the student
      */
-    public void Die() {
-        DropAllItems();
-        isDead = true;
+    public void Kill(Professor professor) {
+
+        Item protectionItem = this.GetProtectionItem(Enums.ThreatType.professor);
+
+        if (protectionItem == null) {   // HAS NO PROTECTION
+            System.out.println("\t-> Student (" + this.hashCode() + ") doesn't have protective item, the student dies");
+            DropAllItems();
+            isDead = true;
+            return;
+        }
+
+        if (protectionItem.GetProtectionType() == Enums.ProtectionType.wetCloth) {
+            WetCloth wetCloth = (WetCloth) protectionItem;
+            System.out.println("\t-> Student (" + this.hashCode() + ") has protective item (" + wetCloth.hashCode() + "), it doesn't die");
+            professor.MissRounds(GameConstants.WetCloth_MissRoundCount);
+            professor.DropAllItems();
+            Map map = this.game.GetMap();
+            map.TransferProfessorToTeachersLounge(professor);
+        }
+
+        if (protectionItem.GetProtectionType() == Enums.ProtectionType.tvsz) {
+            TVSZ tvsz = (TVSZ) protectionItem;
+            System.out.println("\t-> Student (" + this.hashCode() + ") has protective item (" + tvsz.hashCode() + "), it doesn't die");
+            tvsz.DecreaseUsability();
+            Map map = this.game.GetMap();
+            map.TransferProfessorToTeachersLounge(professor);
+        }
     }
 
     /**
@@ -148,8 +169,8 @@ public class Student extends Entity{
      */
     @Override
     public void PickUpItem(Item item) {
-        if (inventory.size() == 5) {
-            System.out.println("Inventory full");
+        if (inventory.size() == GameConstants.InventoryMaxSize) {
+            System.out.println("\t-> Player's (" + this.hashCode() + ") inventory is full");
             return;
         }
         if(item.getClass()== SlipStick.class){

@@ -4,13 +4,9 @@ import Constants.Enums;
 import Constants.GameConstants;
 import GameManagers.Game;
 import Items.Item;
-import Items.SlipStick;
 import Labyrinth.Map;
 import Labyrinth.Room;
 import Items.FFP2Mask;
-import Items.Item;
-import Labyrinth.Map;
-import Labyrinth.Room;
 
 public class Professor extends Entity{
 
@@ -52,22 +48,21 @@ public class Professor extends Entity{
     }
 
     /**
-     * Kills all students in the current room
+     * Kills all students in the current room.
      */
     public void KillEveryoneInTheRoom() {
-        /* for(Entity entity : room.entities) {
-            if(entity.getClass() == Student.class) {
-                KillStudent(entity);
-            }
-        }*/
+        for (Student student : this.room.GetStudents()) {
+            this.KillStudent(student);
+        }
     }
 
     /**
-     * Kills specified student
+     * Kills specified student.
      * @param student specified student
      */
     public void KillStudent(Student student) {
-        student.Die();
+        System.out.println("\t-> Professor (" + this.hashCode() + ") tries to kill student(" + student.hashCode() + ")(");
+        student.Kill(this);
     }
 
 }

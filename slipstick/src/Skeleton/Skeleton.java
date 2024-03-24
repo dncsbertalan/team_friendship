@@ -301,7 +301,7 @@ public class Skeleton {
         Professor professor = new Professor(game); game.AddProfessor(professor);
         TVSZ tvsz = new TVSZ();
             student.PickUpItem(tvsz);
-        Room mainHall = new Room(game), room1 = new Room(game), room2 = new Room(game);
+        Room mainHall = new Room(game), teachersLounge = new Room(game), room1 = new Room(game), room2 = new Room(game);
             room2.AddNeighbour(room1);
             room1.AddNeighbour(room1);
         room1.AddStudentToRoom(student); student.SetCurrentRoom(room1);
@@ -310,6 +310,7 @@ public class Skeleton {
             map.AddRoom(room1);
             map.AddRoom(room2);
             map.AddMainHall(mainHall);
+            map.AddTeachersLounge(teachersLounge);
         game.SetMap(map);
 
         // Test
@@ -317,7 +318,7 @@ public class Skeleton {
 
         student.StepInto(room2);
 
-        boolean success = student.GetCurrentRoom() == room2 && !student.IsDead();
+        boolean success = student.GetCurrentRoom() == room2 && !student.IsDead() && professor.CheckRoundMiss();
         TestPrint(success
                 , "Student survived teacher encounter"
                 , "Student did not survived teacher encounter");
