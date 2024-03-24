@@ -71,7 +71,7 @@ public class Skeleton {
             PrintMenu();
             int in = GetNumberFromInput(scanner);
 
-            if(in > 0 && in < 35) {
+            if(in > 0 && in < 36) {
                 try {
                     Skeleton obj = new Skeleton();
                     Method declaredMethod = obj.getClass().getDeclaredMethod("Test_" + in);
@@ -410,8 +410,8 @@ public class Skeleton {
 
         boolean success = student.GetCurrentRoom() == room2 && !student.IsDead() && professor.GetCurrentRoom() == teachersLounge;
         TestPrint(success
-                , "Student survived teacher encounter"
-                , "Student did not survive teacher encounter but should have");
+                , "Student survived professor encounter"
+                , "Student did not survive professor encounter but should have");
     }
 
     /**
@@ -442,8 +442,8 @@ public class Skeleton {
 
         boolean success = student.GetCurrentRoom() == room2 && student.IsDead() && professor.GetCurrentRoom() == room2;
         TestPrint(success
-                , "Student did not survive teacher encounter"
-                , "Student survived teacher encounter but shouldn't have");
+                , "Student did not survive professor encounter"
+                , "Student survived professor encounter but shouldn't have");
     }
 
     /**
@@ -477,8 +477,8 @@ public class Skeleton {
 
         boolean success = student.GetCurrentRoom() == room1 && !student.IsDead() && professor.GetCurrentRoom() == teachersLounge;
         TestPrint(success
-                , "Student survived teacher encounter"
-                , "Student did not survive teacher encounter but should have");
+                , "Student survived professor encounter"
+                , "Student did not survive professor encounter but should have");
     }
 
     /**
@@ -509,8 +509,8 @@ public class Skeleton {
 
         boolean success = student.GetCurrentRoom() == room1 && student.IsDead() && professor.GetCurrentRoom() == room1;
         TestPrint(success
-                , "Student did not survive teacher encounter"
-                , "Student survived teacher encounter but shouldn't have");
+                , "Student did not survive professor encounter"
+                , "Student survived professor encounter but shouldn't have");
     }
     //endregion
     //endregion
@@ -653,7 +653,7 @@ public class Skeleton {
     }
 
     public static void Test_34() {
-        FancyPrint("Test #34\n");
+        FancyPrint("Test #34");
         System.out.println(testNames.get(34));
 
         //init
@@ -1015,7 +1015,7 @@ public class Skeleton {
         FancyPrint("USE-CASE MENU");
         System.out.println("Choose a number from the menu to select the use-case to be tested!\nThe use-cases:\n");
 
-        for (int i = 0; i <= 33; i++) {
+        for (int i = 0; i <= 35; i++) {
             System.out.println("\t" + i + "\t->\t" + testNames.get(i));
         }
     }
