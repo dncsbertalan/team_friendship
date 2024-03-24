@@ -29,19 +29,28 @@ public class Student extends Entity{
     @Override
     public void StepInto(Room room) {
         if (room.GetNeighbours().contains(this.room) && room.CanStepIn()){
-            this.room.RemoveStudentFromRoom(this);
-            this.room = room;
-            room.AddStudentToRoom(this);
+            ChangeRoom(room);
 
-            System.out.println("\t-> Student " + this.hashCode() + ") stepped into room (" + this.room.hashCode() + ")");
-
-            if(game.GetMap().IsWinningRoom(room))
-                game.EndGame(true);
         }
         else {
             System.out.println("\t-> Student " + this.hashCode() + ") cannot step into room (" + room.hashCode() + ")");
         }
 
+    }
+
+    /**
+     * Move to room without any checks
+     * @param room the room to be moved into
+     */
+    public void ChangeRoom(Room room) {
+        this.room.RemoveStudentFromRoom(this);
+        this.room = room;
+        room.AddStudentToRoom(this);
+
+        System.out.println("\t-> Student " + this.hashCode() + ") stepped into room (" + this.room.hashCode() + ")");
+
+        if(game.GetMap().IsWinningRoom(room))
+            game.EndGame(true);
     }
 
     @Override

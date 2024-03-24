@@ -48,14 +48,7 @@ public abstract class Entity {
      * @param room the room it's trying to move into
      */
 
-    public boolean StepInto(Room room) {
-        if (room.CanStepIn()){
-            this.room = room;
-            return true;
-        } else {
-            return false;
-        }
-    }
+    public abstract void StepInto(Room room);
 
     /**
      * Notifies the entity that it stepped into a gassed room.

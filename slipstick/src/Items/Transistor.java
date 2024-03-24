@@ -31,8 +31,10 @@ public class Transistor extends Item {
         //Second transistor
         if (pairReadyToTeleport) {
             SetCurrentRoom(student.GetCurrentRoom());
+
             //teleport worked => both transistors deleted
-            if(student.StepInto(pair.GetCurrentRoom())) {
+            if(pair.GetCurrentRoom().CanStepIn()){
+                student.ChangeRoom(pair.GetCurrentRoom());
                 pair.GetCurrentRoom().RemoveItemFromRoom(pair);
                 this.GetCurrentRoom().RemoveItemFromRoom(this);
             }
