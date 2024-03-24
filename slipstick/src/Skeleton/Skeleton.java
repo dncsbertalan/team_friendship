@@ -345,7 +345,6 @@ public class Skeleton {
     //endregion
 
     //Bene regiojet
-    @DisplayName("Student movement successful")
     public static void Test_10() {
         FancyPrint("Test #10");
         System.out.println(testNames.get(10));
@@ -371,7 +370,6 @@ public class Skeleton {
         }
     }
 
-    @DisplayName("Professor movement successful")
     public static void Test_11() {
         FancyPrint("Test #11");
         System.out.println(testNames.get(11));
@@ -397,7 +395,6 @@ public class Skeleton {
         }
     }
 
-    @DisplayName("Student movement successful")
     public static void Test_12() {
         FancyPrint("Test #12");
         System.out.println(testNames.get(12));
@@ -423,7 +420,6 @@ public class Skeleton {
 
     }
 
-    @DisplayName("Professor movement unsuccessful")
     public static void Test_13() {
         FancyPrint("Test #13");
         System.out.println(testNames.get(13));
@@ -449,7 +445,6 @@ public class Skeleton {
         }
     }
 
-    @DisplayName("Slipstick acquisition")
     public static void Test_14(){
         FancyPrint(("Test #14"));
         System.out.println(testNames.get(14));
@@ -469,7 +464,6 @@ public class Skeleton {
         }
     }
 
-    @DisplayName("Slipstick drop")
     public static void Test_15(){
         FancyPrint("Test #15\n");
         System.out.println(testNames.get(15));
@@ -492,7 +486,6 @@ public class Skeleton {
             System.out.println("Test #15 failed last phase not deactivated");
         }
     }
-    @DisplayName("Slipstick drop")
     public static void Test_16() {
         FancyPrint("Test #16\n");
         System.out.println(testNames.get(16));
