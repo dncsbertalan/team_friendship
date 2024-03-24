@@ -134,10 +134,9 @@ public class Skeleton {
      * Student entering a gassed room (with protection)
      */
     private static void Test_26() {
-        FancyPrint("Test #26");
-        System.out.println(testNames.get(26));
+        TestHead(26);
 
-        // Instantiate
+        // Initializing
         Game game = new Game();
         Student student = new Student(game); game.AddStudent(student);
         FFP2Mask ffp2Mask = new FFP2Mask();
@@ -153,17 +152,23 @@ public class Skeleton {
         game.SetMap(map);
 
         // Test
+        System.out.println("\nStarting test\n");
 
+        student.StepInto(room1);
+
+        boolean success = student.GetCurrentRoom() == room1;
+        TestPrint(success
+                , "Student is in the gas room and is protected against gas"
+                , "Student is not in the gas room");
     }
 
     /**
      * Student entering a gassed room (without protection)
      */
     private static void Test_27() {
-        FancyPrint("Test #27");
-        System.out.println(testNames.get(27));
+        TestHead(27);
 
-        // inits
+        // Initializing
         Game game = new Game();
         Student student = new Student(game); game.AddStudent(student);
         Room mainHall = new Room(game);
@@ -179,22 +184,23 @@ public class Skeleton {
         game.SetMap(map);
 
         // Test
+        System.out.println("\nStarting test\n");
+
         student.StepInto(room1);
 
         boolean success = student.GetCurrentRoom() == mainHall && student.CheckRoundMiss();
         TestPrint(success
-                , "Student is in the main hall"
-                , "Student is not in the teachers' lounge");
+                , "Student is in the main hall and misses round(s)"
+                , "Student is not in the main hall");
     }
 
     /**
      * Professor entering a gassed room (with protection)
      */
     private static void Test_28() {
-        FancyPrint("Test #28");
-        System.out.println(testNames.get(28));
+        TestHead(28);
 
-        // inits
+        // Initializing
         Game game = new Game();
         Professor professor = new Professor(game); game.AddProfessor(professor);
         FFP2Mask ffp2Mask = new FFP2Mask();
@@ -210,16 +216,25 @@ public class Skeleton {
         map.AddRoom(room2);
         map.AddTeachersLounge(teachersLounge);
         game.SetMap(map);
+
+        // Test
+        System.out.println("\nStarting test\n");
+
+        professor.StepInto(room1);
+
+        boolean success = professor.GetCurrentRoom() == room1;
+        TestPrint(success
+                , "Professor is in the gas room and is protected against gas"
+                , "Professor is not in the gas room");
     }
 
     /**
      * Professor entering a gassed room (without protection)
      */
     private static void Test_29() {
-        FancyPrint("Test #29");
-        System.out.println(testNames.get(29));
+        TestHead(29);
 
-        // inits
+        // Initializing
         Game game = new Game();
         Professor professor = new Professor(game); game.AddProfessor(professor);
         Room teachersLounge = new Room(game);
@@ -235,11 +250,13 @@ public class Skeleton {
         game.SetMap(map);
 
         // Test
+        System.out.println("\nStarting test\n");
+
         professor.StepInto(room1);
 
         boolean success = professor.GetCurrentRoom() == teachersLounge && professor.CheckRoundMiss();
         TestPrint(success
-                , "Professor is in the teachers' lounge"
+                , "Professor is in the teachers' lounge and misses round(s)"
                 , "Professor is not in the teachers' lounge");
     }
     //endregion
@@ -252,7 +269,7 @@ public class Skeleton {
         FancyPrint("Test #30");
         System.out.println(testNames.get(30));
 
-        // inits
+        // Initializing
         Game game = new Game();
         Student student = new Student(game); game.AddStudent(student);
         Professor professor = new Professor(game); game.AddProfessor(professor);
@@ -277,7 +294,7 @@ public class Skeleton {
         FancyPrint("Test #31");
         System.out.println(testNames.get(31));
 
-        // inits
+        // Initializing
         Game game = new Game();
         Student student = new Student(game); game.AddStudent(student);
         Professor professor = new Professor(game); game.AddProfessor(professor);
@@ -300,7 +317,7 @@ public class Skeleton {
         FancyPrint("Test #32");
         System.out.println(testNames.get(32));
 
-        // inits
+        // Initializing
         Game game = new Game();
         Student student = new Student(game); game.AddStudent(student);
         Professor professor = new Professor(game); game.AddProfessor(professor);
@@ -325,7 +342,7 @@ public class Skeleton {
         FancyPrint("Test #33");
         System.out.println(testNames.get(33));
 
-        // inits
+        // Initializing
         Game game = new Game();
         Student student = new Student(game); game.AddStudent(student);
         Professor professor = new Professor(game); game.AddProfessor(professor);
@@ -518,7 +535,6 @@ public class Skeleton {
 
 
     //region Helper methods
-
     /**
      * Just a fancy printing method. Ends the last line with '\n'.
      * @param text the text to be printed
@@ -657,6 +673,16 @@ public class Skeleton {
             System.out.print("#");
         }
         System.out.print("\n");
+    }
+
+    /**
+     * Prints the header of a test.
+     * @param testNum the test's number
+     */
+    private static void TestHead(int testNum) {
+        FancyPrint("Test #" + testNum);
+        System.out.println(testNames.get(testNum));
+        System.out.println("\nInitializing test\n");
     }
     //endregion
 }

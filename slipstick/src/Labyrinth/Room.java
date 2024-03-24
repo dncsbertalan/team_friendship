@@ -199,6 +199,7 @@ public class Room {
      * @param s: the student being placed in the room.
      */
     public void AddStudentToRoom(Student s){
+        System.out.println("\t-> Student (" + s.hashCode() + ") stepped into room");
         this.roomsListOfStudents.add(s);
 
         if (gassed) {
@@ -210,6 +211,7 @@ public class Room {
      * @param p: the professor being placed in the room.
      */
     public void AddProfessorToRoom(Professor p){
+        System.out.println("\t-> Professor (" + p.hashCode() + ") stepped into room");
         this.roomsListOfProfessors.add(p);
 
         if (gassed) {
