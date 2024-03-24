@@ -25,6 +25,13 @@ public class Skeleton {
     private static final HashMap<Integer, String> testNames = new HashMap<>();
     static {
         testNames.put(0, "Exit");
+        testNames.put(10, "Successful student movement between rooms");
+        testNames.put(11, "Successful professor movement between rooms");
+        testNames.put(12, "Unsuccessful student movement between rooms");
+        testNames.put(13, "Unsuccessful professor movement between rooms");
+        testNames.put(14, "Slipstick acquisition");
+        testNames.put(15, "Slipstick disposal");
+        testNames.put(16, "Winning");
         testNames.put(26, "Student entering a gassed room (with protection)");
         testNames.put(27, "Student entering a gassed room (without protection)");
         testNames.put(28, "Professor entering a gassed room (with protection)");
@@ -52,7 +59,32 @@ public class Skeleton {
                     break;
                 case 2:
                     break;
-
+                //region Bene
+                case 10:
+                    Test_10();
+                    GetKeyToContinue(scanner);
+                    break;
+                case 11:
+                    Test_11();
+                    GetKeyToContinue(scanner);
+                    break;
+                case 12:
+                    Test_12();
+                    GetKeyToContinue(scanner);
+                    break;
+                case 13:
+                    Test_13();
+                    GetKeyToContinue(scanner);
+                    break;
+                case 14:
+                    Test_14();
+                    GetKeyToContinue(scanner);
+                    break;
+                case 16:
+                    Test_16();
+                    GetKeyToContinue(scanner);
+                    break;
+                //endregion
                 //region Berci use-cases
                 case 26:
                     Test_26();

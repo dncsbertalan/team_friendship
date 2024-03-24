@@ -24,7 +24,38 @@ public class Student extends Entity{
     public Student(Game g) {
         super(g);
     }
+    @Override
+    public void StepInto(Room room) {
+        if (room.GetNeighbours().contains(this.room) && room.CanStepIn()){
+            this.SetCurrentRoom(room);
+            room.RemoveStudentFromRoom(this);
+            room.AddStudentToRoom(this);
+            System.out.println("Student stepped into room");
+            if(game.GetMap().IsWinningRoom(room))
+                game.EndGame(true);
+        } else System.out.println("Student can't step into room");
 
+    }
+
+    @Override
+    public void SteppedIntoGassedRoom() {
+
+        Item protectionItem = this.GetProtectionItem(Enums.ThreatType.gas);
+
+        if (protectionItem == null) {   // no protection
+            this.MissRounds(GameConstants.RoundsMissed_GasRoom);
+            this.DropAllItems();
+            Map map = this.game.GetMap();
+            map.TransferStudentToMainHall(this);
+        }
+        else {  // has protection
+            if (protectionItem.GetProtectionType() == Enums.ProtectionType.ffp2Mask) {
+                FFP2Mask ffp2Mask = (FFP2Mask) protectionItem;
+                ffp2Mask.DecreaseDurability();
+                this.IncreaseMoveCount(GameConstants.FFP2Mask_MoveCountIncrease);
+            }
+        }
+    }
     /**
      * Select an item from the inventory for further use
      * @param item selected item
@@ -105,20 +136,7 @@ public class Student extends Entity{
         }
         inventory.add(item);
     }
-    /**
-     * Tries to move to the specified room
-     * @param room the room it's trying to move into
-     */
-    public void StepInto(Room room) {
-        if (room.GetNeighbours().contains(this.room) && room.CanStepIn()){
-            this.SetCurrentRoom(room);
-            room.RemoveStudentFromRoom(this);
-            room.AddStudentToRoom(this);
-            System.out.println("Student stepped into room");
-            if(game.GetMap().IsWinningRoom(room))
-                game.EndGame(true);
-        } else System.out.println("Student can't step into room");
-    }
+
     /**
      * Player wins
      */

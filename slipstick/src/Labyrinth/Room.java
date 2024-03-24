@@ -284,4 +284,8 @@ public class Room {
     public void SetToxicity(){
         gassed = true;
     }
+
+    public List<Room> GetNeighbours() {
+        return roomsListOfNeighbours;
+    }
 }
