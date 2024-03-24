@@ -207,8 +207,17 @@ public class Student extends Entity{
     public void DropItem(Item item) {
         super.DropItem(item);
 
-        if(item.getClass() == Transistor.class) {
+        if (item.getClass() == Transistor.class) {
             item.UseItem(this);
         }
+    }
+
+    /**
+     * Pairs two transistors
+     * @param t1 first transistor (this will start the pairing)
+     * @param t2 second transistor
+     */
+    public void PairTransistors(Transistor t1, Transistor t2) {
+        t1.PairTransistor(t2);
     }
 }

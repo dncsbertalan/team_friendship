@@ -7,9 +7,11 @@ import GameManagers.RoundManager;
 import Items.FFP2Mask;
 import Items.SlipStick;
 import Items.TVSZ;
+import Items.Transistor;
 import Labyrinth.Map;
 import Labyrinth.Room;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -69,15 +71,46 @@ public class Skeleton {
             PrintMenu();
             int in = GetNumberFromInput(scanner);
 
-            switch (in) {
+            if(in > 0 && in < 35) {
+                try {
+                    Skeleton obj = new Skeleton();
+                    Method declaredMethod = obj.getClass().getDeclaredMethod("Test_" + in);
+                    declaredMethod.invoke(obj);
+                    GetKeyToContinue(scanner);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            else if (in == 0) {
+                System.exit(0);
+                break;
+            }else {
+                System.out.println("Choose a number from the menu!");
+            }
+
+            /*switch (in) {
+                //region Norbee bing-bong
+
+
                 case 0:
                     System.exit(0);
                     break;
                 case 1:
-                    System.out.print("l\n");
+                    Test_1();
                     break;
                 case 2:
+                    Test_2();
                     break;
+                case 3:
+                    Test_3();
+                    break;
+                case 4:
+                    Test_4();
+                    break;
+                case 5:
+                    Test_5();
+                    break;
+                //endregion
                 //region Bene
                 case 10:
                     Test_10();
@@ -110,6 +143,10 @@ public class Skeleton {
                 case 17:
                     Test_17();
                     GetKeyToContinue(scanner);
+                    break;
+                //endregion
+                //region Norbe 2 return of the Monke
+
                 //endregion
                 //region Berci use-cases
                 case 26:
@@ -149,7 +186,7 @@ public class Skeleton {
                 default:
                     System.out.println("Choose a number from the menu!");
                     break;
-            }
+            }*/
         }
     }
 
@@ -609,6 +646,264 @@ public class Skeleton {
     }
     //endregion
 
+    //region Norbe region
+
+    /**
+     * Tests whether the Transistor was activated successfully
+     */
+    private static void Test_1() {
+        TestHead(1);
+
+        // Initializing
+        Game game = new Game();
+        Student student = new Student(game); game.AddStudent(student);
+        Transistor t1 = new Transistor();
+        student.PickUpItem(t1);
+
+        // Test
+        System.out.println("\nStarting test\n");
+
+        student.ActivateItem(t1);
+
+        boolean success = t1.GetActivation();
+        TestPrint(success
+                , "The transistor is activated"
+                , "The transistor is not activated");
+    }
+
+    /**
+     * Tests whether the Transistors were paired successfully
+     */
+    private static void Test_2() {
+        TestHead(2);
+
+        // Initializing
+        Game game = new Game();
+        Student student = new Student(game); game.AddStudent(student);
+        Transistor t1 = new Transistor();
+        student.PickUpItem(t1);
+        Transistor t2 = new Transistor();
+        student.PickUpItem(t2);
+
+        // Test
+        System.out.println("\nStarting test\n");
+
+        student.PairTransistors(t1, t2);
+
+        boolean success = (t1.GetPair() == t2) && (t2.GetPair() == t1);
+        TestPrint(success
+                , "The transistors are successfully paired"
+                , "The transistors aren't paired");
+    }
+
+    /**
+     * Tests whether an Unpaired transistor can be dropped without problems
+     */
+    private static void Test_3() {
+        TestHead(3);
+
+        // Initializing
+        Game game = new Game();
+        Student student = new Student(game); game.AddStudent(student);
+        Transistor t1 = new Transistor();
+        student.PickUpItem(t1);
+        Room mainHall = new Room(game), room1 = new Room(game), room2 = new Room(game);
+        room2.AddNeighbour(room1); room1.AddNeighbour(room2);
+        room2.AddStudentToRoom(student); student.SetCurrentRoom(room2);
+        Map map = new Map(game);
+        map.AddRoom(room1);
+        map.AddRoom(room2);
+        map.AddMainHall(mainHall);
+        game.SetMap(map);
+
+        // Test
+        System.out.println("\nStarting test\n");
+
+        student.DropItem(t1);
+
+        boolean success = !(student.GetInventory().contains(t1)) && room2.GetInventory().contains(t1) && t1.GetCurrentRoom() == null;
+        TestPrint(success
+                , "The unpaired transistor was successfully dropped"
+                , "The transistor wasn't dropped successfully");
+    }
+
+    /**
+     * Tests whether the first Activated, Paired transistor can be dropped successfully
+     */
+    private static void Test_4() {
+        TestHead(4);
+
+        // Initializing
+        Game game = new Game();
+        Student student = new Student(game); game.AddStudent(student);
+        Transistor t1 = new Transistor();
+        student.PickUpItem(t1);
+        Transistor t2 = new Transistor();
+        student.PickUpItem(t2);
+        Room mainHall = new Room(game), room1 = new Room(game), room2 = new Room(game);
+        room2.AddNeighbour(room1); room1.AddNeighbour(room2);
+        room2.AddStudentToRoom(student); student.SetCurrentRoom(room2);
+        Map map = new Map(game);
+        map.AddRoom(room1);
+        map.AddRoom(room2);
+        map.AddMainHall(mainHall);
+        game.SetMap(map);
+        student.PairTransistors(t1, t2);
+        student.ActivateItem(t1);
+        student.ActivateItem(t2);
+
+        // Test
+        System.out.println("\nStarting test\n");
+
+        student.DropItem(t1);
+
+        boolean success = room2.GetInventory().contains(t1) && t1.GetCurrentRoom() == room2 && t1.GetPair() == t2;
+        TestPrint(success
+                , "The first paired transistor was successfully dropped"
+                , "The first paired transistor wasn't dropped successfully");
+    }
+
+    /**
+     * Tests whether the second Activated, Paired transistor can be dropped successfully
+     */
+    private static void Test_5() {
+        TestHead(5);
+
+        // Initializing
+        Game game = new Game();
+        Student student = new Student(game); game.AddStudent(student);
+        Transistor t1 = new Transistor();
+        student.PickUpItem(t1);
+        Transistor t2 = new Transistor();
+        student.PickUpItem(t2);
+        Room mainHall = new Room(game), room1 = new Room(game), room2 = new Room(game);
+        room2.AddNeighbour(room1); room1.AddNeighbour(room2);
+        room2.AddStudentToRoom(student); student.SetCurrentRoom(room2);
+        Map map = new Map(game);
+        map.AddRoom(room1);
+        map.AddRoom(room2);
+        map.AddMainHall(mainHall);
+        game.SetMap(map);
+        student.PairTransistors(t1, t2);
+        student.ActivateItem(t1);
+        student.ActivateItem(t2);
+        student.DropItem(t1);
+
+        // Test
+        System.out.println("\nStarting test\n");
+
+        student.StepInto(room1);
+        student.DropItem(t2);
+
+        boolean success = t1.GetCurrentRoom().GetStudents().contains(student) && !t1.GetCurrentRoom().GetInventory().contains(t1) && !t2.GetCurrentRoom().GetInventory().contains(t2);
+        TestPrint(success
+                , "The second paired transistor was successfully dropped (student successfully teleported and transistors deleted from room)"
+                , "The first paired transistor wasn't dropped successfully (student didn't move or transistors still exist)");
+        if (!success) {
+            System.out.println("problem");
+            if (room1.GetStudents().contains(student)) {
+                System.out.println("tp error");
+            }
+            if (t1.GetCurrentRoom().GetInventory().contains(t1) || t2.GetCurrentRoom().GetInventory().contains(t2)) {
+                System.out.println("deletion error");
+            }
+        }
+    }
+
+    /**
+     * Tests item acquisition
+     */
+    private static void Test_18() {
+        TestHead(18);
+
+        // Initializing
+        Game game = new Game();
+        Student student = new Student(game); game.AddStudent(student);
+        Transistor t1 = new Transistor();
+        Room mainHall = new Room(game), room1 = new Room(game), room2 = new Room(game);
+        room2.AddNeighbour(room1); room1.AddNeighbour(room2);
+        room2.AddStudentToRoom(student); student.SetCurrentRoom(room2);
+        Map map = new Map(game);
+        map.AddRoom(room1);
+        map.AddRoom(room2);
+        map.AddMainHall(mainHall);
+        game.SetMap(map);
+        room2.AddItemToRoom(t1);
+
+        // Test
+        System.out.println("\nStarting test\n");
+
+        student.PickUpItem(t1);
+
+        boolean success = (student.GetInventory().contains(t1)) && !room2.GetInventory().contains(t1);
+        TestPrint(success
+                , "The item was picked up successfully"
+                , "The item wasn't picked up successfully");
+    }
+
+    /**
+     * Tests item dropping of Students
+     */
+    private static void Test_19() {
+        TestHead(19);
+
+        // Initializing
+        Game game = new Game();
+        Student student = new Student(game); game.AddStudent(student);
+        Transistor t1 = new Transistor();
+        student.PickUpItem(t1);
+        Room mainHall = new Room(game), room1 = new Room(game), room2 = new Room(game);
+        room2.AddNeighbour(room1); room1.AddNeighbour(room2);
+        room2.AddStudentToRoom(student); student.SetCurrentRoom(room2);
+        Map map = new Map(game);
+        map.AddRoom(room1);
+        map.AddRoom(room2);
+        map.AddMainHall(mainHall);
+        game.SetMap(map);
+
+        // Test
+        System.out.println("\nStarting test\n");
+
+        student.DropItem(t1);
+
+        boolean success = !(student.GetInventory().contains(t1)) && room2.GetInventory().contains(t1);
+        TestPrint(success
+                , "The student dropped the item successfully"
+                , "The student didn't drop the item successfully");
+    }
+
+    /**
+     * Tests item dropping of Professors
+     */
+    private static void Test_20() {
+        TestHead(20);
+
+        // Initializing
+        Game game = new Game();
+        Professor prof = new Professor(game); game.AddProfessor(prof);
+        Transistor t1 = new Transistor();
+        prof.PickUpItem(t1);
+        Room mainHall = new Room(game), room1 = new Room(game), room2 = new Room(game);
+        room2.AddNeighbour(room1); room1.AddNeighbour(room2);
+        room2.AddProfessorToRoom(prof); prof.SetCurrentRoom(room2);
+        Map map = new Map(game);
+        map.AddRoom(room1);
+        map.AddRoom(room2);
+        map.AddMainHall(mainHall);
+        game.SetMap(map);
+
+        // Test
+        System.out.println("\nStarting test\n");
+
+        prof.DropItem(t1);
+
+        boolean success = !(prof.GetInventory().contains(t1)) && room2.GetInventory().contains(t1);
+        TestPrint(success
+                , "The professor dropped the item successfully"
+                , "The professor didn't drop the item successfully");
+    }
+    //endregion
+
     //region Helper methods
     /**
      * Just a fancy printing method. Ends the last line with '\n'.
@@ -660,7 +955,7 @@ public class Skeleton {
     }
 
     /**
-     * Checks wether a string is a number.
+     * Checks whether a string is a number.
      * @param str the string
      * @return true if it is a number, false else
      */
@@ -688,7 +983,7 @@ public class Skeleton {
 
     /**
      * Prints a pretty box with 'TEST SUCCESFUL/TEST UNSUCCESFUL',
-     * the expexted and the parameter texts based on success.
+     * the expected and the parameter texts based on success.
      * @param success whether the text was successful
      * @param expected the expected outcome, also the text when the test is successful
      * @param unsuccessfulText the text when the test is not successful

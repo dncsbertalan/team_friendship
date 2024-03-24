@@ -295,6 +295,10 @@ public class Room {
         gassed = true;
     }
 
+    /**
+     * Gets a list of the rooms neighbours
+     * @return a list of rooms that neighbour the current room
+     */
     public List<Room> GetNeighbours() {
         return roomsListOfNeighbours;
     }
@@ -302,4 +306,13 @@ public class Room {
     public List<Student> GetStudents() {
         return roomsListOfStudents;
     }
+
+    /**
+     * Gets a list of the rooms neighbours
+     * @return a list of rooms that neighbour the current room
+     */
+    public List<Item> GetInventory() {
+        return roomsListOfItems;
+    }
+
 }
