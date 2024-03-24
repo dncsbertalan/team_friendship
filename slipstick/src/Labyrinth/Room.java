@@ -124,8 +124,12 @@ public class Room {
      * @param r: The destination room for all items.
      */
     public void SendAllItems(Room r){
-        r.roomsListOfItems = this.roomsListOfItems;
-        this.roomsListOfItems.clear();
+        if(!roomsListOfItems.isEmpty()){
+            for(int i = 0; i < this.roomsListOfItems.size(); i++){
+                r.AddItemToRoom(roomsListOfItems.get(i));
+            }
+            this.roomsListOfItems.clear();
+        }
     }
     /**
      * The room adds every second of the items placed in it to the other room.
@@ -133,10 +137,12 @@ public class Room {
      * @param r: The destination room for every second items.
      */
     public void SendEveryOtherItem(Room r){
-        for(int i = 0; i < this.roomsListOfItems.size(); i++){
-            if(i % 2 == 0){
-                r.AddItemToRoom(roomsListOfItems.get(i));
-                this.RemoveItemFromRoom(roomsListOfItems.get(i));
+        if(!roomsListOfItems.isEmpty()){
+            for(int i = 0; i < this.roomsListOfItems.size(); i++){
+                if(i % 2 == 0){
+                    r.AddItemToRoom(roomsListOfItems.get(i));
+                    this.RemoveItemFromRoom(roomsListOfItems.get(i));
+                }
             }
         }
     }
