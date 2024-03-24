@@ -54,10 +54,7 @@ public class Professor extends Entity{
      * Kills all students in the current room.
      */
     public void KillEveryoneInTheRoom() {
-        List<Student> studentsAboutToBeAssassinated = new ArrayList<>();
-        for (Student student : this.room.GetStudents()) {
-            studentsAboutToBeAssassinated.add(student);
-        }
+        List<Student> studentsAboutToBeAssassinated = new ArrayList<>(this.room.GetStudents());
         for(Student sIter : studentsAboutToBeAssassinated){
             this.KillStudent(sIter);
         }
