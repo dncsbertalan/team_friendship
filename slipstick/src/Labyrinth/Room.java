@@ -315,4 +315,12 @@ public class Room {
         return roomsListOfItems;
     }
 
+    /**
+     * Displays rounds left being gassed
+     * @return number of rounds remaining being gassed
+     */
+    public int GetRemainingRoundsGassed() {
+        return remainingRoundsBeingGassed;
+    }
+
 }

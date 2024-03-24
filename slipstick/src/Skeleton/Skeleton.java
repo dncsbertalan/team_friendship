@@ -4,10 +4,7 @@ import Entities.Professor;
 import Entities.Student;
 import GameManagers.Game;
 import GameManagers.RoundManager;
-import Items.FFP2Mask;
-import Items.SlipStick;
-import Items.TVSZ;
-import Items.Transistor;
+import Items.*;
 import Labyrinth.Map;
 import Labyrinth.Room;
 
@@ -27,11 +24,11 @@ public class Skeleton {
     private static final HashMap<Integer, String> testNames = new HashMap<>();
     static {
         testNames.put(0, "Exit");
-        testNames.put(1, "empty");
-        testNames.put(2, "empty");
-        testNames.put(3, "empty");
-        testNames.put(4, "empty");
-        testNames.put(5, "empty");
+        testNames.put(1, "Transistor Activation");
+        testNames.put(2, "Transistor Pairing");
+        testNames.put(3, "Dropping Unpaired transistor");
+        testNames.put(4, "Dropping the first Activated, paired transistor");
+        testNames.put(5, "Dropping the second Activated, paired transistor");
         testNames.put(6, "empty");
         testNames.put(7, "empty");
         testNames.put(8, "empty");
@@ -43,11 +40,11 @@ public class Skeleton {
         testNames.put(14, "Slipstick acquisition");
         testNames.put(15, "Slipstick disposal");
         testNames.put(16, "Winning");
-        testNames.put(17, "empty");
-        testNames.put(18, "empty");
-        testNames.put(19, "empty");
-        testNames.put(20, "empty");
-        testNames.put(21, "empty");
+        testNames.put(17, "Losing");
+        testNames.put(18, "Item acquisition ");
+        testNames.put(19, "Student item disposal ");
+        testNames.put(20, "Professor item disposal ");
+        testNames.put(21, "Cheese Activation");
         testNames.put(22, "empty");
         testNames.put(23, "empty");
         testNames.put(24, "empty");
@@ -648,6 +645,7 @@ public class Skeleton {
 
     //region Norbe region
 
+    //region Transistor
     /**
      * Tests whether the Transistor was activated successfully
      */
@@ -809,7 +807,7 @@ public class Skeleton {
             }
         }
     }
-
+    //endregion
     /**
      * Tests item acquisition
      */
@@ -901,6 +899,38 @@ public class Skeleton {
         TestPrint(success
                 , "The professor dropped the item successfully"
                 , "The professor didn't drop the item successfully");
+    }
+
+    /**
+     * Tests of cheese
+     */
+    private static void Test_21() {
+        TestHead(21);
+
+        // Initializing
+        Game game = new Game();
+        Student student = new Student(game); game.AddStudent(student);
+        Cheese cheese = new Cheese();
+        student.PickUpItem(cheese);
+        Room mainHall = new Room(game), room1 = new Room(game), room2 = new Room(game);
+        room2.AddNeighbour(room1); room1.AddNeighbour(room2);
+        room2.AddStudentToRoom(student); student.SetCurrentRoom(room2);
+        Map map = new Map(game);
+        map.AddRoom(room1);
+        map.AddRoom(room2);
+        map.AddMainHall(mainHall);
+        game.SetMap(map);
+
+        // Test
+        System.out.println("\nStarting test\n");
+
+        student.ActivateItem(cheese);
+        student.UseItem(cheese);
+
+        boolean success = room2.IsGassed() && room2.GetRemainingRoundsGassed() == 2;
+        TestPrint(success
+                , "The cheese was used successfully"
+                , "The cheese has failed");
     }
     //endregion
 
