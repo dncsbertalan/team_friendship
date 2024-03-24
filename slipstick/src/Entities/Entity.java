@@ -3,6 +3,7 @@ package Entities;
 import Constants.Enums.*;
 import GameManagers.Game;
 import Items.Item;
+import Items.SlipStick;
 import Labyrinth.Room;
 
 import java.util.ArrayList;
@@ -68,6 +69,9 @@ public abstract class Entity {
     public void PickUpItem(Item item) {
         if (inventory.size() == 5) {
             System.out.println("Inventory full");
+            return;
+        }
+        if (item.getClass() != SlipStick.class) {
             return;
         }
         inventory.add(item);

@@ -24,18 +24,17 @@ public class Student extends Entity{
     public Student(Game g) {
         super(g);
     }
-
     @Override
     public void StepInto(Room room) {
-
-        if (room.CanStepIn()) {
-            this.room.RemoveStudentFromRoom(this);
-            this.room = room;
+        if (room.GetNeighbours().contains(this.room) && room.CanStepIn()){
+            this.SetCurrentRoom(room);
+            room.RemoveStudentFromRoom(this);
             room.AddStudentToRoom(this);
-        }
-        else {
-            System.out.println("Student can't step into room");
-        }
+            System.out.println("Student stepped into room");
+            if(game.GetMap().IsWinningRoom(room))
+                game.EndGame(true);
+        } else System.out.println("Student can't step into room");
+
     }
 
     @Override
@@ -59,7 +58,6 @@ public class Student extends Entity{
             }
         }
     }
-
     /**
      * Select an item from the inventory for further use
      * @param item selected item
@@ -80,7 +78,11 @@ public class Student extends Entity{
      * Drops the selected Item
      */
     public void DropSelectedItem() {
+        if(selectedItem.getClass() == SlipStick.class){
+            game.LastPhase(false,this);
+        }
         DropItem(selectedItem);
+        selectedItem = null;
     }
 
     /**
@@ -107,11 +109,34 @@ public class Student extends Entity{
     }
 
     /**
+     * Increases Move count by turns specified
+     * @param turns number of turns specified
+     */
+    public void IncreaseMoveCount(int turns) {
+        remainingTurns += turns;
+    }
+
+    /**
      * Kills the student
      */
     public void Die() {
         DropAllItems();
         isDead = true;
+    }
+    /**
+     * Picks up specified item from current room
+     * @param item the item getting picked up
+     */
+    @Override
+    public void PickUpItem(Item item) {
+        if (inventory.size() == 5) {
+            System.out.println("Inventory full");
+            return;
+        }
+        if(item.getClass()== SlipStick.class){
+            game.LastPhase(true,this);
+        }
+        inventory.add(item);
     }
 
     /**

@@ -4,6 +4,7 @@ import Entities.Professor;
 import Entities.Student;
 import GameManagers.Game;
 import Items.FFP2Mask;
+import Items.SlipStick;
 import Items.TVSZ;
 import Labyrinth.Map;
 import Labyrinth.Room;
@@ -23,6 +24,13 @@ public class Skeleton {
     private static final HashMap<Integer, String> testNames = new HashMap<>();
     static {
         testNames.put(0, "Exit");
+        testNames.put(10, "Successful student movement between rooms");
+        testNames.put(11, "Successful professor movement between rooms");
+        testNames.put(12, "Unsuccessful student movement between rooms");
+        testNames.put(13, "Unsuccessful professor movement between rooms");
+        testNames.put(14, "Slipstick acquisition");
+        testNames.put(15, "Slipstick disposal");
+        testNames.put(16, "Winning");
         testNames.put(26, "Student entering a gassed room (with protection)");
         testNames.put(27, "Student entering a gassed room (without protection)");
         testNames.put(28, "Professor entering a gassed room (with protection)");
@@ -50,7 +58,32 @@ public class Skeleton {
                     break;
                 case 2:
                     break;
-
+                //region Bene
+                case 10:
+                    Test_10();
+                    GetKeyToContinue(scanner);
+                    break;
+                case 11:
+                    Test_11();
+                    GetKeyToContinue(scanner);
+                    break;
+                case 12:
+                    Test_12();
+                    GetKeyToContinue(scanner);
+                    break;
+                case 13:
+                    Test_13();
+                    GetKeyToContinue(scanner);
+                    break;
+                case 14:
+                    Test_14();
+                    GetKeyToContinue(scanner);
+                    break;
+                case 16:
+                    Test_16();
+                    GetKeyToContinue(scanner);
+                    break;
+                //endregion
                 //region Berci use-cases
                 case 26:
                     Test_26();
@@ -116,7 +149,7 @@ public class Skeleton {
             map.AddRoom(room1);
             map.AddRoom(room2);
             map.AddMainHall(mainHall);
-        game.setMap(map);
+        game.SetMap(map);
 
         // Test
         System.out.println("\nStarting test\n");
@@ -148,7 +181,7 @@ public class Skeleton {
         map.AddRoom(room1);
         map.AddRoom(room2);
         map.AddMainHall(mainHall);
-        game.setMap(map);
+        game.SetMap(map);
 
         // Test
         System.out.println("\nStarting test\n");
@@ -182,7 +215,7 @@ public class Skeleton {
         map.AddRoom(room1);
         map.AddRoom(room2);
         map.AddTeachersLounge(teachersLounge);
-        game.setMap(map);
+        game.SetMap(map);
 
         // Test
         System.out.println("\nStarting test\n");
@@ -214,7 +247,7 @@ public class Skeleton {
         map.AddRoom(room1);
         map.AddRoom(room2);
         map.AddTeachersLounge(teachersLounge);
-        game.setMap(map);
+        game.SetMap(map);
 
         // Test
         System.out.println("\nStarting test\n");
@@ -251,7 +284,7 @@ public class Skeleton {
             map.AddRoom(room1);
             map.AddRoom(room2);
             map.AddMainHall(mainHall);
-        game.setMap(map);
+        game.SetMap(map);
     }
 
     /**
@@ -274,7 +307,7 @@ public class Skeleton {
         map.AddRoom(room1);
         map.AddRoom(room2);
         map.AddMainHall(mainHall);
-        game.setMap(map);
+        game.SetMap(map);
     }
 
     /**
@@ -299,7 +332,7 @@ public class Skeleton {
         map.AddRoom(room1);
         map.AddRoom(room2);
         map.AddMainHall(mainHall);
-        game.setMap(map);
+        game.SetMap(map);
     }
 
     /**
@@ -322,12 +355,184 @@ public class Skeleton {
         map.AddRoom(room1);
         map.AddRoom(room2);
         map.AddMainHall(mainHall);
-        game.setMap(map);
+        game.SetMap(map);
     }
     //endregion
     //endregion
 
+    //Bene regiojet
+    public static void Test_10() {
+        FancyPrint("Test #10");
+        System.out.println(testNames.get(10));
+
+        //inits
+        Game g = new Game();
+        Room r1 = new Room(g);
+        Room r2 = new Room(g);
+        r2.AddNeighbour(r1);
+        Student student = new Student(g);
+        r1.AddStudentToRoom(student);
+        Map map = new Map(g);
+        g.SetMap(map);
+        map.AddRoom(r1);
+        map.AddRoom(r2);
+        //test
+        student.StepInto(r2);
+        if(student.GetCurrentRoom()==r2) {
+            System.out.println("Test #10 passed student's current room changed");
+        }else{
+            System.out.println("Test #10 failed student's current room not changed");
+
+        }
+    }
+
+    public static void Test_11() {
+        FancyPrint("Test #11");
+        System.out.println(testNames.get(11));
+
+        //inits
+        Game g = new Game();
+        Room r1 = new Room(g);
+        Room r2 = new Room(g);
+        r2.AddNeighbour(r1);
+        Professor professor = new Professor(g);
+        r1.AddProfessorToRoom(professor);
+        Map map = new Map(g);
+        g.SetMap(map);
+        map.AddRoom(r1);
+        map.AddRoom(r2);
+
+        //test
+        professor.StepInto(r2);
+        if(professor.GetCurrentRoom()==r2) {
+            System.out.println("Test #11 passed professor's current room changed");
+        }else{
+            System.out.println("Test #11 failed professor's current room not changed");
+        }
+    }
+
+    public static void Test_12() {
+        FancyPrint("Test #12");
+        System.out.println(testNames.get(12));
+
+        //inits
+        Game g = new Game();
+        Room r1 = new Room(g);
+        Room r2 = new Room(0, g);
+        r2.AddNeighbour(r1);
+        Student student = new Student(g);
+        r1.AddStudentToRoom(student);
+        Map map = new Map(g);
+        g.SetMap(map);
+        map.AddRoom(r1);
+        map.AddRoom(r2);
+        //test
+        student.StepInto(r2);
+        if(student.GetCurrentRoom()==r1) {
+            System.out.println("Test #12 passed student's current room not changed");
+        }else{
+            System.out.println("Test #12 failed student's current room changed");
+        }
+
+    }
+
+    public static void Test_13() {
+        FancyPrint("Test #13");
+        System.out.println(testNames.get(13));
+
+        //inits
+        Game g = new Game();
+        Room r1 = new Room(g);
+        Room r2 = new Room(0, g);
+        r2.AddNeighbour(r1);
+        Professor professor = new Professor(g);
+        r1.AddProfessorToRoom(professor);
+        Map map = new Map(g);
+        g.SetMap(map);
+        map.AddRoom(r1);
+        map.AddRoom(r2);
+
+        //test
+        professor.StepInto(r2);
+        if(professor.GetCurrentRoom()==r1) {
+            System.out.println("Test #13 passed professor's current room not changed");
+        }else{
+            System.out.println("Test #13 failed professor's current room changed");
+        }
+    }
+
+    public static void Test_14(){
+        FancyPrint(("Test #14"));
+        System.out.println(testNames.get(14));
+
+        //inits
+        SlipStick slip = new SlipStick();
+        Game game = new Game();
+        Student student = new Student(game);
+        game.AddStudent(student);
+        student.PickUpItem(slip);
+
+        //test
+        if(game.IsLastPhase()) {
+            System.out.println("Test #14 passed last phase activated");
+        }else{
+            System.out.println("Test #14 failed last phase not activated");
+        }
+    }
+
+    public static void Test_15(){
+        FancyPrint("Test #15\n");
+        System.out.println(testNames.get(15));
+
+        //inits
+        SlipStick slip = new SlipStick();
+        Game game = new Game();
+        Room room = new Room(game);
+        Student student = new Student(game);
+        room.AddStudentToRoom(student);
+        game.AddStudent(student);
+        student.PickUpItem(slip);
+
+        //test
+        student.SelectItem(slip);
+        student.DropSelectedItem();
+        if(!game.IsLastPhase()) {
+            System.out.println("Test #15 passed last phase deactivated ");
+        }else{
+            System.out.println("Test #15 failed last phase not deactivated");
+        }
+    }
+    public static void Test_16() {
+        FancyPrint("Test #16\n");
+        System.out.println(testNames.get(16));
+
+        //init
+        Game game = new Game();
+        Room r1 = new Room(game);
+        Room r2 = new Room(game);
+        r2.AddNeighbour(r1);
+        Student student = new Student(game);
+        r1.AddStudentToRoom(student);
+        Map map = new Map(game);
+        game.SetMap(map);
+        map.AddRoom(r1);
+        map.AddRoom(r2);
+        map.AddWinningRoom(r2);
+        SlipStick slip = new SlipStick();
+        student.PickUpItem(slip);
+
+        //test
+        student.StepInto(r2);
+        if(game.IsEnded()){
+            System.out.println("Test #16 Passed victory");
+        }else{
+            System.out.println("Test #16 Failed game not over");
+        }
+    }
+
+
     //endregion
+
 
     //region Helper methods
     /**
