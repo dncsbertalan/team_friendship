@@ -201,6 +201,7 @@ public class Room {
     public void AddStudentToRoom(Student s){
         System.out.println("\t-> Student (" + s.hashCode() + ") stepped into room (" + this.hashCode() + ")");
         this.roomsListOfStudents.add(s);
+        s.SetCurrentRoom(this);
 
         if (gassed) {
             s.SteppedIntoGassedRoom();
@@ -213,7 +214,7 @@ public class Room {
     public void AddProfessorToRoom(Professor p){
         System.out.println("\t-> Professor (" + p.hashCode() + ") stepped into room (" + this.hashCode() + ")");
         this.roomsListOfProfessors.add(p);
-
+        p.SetCurrentRoom(this);
         if (gassed) {
             p.SteppedIntoGassedRoom();
         }

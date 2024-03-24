@@ -3,6 +3,7 @@ package Skeleton;
 import Entities.Professor;
 import Entities.Student;
 import GameManagers.Game;
+import GameManagers.RoundManager;
 import Items.FFP2Mask;
 import Items.SlipStick;
 import Items.TVSZ;
@@ -24,6 +25,15 @@ public class Skeleton {
     private static final HashMap<Integer, String> testNames = new HashMap<>();
     static {
         testNames.put(0, "Exit");
+        testNames.put(1, "empty");
+        testNames.put(2, "empty");
+        testNames.put(3, "empty");
+        testNames.put(4, "empty");
+        testNames.put(5, "empty");
+        testNames.put(6, "empty");
+        testNames.put(7, "empty");
+        testNames.put(8, "empty");
+        testNames.put(9, "empty");
         testNames.put(10, "Successful student movement between rooms");
         testNames.put(11, "Successful professor movement between rooms");
         testNames.put(12, "Unsuccessful student movement between rooms");
@@ -31,6 +41,7 @@ public class Skeleton {
         testNames.put(14, "Slipstick acquisition");
         testNames.put(15, "Slipstick disposal");
         testNames.put(16, "Winning");
+        testNames.put(17, "empty");
         testNames.put(26, "Student entering a gassed room (with protection)");
         testNames.put(27, "Student entering a gassed room (without protection)");
         testNames.put(28, "Professor entering a gassed room (with protection)");
@@ -78,6 +89,10 @@ public class Skeleton {
                     break;
                 case 14:
                     Test_14();
+                    GetKeyToContinue(scanner);
+                    break;
+                case 15:
+                    Test_15();
                     GetKeyToContinue(scanner);
                     break;
                 case 16:
@@ -175,7 +190,7 @@ public class Skeleton {
         Room mainHall = new Room(game);
         Room room1 = new Room(game);
         Room room2 = new Room(game);
-        room2.AddNeighbour(room1); room1.AddNeighbour(room1);
+        room2.AddNeighbour(room1); room1.AddNeighbour(room2);
         room2.AddStudentToRoom(student); student.SetCurrentRoom(room2);
         room1.SetToxicity();
         Map map = new Map(game);
@@ -361,7 +376,7 @@ public class Skeleton {
     //endregion
     //endregion
 
-    //Bene regiojet
+    //region Bene regiojet
     public static void Test_10() {
         FancyPrint("Test #10");
         System.out.println(testNames.get(10));
@@ -371,6 +386,7 @@ public class Skeleton {
         Room r1 = new Room(g);
         Room r2 = new Room(g);
         r2.AddNeighbour(r1);
+        r1.AddNeighbour(r2);
         Student student = new Student(g);
         r1.AddStudentToRoom(student);
         Map map = new Map(g);
@@ -530,7 +546,26 @@ public class Skeleton {
             System.out.println("Test #16 Failed game not over");
         }
     }
+    public static void Test_17() {
+        FancyPrint("Test #17\n");
+        System.out.println(testNames.get(17));
 
+        //init
+        Game game = new Game();
+        RoundManager rm = new RoundManager(game);
+        game.SetRoundManager(rm);
+
+        //test
+        for(int i = 0; i<Constants.GameConstants.MaxRounds; i++) {
+            rm.NextRound();
+        }
+        if(!game.IsEnded()){
+            System.out.println("Test #16 Passed lose");
+        }else{
+            System.out.println("Test #16 Failed game not over");
+        }
+
+    }
 
     //endregion
 
