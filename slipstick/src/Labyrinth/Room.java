@@ -196,15 +196,18 @@ public class Room {
 
     /**
      * The room adds student to the room's list of entities.
-     * @param s: the student being placed in the room.
+     * @param student: the student being placed in the room.
      */
-    public void AddStudentToRoom(Student s){
-        System.out.println("\t-> Student (" + s.hashCode() + ") stepped into room (" + this.hashCode() + ")");
-        this.roomsListOfStudents.add(s);
-        s.SetCurrentRoom(this);
+    public void AddStudentToRoom(Student student){
+        System.out.println("\t-> Student (" + student.hashCode() + ") stepped into room (" + this.hashCode() + ")");
+        this.roomsListOfStudents.add(student);
+        student.SetCurrentRoom(this);
 
         if (gassed) {
-            s.SteppedIntoGassedRoom();
+            student.SteppedIntoGassedRoom();
+        }
+        else {
+            this.NotifyProfessors(student);
         }
     }
     /**
@@ -217,6 +220,9 @@ public class Room {
         p.SetCurrentRoom(this);
         if (gassed) {
             p.SteppedIntoGassedRoom();
+        }
+        else {
+            p.KillEveryoneInTheRoom();
         }
     }
 
@@ -256,7 +262,7 @@ public class Room {
 
     /**
      * When a student enters the room, it signals all the professors currently in the room to try and kill the student
-     * @param s: The student about to get assassinated.
+     * @param s The student about to get assassinated.
      */
     public void NotifyProfessors(Student s){
         // to be fair only one professor tries to kill the student

@@ -318,18 +318,17 @@ public class Skeleton {
 
         student.StepInto(room2);
 
-        boolean success = student.GetCurrentRoom() == room2 && !student.IsDead() && professor.CheckRoundMiss();
+        boolean success = student.GetCurrentRoom() == room2 && !student.IsDead() && professor.GetCurrentRoom() == teachersLounge;
         TestPrint(success
                 , "Student survived teacher encounter"
-                , "Student did not survived teacher encounter");
+                , "Student did not survive teacher encounter but should have");
     }
 
     /**
      * Student entering a room with a professor (without protection)
      */
     private static void Test_31() {
-        FancyPrint("Test #31");
-        System.out.println(testNames.get(31));
+        TestHead(31);
 
         // Initializing
         Game game = new Game();
@@ -345,22 +344,31 @@ public class Skeleton {
         map.AddRoom(room2);
         map.AddMainHall(mainHall);
         game.SetMap(map);
+
+        // Test
+        System.out.println("\nStarting test\n");
+
+        student.StepInto(room2);
+
+        boolean success = student.GetCurrentRoom() == room2 && student.IsDead() && professor.GetCurrentRoom() == room2;
+        TestPrint(success
+                , "Student did not survive teacher encounter"
+                , "Student survived teacher encounter but shouldn't have");
     }
 
     /**
      * Professor entering a room with a student (with protection)
      */
     private static void Test_32() {
-        FancyPrint("Test #32");
-        System.out.println(testNames.get(32));
+        TestHead(32);
 
         // Initializing
         Game game = new Game();
         Student student = new Student(game); game.AddStudent(student);
         Professor professor = new Professor(game); game.AddProfessor(professor);
         TVSZ tvsz = new TVSZ();
-        student.PickUpItem(tvsz);
-        Room mainHall = new Room(game), room1 = new Room(game), room2 = new Room(game);
+            student.PickUpItem(tvsz);
+        Room mainHall = new Room(game), teachersLounge = new Room(game), room1 = new Room(game), room2 = new Room(game);
         room2.AddNeighbour(room1);
         room1.AddNeighbour(room1);
         room1.AddStudentToRoom(student); student.SetCurrentRoom(room1);
@@ -369,15 +377,25 @@ public class Skeleton {
         map.AddRoom(room1);
         map.AddRoom(room2);
         map.AddMainHall(mainHall);
+        map.AddTeachersLounge(teachersLounge);
         game.SetMap(map);
+
+        // Test
+        System.out.println("\nStarting test\n");
+
+        professor.StepInto(room1);
+
+        boolean success = student.GetCurrentRoom() == room1 && !student.IsDead() && professor.GetCurrentRoom() == teachersLounge;
+        TestPrint(success
+                , "Student survived teacher encounter"
+                , "Student did not survive teacher encounter but should have");
     }
 
     /**
      * Professor entering a room with a student (without protection)
      */
     private static void Test_33() {
-        FancyPrint("Test #33");
-        System.out.println(testNames.get(33));
+        TestHead(33);
 
         // Initializing
         Game game = new Game();
@@ -393,6 +411,16 @@ public class Skeleton {
         map.AddRoom(room2);
         map.AddMainHall(mainHall);
         game.SetMap(map);
+
+        // Test
+        System.out.println("\nStarting test\n");
+
+        professor.StepInto(room1);
+
+        boolean success = student.GetCurrentRoom() == room1 && student.IsDead() && professor.GetCurrentRoom() == room1;
+        TestPrint(success
+                , "Student did not survive teacher encounter"
+                , "Student survived teacher encounter but shouldn't have");
     }
     //endregion
     //endregion
@@ -581,7 +609,6 @@ public class Skeleton {
     }
     //endregion
 
-
     //region Helper methods
     /**
      * Just a fancy printing method. Ends the last line with '\n'.
@@ -655,7 +682,7 @@ public class Skeleton {
      * @param scanner a scanner instance
      */
     private static void GetKeyToContinue(Scanner scanner) {
-        System.out.print("Press any key to go back to the menu...");
+        System.out.print("\nPress Enter to go back to the menu...");
         scanner.nextLine();
     }
 

@@ -20,7 +20,7 @@ public class Professor extends Entity{
             this.room.RemoveProfessorFromRoom(this);
             this.room = room;
             room.AddProfessorToRoom(this);
-            System.out.println("\t-> Professor " + this.hashCode() + ") stepped into room (" + this.room.hashCode() + ")");
+            //System.out.println("\t-> Professor " + this.hashCode() + ") stepped into room (" + this.room.hashCode() + ")");
         }
         else {
             System.out.println("\t-> Professor " + this.hashCode() + ") cannot step into room (" + room.hashCode() + ")");
@@ -61,7 +61,7 @@ public class Professor extends Entity{
      * @param student specified student
      */
     public void KillStudent(Student student) {
-        System.out.println("\t-> Professor (" + this.hashCode() + ") tries to kill student(" + student.hashCode() + ")(");
+        System.out.println("\t-> Professor (" + this.hashCode() + ") tries to kill student (" + student.hashCode() + ")");
         student.Kill(this);
     }
 

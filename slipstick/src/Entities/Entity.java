@@ -72,11 +72,11 @@ public abstract class Entity {
             System.out.println("Inventory full");
             return;
         }
-        if (item.getClass() != SlipStick.class) {
+        if (item.getClass() == SlipStick.class) {
             return;
         }
-        inventory.add(item);
-        room.RemoveItemFromRoom(item);
+        this.inventory.add(item);
+        this.room.RemoveItemFromRoom(item);
     }
 
     /**

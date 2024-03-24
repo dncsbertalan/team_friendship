@@ -27,8 +27,6 @@ public class Student extends Entity{
     public void StepInto(Room room) {
         if (room.GetNeighbours().contains(this.room) && room.CanStepIn()){
             ChangeRoom(room);
-
-            room.NotifyProfessors(this);
         }
         else {
             System.out.println("\t-> Student (" + this.hashCode() + ") cannot step into room (" + room.hashCode() + ")");
@@ -44,8 +42,7 @@ public class Student extends Entity{
         this.room.RemoveStudentFromRoom(this);
         this.room = room;
         room.AddStudentToRoom(this);
-
-        System.out.println("\t-> Student (" + this.hashCode() + ") stepped into room (" + this.room.hashCode() + ")");
+        //System.out.println("\t-> Student (" + this.hashCode() + ") stepped into room (" + this.room.hashCode() + ")");
 
         if(game.GetMap().IsWinningRoom(room))
             game.EndGame(true);
