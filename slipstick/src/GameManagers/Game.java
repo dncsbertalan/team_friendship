@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class Game {
 
-    boolean over = false;
+    boolean over;
     /**
      * The map where the Game takes place.
      */

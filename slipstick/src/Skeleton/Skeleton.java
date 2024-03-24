@@ -41,7 +41,7 @@ public class Skeleton {
         testNames.put(14, "Slipstick acquisition");
         testNames.put(15, "Slipstick disposal");
         testNames.put(16, "Winning");
-        testNames.put(17 "empty");
+        testNames.put(17, "empty");
         testNames.put(26, "Student entering a gassed room (with protection)");
         testNames.put(27, "Student entering a gassed room (without protection)");
         testNames.put(28, "Professor entering a gassed room (with protection)");
@@ -558,6 +558,11 @@ public class Skeleton {
         //test
         for(int i = 0; i<Constants.GameConstants.MaxRounds; i++) {
             rm.NextRound();
+        }
+        if(!game.IsEnded()){
+            System.out.println("Test #16 Passed lose");
+        }else{
+            System.out.println("Test #16 Failed game not over");
         }
 
     }

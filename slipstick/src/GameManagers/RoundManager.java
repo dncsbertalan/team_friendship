@@ -10,7 +10,6 @@ import Entities.*;
 public class RoundManager{
     Game game;
     int rounds = 0;
-    int maxRounds = 30;
     Student activeStudent;
     Professor activeProfessor;
     public RoundManager(Game g){
@@ -56,7 +55,12 @@ public class RoundManager{
     /**
      *Start new round.
      */
-    void nextRound(){}
+    public void NextRound() {
+        rounds+=1;
+        if(rounds== GameConstants.MaxRounds){
+            game.EndGame(false);
+        }
+    }
     /**
      * Ends current round and notifies other classes.
      */
@@ -64,10 +68,5 @@ public class RoundManager{
 
     }
 
-    public void NextRound() {
-        rounds+=1;
-        if(rounds== GameConstants.MaxRounds){
-            game.EndGame(false);
-        }
-    }
+
 }
