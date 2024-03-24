@@ -42,6 +42,14 @@ public class Skeleton {
         testNames.put(15, "Slipstick disposal");
         testNames.put(16, "Winning");
         testNames.put(17, "empty");
+        testNames.put(18, "empty");
+        testNames.put(19, "empty");
+        testNames.put(20, "empty");
+        testNames.put(21, "empty");
+        testNames.put(22, "empty");
+        testNames.put(23, "empty");
+        testNames.put(24, "empty");
+        testNames.put(25, "empty");
         testNames.put(26, "Student entering a gassed room (with protection)");
         testNames.put(27, "Student entering a gassed room (without protection)");
         testNames.put(28, "Professor entering a gassed room (with protection)");
@@ -282,8 +290,7 @@ public class Skeleton {
      * Student entering a room with a professor (with protection)
      */
     private static void Test_30() {
-        FancyPrint("Test #30");
-        System.out.println(testNames.get(30));
+        TestHead(30);
 
         // Initializing
         Game game = new Game();
@@ -301,6 +308,16 @@ public class Skeleton {
             map.AddRoom(room2);
             map.AddMainHall(mainHall);
         game.SetMap(map);
+
+        // Test
+        System.out.println("\nStarting test\n");
+
+        student.StepInto(room2);
+
+        boolean success = student.GetCurrentRoom() == room2 && !student.IsDead();
+        TestPrint(success
+                , "Student survived teacher encounter"
+                , "Student did not survived teacher encounter");
     }
 
     /**

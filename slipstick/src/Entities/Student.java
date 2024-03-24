@@ -31,9 +31,10 @@ public class Student extends Entity{
         if (room.GetNeighbours().contains(this.room) && room.CanStepIn()){
             ChangeRoom(room);
 
+            room.NotifyProfessors(this);
         }
         else {
-            System.out.println("\t-> Student " + this.hashCode() + ") cannot step into room (" + room.hashCode() + ")");
+            System.out.println("\t-> Student (" + this.hashCode() + ") cannot step into room (" + room.hashCode() + ")");
         }
 
     }
@@ -47,7 +48,7 @@ public class Student extends Entity{
         this.room = room;
         room.AddStudentToRoom(this);
 
-        System.out.println("\t-> Student " + this.hashCode() + ") stepped into room (" + this.room.hashCode() + ")");
+        System.out.println("\t-> Student (" + this.hashCode() + ") stepped into room (" + this.room.hashCode() + ")");
 
         if(game.GetMap().IsWinningRoom(room))
             game.EndGame(true);
@@ -74,6 +75,7 @@ public class Student extends Entity{
             }
         }
     }
+
     /**
      * Select an item from the inventory for further use
      * @param item selected item
@@ -131,6 +133,15 @@ public class Student extends Entity{
         DropAllItems();
         isDead = true;
     }
+
+    /**
+     * Returns whether the student is dead.
+     * @return whether the student is dead
+     */
+    public boolean IsDead() {
+        return isDead;
+    }
+
     /**
      * Picks up specified item from current room
      * @param item the item getting picked up
