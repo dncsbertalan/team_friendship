@@ -3,6 +3,7 @@ package Entities;
 import Constants.Enums.*;
 import GameManagers.Game;
 import Items.Item;
+import Items.SlipStick;
 import Labyrinth.Room;
 
 import java.util.ArrayList;
@@ -52,7 +53,10 @@ public abstract class Entity {
             System.out.println("Inventory full");
             return;
         }
-        inventory.add(item);
+        if (item.getClass() != SlipStick.class) {
+            return;
+        }
+            inventory.add(item);
     }
 
     /**

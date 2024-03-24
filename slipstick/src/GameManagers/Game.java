@@ -2,6 +2,8 @@ package GameManagers;
 
 import Entities.*;
 import Labyrinth.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -48,6 +50,10 @@ public class Game {
         return students;
     }
 
+    public Game(){
+        students = new ArrayList<>();
+        professors = new ArrayList<>();
+    }
     /**
      * Setter of the map attribute.
      * @param map: the new map
@@ -137,5 +143,9 @@ public class Game {
      */
     public void CheckForWinningCondition() {
         // dont think we need this one anymore
+    }
+
+    public boolean IsLastPhase() {
+        return lastPhase;
     }
 }

@@ -204,6 +204,7 @@ public class Room {
      */
     public void AddProfessorToRoom(Professor p){
         this.roomsListOfProfessors.add(p);
+        p.SetCurrentRoom(this);
     }
     /**
      * The room removes student from the room's list of entities.

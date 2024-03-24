@@ -84,6 +84,21 @@ public class Student extends Entity{
         isDead = true;
     }
     /**
+     * Picks up specified item from current room
+     * @param item the item getting picked up
+     */
+    @Override
+    public void PickUpItem(Item item) {
+        if (inventory.size() == 5) {
+            System.out.println("Inventory full");
+            return;
+        }
+        if(item.getClass()== SlipStick.class){
+            game.LastPhase(true,this);
+        }
+        inventory.add(item);
+    }
+    /**
      * Tries to move to the specified room
      * @param room the room it's trying to move into
      */

@@ -1,6 +1,8 @@
 package Entities;
 
 import GameManagers.Game;
+import Items.Item;
+import Items.SlipStick;
 import Labyrinth.Map;
 import Labyrinth.Room;
 
@@ -18,6 +20,7 @@ public class Professor extends Entity{
             room.AddProfessorToRoom(this);
         } else System.out.println("Can't step into room");
     }
+
     /**
      * Kills all students in the current room
      */
