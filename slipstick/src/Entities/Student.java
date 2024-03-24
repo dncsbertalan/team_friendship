@@ -40,10 +40,11 @@ public class Student extends Entity{
 
     @Override
     public void SteppedIntoGassedRoom() {
-
+        System.out.println("\t-> Student (" + this.hashCode() + ") is in gassed room (" + this.room.hashCode() + ")");
         Item protectionItem = this.GetProtectionItem(Enums.ThreatType.gas);
 
         if (protectionItem == null) {   // no protection
+            System.out.println("\t-> Student (" + this.hashCode() + ") doesn't have protective item.");
             this.MissRounds(GameConstants.RoundsMissed_GasRoom);
             this.DropAllItems();
             Map map = this.game.GetMap();
@@ -52,6 +53,7 @@ public class Student extends Entity{
         else {  // has protection
             if (protectionItem.GetProtectionType() == Enums.ProtectionType.ffp2Mask) {
                 FFP2Mask ffp2Mask = (FFP2Mask) protectionItem;
+                System.out.println("\t-> Student (" + this.hashCode() + ") has protective item (" + ffp2Mask.hashCode() + ")");
                 ffp2Mask.DecreaseDurability();
                 this.IncreaseMoveCount(GameConstants.FFP2Mask_MoveCountIncrease);
             }
