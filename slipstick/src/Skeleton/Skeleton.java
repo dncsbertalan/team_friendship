@@ -1025,6 +1025,30 @@ public class Skeleton {
                 !map.GetRooms().get(3).GetNeighbours().isEmpty();
         TestPrint(success, "Room division successful", "Room division not successful");
     }
+
+    /**
+     * Tests dividing a room
+     */
+    private static void Test_7() {
+        TestHead(7);
+
+        // Initializing
+        Game game = new Game();
+
+        Room r = new Room(5, game);
+        r.AddStudentToRoom(new Student(game));
+
+        Map map = new Map(game);
+        map.AddRoom(r);
+        game.SetMap(map);
+
+        // Test
+        System.out.println("\nStarting test\n");
+        map.SeparateRooms(r);
+        boolean success = map.GetRooms().size() == 1;
+        TestPrint(success, "Room division not successful, because the room is not empty",
+                "Room division executed, regardless of the entity in the room");
+    }
     //endregion
 
     //region Helper methods
