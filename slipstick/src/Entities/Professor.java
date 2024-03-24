@@ -24,9 +24,10 @@ public class Professor extends Entity{
             this.room.RemoveProfessorFromRoom(this);
             this.room = room;
             room.AddProfessorToRoom(this);
+            System.out.println("\t-> Professor " + this.hashCode() + ") stepped into room (" + this.room.hashCode() + ")");
         }
         else {
-            System.out.println("Student can't step into room");
+            System.out.println("\t-> Professor " + this.hashCode() + ") cannot step into room (" + room.hashCode() + ")");
         }
     }
 

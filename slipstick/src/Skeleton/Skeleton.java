@@ -142,7 +142,7 @@ public class Skeleton {
         FFP2Mask ffp2Mask = new FFP2Mask();
             student.PickUpItem(ffp2Mask);
         Room mainHall = new Room(game), room1 = new Room(game), room2 = new Room(game);
-            room2.AddNeighbour(room1); room1.AddNeighbour(room1);
+            room2.AddNeighbour(room1); room1.AddNeighbour(room2);
             room2.AddStudentToRoom(student); student.SetCurrentRoom(room2);
             room1.SetToxicity();
         Map map = new Map(game);
