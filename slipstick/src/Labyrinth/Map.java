@@ -67,19 +67,74 @@ public class Map {
 
     /**
      * Merge 2 randomly selected rooms.
-     * @param r1
-     * @param r2
+     * @param r1 The first randomly selected room.
+     * @param r2 The second randomly selected room.
      */
     public void MergeRooms(Room r1, Room r2) {
+        System.out.println("Room merge:");
 
+        if (r1.CheckForEntityInRoom() != 0) {
+            System.out.println(">Room merge not successful");
+            System.out.println(">The first given room was not empty");
+            return;
+        }
+
+        if (r2.CheckForEntityInRoom() != 0) {
+            System.out.println(">Room merge not successful");
+            System.out.println(">The second given room was not empty");
+            return;
+        }
+
+        int r1capacity = r1.CheckCapacity();
+        int r2capacity = r2.CheckCapacity();
+        Room biggerRoom;
+
+        // Decide which rooms' capacity is bigger
+        // If the rooms' capacities are equal, randomly choose one
+        if (r1capacity == r2capacity) {
+            // Generate a random value from 0.0 to 1.0
+            double randomValue = Math.random();
+            if (randomValue < 0.5) {
+                biggerRoom = r1;
+            }
+            else {
+                biggerRoom = r2;
+            }
+        } else {
+            biggerRoom = (r1capacity > r2capacity) ? r1 : r2;
+        }
+
+        if (biggerRoom.equals(r1)) {
+            r2.SendAllNeighbours(r1);
+            r2.SendAllItems(r1);
+            rooms.remove(r2);
+        } else {
+            r1.SendAllNeighbours(r2);
+            r1.SendAllItems(r2);
+            rooms.remove(r1);
+        }
     }
 
     /**
      * Divide a randomly selected room into 2 rooms.
-     * @param room
+     * @param room The randomly selected room to be separated.
      */
     public void SeparateRooms(Room room) {
+        System.out.println("Room division:");
 
+        if (room.CheckForEntityInRoom() != 0) {
+            System.out.println(">Room division not successful");
+            System.out.println(">The given room is not empty");
+            //TODO: In order to print all the entities in the given room
+            //      the room needs to have a function that lists or at least
+            //      returns the entities in that room
+            return;
+        }
+
+        Room newRoom = new Room(this.game);
+        room.SendSomeNeighbour(newRoom);
+        room.SendEveryOtherItem(newRoom);
+        rooms.add(newRoom);
     }
 
     /**
