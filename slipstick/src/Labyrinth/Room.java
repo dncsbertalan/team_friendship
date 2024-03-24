@@ -205,7 +205,6 @@ public class Room {
             s.SteppedIntoGassedRoom();
         }
     }
-
     /**
      * The room adds professor to the room's list of entities.
      * @param p: the professor being placed in the room.
@@ -245,7 +244,6 @@ public class Room {
         }
         return true;
     }
-
     /**
      * Shows whether a room is filled with toxic gas currently.
      * @return Whether a room is filled with toxic gas.
