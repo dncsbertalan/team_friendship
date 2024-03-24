@@ -145,11 +145,13 @@ public class Skeleton {
         map.AddMainHall(mainHall);
         game.setMap(map);
 
-        // test
+        // Test
         student.StepInto(room1);
-        if (student.GetCurrentRoom() == mainHall) {
-            System.out.println("Test successful!\nStudent is in the main hall");
-        }
+
+        boolean success = student.GetCurrentRoom() == mainHall && student.CheckRoundMiss();
+        TestPrint(success
+                , "Student is in the main hall"
+                , "Student is not in the teachers' lounge");
     }
 
     /**
@@ -199,11 +201,13 @@ public class Skeleton {
         map.AddTeachersLounge(teachersLounge);
         game.setMap(map);
 
-        // test
+        // Test
         professor.StepInto(room1);
-        if (professor.GetCurrentRoom() == teachersLounge) {
-            System.out.println("Test successful!\nProfessor is in the theachers' lounge");
-        }
+
+        boolean success = professor.GetCurrentRoom() == teachersLounge && professor.CheckRoundMiss();
+        TestPrint(success
+                , "Professor is in the teachers' lounge"
+                , "Professor is not in the teachers' lounge");
     }
     //endregion
 
@@ -384,6 +388,70 @@ public class Skeleton {
     private static void GetKeyToContinue(Scanner scanner) {
         System.out.print("Press any key to go back to the menu...");
         scanner.nextLine();
+    }
+
+    /**
+     * Prints a pretty box with 'TEST SUCCESFUL/TEST UNSUCCESFUL',
+     * the expexted and the parameter texts based on success.
+     * @param success whether the text was successful
+     * @param expected the expected outcome, also the text when the test is successful
+     * @param unsuccessfulText the text when the test is not successful
+     */
+    private static void TestPrint(boolean success, String expected, String unsuccessfulText) {
+        String successText = success ? "TEST SUCCESSFUL!" : "TEST UNSUCCESSFUL!";
+        String output = success ? expected : unsuccessfulText;
+        int len = Math.max(output.length(), successText.length());
+        len = Math.max(len, expected.length());
+
+        System.out.print("\n");
+        for (int i = 0; i < len + 2 + 2 + 2; i++) {
+            System.out.print("#");
+        }
+        System.out.print("\n#  ");
+        System.out.print(successText);
+        for (int i = 0; i < len - successText.length(); i++) {
+            System.out.print(" ");
+        }
+        System.out.print("  #");
+
+        System.out.print("\n#  ");
+        for (int i = 0; i < len; i++) {
+            System.out.print(" ");
+        }
+        System.out.print("  #");
+
+        System.out.print("\n#  ");
+        System.out.print("Expected output:"); // 16 characters
+        for (int i = 0; i < len - 16; i++) {
+            System.out.print(" ");
+        }
+        System.out.print("  #");
+
+        System.out.print("\n#  ");
+        System.out.print(expected);
+        for (int i = 0; i < len - expected.length(); i++) {
+            System.out.print(" ");
+        }
+        System.out.print("  #");
+
+        System.out.print("\n#  ");
+        System.out.print("Test output:"); // 12 characters
+        for (int i = 0; i < len - 12; i++) {
+            System.out.print(" ");
+        }
+        System.out.print("  #");
+
+        System.out.print("\n#  ");
+        System.out.print(output);
+        for (int i = 0; i < len - output.length(); i++) {
+            System.out.print(" ");
+        }
+        System.out.print("  #\n");
+
+        for (int i = 0; i < len + 2 + 2 + 2; i++) {
+            System.out.print("#");
+        }
+        System.out.print("\n");
     }
     //endregion
 }
