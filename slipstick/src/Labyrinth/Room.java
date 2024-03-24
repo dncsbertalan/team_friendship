@@ -133,13 +133,11 @@ public class Room {
      * @param r: The destination room for every second items.
      */
     public void SendEveryOtherItem(Room r){
-        int i = 0;
-        for(Item itemIter : this.roomsListOfItems){
+        for(int i = 0; i < this.roomsListOfItems.size(); i++){
             if(i % 2 == 0){
-                r.AddItemToRoom(itemIter);
-                this.RemoveItemFromRoom(itemIter);
+                r.AddItemToRoom(roomsListOfItems.get(i));
+                this.RemoveItemFromRoom(roomsListOfItems.get(i));
             }
-        i++;
         }
     }
     /**
