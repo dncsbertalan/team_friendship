@@ -1019,7 +1019,7 @@ public class Skeleton {
         game.SetMap(map);
 
         // Test
-        System.out.println("\nStarting test\n");
+        System.out.println("\nStarting test...\n");
         map.SeparateRooms(r);
         boolean success = map.GetRooms().size() >= 2 && !map.GetRooms().get(3).GetInventory().isEmpty() &&
                 !map.GetRooms().get(3).GetNeighbours().isEmpty();
@@ -1043,7 +1043,7 @@ public class Skeleton {
         game.SetMap(map);
 
         // Test
-        System.out.println("\nStarting test\n");
+        System.out.println("\nStarting test...\n");
         map.SeparateRooms(r);
         boolean success = map.GetRooms().size() == 1;
         TestPrint(success, "Room division not successful, because the room is not empty",
@@ -1082,12 +1082,38 @@ public class Skeleton {
         game.SetMap(map);
 
         // Test
-        System.out.println("\nStarting test\n");
+        System.out.println("\nStarting test...\n");
         map.MergeRooms(r1, r2);
         boolean success = !map.GetRooms().contains(r2) && r1.GetInventory().contains(t) &&
                 r1.GetInventory().contains(f) && r1.GetNeighbours().contains(r2n1) &&
                 r1.GetNeighbours().contains(r2n2);
         TestPrint(success, "Room merge successful", "Room merge not successful");
+    }
+
+    /**
+     * Tests merging of two rooms
+     */
+    private static void Test_9() {
+        TestHead(9);
+
+        // Initializing
+        Game game = new Game();
+        Room r1 = new Room(5, game);
+        Room r2 = new Room(2, game);
+
+        r1.AddStudentToRoom(new Student(game));
+
+        Map map = new Map(game);
+        map.AddRoom(r1);
+        map.AddRoom(r2);
+        game.SetMap(map);
+
+        // Test
+        System.out.println("\nStarting test...\n");
+        map.MergeRooms(r1, r2);
+        boolean success = map.GetRooms().size() == 2;
+        TestPrint(success, "Room merge unsuccessful, because one of the rooms was not empty",
+                "Room merge executed, regardless of the entity in one of the rooms");
     }
     //endregion
 
