@@ -1049,6 +1049,46 @@ public class Skeleton {
         TestPrint(success, "Room division not successful, because the room is not empty",
                 "Room division executed, regardless of the entity in the room");
     }
+
+    /**
+     * Tests merging of two rooms
+     */
+    private static void Test_8() {
+        TestHead(8);
+
+        // Initializing
+        Game game = new Game();
+        SlipStick ss = new SlipStick();
+        TVSZ t = new TVSZ();
+        FFP2Mask f = new FFP2Mask();
+
+        Room r1 = new Room(5, game);
+        Room r2 = new Room(2, game);
+        Room r2n1 = new Room(3, game);
+        Room r2n2 = new Room(4, game);
+
+        r1.AddItemToRoom(ss);
+        r2.AddItemToRoom(t);
+        r2.AddItemToRoom(f);
+
+        r2.AddNeighbour(r2n1);
+        r2.AddNeighbour(r2n2);
+
+        Map map = new Map(game);
+        map.AddRoom(r1);
+        map.AddRoom(r2);
+        map.AddRoom(r2n1);
+        map.AddRoom(r2n2);
+        game.SetMap(map);
+
+        // Test
+        System.out.println("\nStarting test\n");
+        map.MergeRooms(r1, r2);
+        boolean success = !map.GetRooms().contains(r2) && r1.GetInventory().contains(t) &&
+                r1.GetInventory().contains(f) && r1.GetNeighbours().contains(r2n1) &&
+                r1.GetNeighbours().contains(r2n2);
+        TestPrint(success, "Room merge successful", "Room merge not successful");
+    }
     //endregion
 
     //region Helper methods

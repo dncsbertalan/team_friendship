@@ -113,9 +113,10 @@ public class Room {
      * @param r: The destination room for all the current neighbours.
      */
     public void SendAllNeighbours(Room r){
-        for(int i = 0; i < roomsListOfNeighbours.size(); i++){
-                r.AddNeighbour(roomsListOfNeighbours.get(i));
-                this.RemoveNeighbour(roomsListOfNeighbours.get(i));
+        int originalNumberOfNeighbours = roomsListOfNeighbours.size();
+        for(int i = 0; i < originalNumberOfNeighbours; i++){
+                r.AddNeighbour(roomsListOfNeighbours.get(0));
+                this.RemoveNeighbour(roomsListOfNeighbours.get(0));
         }
     }
     /**
