@@ -86,9 +86,13 @@ public class Map {
         }
 
         int r1capacity = r1.CheckCapacity();
+        System.out.println(">Checking capacity of the first room: " + r1capacity);
         int r2capacity = r2.CheckCapacity();
+        System.out.println(">Checking capacity of the second room: " + r2capacity);
         Room biggerRoom;
 
+        System.out.println(">Deciding which room has bigger capacity\n" +
+                "\t(if the capacities are equal, choose one randomly)");
         // Decide which rooms' capacity is bigger
         // If the rooms' capacities are equal, randomly choose one
         if (r1capacity == r2capacity) {
@@ -105,11 +109,17 @@ public class Map {
         }
 
         if (biggerRoom.equals(r1)) {
+            System.out.println(">Merging into the first room");
+            System.out.println(">Second room sending all neighbours");
             r2.SendAllNeighbours(r1);
+            System.out.println(">Second room sending all items");
             r2.SendAllItems(r1);
             rooms.remove(r2);
         } else {
+            System.out.println(">Merging into the second room");
+            System.out.println(">First room sending all neighbours");
             r1.SendAllNeighbours(r2);
+            System.out.println(">First room sending all items");
             r1.SendAllItems(r2);
             rooms.remove(r1);
         }
@@ -125,14 +135,14 @@ public class Map {
         if (room.CheckForEntityInRoom() != 0) {
             System.out.println(">Room division not successful");
             System.out.println(">The given room is not empty");
-            //TODO: In order to print all the entities in the given room
-            //      the room needs to have a function that lists or at least
-            //      returns the entities in that room
             return;
         }
 
+        System.out.println(">Creating a new room");
         Room newRoom = new Room(this.game);
+        System.out.println(">Sending some neighbours to the new room");
         room.SendSomeNeighbour(newRoom);
+        System.out.println(">Sending some items to the new room");
         room.SendEveryOtherItem(newRoom);
         rooms.add(newRoom);
     }
