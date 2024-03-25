@@ -102,8 +102,8 @@ public class Skeleton {
         Student s = new Student(g);
         g.AddStudent(s);
         Room r = new Room(g);
-        s.SetCurrentRoom(r);
         r.AddStudentToRoom(s);
+        s.SetCurrentRoom(r);
         r.AddItemToRoom(b);
         s.PickUpItem(b);
         // Test
@@ -147,20 +147,28 @@ public class Skeleton {
 
         // Instantiate
         Game g = new Game();
+        Map m = new Map(g);
+        g.SetMap(m);
+        Room wcFromHere = new Room(g);
+        Room r = new Room(g);
+        m.AddRoom(r);
         WetCloth wc = new WetCloth();
         Student s = new Student(g);
         g.AddStudent(s);
+        Professor p = new Professor(g);
+        g.AddProfessor(p);
+        int pBeforeRemainingTurns = p.GetRemainingTurns();
+
+        wcFromHere.AddItemToRoom(wc);
+        s.SetCurrentRoom(wcFromHere);
+        wcFromHere.AddStudentToRoom(s);
         s.PickUpItem(wc);
         s.ActivateItem(wc);
-        Professor p = new Professor(g);
-        int pBeforeRemainingTurns = p.GetRemainingTurns();
-        g.AddProfessor(p);
-        Map m = new Map(g);
-        g.SetMap(m);
-        Room r = new Room(g);
-        m.AddRoom(r);
-        r.AddStudentToRoom(s);
+
         r.AddProfessorToRoom(p);
+        p.SetCurrentRoom(r);
+        s.SetCurrentRoom(r);
+        r.AddStudentToRoom(s);
         // Test
         boolean success = false;
         if(p.GetInventory().isEmpty() &&
@@ -179,15 +187,22 @@ public class Skeleton {
         Game g = new Game();
         Map m = new Map(g);
         g.SetMap(m);
-        FFP2Mask ffp2 = new FFP2Mask();
-        Student s = new Student(g);
-        g.AddStudent(s);
-        s.PickUpItem(ffp2);
         Room r = new Room(g);
+        Room maskFromHere = new Room(g);
+        m.AddRoom(maskFromHere);
         r.SetToxicity();
         m.AddRoom(r);
+        FFP2Mask ffp2 = new FFP2Mask();
+        maskFromHere.AddItemToRoom(ffp2);
+        Student s = new Student(g);
+        g.AddStudent(s);
+        maskFromHere.AddStudentToRoom(s);
+        s.SetCurrentRoom(maskFromHere);
+        s.PickUpItem(ffp2);
         int sBeforeTurns = s.GetRemainingTurns();
+        s.SetCurrentRoom(r);
         r.AddStudentToRoom(s);
+
         // Test
         boolean success = false;
         if(ffp2.GetRemainingUsees() == 2 &&
@@ -205,14 +220,20 @@ public class Skeleton {
         Game g = new Game();
         Map m = new Map(g);
         g.SetMap(m);
-        FFP2Mask ffp2 = new FFP2Mask();
-        Professor p = new Professor(g);
-        g.AddProfessor(p);
-        p.PickUpItem(ffp2);
         Room r = new Room(g);
+        Room maskFromHere = new Room(g);
+        m.AddRoom(maskFromHere);
         r.SetToxicity();
         m.AddRoom(r);
+        FFP2Mask ffp2 = new FFP2Mask();
+        maskFromHere.AddItemToRoom(ffp2);
+        Professor p = new Professor(g);
+        g.AddProfessor(p);
+        maskFromHere.AddProfessorToRoom(p);
+        p.SetCurrentRoom(maskFromHere);
+        p.PickUpItem(ffp2);
         int pBeforeTurns = p.GetRemainingTurns();
+        p.SetCurrentRoom(r);
         r.AddProfessorToRoom(p);
         // Test
         boolean success = false;
@@ -234,11 +255,18 @@ public class Skeleton {
         TVSZ tvsz = new TVSZ();
         Student s = new Student(g);
         g.AddStudent(s);
+        Room r = new Room(g);
+        m.AddRoom(r);
+        Room tvszFromHere = new Room(g);
+        m.AddRoom(tvszFromHere);
+        tvszFromHere.AddStudentToRoom(s);
+        s.SetCurrentRoom(tvszFromHere);
+        tvszFromHere.RemoveItemFromRoom(tvsz);
         s.PickUpItem(tvsz);
         Professor p = new Professor(g);
         g.AddProfessor(p);
-        Room r = new Room(g);
-        m.AddRoom(r);
+        p.SetCurrentRoom(r);
+        s.SetCurrentRoom(r);
         r.AddStudentToRoom(s);
         r.AddProfessorToRoom(p);
         // Test
@@ -265,10 +293,11 @@ public class Skeleton {
         Game game = new Game();
         Student student = new Student(game); game.AddStudent(student);
         FFP2Mask ffp2Mask = new FFP2Mask();
-            student.PickUpItem(ffp2Mask);
+
         Room mainHall = new Room(game), room1 = new Room(game), room2 = new Room(game);
             room2.AddNeighbour(room1); room1.AddNeighbour(room2);
-            room2.AddStudentToRoom(student); student.SetCurrentRoom(room2);
+            room2.AddStudentToRoom(student); student.SetCurrentRoom(room2); room2.AddItemToRoom(ffp2Mask);
+            student.PickUpItem(ffp2Mask);
             room1.SetToxicity();
         Map map = new Map(game);
             map.AddRoom(room1);
@@ -329,12 +358,13 @@ public class Skeleton {
         Game game = new Game();
         Professor professor = new Professor(game); game.AddProfessor(professor);
         FFP2Mask ffp2Mask = new FFP2Mask();
-        professor.PickUpItem(ffp2Mask);
+
         Room teachersLounge = new Room(game);
         Room room1 = new Room(game);
         Room room2 = new Room(game);
         room2.AddNeighbour(room1); room1.AddNeighbour(room1);
-        room2.AddProfessorToRoom(professor); professor.SetCurrentRoom(room2);
+        room2.AddProfessorToRoom(professor); professor.SetCurrentRoom(room2); room2.AddItemToRoom(ffp2Mask);
+        professor.PickUpItem(ffp2Mask);
         room1.SetToxicity();
         Map map = new Map(game);
         map.AddRoom(room1);
@@ -398,11 +428,11 @@ public class Skeleton {
         Student student = new Student(game); game.AddStudent(student);
         Professor professor = new Professor(game); game.AddProfessor(professor);
         TVSZ tvsz = new TVSZ();
-            student.PickUpItem(tvsz);
         Room mainHall = new Room(game), teachersLounge = new Room(game), room1 = new Room(game), room2 = new Room(game);
             room2.AddNeighbour(room1);
             room1.AddNeighbour(room1);
-        room1.AddStudentToRoom(student); student.SetCurrentRoom(room1);
+        room1.AddStudentToRoom(student); student.SetCurrentRoom(room1); room1.AddItemToRoom(tvsz);
+        student.PickUpItem(tvsz);
         room2.AddProfessorToRoom(professor); professor.SetCurrentRoom(room2);
         Map map = new Map(game);
             map.AddRoom(room1);
@@ -465,11 +495,12 @@ public class Skeleton {
         Student student = new Student(game); game.AddStudent(student);
         Professor professor = new Professor(game); game.AddProfessor(professor);
         TVSZ tvsz = new TVSZ();
-            student.PickUpItem(tvsz);
+
         Room mainHall = new Room(game), teachersLounge = new Room(game), room1 = new Room(game), room2 = new Room(game);
         room2.AddNeighbour(room1);
         room1.AddNeighbour(room1);
-        room1.AddStudentToRoom(student); student.SetCurrentRoom(room1);
+        room1.AddStudentToRoom(student); student.SetCurrentRoom(room1); room1.AddItemToRoom(tvsz);
+        student.PickUpItem(tvsz);
         room2.AddProfessorToRoom(professor); professor.SetCurrentRoom(room2);
         Map map = new Map(game);
         map.AddRoom(room1);
@@ -629,6 +660,10 @@ public class Skeleton {
         Game game = new Game();
         Student student = new Student(game);
         game.AddStudent(student);
+        Room room = new Room(game);
+        room.AddItemToRoom(slip);
+        room.AddStudentToRoom(student);
+        student.SetCurrentRoom(room);
         student.PickUpItem(slip);
 
         //test
@@ -647,8 +682,10 @@ public class Skeleton {
         Game game = new Game();
         Room room = new Room(game);
         Student student = new Student(game);
-        room.AddStudentToRoom(student);
         game.AddStudent(student);
+        room.AddStudentToRoom(student);
+        student.SetCurrentRoom(room);
+        room.AddItemToRoom(slip);
         student.PickUpItem(slip);
 
         //test
@@ -671,19 +708,21 @@ public class Skeleton {
         r2.AddNeighbour(r1);
         Student student = new Student(game);
         r1.AddStudentToRoom(student);
+        student.SetCurrentRoom(r1);
         Map map = new Map(game);
         game.SetMap(map);
         map.AddRoom(r1);
         map.AddRoom(r2);
         map.AddWinningRoom(r2);
         SlipStick slip = new SlipStick();
+        r1.AddItemToRoom(slip);
         student.PickUpItem(slip);
 
         //test
         student.StepInto(r2);
         boolean success = game.IsEnded();
         TestPrint(success
-                , "Game engded with victory"
+                , "Game ended with victory"
                 , "Game not over");
     }
 
@@ -719,7 +758,11 @@ public class Skeleton {
         // Initializing
         Game game = new Game();
         Student student = new Student(game); game.AddStudent(student);
+        Room r = new Room(game);
         Transistor t1 = new Transistor();
+        r.AddItemToRoom(t1);
+        r.AddStudentToRoom(student);
+        student.SetCurrentRoom(r);
         student.PickUpItem(t1);
 
         // Test
@@ -743,8 +786,13 @@ public class Skeleton {
         Game game = new Game();
         Student student = new Student(game); game.AddStudent(student);
         Transistor t1 = new Transistor();
+        Room r = new Room(game);
+        r.AddStudentToRoom(student);
+        student.SetCurrentRoom(r);
+        r.AddItemToRoom(t1);
         student.PickUpItem(t1);
         Transistor t2 = new Transistor();
+        r.AddItemToRoom(t2);
         student.PickUpItem(t2);
 
         // Test
@@ -768,6 +816,10 @@ public class Skeleton {
         Game game = new Game();
         Student student = new Student(game); game.AddStudent(student);
         Transistor t1 = new Transistor();
+        Room r = new Room(game);
+        r.AddItemToRoom(t1);
+        r.AddStudentToRoom(student);
+        student.SetCurrentRoom(r);
         student.PickUpItem(t1);
         Room mainHall = new Room(game), room1 = new Room(game), room2 = new Room(game);
         room2.AddNeighbour(room1); room1.AddNeighbour(room2);
@@ -799,12 +851,14 @@ public class Skeleton {
         Game game = new Game();
         Student student = new Student(game); game.AddStudent(student);
         Transistor t1 = new Transistor();
-        student.PickUpItem(t1);
         Transistor t2 = new Transistor();
-        student.PickUpItem(t2);
         Room mainHall = new Room(game), room1 = new Room(game), room2 = new Room(game);
         room2.AddNeighbour(room1); room1.AddNeighbour(room2);
+        room2.AddItemToRoom(t1);
+        room2.AddItemToRoom(t2);
         room2.AddStudentToRoom(student); student.SetCurrentRoom(room2);
+        student.PickUpItem(t1);
+        student.PickUpItem(t2);
         Map map = new Map(game);
         map.AddRoom(room1);
         map.AddRoom(room2);
@@ -835,12 +889,14 @@ public class Skeleton {
         Game game = new Game();
         Student student = new Student(game); game.AddStudent(student);
         Transistor t1 = new Transistor();
-        student.PickUpItem(t1);
         Transistor t2 = new Transistor();
-        student.PickUpItem(t2);
         Room mainHall = new Room(game), room1 = new Room(game), room2 = new Room(game);
         room2.AddNeighbour(room1); room1.AddNeighbour(room2);
+        room2.AddItemToRoom(t1);
+        room2.AddItemToRoom(t2);
         room2.AddStudentToRoom(student); student.SetCurrentRoom(room2);
+        student.PickUpItem(t1);
+        student.PickUpItem(t2);
         Map map = new Map(game);
         map.AddRoom(room1);
         map.AddRoom(room2);
@@ -880,17 +936,16 @@ public class Skeleton {
 
         // Initializing
         Game game = new Game();
+        Map map = new Map(game);
+        game.SetMap(map);
         Student student = new Student(game); game.AddStudent(student);
         Transistor t1 = new Transistor();
         Room mainHall = new Room(game), room1 = new Room(game), room2 = new Room(game);
-        room2.AddNeighbour(room1); room1.AddNeighbour(room2);
-        room2.AddStudentToRoom(student); student.SetCurrentRoom(room2);
-        Map map = new Map(game);
         map.AddRoom(room1);
         map.AddRoom(room2);
         map.AddMainHall(mainHall);
-        game.SetMap(map);
-        room2.AddItemToRoom(t1);
+        room2.AddNeighbour(room1); room1.AddNeighbour(room2);
+        room2.AddStudentToRoom(student); student.SetCurrentRoom(room2); room2.AddItemToRoom(t1);
 
         // Test
         System.out.println("\nStarting test\n");
@@ -911,17 +966,18 @@ public class Skeleton {
 
         // Initializing
         Game game = new Game();
-        Student student = new Student(game); game.AddStudent(student);
-        Transistor t1 = new Transistor();
-        student.PickUpItem(t1);
+        Map map = new Map(game);
+        game.SetMap(map);
         Room mainHall = new Room(game), room1 = new Room(game), room2 = new Room(game);
         room2.AddNeighbour(room1); room1.AddNeighbour(room2);
-        room2.AddStudentToRoom(student); student.SetCurrentRoom(room2);
-        Map map = new Map(game);
+
         map.AddRoom(room1);
         map.AddRoom(room2);
         map.AddMainHall(mainHall);
-        game.SetMap(map);
+        Student student = new Student(game); game.AddStudent(student);
+        room2.AddStudentToRoom(student); student.SetCurrentRoom(room2);
+        Transistor t1 = new Transistor();
+        student.PickUpItem(t1);
 
         // Test
         System.out.println("\nStarting test\n");
@@ -944,10 +1000,11 @@ public class Skeleton {
         Game game = new Game();
         Professor prof = new Professor(game); game.AddProfessor(prof);
         Transistor t1 = new Transistor();
-        prof.PickUpItem(t1);
         Room mainHall = new Room(game), room1 = new Room(game), room2 = new Room(game);
         room2.AddNeighbour(room1); room1.AddNeighbour(room2);
+        room2.AddItemToRoom(t1);
         room2.AddProfessorToRoom(prof); prof.SetCurrentRoom(room2);
+        prof.PickUpItem(t1);
         Map map = new Map(game);
         map.AddRoom(room1);
         map.AddRoom(room2);
@@ -975,10 +1032,10 @@ public class Skeleton {
         Game game = new Game();
         Student student = new Student(game); game.AddStudent(student);
         Cheese cheese = new Cheese();
-        student.PickUpItem(cheese);
         Room mainHall = new Room(game), room1 = new Room(game), room2 = new Room(game);
         room2.AddNeighbour(room1); room1.AddNeighbour(room2);
-        room2.AddStudentToRoom(student); student.SetCurrentRoom(room2);
+        room2.AddStudentToRoom(student); student.SetCurrentRoom(room2); room2.AddItemToRoom(cheese);
+        student.PickUpItem(cheese);
         Map map = new Map(game);
         map.AddRoom(room1);
         map.AddRoom(room2);

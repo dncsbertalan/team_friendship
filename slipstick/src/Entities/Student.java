@@ -173,7 +173,7 @@ public class Student extends Entity{
             game.LastPhase(true,this);
         }
         inventory.add(item);
-        //this.room.RemoveItemFromRoom(item);
+        this.room.RemoveItemFromRoom(item);
     }
 
     /**
