@@ -313,8 +313,8 @@ public class Room {
     }
 
     /**
-     * Gets a list of the rooms neighbours
-     * @return a list of rooms that neighbour the current room
+     * Gets the list of items placed in the room
+     * @return list of items in the room
      */
     public List<Item> GetInventory() {
         return roomsListOfItems;
