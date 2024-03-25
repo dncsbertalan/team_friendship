@@ -101,6 +101,10 @@ public class Skeleton {
         Game g = new Game();
         Student s = new Student(g);
         g.AddStudent(s);
+        Room r = new Room(g);
+        s.SetCurrentRoom(r);
+        r.AddStudentToRoom(s);
+        r.AddItemToRoom(b);
         s.PickUpItem(b);
         // Test
         int sBeforeTurns = s.GetRemainingTurns();
@@ -121,6 +125,10 @@ public class Skeleton {
         Game g = new Game();
         Student s = new Student(g);
         g.AddStudent(s);
+        Room r = new Room(g);
+        s.SetCurrentRoom(r);
+        r.AddStudentToRoom(s);
+        r.AddItemToRoom(wc);
         s.PickUpItem(wc);
         // Test
         s.ActivateItem(wc);

@@ -83,7 +83,7 @@ public abstract class Entity {
             return;
         }
         this.inventory.add(item);
-        //this.room.RemoveItemFromRoom(item);
+        this.room.RemoveItemFromRoom(item);
     }
 
     /**
