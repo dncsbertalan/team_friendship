@@ -1,4 +1,5 @@
 package GameManagers;
+import Constants.GameConstants;
 import Entities.*;
 
 /**
@@ -7,10 +8,13 @@ import Entities.*;
  * The RoundManager initiates the division/merging of rooms.
 */
 public class RoundManager{
+    Game game;
     int rounds = 0;
-    int maxRounds = 30;
     Student activeStudent;
     Professor activeProfessor;
+    public RoundManager(Game g){
+        game = g;
+    }
     /**
      * Sets the active student.
      * @param student the new active student
@@ -49,9 +53,20 @@ public class RoundManager{
    }
 
     /**
+     *Start new round.
+     */
+    public void NextRound() {
+        rounds+=1;
+        if(rounds== GameConstants.MaxRounds){
+            game.EndGame(false);
+        }
+    }
+    /**
      * Ends current round and notifies other classes.
      */
     void EndOfRound(){
 
     }
+
+
 }

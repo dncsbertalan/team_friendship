@@ -4,6 +4,7 @@ import Entities.*;
 import GameManagers.Game;
 import Items.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -51,12 +52,14 @@ public class Room {
     private int capacity;
     /**
      * Constructor.
+     * @param g: The game object the room will have a reference for.
      * @param c: Room's initial capacity.
      */
     public Room(int c, Game g){
-        roomsListOfStudents = null;
-        roomsListOfProfessors = null;
-        roomsListOfItems = null;
+        roomsListOfStudents = new ArrayList<>();
+        roomsListOfProfessors = new ArrayList<>();
+        roomsListOfItems = new ArrayList<>();
+        roomsListOfNeighbours = new ArrayList<>();
         gassed = false;
         remainingRoundsBeingGassed = 0;
 
@@ -66,11 +69,13 @@ public class Room {
     /**
      * Constructor.
      * The room's initial capacity is a random value between 2 (inclusive) and 6 (exclusive).
+     * @param g: The game object the room will have a reference for.
      */
-    public Room(){
-        roomsListOfStudents = null;
-        roomsListOfProfessors = null;
-        roomsListOfItems = null;
+    public Room(Game g){
+        roomsListOfStudents = new ArrayList<>();
+        roomsListOfProfessors = new ArrayList<>();
+        roomsListOfItems = new ArrayList<>();
+        roomsListOfNeighbours = new ArrayList<>();
         gassed = false;
         remainingRoundsBeingGassed = 0;
 
@@ -78,6 +83,8 @@ public class Room {
         int minInclusive = 2;
         int maxExclusive = 6;
         capacity = random.ints(minInclusive, maxExclusive).findFirst().getAsInt();
+
+        game = g;
     }
     /**
      * Sets the room's capacity to the value given as argument.
@@ -106,9 +113,10 @@ public class Room {
      * @param r: The destination room for all the current neighbours.
      */
     public void SendAllNeighbours(Room r){
-        for(int i = 0; i < roomsListOfNeighbours.size(); i++){
-                r.AddNeighbour(roomsListOfNeighbours.get(i));
-                this.RemoveNeighbour(roomsListOfNeighbours.get(i));
+        int originalNumberOfNeighbours = roomsListOfNeighbours.size();
+        for(int i = 0; i < originalNumberOfNeighbours; i++){
+                r.AddNeighbour(roomsListOfNeighbours.get(0));
+                this.RemoveNeighbour(roomsListOfNeighbours.get(0));
         }
     }
     /**
@@ -117,8 +125,12 @@ public class Room {
      * @param r: The destination room for all items.
      */
     public void SendAllItems(Room r){
-        r.roomsListOfItems = this.roomsListOfItems;
-        this.roomsListOfItems.clear();
+        if(!roomsListOfItems.isEmpty()){
+            for(int i = 0; i < this.roomsListOfItems.size(); i++){
+                r.AddItemToRoom(roomsListOfItems.get(i));
+            }
+            this.roomsListOfItems.clear();
+        }
     }
     /**
      * The room adds every second of the items placed in it to the other room.
@@ -126,13 +138,13 @@ public class Room {
      * @param r: The destination room for every second items.
      */
     public void SendEveryOtherItem(Room r){
-        int i = 0;
-        for(Item itemIter : this.roomsListOfItems){
-            if(i % 2 == 0){
-                r.AddItemToRoom(itemIter);
-                this.RemoveItemFromRoom(itemIter);
+        if(!roomsListOfItems.isEmpty()){
+            for(int i = 0; i < this.roomsListOfItems.size(); i++){
+                if(i % 2 == 0){
+                    r.AddItemToRoom(roomsListOfItems.get(i));
+                    this.RemoveItemFromRoom(roomsListOfItems.get(i));
+                }
             }
-        i++;
         }
     }
     /**
@@ -182,80 +194,138 @@ public class Room {
      * The room is no longer is filled with toxic gas for one less round, if not already 0.
      */
     public void DecreaseRemainingRoundsBeingGassed(){
-        if(remainingRoundsBeingGassed < 0){
+        if(remainingRoundsBeingGassed > 0){
             remainingRoundsBeingGassed--;
         }
     }
+
     /**
      * The room adds student to the room's list of entities.
-     * @param s: the student being placed in the room.
+     * @param student: the student being placed in the room.
      */
-    public void AddStudentToRoom(Student s){
-        this.roomsListOfStudents.add(s);
+    public void AddStudentToRoom(Student student){
+        System.out.println("\t-> Student (" + student.hashCode() + ") stepped into room (" + this.hashCode() + ")");
+        this.roomsListOfStudents.add(student);
+        student.SetCurrentRoom(this);
+
+        if (gassed) {
+            student.SteppedIntoGassedRoom();
+        }
+        else {
+            this.NotifyProfessors(student);
+        }
     }
     /**
      * The room adds professor to the room's list of entities.
      * @param p: the professor being placed in the room.
      */
     public void AddProfessorToRoom(Professor p){
+        System.out.println("\t-> Professor (" + p.hashCode() + ") stepped into room (" + this.hashCode() + ")");
         this.roomsListOfProfessors.add(p);
+        p.SetCurrentRoom(this);
+        if (gassed) {
+            p.SteppedIntoGassedRoom();
+        }
+        else {
+            p.KillEveryoneInTheRoom();
+        }
     }
+
     /**
      * The room removes student from the room's list of entities.
      * @param s: The student being removed from the room.
      */
-    public void RemoveStudentFromRoom(Student s){
+    public void RemoveStudentFromRoom(Student s) {
+        System.out.println("\t-> Student (" + s.hashCode() + ") stepped out of room (" + this.hashCode() + ")");
         this.roomsListOfStudents.remove(s);
     }
+
     /**
      * The room removes professor from the room's list of entities.
      * @param p: The professor being removed from the room.
      */
-    public void RemoveProfessorFromRoom(Professor p){
+    public void RemoveProfessorFromRoom(Professor p) {
+        System.out.println("\t-> Professor (" + p.hashCode() + ") stepped out of room (" + this.hashCode() + ")");
         this.roomsListOfProfessors.remove(p);
     }
+
     /**
      * Shows whether a room's capacity is big enough for another entity.
-     * @return: Whether another entity can fit in a room.
+     * @return Whether another entity can fit in a room.
      */
     public boolean CanStepIn(){
         int allEntitiesCount = roomsListOfProfessors.size() + roomsListOfStudents.size();
-        if(allEntitiesCount == capacity){
-            return false;
-        }
-        return true;
+        return allEntitiesCount != capacity;
     }
     /**
      * Shows whether a room is filled with toxic gas currently.
-     * @return: Whether a room is filled with toxic gas.
+     * @return Whether a room is filled with toxic gas.
      */
     public boolean IsGassed(){
         return gassed;
     }
+
     /**
      * When a student enters the room, it signals all the professors currently in the room to try and kill the student
-     * @param s: The student about to get assassinated.
+     * @param s The student about to get assassinated.
      */
-    void NotifyProfessors(Student s){
+    public void NotifyProfessors(Student s){
+        // to be fair only one professor tries to kill the student
         for(Professor profIter : roomsListOfProfessors){
             profIter.KillStudent(s);
+            break;
         }
     }
+
     /**
      * Adds a new neighbour to the room's list of neighbours.
      * @param r: The room being added as a new neighbour.
      */
-    void AddNeighbour(Room r){
+    public void AddNeighbour(Room r){
         roomsListOfNeighbours.add(r);
     }
+
     /**
      * Removes a neighbour from the room's list of neighbours.
      * @param r: The room being removed as a neighbour.
      */
-    void RemoveNeighbour(Room r){
+    public void RemoveNeighbour(Room r){
         roomsListOfNeighbours.remove(r);
     }
-    void SetToxicity(){
+
+    /**
+     * Makes the room a toxic/gas room permanently.
+     */
+    public void SetToxicity(){
         gassed = true;
     }
+
+    /**
+     * Gets a list of the rooms neighbours
+     * @return a list of rooms that neighbour the current room
+     */
+    public List<Room> GetNeighbours() {
+        return roomsListOfNeighbours;
+    }
+
+    public List<Student> GetStudents() {
+        return roomsListOfStudents;
+    }
+
+    /**
+     * Gets the list of items placed in the room
+     * @return list of items in the room
+     */
+    public List<Item> GetInventory() {
+        return roomsListOfItems;
+    }
+
+    /**
+     * Displays rounds left being gassed
+     * @return number of rounds remaining being gassed
+     */
+    public int GetRemainingRoundsGassed() {
+        return remainingRoundsBeingGassed;
+    }
+
 }

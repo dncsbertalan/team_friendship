@@ -9,6 +9,6 @@ public class Beer extends Item {
 
     @Override
     public void UseItem(Student student) {
-
+        student.IncreaseMoveCount(1);
     }
 }

@@ -6,6 +6,7 @@ import GameManagers.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Handle actions regarding rooms.
@@ -33,13 +34,13 @@ public class Map {
      * Instance of the teachers lounge,
      * because it is not an ordinary room.
      */
-    private TeachersLounge teachersLounge;
+    private Room teachersLounge;
 
     /**
      * Instance of the main hall,
      * because it is not an ordinary room.
      */
-    private MainHall mainHall;
+    private Room mainHall;
 
     //################################################################################
     //                                  METHODS
@@ -48,11 +49,12 @@ public class Map {
     /**
      * Constructor of the map.
      */
-    public Map() {
+    public Map(Game game) {
         rooms = new ArrayList<>();
-        winningRoom = null;
-        teachersLounge = null;
-        mainHall = null;
+        winningRoom = new Room(game);
+        teachersLounge = new Room(game);
+        mainHall = new Room(game);
+        this.game = game;
     }
 
     /**
@@ -65,19 +67,84 @@ public class Map {
 
     /**
      * Merge 2 randomly selected rooms.
-     * @param r1
-     * @param r2
+     * @param r1 The first randomly selected room.
+     * @param r2 The second randomly selected room.
      */
     public void MergeRooms(Room r1, Room r2) {
+        System.out.println("Room merge:");
 
+        if (r1.CheckForEntityInRoom() != 0) {
+            System.out.println(">Room merge not successful");
+            System.out.println(">The first given room was not empty");
+            return;
+        }
+
+        if (r2.CheckForEntityInRoom() != 0) {
+            System.out.println(">Room merge not successful");
+            System.out.println(">The second given room was not empty");
+            return;
+        }
+
+        int r1capacity = r1.CheckCapacity();
+        System.out.println(">Checking capacity of the first room: " + r1capacity);
+        int r2capacity = r2.CheckCapacity();
+        System.out.println(">Checking capacity of the second room: " + r2capacity);
+        Room biggerRoom;
+
+        System.out.println(">Deciding which room has bigger capacity\n" +
+                "\t(if the capacities are equal, choose one randomly)");
+        // Decide which rooms' capacity is bigger
+        // If the rooms' capacities are equal, randomly choose one
+        if (r1capacity == r2capacity) {
+            // Generate a random value from 0.0 to 1.0
+            double randomValue = Math.random();
+            if (randomValue < 0.5) {
+                biggerRoom = r1;
+            }
+            else {
+                biggerRoom = r2;
+            }
+        } else {
+            biggerRoom = (r1capacity > r2capacity) ? r1 : r2;
+        }
+
+        if (biggerRoom.equals(r1)) {
+            System.out.println(">Merging into the first room");
+            System.out.println(">Second room sending all neighbours");
+            r2.SendAllNeighbours(r1);
+            System.out.println(">Second room sending all items");
+            r2.SendAllItems(r1);
+            rooms.remove(r2);
+        } else {
+            System.out.println(">Merging into the second room");
+            System.out.println(">First room sending all neighbours");
+            r1.SendAllNeighbours(r2);
+            System.out.println(">First room sending all items");
+            r1.SendAllItems(r2);
+            rooms.remove(r1);
+        }
     }
 
     /**
      * Divide a randomly selected room into 2 rooms.
-     * @param room
+     * @param room The randomly selected room to be separated.
      */
     public void SeparateRooms(Room room) {
+        System.out.println("Room division:");
 
+        if (room.CheckForEntityInRoom() != 0) {
+            System.out.println(">Room division not successful");
+            System.out.println(">The given room is not empty");
+            return;
+        }
+
+        System.out.println(">Creating a new room");
+        Room newRoom = new Room(this.game);
+        System.out.println(">Sending some neighbours to the new room");
+        room.SendSomeNeighbour(newRoom);
+        System.out.println(">Sending some items to the new room");
+        room.SendEveryOtherItem(newRoom);
+        rooms.add(newRoom);
     }
 
     /**
@@ -85,7 +152,9 @@ public class Map {
      * @param student
      */
     public void TransferStudentToMainHall(Student student) {
-
+        student.GetCurrentRoom().RemoveStudentFromRoom(student);    // remove student
+        mainHall.AddStudentToRoom(student);                         // add student
+        student.SetCurrentRoom(mainHall);                           // sets student's current room
     }
 
     /**
@@ -93,7 +162,9 @@ public class Map {
      * @param professor
      */
     public void TransferProfessorToTeachersLounge(Professor professor) {
-
+        professor.GetCurrentRoom().RemoveProfessorFromRoom(professor);  // remove prof
+        teachersLounge.AddProfessorToRoom(professor);                   // add prof
+        professor.SetCurrentRoom(teachersLounge);                       // sets prof's current room
     }
 
     /**
@@ -102,7 +173,7 @@ public class Map {
      * @param room
      */
     public void TransferStudentToRoom(Student student, Room room) {
-
+        //nem kell ig
     }
 
     /**
@@ -111,7 +182,7 @@ public class Map {
      * @param room
      */
     public void TransferProfessorToRoom(Professor professor, Room room) {
-
+        //mar ezse ig
     }
 
     /**
@@ -133,8 +204,34 @@ public class Map {
     /**
      * Chooses the room the students have to secure the slipstick in.
      */
-    public void AddWinningRoom() {
+    public void AddWinningRoom(Room room) {
+        winningRoom = room;
+    }
 
+    /**
+     * Adds a room to the map.
+     * @param room the room to be added
+     */
+    public void AddRoom(Room room) {
+        rooms.add(room);
+    }
+
+    /**
+     * Adds a main hall to the map.
+     * @param mainHall the main hall to be added.
+     */
+    public void AddMainHall(Room mainHall) {
+        this.mainHall = mainHall;
+        rooms.add(mainHall);
+    }
+
+    /**
+     * Adds a teachers' lounge to the map.
+     * @param teachersLounge the teachers' lounge to be added.
+     */
+    public void AddTeachersLounge(Room teachersLounge) {
+        this.teachersLounge = teachersLounge;
+        rooms.add(teachersLounge);
     }
 
     /**
@@ -142,7 +239,9 @@ public class Map {
      * @param room
      * @return {@code true} if the room is winning room, {@code false} if it isn't
      */
-    public boolean isWinningRoom(Room room) {
-
+    public boolean IsWinningRoom(Room room) {
+        return room == winningRoom;
     }
+
+    public List<Room> GetRooms() { return rooms; }
 }

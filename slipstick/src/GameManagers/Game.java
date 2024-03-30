@@ -2,6 +2,8 @@ package GameManagers;
 
 import Entities.*;
 import Labyrinth.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,6 +13,7 @@ import java.util.List;
  */
 public class Game {
 
+    boolean over;
     /**
      * The map where the Game takes place.
      */
@@ -48,11 +51,15 @@ public class Game {
         return students;
     }
 
+    public Game(){
+        students = new ArrayList<>();
+        professors = new ArrayList<>();
+    }
     /**
      * Setter of the map attribute.
      * @param map: the new map
      */
-    public void setMap(Map map) {
+    public void SetMap(Map map) {
         this.map = map;
     }
     /**
@@ -77,15 +84,22 @@ public class Game {
      * Appends the students list with a student.
      * @param student: the new student
      */
-    void addStudent(Student student){
+    public void AddStudent(Student student){
         students.add(student);
     }
 
     /**
+     * Getter of the map attribute.
+     * @return the map
+     */
+    public Map GetMap(){
+        return map;
+    }
+    /**
      * Appends the professors list with a professors.
      * @param professor: the new professor
      */
-    void addProfessor(Professor professor){
+    public void AddProfessor(Professor professor){
         professors.add(professor);
     }
     /**
@@ -121,8 +135,7 @@ public class Game {
      * @param b win/lose
      */
     public void EndGame(boolean b) {
-        if(b) System.out.println("Victory");
-        else System.out.println("Lose");
+        over = b;
     }
 
     /**
@@ -130,5 +143,13 @@ public class Game {
      */
     public void CheckForWinningCondition() {
         // dont think we need this one anymore
+    }
+
+    public boolean IsLastPhase() {
+        return lastPhase;
+    }
+
+    public boolean IsEnded() {
+        return over;
     }
 }

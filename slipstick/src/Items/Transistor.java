@@ -4,14 +4,41 @@ import Entities.Student;
 import Labyrinth.Room;
 
 public class Transistor extends Item {
-
+    /**
+     * Pair of this transistor (mutual) if unpaired is null
+     */
     private Transistor pair;
+    /**
+     * if paired and dropped the room it is in
+     */
     private Room room; // currentRoom rename maybe?
-    private boolean pairReadyToTeleport;
+    /**
+     * true if pair is ready to teleport
+     */
+    private boolean pairReadyToTeleport; //pairSet?
 
     @Override
     public void UseItem(Student student) {
+        //if not activated or not paired it just gets dropped
+        if(!activated || pair == null) {
+            return;
+        }
+        //First active transistor to be set down
+        if(!pairReadyToTeleport) {
+            SetCurrentRoom(student.GetCurrentRoom());
+            NotifyPairImReady();
+        }
+        //Second transistor
+        if (pairReadyToTeleport) {
+            SetCurrentRoom(student.GetCurrentRoom());
 
+            //teleport worked => both transistors deleted
+            if(pair.GetCurrentRoom().CanStepIn()){
+                student.ChangeRoom(pair.GetCurrentRoom());
+                pair.GetCurrentRoom().RemoveItemFromRoom(pair);
+                this.GetCurrentRoom().RemoveItemFromRoom(this);
+            }
+        }
     }
 
     /**
@@ -30,6 +57,7 @@ public class Transistor extends Item {
         return this.room;
     }
 
+    //possibly useless
     /**
      * Sets the pair ready, so it can now teleport.
      */
@@ -49,7 +77,16 @@ public class Transistor extends Item {
      * Sets this transistor's pair.
      * @param transistor the new pair
      */
-    public  void PairTransistor(Transistor transistor) {
+    public void PairTransistor(Transistor transistor) {
         this.pair = transistor;
+        transistor.pair = this;
+    }
+
+    /**
+     * Gets the transistor that's paired to this one
+     * @return the paired transistor
+     */
+    public Transistor GetPair() {
+        return pair;
     }
 }
