@@ -1,4 +1,4 @@
-package Skeleton;
+package Runnable;
 
 import Constants.Enums;
 import Entities.Professor;
@@ -64,9 +64,7 @@ public class Skeleton {
     //endregion
 
     public static void main(String[] args) {
-
         Scanner scanner = new Scanner(System.in);
-
         while (true) {
             PrintMenu();
             int in = GetNumberFromInput(scanner);
@@ -89,6 +87,8 @@ public class Skeleton {
             }
 
         }
+
+
     }
 
     //region Use-cases

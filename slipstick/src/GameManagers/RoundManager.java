@@ -12,8 +12,27 @@ public class RoundManager{
     int rounds = 0;
     Student activeStudent;
     Professor activeProfessor;
+
     public RoundManager(Game g){
         game = g;
+    }
+
+    public void Round() {
+        for (Student student : game.GetStudents()) {
+            while(!student.IsDead() && student.GetRemainingTurns() > 0) {
+                Turn(student);
+            }
+        }
+        for (Professor professor : game.GetProfessors()) {
+            while(professor.GetRemainingTurns() > 0) {
+                Turn(professor);
+            }
+        }
+        NextRound();
+    }
+    private void Turn(Entity entity) {
+        //do a barrel roll.wav
+        //controls ide
     }
     /**
      * Sets the active student.
@@ -67,6 +86,4 @@ public class RoundManager{
     void EndOfRound(){
 
     }
-
-
 }

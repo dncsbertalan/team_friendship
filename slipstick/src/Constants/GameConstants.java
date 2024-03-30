@@ -10,4 +10,5 @@ public class GameConstants {
     public static final int WetCloth_MissRoundCount = 1;
 
     public static final int InventoryMaxSize = 5;
+    public static final int DesiredFPS = 60;
 }

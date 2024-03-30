@@ -2,6 +2,7 @@ package GameManagers;
 
 import Entities.*;
 import Labyrinth.*;
+import Constants.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,71 +14,48 @@ import java.util.List;
  */
 public class Game {
 
-    boolean over;
+    private boolean over;
     /**
      * The map where the Game takes place.
      */
-    Map map;
+    private Map map;
     /**
      * The round manager associated with the game.
      */
-    RoundManager roundManager;
+    private RoundManager roundManager;
 
     /**
      * Indicates whether the game is in its last phase.
      */
-    boolean lastPhase;
+    private boolean lastPhase;
 
     /**
      * If lastPhase, this Student is hunted.
      */
-    Student hunted;
+    private Student hunted;
 
     /**
      * List of students in the game.
      */
-    List<Student> students;
+    private List<Student> students;
 
     /**
      * List of professors in the game.
      */
-    List<Professor> professors;
-
-    /**
-     * Getter of the students list
-     * @return list of students
-     */
-    public List<Student> GetStudents() {
-        return students;
-    }
+    private List<Professor> professors;
 
     public Game(){
+
         students = new ArrayList<>();
         professors = new ArrayList<>();
     }
-    /**
-     * Setter of the map attribute.
-     * @param map: the new map
-     */
-    public void SetMap(Map map) {
-        this.map = map;
-    }
+
     /**
      * Setter of the map attribute.
      * @param rm: the new roundManager
      */
     public void SetRoundManager(RoundManager rm) {
         this.roundManager = rm;
-    }
-
-
-
-    /**
-     * Getter of the professors list.
-     * @return list of professors
-     */
-    public List<Professor> GetProfessor() {
-        return professors;
     }
 
     /**
@@ -89,12 +67,13 @@ public class Game {
     }
 
     /**
-     * Getter of the map attribute.
-     * @return the map
+     * Getter of the students list
+     * @return list of students
      */
-    public Map GetMap(){
-        return map;
+    public List<Student> GetStudents() {
+        return students;
     }
+
     /**
      * Appends the professors list with a professors.
      * @param professor: the new professor
@@ -102,17 +81,28 @@ public class Game {
     public void AddProfessor(Professor professor){
         professors.add(professor);
     }
+
     /**
-     * Places student to the desired position.
+     * Getter of the professors list.
+     * @return list of professors
      */
-    public void UpdateStudentMoves() {
-        // dont think we need this one anymore
+    public List<Professor> GetProfessors() {
+        return professors;
+    }
+
+    /**
+     * Setter of the map attribute.
+     * @param map: the new map
+     */
+    public void SetMap(Map map) {
+        this.map = map;
     }
     /**
-     * Places professor to the desired position.
+     * Getter of the map attribute.
+     * @return the map
      */
-    public void UpdateProfessorMoves() {
-        // dont think we need this one anymore
+    public Map GetMap(){
+        return map;
     }
 
     /**
@@ -129,6 +119,10 @@ public class Game {
         }
     }
 
+    public boolean IsLastPhase() {
+        return lastPhase;
+    }
+
 
     /**
      * Ends the game with the given output.
@@ -138,18 +132,15 @@ public class Game {
         over = b;
     }
 
-    /**
-     * Checks whether the winning condition is fulfilled.
-     */
-    public void CheckForWinningCondition() {
-        // dont think we need this one anymore
-    }
-
-    public boolean IsLastPhase() {
-        return lastPhase;
-    }
-
     public boolean IsEnded() {
         return over;
+    }
+
+    public void GameLogic() {
+        while(roundManager.rounds < GameConstants.MaxRounds){
+
+
+            roundManager.NextRound();
+        }
     }
 }
