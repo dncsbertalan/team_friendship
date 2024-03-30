@@ -27,6 +27,10 @@ public class Room {
      */
     private List<Item> roomsListOfItems;
     /**
+     * All not pickupable items placed in the room.
+     */
+    private List<Item> listOfUnpickupableItems;
+    /**
      * All students placed in the room.
      */
     private List<Student> roomsListOfStudents;
@@ -60,12 +64,14 @@ public class Room {
         roomsListOfProfessors = new ArrayList<>();
         roomsListOfItems = new ArrayList<>();
         roomsListOfNeighbours = new ArrayList<>();
+        listOfUnpickupableItems = new ArrayList<>();
         gassed = false;
         remainingRoundsBeingGassed = 0;
 
         capacity = c;
         game = g;
     }
+
     /**
      * Constructor.
      * The room's initial capacity is a random value between 2 (inclusive) and 6 (exclusive).
@@ -76,6 +82,7 @@ public class Room {
         roomsListOfProfessors = new ArrayList<>();
         roomsListOfItems = new ArrayList<>();
         roomsListOfNeighbours = new ArrayList<>();
+        listOfUnpickupableItems = new ArrayList<>();
         gassed = false;
         remainingRoundsBeingGassed = 0;
 
@@ -86,6 +93,7 @@ public class Room {
 
         game = g;
     }
+
     /**
      * Sets the room's capacity to the value given as argument.
      * @param c: the new value for the room's capacity.
@@ -93,6 +101,7 @@ public class Room {
     public void setCapacity(int c){
         capacity = c;
     }
+
     /**
      * Returns the maximum of entities that can be placed in the room.
      * @return: Maximum of entities that can be placed in the room.
@@ -100,6 +109,7 @@ public class Room {
     public int CheckCapacity(){
         return capacity;
     }
+
     /**
      * Returns the number of entities currently placed in the room.
      * @return: Number of entities currently placed in the room.
@@ -107,6 +117,7 @@ public class Room {
     public int CheckForEntityInRoom(){
         return roomsListOfStudents.size() + roomsListOfProfessors.size();
     }
+
     /**
      * The room adds all its current neighbours to the other room.
      * From then those rooms are only the other room's neighbours.
@@ -119,6 +130,7 @@ public class Room {
                 this.RemoveNeighbour(roomsListOfNeighbours.get(0));
         }
     }
+
     /**
      * The room adds all items placed in it to the other room.
      * From then those items are placed only in the other room.
@@ -132,6 +144,7 @@ public class Room {
             this.roomsListOfItems.clear();
         }
     }
+
     /**
      * The room adds every second of the items placed in it to the other room.
      * From then those items are placed only in the other room.
@@ -147,6 +160,7 @@ public class Room {
             }
         }
     }
+
     /**
      * The room adds every second of its neighbours to the other room.
      * From then those rooms are only the other room's neighbours.
@@ -160,6 +174,7 @@ public class Room {
             }
         }
     }
+
     /**
      * The room adds the item given as a parameter to its own list of items.
      * @param i: the item being placed in the room.
@@ -167,6 +182,35 @@ public class Room {
     public void AddItemToRoom(Item i){
         this.roomsListOfItems.add(i);
     }
+
+    /**
+     * The room adds the item given as a parameter to its own list of unpickupable items.
+     * @param i: the freshly dropped item being added to the room.
+     */
+    public void AddUnpickupableItemToRoom(Item i){
+        this.listOfUnpickupableItems.add(i);
+    }
+
+    /**
+     * Makes all items placed in the room pickupable for entities.
+     */
+    public void MakeAllItemsPickupable(){
+        int unpickSize = listOfUnpickupableItems.size();
+        for(int i = 0; i < unpickSize; i++){
+            roomsListOfItems.add(listOfUnpickupableItems.get(i));
+            listOfUnpickupableItems.remove(i);
+        }
+    }
+
+    /**
+     * Makes item given as parameter pickupable for entities.
+     * @param i: the item about to be pickupable.
+     */
+    public void MakeItemPickupable(Item i){
+        roomsListOfItems.add(i);
+        listOfUnpickupableItems.remove(i);
+    }
+
     /**
      * The room removes the item given as a parameter from its own list of items.
      * @param i: the item being removed from the room.
@@ -174,6 +218,7 @@ public class Room {
     public void RemoveItemFromRoom(Item i){
         this.roomsListOfItems.remove(i);
     }
+
     /**
      * The room releases toxic gas for n round.
      * Sets gassed attribute to true.
@@ -183,6 +228,7 @@ public class Room {
         gassed = true;
         remainingRoundsBeingGassed = n;
     }
+
     /**
      * The room is no longer is filled with toxic gas.
      * Sets gassed attribute to false.
@@ -190,6 +236,7 @@ public class Room {
     public void DeactivateToxicGas(){
         gassed = false;
     }
+
     /**
      * The room is no longer is filled with toxic gas for one less round, if not already 0.
      */
@@ -215,6 +262,7 @@ public class Room {
             this.NotifyProfessors(student);
         }
     }
+
     /**
      * The room adds professor to the room's list of entities.
      * @param p: the professor being placed in the room.
@@ -318,6 +366,14 @@ public class Room {
      */
     public List<Item> GetInventory() {
         return roomsListOfItems;
+    }
+
+    /**
+     * Gets the list of unpickupable items placed in the room
+     * @return list of unpickupable items in the room
+     */
+    public List<Item> GetUnpickupableItems() {
+        return listOfUnpickupableItems;
     }
 
     /**
