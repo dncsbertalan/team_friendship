@@ -124,11 +124,8 @@ public class Room {
      * @param r: The destination room for all the current neighbours.
      */
     public void SendAllNeighbours(Room r){
-        int originalNumberOfNeighbours = roomsListOfNeighbours.size();
-        for(int i = 0; i < originalNumberOfNeighbours; i++){
-                r.AddNeighbour(roomsListOfNeighbours.get(0));
-                this.RemoveNeighbour(roomsListOfNeighbours.get(0));
-        }
+        r.GetNeighbours().addAll(this.roomsListOfNeighbours);
+        this.roomsListOfStudents.clear();
     }
 
     /**
@@ -137,12 +134,10 @@ public class Room {
      * @param r: The destination room for all items.
      */
     public void SendAllItems(Room r){
-        if(!roomsListOfItems.isEmpty()){
-            for(int i = 0; i < this.roomsListOfItems.size(); i++){
-                r.AddItemToRoom(roomsListOfItems.get(i));
-            }
-            this.roomsListOfItems.clear();
-        }
+        if(roomsListOfItems.isEmpty()) return;
+
+        r.GetInventory().addAll(this.roomsListOfItems);
+        this.roomsListOfItems.clear();
     }
 
     /**
@@ -151,12 +146,12 @@ public class Room {
      * @param r: The destination room for every second items.
      */
     public void SendEveryOtherItem(Room r){
-        if(!roomsListOfItems.isEmpty()){
-            for(int i = 0; i < this.roomsListOfItems.size(); i++){
-                if(i % 2 == 0){
-                    r.AddItemToRoom(roomsListOfItems.get(i));
-                    this.RemoveItemFromRoom(roomsListOfItems.get(i));
-                }
+        if(roomsListOfItems.isEmpty()) return;
+
+        for(int i = 0; i < this.roomsListOfItems.size(); i++){
+            if(i % 2 == 0){
+                r.AddItemToRoom(roomsListOfItems.get(i));
+                this.RemoveItemFromRoom(roomsListOfItems.get(i));
             }
         }
     }
