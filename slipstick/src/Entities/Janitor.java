@@ -3,7 +3,7 @@ package Entities;
 import GameManagers.Game;
 import Labyrinth.Room;
 
-public class Janitor extends Entity {
+public class Janitor extends Entity implements IAI {
 
     public Janitor(Game g) {
         super(g);
@@ -24,6 +24,11 @@ public class Janitor extends Entity {
      */
     @Override
     public void SteppedIntoGassedRoom() {
+
+    }
+
+    @Override
+    public void AI() {
 
     }
 }
