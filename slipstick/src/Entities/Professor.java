@@ -11,7 +11,7 @@ import Items.FFP2Mask;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Professor extends Entity{
+public class Professor extends Entity implements IAI {
 
     public Professor(Game g) {
         super(g);
@@ -69,4 +69,8 @@ public class Professor extends Entity{
         student.Kill(this);
     }
 
+    @Override
+    public void AI() {
+
+    }
 }

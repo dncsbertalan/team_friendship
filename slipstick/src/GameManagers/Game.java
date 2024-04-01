@@ -14,6 +14,7 @@ import java.util.List;
  */
 public class Game {
 
+//region Attributes
     private boolean over;
     /**
      * The map where the Game takes place.
@@ -43,6 +44,9 @@ public class Game {
      * List of professors in the game.
      */
     private List<Professor> professors;
+
+    private boolean isRunning;
+//endregion
 
     public Game(){
 
@@ -136,11 +140,61 @@ public class Game {
         return over;
     }
 
-    public void GameLogic() {
-        while(roundManager.rounds < GameConstants.MaxRounds){
+//region Game loop and logic
 
+    private void MainGameLoop() {
 
-            roundManager.NextRound();
+        double drawInterval = 1_000_000_000.0 / GameConstants.DesiredFPS;
+        double delta = 0;
+        long lastTime = System.nanoTime();
+        long currentTime;
+        long timer = 0;
+
+        while (isRunning) {
+
+            currentTime = System.nanoTime();
+
+            delta += (currentTime - lastTime) / drawInterval;
+            timer += currentTime - lastTime;
+            lastTime = currentTime;
+
+            if (delta >= 1) {
+                GameLogic();
+
+                delta--;
+            }
+
+            if (timer >= 1_000_000_000) {
+                timer = 0;
+            }
+
         }
     }
+
+    public void GameLogic() {
+
+        Student activeStudent = roundManager.activeStudent;
+        IAI activeAIEntity = roundManager.activeAIEntity;
+
+        // Handle student and professor
+        this.HandleStudent(activeStudent);
+        this.HandleAIEntities(activeAIEntity);
+    }
+
+    private void HandleStudent(Student student) {
+        if (student == null) return;
+
+        // if the student dies
+        if (student.IsDead()) {
+            this.roundManager.EndOfRound();
+        }
+    }
+
+    private void HandleAIEntities(IAI entities) {
+        if (entities == null) return;
+
+        entities.AI();
+    }
+
+//endregion
 }
