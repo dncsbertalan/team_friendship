@@ -38,12 +38,12 @@ public class Game {
     /**
      * List of students in the game.
      */
-    private List<Student> students;
+    private final List<Student> students;
 
     /**
      * List of professors in the game.
      */
-    private List<Professor> professors;
+    private final List<Professor> professors;
 
     private boolean isRunning;
 //endregion
@@ -52,6 +52,9 @@ public class Game {
 
         students = new ArrayList<>();
         professors = new ArrayList<>();
+        this.roundManager = new RoundManager(this);
+        this.map = new Map(this);
+        isRunning =true;
     }
 
     /**
@@ -152,7 +155,7 @@ public class Game {
 
 //region Game loop and logic
 
-    private void MainGameLoop() {
+    public void MainGameLoop() {
 
         double drawInterval = 1_000_000_000.0 / GameConstants.DesiredFPS;
         double delta = 0;
@@ -181,11 +184,12 @@ public class Game {
         }
     }
 
-    public void GameLogic() {
+    private void GameLogic() {
 
         Student activeStudent = roundManager.activeStudent;
         IAI activeAIEntity = roundManager.activeAIEntity;
 
+        System.out.println("pusy");
         // Handle student and professor
         this.HandleStudent(activeStudent);
         this.HandleAIEntities(activeAIEntity);
