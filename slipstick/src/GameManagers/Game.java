@@ -58,6 +58,16 @@ public class Game {
     }
 
     /**
+     * Initialize the students based on the players' names.
+     * @param names players' names
+     */
+    public void InitPlayers(String[] names) {
+        for (String name : names) {
+            students.add(new Student(this, name));
+        }
+    }
+
+    /**
      * Setter of the map attribute.
      * @param rm: the new roundManager
      */

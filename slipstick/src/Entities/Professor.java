@@ -13,8 +13,11 @@ import java.util.List;
 
 public class Professor extends Entity implements IAI {
 
+    private static int ID = 0;
+
     public Professor(Game g) {
         super(g);
+        this.Name = GameConstants.ProfName + ++ID;
     }
 
     @Override

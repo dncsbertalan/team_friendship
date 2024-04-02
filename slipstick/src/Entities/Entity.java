@@ -12,7 +12,7 @@ public abstract class Entity {
     /**
      * Name of the Entity
      */
-    String Name = "Mike Wazowski";
+    String Name = "anonymous";
     /**
      * Current Room of the Entity
      */
