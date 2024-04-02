@@ -136,6 +136,7 @@ public class Student extends Entity{
             System.out.println("\t-> Student (" + this.hashCode() + ") doesn't have protective item, the student dies");
             DropAllItems();
             isDead = true;
+            this.game.GetRoundManager().EndTurn();
             return;
         }
 

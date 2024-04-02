@@ -1,5 +1,6 @@
 package Runnable;
 
+import Entities.Janitor;
 import GameManagers.CommandController;
 import GameManagers.Game;
 

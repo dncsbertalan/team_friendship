@@ -9,6 +9,7 @@ import Labyrinth.Room;
 import java.util.ArrayList;
 
 public abstract class Entity {
+//region Attributes ====================================================================================================
     /**
      * Name of the Entity
      */
@@ -29,18 +30,19 @@ public abstract class Entity {
      * Number of moves left this Round
      */
     int remainingTurns;
-    /**
-     * protected against next death
-     */
-    boolean onLifeSupport = false;
 
     /**
      * Game instance.
      */
     protected Game game;
+//endregion
 
     public Entity(Game g) {
         game = g;
+    }
+
+    public String GetName() {
+        return this.Name;
     }
 
     /**
@@ -142,13 +144,6 @@ public abstract class Entity {
      */
     public void SetCurrentRoom(Room room) {
         this.room = room;
-    }
-
-    /**
-     * Protects Entity
-     */
-    public void ProtectMe() {
-        onLifeSupport = true;
     }
 
     /**

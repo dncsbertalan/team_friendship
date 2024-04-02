@@ -11,7 +11,7 @@ import java.util.ArrayList;
 */
 public class RoundManager{
 
-//region Attributes
+//region Attributes ====================================================================================================
     Game game;
     int rounds = 0;
     Student activeStudent;
@@ -85,7 +85,7 @@ public class RoundManager{
     /**
      * Ends the currently active entity's turn and activates the next.
      */
-    void EndTurn(){
+    public void EndTurn(){
 
         // TODO: unpickable items reset
 

@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class Game {
 
-//region Attributes
+//region Attributes ====================================================================================================
     private boolean over;
     /**
      * The map where the Game takes place.
@@ -49,9 +49,8 @@ public class Game {
 //endregion
 
     public Game(){
-
-        students = new ArrayList<>();
-        professors = new ArrayList<>();
+        this.students = new ArrayList<>();
+        this.professors = new ArrayList<>();
         this.roundManager = new RoundManager(this);
         this.map = new Map(this);
         isRunning =true;
@@ -61,12 +60,13 @@ public class Game {
      * Initialize the students based on the players' names.
      * @param names players' names
      */
-    public void InitPlayers(String[] names) {
+    public void InitPlayers(ArrayList<String> names) {
         for (String name : names) {
             students.add(new Student(this, name));
         }
     }
 
+//region Get/Setters ===================================================================================================
     /**
      * Setter of the map attribute.
      * @param rm: the new roundManager
@@ -76,11 +76,27 @@ public class Game {
     }
 
     /**
-     * Appends the students list with a student.
-     * @param student: the new student
+     * Getter of the roundManager attribute.
+     * @return the roundManager
      */
-    public void AddStudent(Student student){
-        students.add(student);
+    public RoundManager GetRoundManager(){
+        return this.roundManager;
+    }
+
+    /**
+     * Setter of the map attribute.
+     * @param map: the new map
+     */
+    public void SetMap(Map map) {
+        this.map = map;
+    }
+
+    /**
+     * Getter of the map attribute.
+     * @return the map
+     */
+    public Map GetMap(){
+        return map;
     }
 
     /**
@@ -92,14 +108,6 @@ public class Game {
     }
 
     /**
-     * Appends the professors list with a professors.
-     * @param professor: the new professor
-     */
-    public void AddProfessor(Professor professor){
-        professors.add(professor);
-    }
-
-    /**
      * Getter of the professors list.
      * @return list of professors
      */
@@ -108,19 +116,21 @@ public class Game {
     }
 
     /**
-     * Setter of the map attribute.
-     * @param map: the new map
+     * Appends the students list with a student.
+     * @param student: the new student
      */
-    public void SetMap(Map map) {
-        this.map = map;
+    public void AddStudent(Student student){
+        students.add(student);
     }
+
     /**
-     * Getter of the map attribute.
-     * @return the map
+     * Appends the professors list with a professors.
+     * @param professor: the new professor
      */
-    public Map GetMap(){
-        return map;
+    public void AddProfessor(Professor professor){
+        professors.add(professor);
     }
+//endregion
 
     /**
      * Enables/disables lastPhase
@@ -139,7 +149,6 @@ public class Game {
     public boolean IsLastPhase() {
         return lastPhase;
     }
-
 
     /**
      * Ends the game with the given output.
@@ -198,10 +207,6 @@ public class Game {
     private void HandleStudent(Student student) {
         if (student == null) return;
 
-        // if the student dies
-        if (student.IsDead()) {
-            this.roundManager.EndOfRound();
-        }
     }
 
     private void HandleAIEntities(IAI entities) {
