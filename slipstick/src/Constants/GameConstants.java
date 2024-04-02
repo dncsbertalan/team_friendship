@@ -11,4 +11,7 @@ public class GameConstants {
 
     public static final int InventoryMaxSize = 5;
     public static final int DesiredFPS = 60;
+
+    public static final String ProfName = "Professor";
+    public static final String JanitorName = "Janitor";
 }

@@ -23,6 +23,11 @@ public class Student extends Entity{
         super(g);
     }
 
+    public Student(Game game, String name) {
+        this(game);
+        this.Name = name;
+    }
+
     @Override
     public void StepInto(Room room) {
         if (room.GetNeighbours().contains(this.room) && room.CanStepIn()){
