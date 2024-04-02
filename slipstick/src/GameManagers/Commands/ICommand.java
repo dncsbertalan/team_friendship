@@ -1,4 +1,4 @@
-package Runnable.Commands;
+package GameManagers.Commands;
 
 public interface ICommand {
 
