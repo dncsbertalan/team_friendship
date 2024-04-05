@@ -20,26 +20,12 @@ public class Beer extends Item {
         if(student.GetInventory().size() != 1){
             Item dropThisItem;
             do{
-                dropThisItem = GetRandomItemFromStudent(student);
+                dropThisItem = student.GetRandomItemFromStudent();
             } while (dropThisItem == this);
             student.GetCurrentRoom().AddUnpickupableItemToRoom(dropThisItem);
         }
         student.GetInventory().remove(this);
     }
 
-    /**
-     * Gets a random item from the student's inventory.
-     * @param student: Choosing a random item from this student.
-     * @return: The random item chosen.
-     */
 
-    public Item GetRandomItemFromStudent(Student student){
-        Random random = new Random();
-        int minInclusive = 0;
-        int maxExclusive = student.GetInventory().size();
-        int itemIndex = random.ints(minInclusive, maxExclusive).findFirst().getAsInt();
-
-        Item resultItem = student.GetInventory().get(itemIndex);
-        return resultItem;
-    }
 }

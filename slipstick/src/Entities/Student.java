@@ -7,6 +7,8 @@ import Items.*;
 import Labyrinth.Map;
 import Labyrinth.Room;
 
+import java.util.Random;
+
 public class Student extends Entity{
     
     int steps;
@@ -224,5 +226,20 @@ public class Student extends Entity{
      */
     public void PairTransistors(Transistor t1, Transistor t2) {
         t1.PairTransistor(t2);
+    }
+
+    /**
+     * Gets a random item from the student's inventory.
+     * @return: The random item chosen.
+     */
+
+    public Item GetRandomItemFromStudent(){
+        Random random = new Random();
+        int minInclusive = 0;
+        int maxExclusive = this.GetInventory().size();
+        int itemIndex = random.ints(minInclusive, maxExclusive).findFirst().getAsInt();
+
+        Item resultItem = this.GetInventory().get(itemIndex);
+        return resultItem;
     }
 }
