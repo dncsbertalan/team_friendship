@@ -11,6 +11,7 @@ public class Beer extends Item {
     /**
      * Increases the student's remaining turns.
      * If the student has any other than the beer currently used, then the function makes the student drop a random one.
+     * The function then removes the beer from the student's inventory.
      * @param student: Student using the beer.
      */
     @Override
@@ -21,9 +22,9 @@ public class Beer extends Item {
             do{
                 dropThisItem = GetRandomItemFromStudent(student);
             } while (dropThisItem == this);
-
             student.GetCurrentRoom().AddUnpickupableItemToRoom(dropThisItem);
         }
+        student.GetInventory().remove(this);
     }
 
     /**
