@@ -17,7 +17,11 @@ public class Beer extends Item {
     public void UseItem(Student student) {
         student.IncreaseMoveCount(1);
         if(student.GetInventory().size() != 1){
-            Item dropThisItem = GetRandomItemFromStudent(student);
+            Item dropThisItem;
+            do{
+                dropThisItem = GetRandomItemFromStudent(student);
+            } while (dropThisItem == this);
+
             student.GetCurrentRoom().AddUnpickupableItemToRoom(dropThisItem);
         }
     }
