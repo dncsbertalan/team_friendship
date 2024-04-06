@@ -3,13 +3,13 @@ package GameManagers.Commands;
 public class Commands {
 
     public static void Move(String[] args) {
-        if (args.length < 3) {
+        if (args.length != 3) {
             System.out.println("Usage: move <-s/-j> <room name>");
             return;
         }
 
-        String option = args[0];
-        String roomName = args[1];
+        String option = args[1];
+        String roomName = args[2];
 
         switch (option) {
             case "-s":
@@ -23,12 +23,12 @@ public class Commands {
     }
 
     public static void List(String[] args) {
-        if (args.length < 1) {
+        if (args.length < 2) {
             System.out.println("Usage: list <-it/-in/-n/-m> [<entity>]");
             return;
         }
 
-        String option = args[0];
+        String option = args[1];
 
         switch (option) {
             case "-it":
@@ -36,11 +36,11 @@ public class Commands {
             case "-in":
                 break;
             case "-n":
-                if (args.length < 2) {
+                if (args.length < 3) {
                     System.out.println("Usage: list -n <entity>");
                     return;
                 }
-                String entity = args[1];
+                String entity = args[2];
                 break;
             case "-m":
                 break;
@@ -69,7 +69,10 @@ public class Commands {
     }
 
     public static void PickUpItem(String[] args) {
-
+        if (args.length != 1) {
+            System.out.println("Usage: pick_up_item <item name>");
+            return;
+        }
     }
 
     public static void DropItem(String[] args) {
@@ -82,11 +85,11 @@ public class Commands {
     }
 
     public static void Merge(String[] args) {
-        if (args.length == 0) {
+        if (args.length == 1) {
             //random merge
-        } else if (args.length == 2) {
-            String room1 = args[0];
-            String room2 = args[1];
+        } else if (args.length == 3) {
+            String room1 = args[1];
+            String room2 = args[2];
             //manual merge
         } else {
             System.out.println("Usage: merge [<room name> <room name>]");
@@ -94,10 +97,10 @@ public class Commands {
     }
 
     public static void Separate(String[] args) {
-        if (args.length == 0) {
+        if (args.length == 1) {
             //random separation
-        } else if (args.length == 1) {
-            String room = args[0];
+        } else if (args.length == 2) {
+            String room = args[1];
             //manual separation
         } else {
             System.out.println("Usage: separate [<room name>]");
@@ -117,7 +120,7 @@ public class Commands {
     }
 
     private static int validateSlotNumber(String[] args) {
-        if (args.length < 1) {
+        if (args.length != 2) {
             System.out.println("Usage: <use/activate>_item <slot number>");
             return -1;
         }
