@@ -10,5 +10,6 @@ public class AirFresher extends Item {
     @Override
     public void UseItem(Student student) {
         student.GetCurrentRoom().DeactivateToxicGas();
+        student.DeleteItemFromInventory(this);
     }
 }
