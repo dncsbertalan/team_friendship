@@ -13,5 +13,9 @@ public class GameConstants {
 
     public static final String ProfName = "Professor";
     public static final String JanitorName = "Janitor";
+    public static final String RoomName = "Room";
+    public static final String RoomName_MainHall = "Main Hall";
+    public static final String RoomName_JanitorsRoom = "Janitor's Room";
+    public static final String RoomName_TeachersLounge = "Teachers' Lounge";
     public static final long randomSeed = 69;
 }

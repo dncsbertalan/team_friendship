@@ -13,6 +13,8 @@ public class Main {
         //Game game = new Game();
         //game.MainGameLoop();
 
+        game.GetMap().__Berci__MAPTEST();
+        game.__Berci__LISTALLTEST();
         CommandController.GetInput();
     }
 }

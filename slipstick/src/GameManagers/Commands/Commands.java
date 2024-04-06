@@ -1,5 +1,9 @@
 package GameManagers.Commands;
 
+import Entities.*;
+import Labyrinth.Room;
+import Runnable.Main;
+
 public class Commands {
 
     public static void Move(String[] args) {
@@ -42,8 +46,31 @@ public class Commands {
                 }
                 String entity = args[2];
                 break;
-            case "-m":
+            case "-m": {
+
+                System.out.println("The rooms and their neighbours in the map:");
+                for (Room room : Main.game.GetMap().GetRooms()) {
+                    System.out.println("-> " + room.GetName() + " " + (room.IsGassed() ? "(gassed)" : ""));
+                    for (Room neighbours : room.GetNeighbours()) {
+                        System.out.println("\t-> " + neighbours.GetName() + " " + (neighbours.IsGassed() ? "(gassed)" : ""));
+                    }
+                }
                 break;
+            }
+            case "-all": {
+
+                System.out.println("The entities in the game:");
+                for (Student student : Main.game.GetStudents()) {
+                    System.out.println("->" + student.GetName() + ": Student");
+                }
+                for (Professor prof : Main.game.GetProfessors()) {
+                    System.out.println("->" + prof.GetName() + ": Professor");
+                }
+                for (Janitor janitor : Main.game.GetJanitors()) {
+                    System.out.println("->" + janitor.GetName() + ": Janitor");
+                }
+                break;
+            }
             default:
                 System.out.println("Invalid option: " + option);
                 break;

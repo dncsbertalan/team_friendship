@@ -47,6 +47,7 @@ public class Game {
      * List of professors in the game.
      */
     private final List<Professor> professors;
+    private final List<Janitor> janitors;
 
     private boolean isRunning;
     public static Random random;
@@ -66,9 +67,10 @@ public class Game {
     public Game(){
         this.students = new ArrayList<>();
         this.professors = new ArrayList<>();
+        this.janitors = new ArrayList<>();
         this.roundManager = new RoundManager(this);
         this.map = new Map(this);
-        isRunning =true;
+        this.isRunning = true;
     }
 
     /**
@@ -128,6 +130,10 @@ public class Game {
      */
     public List<Professor> GetProfessors() {
         return professors;
+    }
+
+    public List<Janitor> GetJanitors() {
+        return janitors;
     }
 
     /**
@@ -228,6 +234,20 @@ public class Game {
         if (entities == null) return;
 
         entities.AI();
+    }
+
+    public void __Berci__LISTALLTEST() {
+        for (int i = 0; i < 10; i++ ) {
+            this.janitors.add(new Janitor(this));
+        }
+        for (int i = 0; i < 10; i++ ) {
+            this.professors.add(new Professor(this));
+        }
+        this.students.add(new Student(this, "Benedek"));
+        this.students.add(new Student(this, "Berci"));
+        this.students.add(new Student(this, "Boti"));
+        this.students.add(new Student(this, "Kincső"));
+        this.students.add(new Student(this, "Norbi"));
     }
 
 //endregion
