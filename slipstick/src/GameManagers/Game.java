@@ -50,17 +50,20 @@ public class Game {
 
     private boolean isRunning;
     public static Random random;
+    public static boolean IsGameRandom;
 //endregion
 
     public Game(boolean randomSetting){
+        this();
         random = new Random();
         if(randomSetting) {
             random.setSeed(System.currentTimeMillis());
         }else {
             random.setSeed(randomSeed);
         }
+    }
 
-
+    public Game(){
         this.students = new ArrayList<>();
         this.professors = new ArrayList<>();
         this.roundManager = new RoundManager(this);
