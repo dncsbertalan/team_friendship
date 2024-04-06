@@ -1,7 +1,6 @@
 package Constants;
 
 public class GameConstants {
-
     public static final int MaxRounds = 1;  // temporary
     public static final int RoundsMissed_GasRoom = 1;
     public static final int TVSZ_MaxUses = 3;
@@ -14,4 +13,5 @@ public class GameConstants {
 
     public static final String ProfName = "Professor";
     public static final String JanitorName = "Janitor";
+    public static final long randomSeed = 69;
 }

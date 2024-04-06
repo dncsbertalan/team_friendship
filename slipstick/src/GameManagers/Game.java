@@ -6,6 +6,9 @@ import Constants.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
+import static Constants.GameConstants.randomSeed;
 
 /**
  * Initializes the game. Its main task is to handle the actions of the currently active student
@@ -46,9 +49,18 @@ public class Game {
     private final List<Professor> professors;
 
     private boolean isRunning;
+    public static Random random;
 //endregion
 
-    public Game(){
+    public Game(boolean randomSetting){
+        random = new Random();
+        if(randomSetting) {
+            random.setSeed(System.currentTimeMillis());
+        }else {
+            random.setSeed(randomSeed);
+        }
+
+
         this.students = new ArrayList<>();
         this.professors = new ArrayList<>();
         this.roundManager = new RoundManager(this);
