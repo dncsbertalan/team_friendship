@@ -153,6 +153,7 @@ public class Game {
     }
 //endregion
 
+//region Methods
     /**
      * Enables/disables lastPhase
      * @param state: desired state of the attribute
@@ -183,7 +184,16 @@ public class Game {
         return over;
     }
 
-//region Game loop and logic
+    /**
+     * Serializes the game into the given file.
+     * @param fileName the file
+     */
+    public void SaveGame(String fileName) {
+
+    }
+//endregion
+
+//region Game loop and logic ===========================================================================================
 
     public void MainGameLoop() {
 
