@@ -67,6 +67,7 @@ public class Room {
      * Shows how many entities stepped into the room after it was cleaned.
      */
     private int entityCounterAfterCleaning;
+    private boolean sticky;
     /**
      * Constructor.
      * @param g: The game object the room will have a reference for.
@@ -431,5 +432,13 @@ public class Room {
      */
     public int GetEntityNumberAfterCleaning(){
         return entityCounterAfterCleaning;
+    }
+
+    public void SetSticky(boolean sticky) {
+        this.sticky = sticky;
+    }
+
+    public boolean IsSticky() {
+        return this.sticky;
     }
 }
