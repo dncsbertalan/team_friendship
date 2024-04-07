@@ -54,6 +54,10 @@ public class Game {
     public static boolean IsGameRandom;
 //endregion
 
+    /**
+     * Before the game starts {@link Game#InitPlayers(ArrayList)} and {@link Game#InitRandom(boolean)}
+     * must be called properly or during the game it will throw {@link NullPointerException}.
+     */
     public Game(){
         this.students = new ArrayList<>();
         this.professors = new ArrayList<>();
