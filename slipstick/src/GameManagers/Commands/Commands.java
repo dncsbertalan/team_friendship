@@ -146,6 +146,62 @@ public class Commands {
 
     }
 
+    public static void RM(String[] args) {
+        /*if (args.length < 2) {
+            System.out.println("Usage: rm < /-endr>");
+            return;
+        }*/
+
+        if (args.length < 2) {
+            System.out.println("Usage: rm < /-endr>");
+            return;
+        }
+
+        String option = args[1];
+
+        switch (option) {
+            case "-it":
+                break;
+            case "-in":
+                break;
+            case "-n":
+                if (args.length < 3) {
+                    System.out.println("Usage: list -n <entity>");
+                    return;
+                }
+                String entity = args[2];
+                break;
+            case "-m": {
+
+                System.out.println("The rooms and their neighbours in the map:");
+                for (Room room : Main.game.GetMap().GetRooms()) {
+                    System.out.println("-> " + room.GetName() + " " + (room.IsGassed() ? "(gassed)" : ""));
+                    for (Room neighbours : room.GetNeighbours()) {
+                        System.out.println("\t-> " + neighbours.GetName() + " " + (neighbours.IsGassed() ? "(gassed)" : ""));
+                    }
+                }
+                break;
+            }
+            case "-all": {
+
+                System.out.println("The entities in the game:");
+                for (Student student : Main.game.GetStudents()) {
+                    System.out.println("->" + student.GetName() + ": Student");
+                }
+                for (Professor prof : Main.game.GetProfessors()) {
+                    System.out.println("->" + prof.GetName() + ": Professor");
+                }
+                for (Janitor janitor : Main.game.GetJanitors()) {
+                    System.out.println("->" + janitor.GetName() + ": Janitor");
+                }
+                break;
+            }
+            default:
+                System.out.println("Invalid option: " + option);
+                break;
+        }
+    }
+
     private static int validateSlotNumber(String[] args) {
         if (args.length != 2) {
             System.out.println("Usage: <use/activate>_item <slot number>");

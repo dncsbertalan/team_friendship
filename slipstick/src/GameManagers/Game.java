@@ -54,16 +54,6 @@ public class Game {
     public static boolean IsGameRandom;
 //endregion
 
-    public Game(boolean randomSetting){
-        this();
-        random = new Random();
-        if(randomSetting) {
-            random.setSeed(System.currentTimeMillis());
-        }else {
-            random.setSeed(randomSeed);
-        }
-    }
-
     public Game(){
         this.students = new ArrayList<>();
         this.professors = new ArrayList<>();
@@ -80,6 +70,21 @@ public class Game {
     public void InitPlayers(ArrayList<String> names) {
         for (String name : names) {
             students.add(new Student(this, name));
+        }
+    }
+
+    /**
+     * Initialize {@link Game#random} in the {@link Game} class.
+     * <p>
+     * Must be only used once before the game starts!
+     * @param rand the value of the {@link Game#random}
+     */
+    public void InitRandom(boolean rand) {
+        random = new Random();
+        if(rand) {
+            random.setSeed(System.currentTimeMillis());
+        }else {
+            random.setSeed(randomSeed);
         }
     }
 
@@ -165,6 +170,7 @@ public class Game {
             hunted = student;
         }else{
             lastPhase = false;
+            hunted = null;
         }
     }
 
@@ -189,7 +195,15 @@ public class Game {
      * @param fileName the file
      */
     public void SaveGame(String fileName) {
+        // TODO: serialize
+    }
 
+    /**
+     * Deserializes the game from the given file.
+     * @param fileName the file
+     */
+    public void LoadGame(String fileName) {
+        // TODO: deserialize
     }
 //endregion
 
