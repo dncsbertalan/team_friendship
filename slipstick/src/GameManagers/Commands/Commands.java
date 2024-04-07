@@ -1,5 +1,6 @@
 package GameManagers.Commands;
 
+import Constants.GameConstants;
 import Entities.*;
 import Labyrinth.Room;
 import Runnable.Main;
@@ -212,12 +213,12 @@ public class Commands {
         try {
             slotNumber = Integer.parseInt(args[0]);
         } catch (NumberFormatException e) {
-            System.out.println("Invalid slot number. Please enter a number between 1 and 5.");
+            System.out.println("Invalid slot number. Please enter a number between 1 and " + GameConstants.InventoryMaxSize + ".");
             return -1;
         }
 
-        if (slotNumber < 1 || slotNumber > 5) {
-            System.out.println("Invalid slot number. Please enter a number between 1 and 5.");
+        if (slotNumber < 1 || slotNumber > GameConstants.InventoryMaxSize) {
+            System.out.println("Invalid slot number. Please enter a number between 1 and " + GameConstants.InventoryMaxSize + ".");
             return -1;
         }
 
