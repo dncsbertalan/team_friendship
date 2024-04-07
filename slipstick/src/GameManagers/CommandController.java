@@ -9,8 +9,6 @@ import java.util.Scanner;
 
 public class CommandController {
 
-    public static OutputStream os = System.out;
-
     private final static HashMap<String, ICommand> commands = new HashMap<>();
     static {
         commands.put("exit", (args) -> CommandController.getInput = false);
