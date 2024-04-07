@@ -3,6 +3,7 @@ package GameManagers;
 import GameManagers.Commands.Commands;
 import GameManagers.Commands.ICommand;
 
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -22,6 +23,7 @@ public class CommandController {
         commands.put("load", Commands::Load);
         commands.put("save", Commands::Save);
         commands.put("random", Commands::Random);
+        commands.put("rm", Commands::RM);
     }
 
     static boolean getInput = true;

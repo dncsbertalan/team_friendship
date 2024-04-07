@@ -47,25 +47,24 @@ public class Game {
      * List of professors in the game.
      */
     private final List<Professor> professors;
+    private final List<Janitor> janitors;
 
     private boolean isRunning;
     public static Random random;
+    public static boolean IsGameRandom;
 //endregion
 
-    public Game(boolean randomSetting){
-        random = new Random();
-        if(randomSetting) {
-            random.setSeed(System.currentTimeMillis());
-        }else {
-            random.setSeed(randomSeed);
-        }
-
-
+    /**
+     * Before the game starts {@link Game#InitPlayers(ArrayList)} and {@link Game#InitRandom(boolean)}
+     * must be called properly or during the game it will throw {@link NullPointerException}.
+     */
+    public Game(){
         this.students = new ArrayList<>();
         this.professors = new ArrayList<>();
+        this.janitors = new ArrayList<>();
         this.roundManager = new RoundManager(this);
         this.map = new Map(this);
-        isRunning =true;
+        this.isRunning = true;
     }
 
     /**
@@ -75,6 +74,21 @@ public class Game {
     public void InitPlayers(ArrayList<String> names) {
         for (String name : names) {
             students.add(new Student(this, name));
+        }
+    }
+
+    /**
+     * Initialize {@link Game#random} in the {@link Game} class.
+     * <p>
+     * Must be only used once before the game starts!
+     * @param rand the value of the {@link Game#random}
+     */
+    public void InitRandom(boolean rand) {
+        random = new Random();
+        if(rand) {
+            random.setSeed(System.currentTimeMillis());
+        }else {
+            random.setSeed(randomSeed);
         }
     }
 
@@ -127,6 +141,10 @@ public class Game {
         return professors;
     }
 
+    public List<Janitor> GetJanitors() {
+        return janitors;
+    }
+
     /**
      * Appends the students list with a student.
      * @param student: the new student
@@ -144,6 +162,7 @@ public class Game {
     }
 //endregion
 
+//region Methods
     /**
      * Enables/disables lastPhase
      * @param state: desired state of the attribute
@@ -155,6 +174,7 @@ public class Game {
             hunted = student;
         }else{
             lastPhase = false;
+            hunted = null;
         }
     }
 
@@ -174,7 +194,24 @@ public class Game {
         return over;
     }
 
-//region Game loop and logic
+    /**
+     * Serializes the game into the given file.
+     * @param fileName the file
+     */
+    public void SaveGame(String fileName) {
+        // TODO: serialize
+    }
+
+    /**
+     * Deserializes the game from the given file.
+     * @param fileName the file
+     */
+    public void LoadGame(String fileName) {
+        // TODO: deserialize
+    }
+//endregion
+
+//region Game loop and logic ===========================================================================================
 
     public void MainGameLoop() {
 
@@ -225,6 +262,20 @@ public class Game {
         if (entities == null) return;
 
         entities.AI();
+    }
+
+    public void __Berci__LISTALLTEST() {
+        for (int i = 0; i < 10; i++ ) {
+            this.janitors.add(new Janitor(this));
+        }
+        for (int i = 0; i < 10; i++ ) {
+            this.professors.add(new Professor(this));
+        }
+        this.students.add(new Student(this, "Benedek"));
+        this.students.add(new Student(this, "Berci"));
+        this.students.add(new Student(this, "Boti"));
+        this.students.add(new Student(this, "Kincső"));
+        this.students.add(new Student(this, "Norbi"));
     }
 
 //endregion

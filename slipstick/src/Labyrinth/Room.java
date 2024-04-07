@@ -1,5 +1,6 @@
 package Labyrinth;
 
+import Constants.GameConstants;
 import Entities.*;
 import GameManagers.Game;
 import Items.*;
@@ -54,6 +55,10 @@ public class Room {
      * Shows the maximum of entities there can be in the room.
      */
     private int capacity;
+
+    private String name = "empty";
+    private static int ID = 0;
+
     /**
      * Shows whether the room was cleaned by a janitor.
      */
@@ -80,6 +85,8 @@ public class Room {
 
         capacity = c;
         game = g;
+
+        this.name = GameConstants.RoomName + ++ID;
     }
 
     /**
@@ -104,6 +111,16 @@ public class Room {
         capacity = random.ints(minInclusive, maxExclusive).findFirst().getAsInt();
 
         game = g;
+
+        this.name = GameConstants.RoomName + ++ID;
+    }
+
+    public void SetName(String name) {
+        this.name = name;
+    }
+
+    public String GetName() {
+        return this.name;
     }
 
     /**
