@@ -10,7 +10,7 @@ import java.util.Random;
 public class Beer extends Item {
     /**
      * Increases the student's remaining turns.
-     * If the student has any other than the beer currently used, then the function makes the student drop a random one.
+     * If the student has any other than the beer currently used, then the function makes the student lose (not drop) a random one.
      * The function then removes the beer from the student's inventory.
      * @param student: Student using the beer.
      */
@@ -23,9 +23,8 @@ public class Beer extends Item {
                 dropThisItem = student.GetRandomItemFromStudent();
             } while (dropThisItem == this);
             student.GetCurrentRoom().AddUnpickupableItemToRoom(dropThisItem);
+            student.GetInventory().remove(dropThisItem);
         }
         student.GetInventory().remove(this);
     }
-
-
 }

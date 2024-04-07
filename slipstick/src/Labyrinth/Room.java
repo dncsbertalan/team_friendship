@@ -55,6 +55,14 @@ public class Room {
      */
     private int capacity;
     /**
+     * Shows whether the room was cleaned by a janitor.
+     */
+    private boolean cleaned;
+    /**
+     * Shows how many entities stepped into the room after it was cleaned.
+     */
+    private int entityCounterAfterCleaning;
+    /**
      * Constructor.
      * @param g: The game object the room will have a reference for.
      * @param c: Room's initial capacity.
@@ -67,6 +75,8 @@ public class Room {
         listOfUnpickupableItems = new ArrayList<>();
         gassed = false;
         remainingRoundsBeingGassed = 0;
+        cleaned = false;
+        entityCounterAfterCleaning = 0;
 
         capacity = c;
         game = g;
@@ -85,6 +95,8 @@ public class Room {
         listOfUnpickupableItems = new ArrayList<>();
         gassed = false;
         remainingRoundsBeingGassed = 0;
+        cleaned = false;
+        entityCounterAfterCleaning = 0;
 
         Random random = new Random();
         int minInclusive = 2;
@@ -378,5 +390,29 @@ public class Room {
     public int GetRemainingRoundsGassed() {
         return remainingRoundsBeingGassed;
     }
-
+    /**
+     * Displays whether room is cleaned by a janitor
+     * @return whether room is cleaned
+     */
+    public boolean IsCleaned(){
+        return cleaned;
+    }
+    /**
+     * After janitor steps into room it sets the room as cleaned.
+     */
+    public void SetRoomAsCleaned(){
+        cleaned = true;
+    }
+    /**
+     * The entity counter goes up by 1 when one steps into a cleaned room.
+     */
+    public void IncreaseEntityNumberAfterCleaning(){
+        entityCounterAfterCleaning++;
+    }
+    /**
+     * Displays how many entities stepped into a room after it was cleaned.
+     */
+    public int GetEntityNumberAfterCleaning(){
+        return entityCounterAfterCleaning;
+    }
 }
