@@ -276,7 +276,7 @@ public class Room {
      * @param student: the student being placed in the room.
      */
     public void AddStudentToRoom(Student student){
-        System.out.println("\t-> Student (" + student.hashCode() + ") stepped into room (" + this.hashCode() + ")");
+        System.out.println("\t-> " + student.GetName() + " stepped into " + this.GetName());
         this.roomsListOfStudents.add(student);
         student.SetCurrentRoom(this);
 
@@ -309,7 +309,7 @@ public class Room {
      * @param s: The student being removed from the room.
      */
     public void RemoveStudentFromRoom(Student s) {
-        System.out.println("\t-> Student (" + s.hashCode() + ") stepped out of room (" + this.hashCode() + ")");
+        System.out.println("\t-> " + s.GetName() + " stepped out of " + this.GetName());
         this.roomsListOfStudents.remove(s);
     }
 

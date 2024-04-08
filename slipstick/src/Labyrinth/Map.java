@@ -88,6 +88,10 @@ public class Map {
         this.rooms.add(mainHall);
         this.rooms.add(teachersLounge);
         this.rooms.add(janitorsRoom);
+
+        Student student = this.game.GetRoundManager().GetActiveStudent();
+        mainHall.AddStudentToRoom(student);
+        student.StepInto(r2);
     }
 
     /**

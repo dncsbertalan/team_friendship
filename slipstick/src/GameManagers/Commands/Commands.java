@@ -19,6 +19,9 @@ public class Commands {
 
         switch (option) {
             case "-s":
+                // TODO TEMPORARY
+                Student student = Main.game.GetRoundManager().GetActiveStudent(); // TODO null check
+                os.println("Moving " + student.GetName() + " to Room2"); // todo faszom temp
                 break;
             case "-j":
                 break;
