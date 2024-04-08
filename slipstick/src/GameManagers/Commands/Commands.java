@@ -163,7 +163,7 @@ public class Commands {
                 if (entity.getClass() == Professor.class) _class = "Professor";
                 else if (entity.getClass() == Janitor.class) _class = "Janitor";
             }
-            System.out.println("-> Active entitry: " + _name + " (" + _class + ")");
+            System.out.println("-> Active entity: " + _name + " (" + _class + ")");
             return;
         }
 
