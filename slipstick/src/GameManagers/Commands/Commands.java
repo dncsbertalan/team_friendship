@@ -4,6 +4,7 @@ import Constants.GameConstants;
 import Entities.*;
 import Labyrinth.Room;
 import Runnable.Main;
+import static Runnable.Main.os;
 
 public class Commands {
 
@@ -60,15 +61,15 @@ public class Commands {
             }
             case "-all": {
 
-                System.out.println("The entities in the game:");
+                os.println("The entities in the game:");
                 for (Student student : Main.game.GetStudents()) {
-                    System.out.println("->" + student.GetName() + ": Student");
+                    os.println("->" + student.GetName() + ": Student");
                 }
                 for (Professor prof : Main.game.GetProfessors()) {
-                    System.out.println("->" + prof.GetName() + ": Professor");
+                    os.println("->" + prof.GetName() + ": Professor");
                 }
                 for (Janitor janitor : Main.game.GetJanitors()) {
-                    System.out.println("->" + janitor.GetName() + ": Janitor");
+                    os.println("->" + janitor.GetName() + ": Janitor");
                 }
                 break;
             }
