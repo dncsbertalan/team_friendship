@@ -10,7 +10,7 @@ public class Commands {
 
     public static void Move(String[] args) {
         if (args.length != 3) {
-            System.out.println("Usage: move <-s/-j> <room name>");
+            os.println("Usage: move <-s/-j> <room name>");
             return;
         }
 
@@ -23,14 +23,14 @@ public class Commands {
             case "-j":
                 break;
             default:
-                System.out.println("Invalid option: " + option);
+                os.println("Invalid option: " + option);
                 break;
         }
     }
 
     public static void List(String[] args) {
         if (args.length < 2) {
-            System.out.println("Usage: list <-it/-in/-n/-m> [<entity>]");
+            os.println("Usage: list <-it/-in/-n/-m> [<entity>]");
             return;
         }
 
@@ -43,18 +43,18 @@ public class Commands {
                 break;
             case "-n":
                 if (args.length < 3) {
-                    System.out.println("Usage: list -n <entity>");
+                    os.println("Usage: list -n <entity>");
                     return;
                 }
                 String entity = args[2];
                 break;
             case "-m": {
 
-                System.out.println("The rooms and their neighbours in the map:");
+                os.println("The rooms and their neighbours in the map:");
                 for (Room room : Main.game.GetMap().GetRooms()) {
-                    System.out.println("-> " + room.GetName() + " " + (room.IsGassed() ? "(gassed)" : ""));
+                    os.println("-> " + room.GetName() + " " + (room.IsGassed() ? "(gassed)" : ""));
                     for (Room neighbours : room.GetNeighbours()) {
-                        System.out.println("\t-> " + neighbours.GetName() + " " + (neighbours.IsGassed() ? "(gassed)" : ""));
+                        os.println("\t-> " + neighbours.GetName() + " " + (neighbours.IsGassed() ? "(gassed)" : ""));
                     }
                 }
                 break;
@@ -74,7 +74,7 @@ public class Commands {
                 break;
             }
             default:
-                System.out.println("Invalid option: " + option);
+                os.println("Invalid option: " + option);
                 break;
         }
     }
@@ -99,7 +99,7 @@ public class Commands {
 
     public static void PickUpItem(String[] args) {
         if (args.length != 1) {
-            System.out.println("Usage: pick_up_item <item name>");
+            os.println("Usage: pick_up_item <item name>");
             return;
         }
     }
@@ -121,7 +121,7 @@ public class Commands {
             String room2 = args[2];
             //manual merge
         } else {
-            System.out.println("Usage: merge [<room name> <room name>]");
+            os.println("Usage: merge [<room name> <room name>]");
         }
     }
 
@@ -132,7 +132,7 @@ public class Commands {
             String room = args[1];
             //manual separation
         } else {
-            System.out.println("Usage: separate [<room name>]");
+            os.println("Usage: separate [<room name>]");
         }
     }
 
@@ -150,9 +150,9 @@ public class Commands {
 
     public static void Roundm(String[] args) {
         if (args.length < 2) {
-            System.out.println("Informations of the current round:");
-            System.out.println("-> Round number: " + Main.game.GetRoundManager().GetCurrentRound());
-            System.out.println("-> Remaining rounds left: " + (GameConstants.MaxRounds - Main.game.GetRoundManager().GetCurrentRound()));
+            os.println("Informations of the current round:");
+            os.println("-> Round number: " + Main.game.GetRoundManager().GetCurrentRound());
+            os.println("-> Remaining rounds left: " + (GameConstants.MaxRounds - Main.game.GetRoundManager().GetCurrentRound()));
             String _name = "hupi", _class = "none";
             if (Main.game.GetRoundManager().GetActiveStudent() != null) {
                 _name = Main.game.GetRoundManager().GetActiveStudent().GetName();
@@ -164,7 +164,7 @@ public class Commands {
                 if (entity.getClass() == Professor.class) _class = "Professor";
                 else if (entity.getClass() == Janitor.class) _class = "Janitor";
             }
-            System.out.println("-> Active entity: " + _name + " (" + _class + ")");
+            os.println("-> Active entity: " + _name + " (" + _class + ")");
             return;
         }
 
@@ -172,24 +172,24 @@ public class Commands {
 
         switch (option) {
             case "-endt":
-                System.out.println("pipa");
+                os.println("pipa");
                 Main.game.GetRoundManager().EndTurn();
                 break;
             case "-endr":
-                System.out.println("pipa_ended");
+                os.println("pipa_ended");
                 Main.game.GetRoundManager().EndOfRound();   // TODO: safe check to not skip 2 rounds
                 Main.game.GetRoundManager().EndTurn();
                 break;
 
             default:
-                System.out.println("Invalid option: " + option);
+                os.println("Invalid option: " + option);
                 break;
         }
     }
 
     private static int validateSlotNumber(String[] args) {
         if (args.length != 2) {
-            System.out.println("Usage: <use/activate>_item <slot number>");
+            os.println("Usage: <use/activate>_item <slot number>");
             return -1;
         }
 
@@ -197,12 +197,12 @@ public class Commands {
         try {
             slotNumber = Integer.parseInt(args[0]);
         } catch (NumberFormatException e) {
-            System.out.println("Invalid slot number. Please enter a number between 1 and " + GameConstants.InventoryMaxSize + ".");
+            os.println("Invalid slot number. Please enter a number between 1 and " + GameConstants.InventoryMaxSize + ".");
             return -1;
         }
 
         if (slotNumber < 1 || slotNumber > GameConstants.InventoryMaxSize) {
-            System.out.println("Invalid slot number. Please enter a number between 1 and " + GameConstants.InventoryMaxSize + ".");
+            os.println("Invalid slot number. Please enter a number between 1 and " + GameConstants.InventoryMaxSize + ".");
             return -1;
         }
 
