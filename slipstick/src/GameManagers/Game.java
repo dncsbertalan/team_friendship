@@ -75,6 +75,7 @@ public class Game {
         for (String name : names) {
             students.add(new Student(this, name));
         }
+        this.roundManager.Init();
     }
 
     /**
@@ -244,8 +245,8 @@ public class Game {
 
     private void GameLogic() {
 
-        Student activeStudent = roundManager.activeStudent;
-        IAI activeAIEntity = roundManager.activeAIEntity;
+        Student activeStudent = roundManager.GetActiveStudent();
+        IAI activeAIEntity = roundManager.GetActiveAIEntity();
 
         System.out.println("pusy");
         // Handle student and professor
@@ -271,11 +272,13 @@ public class Game {
         for (int i = 0; i < 10; i++ ) {
             this.professors.add(new Professor(this));
         }
+        this.students.add(new Student(this, "Player1"));
         this.students.add(new Student(this, "Benedek"));
         this.students.add(new Student(this, "Berci"));
         this.students.add(new Student(this, "Boti"));
         this.students.add(new Student(this, "Kincső"));
         this.students.add(new Student(this, "Norbi"));
+        this.roundManager.Init();
     }
 
 //endregion

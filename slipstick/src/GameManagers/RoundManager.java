@@ -12,24 +12,34 @@ import java.util.ArrayList;
 public class RoundManager{
 
 //region Attributes ====================================================================================================
-    Game game;
-    int rounds = 0;
-    Student activeStudent;
-    IAI activeAIEntity;
-    ArrayList<Student> studentsLeftThisRound;
-    ArrayList<IAI> aiEntities;
+    private final Game game;
+    private int rounds = 0;
+    private Student activeStudent;
+    private IAI activeAIEntity;
+    private final ArrayList<Student> studentsLeftThisRound;
+    private final ArrayList<IAI> aiEntities;
 //endregion
 
     public RoundManager(Game game) {
         this.game = game;
 
         this.studentsLeftThisRound = new ArrayList<>();
-        this.studentsLeftThisRound.addAll(this.game.GetStudents());
         this.aiEntities = new ArrayList<>();
-        this.aiEntities.addAll(this.game.GetProfessors());  // TODO: takarító
 
-        activeStudent = null;   // TODO: ennek kezdetben az első playernek kell lenni
+
+        activeStudent = null;
         activeAIEntity = null;
+    }
+
+    /**
+     * Must be called in {@link Game#InitPlayers(ArrayList)} before the game starts
+     * or it will throw {@link NullPointerException}.
+     */
+    public void Init() {
+        this.studentsLeftThisRound.addAll(this.game.GetStudents());
+        this.aiEntities.addAll(this.game.GetProfessors());  // TODO: takarító
+        this.aiEntities.addAll(this.game.GetJanitors());  // TODO: takarító
+        activeStudent = this.studentsLeftThisRound.get(0);
     }
 
     /**
@@ -54,6 +64,10 @@ public class RoundManager{
         return activeAIEntity;
     }
 
+    public int GetCurrentRound() {
+        return this.rounds;
+    }
+
     /**
      *Start new round.
      */
@@ -67,13 +81,14 @@ public class RoundManager{
     /**
      * Ends current round.
      */
-    void EndOfRound() {
+    public void EndOfRound() {
 
+        // TODO: reset remaining lists
         // reset the entities
         this.studentsLeftThisRound.addAll(this.game.GetStudents());
         this.aiEntities.addAll(this.game.GetProfessors());  // TODO: takarító
 
-        activeStudent = null;   // TODO: ennek kezdetben az első playernek kell lenni
+        activeStudent = this.studentsLeftThisRound.get(0);   // TODO: ennek kezdetben az első playernek kell lenni
         activeAIEntity = null;
 
         // TODO: kör vége logikák számlálók...
