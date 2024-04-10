@@ -3,10 +3,12 @@ package GameManagers;
 import Entities.*;
 import Labyrinth.*;
 import Constants.*;
+import Labyrinth.Map;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.OutputStream;
+import java.util.*;
 
 import static Constants.GameConstants.randomSeed;
 
@@ -196,19 +198,45 @@ public class Game {
     }
 
     /**
-     * Serializes the game into the given file.
+     * Saves the game into the given file.
      * @param fileName the file
      */
     public void SaveGame(String fileName) {
-        // TODO: serialize
+
+        // TODO:
     }
 
     /**
-     * Deserializes the game from the given file.
+     * Loads the game from the given file.
      * @param fileName the file
      */
     public void LoadGame(String fileName) {
-        // TODO: deserialize
+
+        HashMap<Integer, ArrayList<Integer>> neighbours = new HashMap<>();
+        ArrayList<String> lines = new ArrayList<>();
+
+        // reads the file into the lines array
+        try {
+            Scanner scanner = new Scanner(new File(fileName));
+            while (scanner.hasNextLine()) {
+                lines.add(scanner.nextLine());
+            }
+            scanner.close();
+        }
+        catch (FileNotFoundException e) {
+
+        }
+
+        // process the data in lines
+        for (String line : lines) {
+            System.out.println(line);
+        }
+        for (String line : lines) {
+            String[] strings = line.split(":");
+            for (String s : strings) {
+                System.out.println(s);
+            }
+        }
     }
 //endregion
 
