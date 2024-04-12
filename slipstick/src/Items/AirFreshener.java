@@ -2,7 +2,7 @@ package Items;
 
 import Entities.Student;
 
-public class AirFresher extends Item {
+public class AirFreshener extends Item {
     /**
      * Deactivates toxic gas in the room it is used in.
      * @param student: Student using the AirFresher.
