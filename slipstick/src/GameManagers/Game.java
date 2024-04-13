@@ -53,7 +53,6 @@ public class Game {
 
     private boolean isRunning;
     public static Random random;
-    public static boolean IsGameRandom;
 //endregion
 
     /**
