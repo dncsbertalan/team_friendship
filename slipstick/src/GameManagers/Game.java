@@ -154,7 +154,7 @@ public class Game {
 
     /**
      * Ends the game with the given output.
-     * @param b win/lose
+     * @param isWin win/lose
      */
     public void EndGame(boolean isWin) {
         over = true;
