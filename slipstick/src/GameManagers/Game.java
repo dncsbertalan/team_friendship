@@ -96,27 +96,11 @@ public class Game {
 
 //region Get/Setters ===================================================================================================
     /**
-     * Setter of the map attribute.
-     * @param rm: the new roundManager
-     */
-    public void SetRoundManager(RoundManager rm) {
-        this.roundManager = rm;
-    }
-
-    /**
      * Getter of the roundManager attribute.
      * @return the roundManager
      */
     public RoundManager GetRoundManager(){
         return this.roundManager;
-    }
-
-    /**
-     * Setter of the map attribute.
-     * @param map: the new map
-     */
-    public void SetMap(Map map) {
-        this.map = map;
     }
 
     /**
@@ -146,22 +130,6 @@ public class Game {
     public List<Janitor> GetJanitors() {
         return janitors;
     }
-
-    /**
-     * Appends the students list with a student.
-     * @param student: the new student
-     */
-    public void AddStudent(Student student){
-        students.add(student);
-    }
-
-    /**
-     * Appends the professors list with a professors.
-     * @param professor: the new professor
-     */
-    public void AddProfessor(Professor professor){
-        professors.add(professor);
-    }
 //endregion
 
 //region Methods
@@ -188,8 +156,9 @@ public class Game {
      * Ends the game with the given output.
      * @param b win/lose
      */
-    public void EndGame(boolean b) {
-        over = b;
+    public void EndGame(boolean isWin) {
+        over = true;
+        // TODO: WHAT HAPPENS WHEN WE WIN
     }
 
     public boolean IsEnded() {
