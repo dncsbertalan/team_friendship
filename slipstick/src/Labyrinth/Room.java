@@ -1,5 +1,6 @@
 package Labyrinth;
 
+import Constants.GameConstants;
 import Entities.*;
 import GameManagers.Game;
 import Items.*;
@@ -27,6 +28,10 @@ public class Room {
      */
     private List<Item> roomsListOfItems;
     /**
+     * All not pickupable items placed in the room.
+     */
+    private List<Item> listOfUnpickupableItems;
+    /**
      * All students placed in the room.
      */
     private List<Student> roomsListOfStudents;
@@ -50,6 +55,19 @@ public class Room {
      * Shows the maximum of entities there can be in the room.
      */
     private int capacity;
+
+    private String name = "empty";
+    private static int ID = 0;
+
+    /**
+     * Shows whether the room was cleaned by a janitor.
+     */
+    private boolean cleaned;
+    /**
+     * Shows how many entities stepped into the room after it was cleaned.
+     */
+    private int entityCounterAfterCleaning;
+    private boolean sticky;
     /**
      * Constructor.
      * @param g: The game object the room will have a reference for.
@@ -60,12 +78,18 @@ public class Room {
         roomsListOfProfessors = new ArrayList<>();
         roomsListOfItems = new ArrayList<>();
         roomsListOfNeighbours = new ArrayList<>();
+        listOfUnpickupableItems = new ArrayList<>();
         gassed = false;
         remainingRoundsBeingGassed = 0;
+        cleaned = false;
+        entityCounterAfterCleaning = 0;
 
         capacity = c;
         game = g;
+
+        this.name = GameConstants.RoomName + ++ID;
     }
+
     /**
      * Constructor.
      * The room's initial capacity is a random value between 2 (inclusive) and 6 (exclusive).
@@ -76,8 +100,11 @@ public class Room {
         roomsListOfProfessors = new ArrayList<>();
         roomsListOfItems = new ArrayList<>();
         roomsListOfNeighbours = new ArrayList<>();
+        listOfUnpickupableItems = new ArrayList<>();
         gassed = false;
         remainingRoundsBeingGassed = 0;
+        cleaned = false;
+        entityCounterAfterCleaning = 0;
 
         Random random = new Random();
         int minInclusive = 2;
@@ -85,7 +112,18 @@ public class Room {
         capacity = random.ints(minInclusive, maxExclusive).findFirst().getAsInt();
 
         game = g;
+
+        this.name = GameConstants.RoomName + ++ID;
     }
+
+    public void SetName(String name) {
+        this.name = name;
+    }
+
+    public String GetName() {
+        return this.name;
+    }
+
     /**
      * Sets the room's capacity to the value given as argument.
      * @param c: the new value for the room's capacity.
@@ -93,6 +131,7 @@ public class Room {
     public void setCapacity(int c){
         capacity = c;
     }
+
     /**
      * Returns the maximum of entities that can be placed in the room.
      * @return: Maximum of entities that can be placed in the room.
@@ -100,6 +139,7 @@ public class Room {
     public int CheckCapacity(){
         return capacity;
     }
+
     /**
      * Returns the number of entities currently placed in the room.
      * @return: Number of entities currently placed in the room.
@@ -107,46 +147,45 @@ public class Room {
     public int CheckForEntityInRoom(){
         return roomsListOfStudents.size() + roomsListOfProfessors.size();
     }
+
     /**
      * The room adds all its current neighbours to the other room.
      * From then those rooms are only the other room's neighbours.
      * @param r: The destination room for all the current neighbours.
      */
     public void SendAllNeighbours(Room r){
-        int originalNumberOfNeighbours = roomsListOfNeighbours.size();
-        for(int i = 0; i < originalNumberOfNeighbours; i++){
-                r.AddNeighbour(roomsListOfNeighbours.get(0));
-                this.RemoveNeighbour(roomsListOfNeighbours.get(0));
-        }
+        r.GetNeighbours().addAll(this.roomsListOfNeighbours);
+        this.roomsListOfStudents.clear();
     }
+
     /**
      * The room adds all items placed in it to the other room.
      * From then those items are placed only in the other room.
      * @param r: The destination room for all items.
      */
     public void SendAllItems(Room r){
-        if(!roomsListOfItems.isEmpty()){
-            for(int i = 0; i < this.roomsListOfItems.size(); i++){
-                r.AddItemToRoom(roomsListOfItems.get(i));
-            }
-            this.roomsListOfItems.clear();
-        }
+        if(roomsListOfItems.isEmpty()) return;
+
+        r.GetInventory().addAll(this.roomsListOfItems);
+        this.roomsListOfItems.clear();
     }
+
     /**
      * The room adds every second of the items placed in it to the other room.
      * From then those items are placed only in the other room.
      * @param r: The destination room for every second items.
      */
     public void SendEveryOtherItem(Room r){
-        if(!roomsListOfItems.isEmpty()){
-            for(int i = 0; i < this.roomsListOfItems.size(); i++){
-                if(i % 2 == 0){
-                    r.AddItemToRoom(roomsListOfItems.get(i));
-                    this.RemoveItemFromRoom(roomsListOfItems.get(i));
-                }
+        if(roomsListOfItems.isEmpty()) return;
+
+        for(int i = 0; i < this.roomsListOfItems.size(); i++){
+            if(i % 2 == 0){
+                r.AddItemToRoom(roomsListOfItems.get(i));
+                this.RemoveItemFromRoom(roomsListOfItems.get(i));
             }
         }
     }
+
     /**
      * The room adds every second of its neighbours to the other room.
      * From then those rooms are only the other room's neighbours.
@@ -160,6 +199,7 @@ public class Room {
             }
         }
     }
+
     /**
      * The room adds the item given as a parameter to its own list of items.
      * @param i: the item being placed in the room.
@@ -167,6 +207,35 @@ public class Room {
     public void AddItemToRoom(Item i){
         this.roomsListOfItems.add(i);
     }
+
+    /**
+     * The room adds the item given as a parameter to its own list of unpickupable items.
+     * @param i: the freshly dropped item being added to the room.
+     */
+    public void AddUnpickupableItemToRoom(Item i){
+        this.listOfUnpickupableItems.add(i);
+    }
+
+    /**
+     * Makes all items placed in the room pickupable for entities.
+     */
+    public void MakeAllItemsPickupable(){
+        int unpickSize = listOfUnpickupableItems.size();
+        for(int i = 0; i < unpickSize; i++){
+            roomsListOfItems.add(listOfUnpickupableItems.get(i));
+            listOfUnpickupableItems.remove(i);
+        }
+    }
+
+    /**
+     * Makes item given as parameter pickupable for entities.
+     * @param i: the item about to be pickupable.
+     */
+    public void MakeItemPickupable(Item i){
+        roomsListOfItems.add(i);
+        listOfUnpickupableItems.remove(i);
+    }
+
     /**
      * The room removes the item given as a parameter from its own list of items.
      * @param i: the item being removed from the room.
@@ -174,6 +243,7 @@ public class Room {
     public void RemoveItemFromRoom(Item i){
         this.roomsListOfItems.remove(i);
     }
+
     /**
      * The room releases toxic gas for n round.
      * Sets gassed attribute to true.
@@ -183,6 +253,7 @@ public class Room {
         gassed = true;
         remainingRoundsBeingGassed = n;
     }
+
     /**
      * The room is no longer is filled with toxic gas.
      * Sets gassed attribute to false.
@@ -190,6 +261,7 @@ public class Room {
     public void DeactivateToxicGas(){
         gassed = false;
     }
+
     /**
      * The room is no longer is filled with toxic gas for one less round, if not already 0.
      */
@@ -204,7 +276,7 @@ public class Room {
      * @param student: the student being placed in the room.
      */
     public void AddStudentToRoom(Student student){
-        System.out.println("\t-> Student (" + student.hashCode() + ") stepped into room (" + this.hashCode() + ")");
+        System.out.println("\t-> " + student.GetName() + " stepped into " + this.GetName());
         this.roomsListOfStudents.add(student);
         student.SetCurrentRoom(this);
 
@@ -215,6 +287,7 @@ public class Room {
             this.NotifyProfessors(student);
         }
     }
+
     /**
      * The room adds professor to the room's list of entities.
      * @param p: the professor being placed in the room.
@@ -236,7 +309,7 @@ public class Room {
      * @param s: The student being removed from the room.
      */
     public void RemoveStudentFromRoom(Student s) {
-        System.out.println("\t-> Student (" + s.hashCode() + ") stepped out of room (" + this.hashCode() + ")");
+        System.out.println("\t-> " + s.GetName() + " stepped out of " + this.GetName());
         this.roomsListOfStudents.remove(s);
     }
 
@@ -321,11 +394,51 @@ public class Room {
     }
 
     /**
+     * Gets the list of unpickupable items placed in the room
+     * @return list of unpickupable items in the room
+     */
+    public List<Item> GetUnpickupableItems() {
+        return listOfUnpickupableItems;
+    }
+
+    /**
      * Displays rounds left being gassed
      * @return number of rounds remaining being gassed
      */
     public int GetRemainingRoundsGassed() {
         return remainingRoundsBeingGassed;
     }
+    /**
+     * Displays whether room is cleaned by a janitor
+     * @return whether room is cleaned
+     */
+    public boolean IsCleaned(){
+        return cleaned;
+    }
+    /**
+     * After janitor steps into room it sets the room as cleaned.
+     */
+    public void SetRoomAsCleaned(){
+        cleaned = true;
+    }
+    /**
+     * The entity counter goes up by 1 when one steps into a cleaned room.
+     */
+    public void IncreaseEntityNumberAfterCleaning(){
+        entityCounterAfterCleaning++;
+    }
+    /**
+     * Displays how many entities stepped into a room after it was cleaned.
+     */
+    public int GetEntityNumberAfterCleaning(){
+        return entityCounterAfterCleaning;
+    }
 
+    public void SetSticky(boolean sticky) {
+        this.sticky = sticky;
+    }
+
+    public boolean IsSticky() {
+        return this.sticky;
+    }
 }

@@ -7,9 +7,11 @@ import Items.*;
 import Labyrinth.Map;
 import Labyrinth.Room;
 
+import java.util.Random;
+
 public class Student extends Entity{
     
-    int steps;
+    private int selectedInventorySlot;
     /**
      * True if student is dead
      */
@@ -21,6 +23,11 @@ public class Student extends Entity{
 
     public Student(Game g) {
         super(g);
+    }
+
+    public Student(Game game, String name) {
+        this(game);
+        this.Name = name;
     }
 
     @Override
@@ -79,6 +86,25 @@ public class Student extends Entity{
     }
 
     /**
+     * Selects a slot from the student's inventory. Must be a valid slot number between
+     * 0 and {@link GameConstants#InventoryMaxSize}.
+     * <p>
+     * Automatically converts slot number to array index.
+     * @param slot the number of the inventory slot
+     * @throws IllegalArgumentException if the slot number is out of the range
+     */
+    public void SelectInventorySlot(int slot) throws IllegalArgumentException {
+        if (slot < 1 || slot > GameConstants.InventoryMaxSize) throw new IllegalArgumentException();
+
+        this.selectedInventorySlot = slot - 1;
+        try {
+            this.selectedItem = this.inventory.get(this.selectedInventorySlot);
+        } catch (IndexOutOfBoundsException ex) {
+            this.selectedItem = null;
+        }
+    }
+
+    /**
      * Select an Item from the room for pickup
      * @param item selected item
      */
@@ -131,6 +157,7 @@ public class Student extends Entity{
             System.out.println("\t-> Student (" + this.hashCode() + ") doesn't have protective item, the student dies");
             DropAllItems();
             isDead = true;
+            this.game.GetRoundManager().EndTurn();
             return;
         }
 
@@ -173,6 +200,11 @@ public class Student extends Entity{
             game.LastPhase(true,this);
         }
         inventory.add(item);
+        try {   // if the new item is in the same index as the selected inventory slot than the item gets selected.
+            this.selectedItem = this.inventory.get(this.selectedInventorySlot);
+        } catch (IndexOutOfBoundsException ex) {
+            this.selectedItem = null;
+        }
         this.room.RemoveItemFromRoom(item);
     }
 
@@ -218,5 +250,20 @@ public class Student extends Entity{
      */
     public void PairTransistors(Transistor t1, Transistor t2) {
         t1.PairTransistor(t2);
+    }
+
+    /**
+     * Gets a random item from the student's inventory.
+     * @return: The random item chosen.
+     */
+
+    public Item GetRandomItemFromStudent(){
+        Random random = new Random();
+        int minInclusive = 0;
+        int maxExclusive = this.GetInventory().size();
+        int itemIndex = random.ints(minInclusive, maxExclusive).findFirst().getAsInt();
+
+        Item resultItem = this.GetInventory().get(itemIndex);
+        return resultItem;
     }
 }
