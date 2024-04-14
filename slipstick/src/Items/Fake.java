@@ -1,0 +1,19 @@
+package Items;
+
+import Constants.GameConstants;
+import Entities.Student;
+
+public class Fake extends Item{
+    private static int ID = 0;
+    private String name = GameConstants.FakeItem + ++ID;
+    /**
+     * Called when an item is used by the student.
+     *
+     * @param student the item user
+     */
+    @Override
+    public void UseItem(Student student) {
+        System.out.println("im fake");
+        student.GetInventory().remove(this);
+    }
+}

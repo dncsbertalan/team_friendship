@@ -1,9 +1,12 @@
 package Items;
 
+import Constants.GameConstants;
 import Entities.Student;
 import Labyrinth.Room;
 
 public class Transistor extends Item {
+    private static int ID = 0;
+    private String name = GameConstants.Transistor + ++ID;
     /**
      * Pair of this transistor (mutual) if unpaired is null
      */
