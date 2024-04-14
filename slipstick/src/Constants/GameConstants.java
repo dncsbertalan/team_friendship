@@ -24,7 +24,7 @@ public class GameConstants {
     public static final String TVSZ = "TVSZ_";
     public static final String WetCloth = "WetCloth_";
     public static final String RoomName_MainHall = "Main Hall_";
-    public static final String RoomName_TeachersLounge = "Janitor's Room_";
-    public static final String RoomName_JanitorsRoom = "Teachers' Lounge_";
+    public static final String RoomName_JanitorsRoom = "Janitor's Room_";
+    public static final String  RoomName_TeachersLounge = "Teachers' Lounge_";
     public static final long randomSeed = 69;
 }
