@@ -27,17 +27,43 @@ public class Commands {
                     os.println("Error: No active player.");
                     break;
                 }
-                os.println("Moving " + student.GetName() + " to " + roomName);
-                Room room = Main.game.GetMap().GetRoomByName(roomName);
-                if (room == null) {
+                Room studRoom = Main.game.GetMap().GetRoomByName(roomName);
+                if (studRoom == null) {
                     os.println("Error: No existing room with the name: " + roomName);
                     break;
                 }
-                student.StepInto(room);
+                os.println("Moving " + student.GetName() + " to " + roomName);
+                student.StepInto(studRoom);
                 break;
             case "-j":
+                if (Main.game.GetRoundManager().GetActiveAIEntity().getClass() != Janitor.class
+                    || Main.game.GetRoundManager().GetActiveAIEntity() == null) {
+                    os.println("Error: No active janitor.");
+                    break;
+                }
+                Janitor janitor = (Janitor) Main.game.GetRoundManager().GetActiveAIEntity();
+                Room janRoom = Main.game.GetMap().GetRoomByName(roomName);
+                if (janRoom == null) {
+                    os.println("Error: No existing room with the name: " + roomName);
+                    break;
+                }
+                os.println("Moving " + janitor.GetName() + " to " + roomName);
+                janitor.StepInto(janRoom);
                 break;
             case "-p":
+                if (Main.game.GetRoundManager().GetActiveAIEntity().getClass() != Professor.class
+                        || Main.game.GetRoundManager().GetActiveAIEntity() == null) {
+                    os.println("Error: No active professor.");
+                    break;
+                }
+                Professor professor = (Professor) Main.game.GetRoundManager().GetActiveAIEntity();
+                Room profRoom = Main.game.GetMap().GetRoomByName(roomName);
+                if (profRoom == null) {
+                    os.println("Error: No existing room with the name: " + roomName);
+                    break;
+                }
+                os.println("Moving " + professor.GetName() + " to " + roomName);
+                professor.StepInto(profRoom);
                 break;
             default:    // searches by name
                 os.println("Invalid option: " + option);

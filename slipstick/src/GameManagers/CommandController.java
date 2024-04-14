@@ -25,7 +25,7 @@ public class CommandController {
         commands.put("roundm", Commands::Roundm);
     }
 
-    static boolean getInput = true;
+    private static boolean getInput = true;
 
     public static void GetInput() {
 
