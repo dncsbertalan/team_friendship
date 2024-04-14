@@ -6,7 +6,8 @@ import Entities.Professor;
 import Entities.Student;
 
 public class WetCloth extends Item {
-
+    private static int ID = 0;
+    private String name = GameConstants.WetCloth + ++ID;
     @Override
     public void UseItem(Student student) {
 

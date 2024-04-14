@@ -80,12 +80,12 @@ public class Map {
         rooms = new ArrayList<>();
         winningRoom = null;
 
-        teachersLounge = new Room(10, game);
-        this.teachersLounge.SetName(GameConstants.RoomName_TeachersLounge);
-        mainHall = new Room(10, game);
-        this.mainHall.SetName(GameConstants.RoomName_MainHall);
-        janitorsRoom = new Room(10, game);
-        this.janitorsRoom.SetName(GameConstants.RoomName_JanitorsRoom);
+        //teachersLounge = new Room(10, game);
+        //this.teachersLounge.SetName(GameConstants.RoomName_TeachersLounge);
+        //mainHall = new Room(10, game);
+        //this.mainHall.SetName(GameConstants.RoomName_MainHall);
+        //janitorsRoom = new Room(10, game);
+        //this.janitorsRoom.SetName(GameConstants.RoomName_JanitorsRoom);
 
         Room r1 = new Room(4, game);
         Room r2 = new Room(4, game);

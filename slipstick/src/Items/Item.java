@@ -1,6 +1,7 @@
 package Items;
 
 import Constants.Enums.ProtectionType;
+import Constants.GameConstants;
 import Entities.Student;
 
 /**
@@ -8,6 +9,7 @@ import Entities.Student;
  * Contains everything generally assosiated with items.
  */
 public abstract class Item {
+
      /**
      * Wether the item is activated or not.
      */

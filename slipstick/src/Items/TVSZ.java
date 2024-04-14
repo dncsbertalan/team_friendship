@@ -5,7 +5,8 @@ import Constants.GameConstants;
 import Entities.Student;
 
 public class TVSZ extends Item {
-
+    private static int ID = 0;
+    private String name = GameConstants.TVSZ + ++ID;
     /**
      * The number of times this item can be used.
      */

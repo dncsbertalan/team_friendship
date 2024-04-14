@@ -5,7 +5,8 @@ import Constants.GameConstants;
 import Entities.Student;
 
 public class FFP2Mask extends Item {
-
+    private static int ID = 0;
+    private String name = GameConstants.FFP2Mask + ++ID;
     /**
      * The number of times this item can be used.
      */
