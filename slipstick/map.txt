@@ -10,6 +10,6 @@ Teachers’Lounge:5;empty%Professor_1()$#Room_6,Room_4
 Room_7:3;empty%$#WinningRoom,Room_8
 Room_8:3;empty%$Cheese_1,TVSZ_1,TVSZ_2#Room_2,Room_7
 Room_9:3;empty%$#Room_3,Room_10,Janitors’Room
-Room_10:3;empty%$#Room_4,Room_9
+Room_10:3;gas%$#Room_4,Room_9
 WinningRoom:3;empty%$#Room_7
 Janitors’Room:3;empty%Janitor_1()$#Room_9
