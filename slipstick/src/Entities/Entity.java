@@ -82,6 +82,7 @@ public abstract class Entity {
             return;
         }
         if (item.getClass() == SlipStick.class) {
+            //studentnel megvalositva
             return;
         }
         this.inventory.add(item);

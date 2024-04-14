@@ -13,7 +13,7 @@ public class Fake extends Item{
      */
     @Override
     public void UseItem(Student student) {
-        System.out.println("im fake");
+        System.out.println("im so fake");
         student.GetInventory().remove(this);
     }
 }
