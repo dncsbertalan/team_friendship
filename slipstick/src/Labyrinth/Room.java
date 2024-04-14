@@ -116,6 +116,11 @@ public class Room {
         this.name = GameConstants.RoomName + ++ID;
     }
 
+    public Room(int capacity, Game game, String name) {
+        this(capacity, game);
+        this.name = name;
+    }
+
     //public void SetName(String name) {
    //     this.name = name;
     //}

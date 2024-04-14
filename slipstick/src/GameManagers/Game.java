@@ -180,7 +180,9 @@ public class Game {
      */
     public void LoadGame(String fileName) {
 
-        HashMap<Integer, ArrayList<Integer>> neighbours = new HashMap<>();
+        ArrayList<Room> map_rooms = new ArrayList<>();
+        HashMap<String, Room> roomNames = new HashMap<>();
+        HashMap<String, ArrayList<String>> neighbourNames = new HashMap<>();
         ArrayList<String> lines = new ArrayList<>();
 
         // reads the file into the lines array
@@ -192,19 +194,53 @@ public class Game {
             scanner.close();
         }
         catch (FileNotFoundException e) {
-
+            System.out.println("Error: " + fileName + " not found.");
         }
+        // set the MaxRounds
+        String rounds = lines.get(0); lines.remove(0);
+        GameConstants.MaxRounds = Integer.parseInt(rounds.split(":")[1]);
 
         // process the data in lines
-        for (String line : lines) {
+        /*for (String line : lines) {
             System.out.println(line);
-        }
+        }*/
         for (String line : lines) {
+            // CREATE THE ROOM
             String[] strings = line.split(":");
-            for (String s : strings) {
-                System.out.println(s);
+            String _name = strings[0];
+            strings = strings[1].split(";");
+            int _cap = Integer.parseInt(strings[0]);
+            strings = strings[1].split("%");
+            String _type = strings[0];
+
+            Room newRoom = new Room(_cap, this, _name);
+            if (_type.equals("gas")) {
+                newRoom.SetToxicity();
+            }
+            map.AddRoom(newRoom);
+            roomNames.put(_name, newRoom);
+            // GET THE NEIGHBOURS
+            strings = strings[1].split("#");
+            String[] _neighbours = strings[1].split(",");
+            ArrayList<String> neighbourList = new ArrayList<>(Arrays.asList(_neighbours));
+            neighbourNames.put(_name, neighbourList);
+
+            System.out.println(_name + "::");
+            for (String s : _neighbours) {
+                System.out.println("\t->" + s);
+            }
+
+        }
+
+        // ADD THE NEIGHBOURS TO THE ROOMS
+        for (Room room : map.GetRooms()) {
+            for (String key : neighbourNames.get(room.GetName())) {
+                room.AddNeighbour(roomNames.get(key));
             }
         }
+
+        // FINALLY
+        // ADD EVERYTHING TO THE GAME
     }
 //endregion
 

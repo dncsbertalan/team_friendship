@@ -18,9 +18,9 @@ public class Main {
         //game.MainGameLoop();
 
         //os = new PrintStream("text.txt");
-        game.__Berci__LISTALLTEST();
-        game.GetMap().__Berci__MAPTEST();
-        game.LoadGame("map.txt");
+        //game.__Berci__LISTALLTEST();
+        //game.GetMap().__Berci__MAPTEST();
+        game.LoadGame("testmap.txt");
         game.SaveGame("pusy.txt");
         CommandController.GetInput();
     }
