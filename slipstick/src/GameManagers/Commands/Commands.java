@@ -4,6 +4,9 @@ import Constants.GameConstants;
 import Entities.*;
 import Labyrinth.Room;
 import Runnable.Main;
+
+import java.time.chrono.IsoChronology;
+
 import static Runnable.Main.os;
 
 public class Commands {
@@ -19,13 +22,24 @@ public class Commands {
 
         switch (option) {
             case "-s":
-                // TODO TEMPORARY
-                Student student = Main.game.GetRoundManager().GetActiveStudent(); // TODO null check
-                os.println("Moving " + student.GetName() + " to Room2"); // todo faszom temp
+                Student student = Main.game.GetRoundManager().GetActiveStudent();
+                if (student == null) {
+                    os.println("Error: No active player.");
+                    break;
+                }
+                os.println("Moving " + student.GetName() + " to " + roomName);
+                Room room = Main.game.GetMap().GetRoomByName(roomName);
+                if (room == null) {
+                    os.println("Error: No existing room with the name: " + roomName);
+                    break;
+                }
+                student.StepInto(room);
                 break;
             case "-j":
                 break;
-            default:
+            case "-p":
+                break;
+            default:    // searches by name
                 os.println("Invalid option: " + option);
                 break;
         }

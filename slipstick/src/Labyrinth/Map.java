@@ -6,6 +6,7 @@ import Entities.Professor;
 import GameManagers.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -25,6 +26,11 @@ public class Map {
      * All the rooms of the labyrinth.
      */
     private List<Room> rooms;
+
+    /**
+     * All the rooms of the labyrinth stored by their name as keys.
+     */
+    private HashMap<String, Room> roomNames;
 
     /**
      * The room the students have to secure the slipstick in.
@@ -53,11 +59,21 @@ public class Map {
      */
     public Map(Game game) {
         rooms = new ArrayList<>();
+        this.roomNames = new HashMap<>();
         winningRoom = new Room(game);
         teachersLounge = new Room(game);
         mainHall = new Room(game);
         janitorsRoom = new Room(game);
         this.game = game;
+    }
+
+    /**
+     * Returns the room give as parameter.
+     * @param nameKey the name of the room
+     * @return the room if exists, {@code null} otherwise
+     */
+    public Room GetRoomByName(String nameKey) {
+        return roomNames.get(nameKey);
     }
 
     public void __Berci__MAPTEST() {
