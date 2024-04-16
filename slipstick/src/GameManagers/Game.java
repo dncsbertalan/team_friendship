@@ -256,6 +256,8 @@ public class Game {
                     _entity = _entity[1].split("\\)");
                     if (_entity.length > 0) {
                         String[] _items = _entity[0].split("\\|");
+                        if (_items.length > 5)
+                            System.out.println("Caution: Items limit exceeded for " + _entityName + "! Exceeding item will not be loaded! ");
                         for (String _item : _items) {
                             Item newItem = GetItemFromName(_item);
                             if (newItem != null) {
