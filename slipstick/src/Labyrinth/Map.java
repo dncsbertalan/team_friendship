@@ -279,6 +279,15 @@ public class Map {
     }
 
     /**
+     * Adds a janitors' room to the map.
+     * @param janitorsRoom the janitors' room to be added.
+     */
+    public void AddJanitorsRoom(Room janitorsRoom) {
+        this.janitorsRoom = janitorsRoom;
+        rooms.add(janitorsRoom);
+    }
+
+    /**
      * Adds a teachers' lounge to the map.
      * @param teachersLounge the teachers' lounge to be added.
      */

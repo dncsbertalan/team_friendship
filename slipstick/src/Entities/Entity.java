@@ -13,23 +13,20 @@ public abstract class Entity {
     /**
      * Name of the Entity
      */
-    String Name = "anonymous";
+    protected String Name = "anonymous";
     /**
      * Current Room of the Entity
      */
-    Room room;
-    /**
-     * If the current Room is Gassed
-     */
-    boolean inGassedRoom;
+    protected Room room;
+
     /**
      * Items belonging to the Entity (5 max)
      */
-    ArrayList<Item> inventory = new ArrayList<>();
+    protected ArrayList<Item> inventory = new ArrayList<>();
     /**
      * Number of moves left this Round
      */
-    int remainingTurns;
+    protected int remainingTurns;
 
     /**
      * Game instance.
@@ -43,6 +40,10 @@ public abstract class Entity {
 
     public String GetName() {
         return this.Name;
+    }
+
+    public void SetName(String name) {
+        this.Name = name;
     }
 
     /**
@@ -184,5 +185,13 @@ public abstract class Entity {
 
     public ArrayList<Item> GetInventory() {
         return inventory;
+    }
+
+    public void AddItem(Item item) {
+        if (inventory.size() == 5) {
+            System.out.println("Inventory full");
+            return;
+        }
+        this.inventory.add(item);
     }
 }

@@ -2,6 +2,7 @@ package GameManagers.Commands;
 
 import Constants.GameConstants;
 import Entities.*;
+import Items.Item;
 import Labyrinth.Room;
 import Runnable.Main;
 
@@ -82,8 +83,21 @@ public class Commands {
         switch (option) {
             case "-it":
                 break;
-            case "-in":
+            case "-in": {
+                if (args.length > 2) { // if specified entity
+                    Entity entity = GetEntityByName(args[2]);
+                    if (entity == null) {
+                        os.println("No entity with the name " + args[2]);
+                        break;
+                    }
+                    os.println(args[2] + "'s inventory: " + (entity.GetInventory().isEmpty() ? "(empty)" : ""));
+                    for (Item item : entity.GetInventory()) {
+                        os.println("\t-> " + item.GetName());
+                    }
+                }
+
                 break;
+            }
             case "-n":
                 if (args.length < 3) {
                     os.println("Usage: list -n <entity>");
@@ -95,9 +109,9 @@ public class Commands {
 
                 os.println("The rooms and their neighbours in the map:");
                 for (Room room : Main.game.GetMap().GetRooms()) {
-                    os.println("-> " + room.GetName() + " " + (room.IsGassed() ? "(gassed)" : ""));
+                    os.println("-> " + room.GetName() + (room.IsGassed() ? " (gassed)" : "") + (room.IsSticky() ? " (sticky)" : ""));
                     for (Room neighbours : room.GetNeighbours()) {
-                        os.println("\t-> " + neighbours.GetName() + " " + (neighbours.IsGassed() ? "(gassed)" : ""));
+                        os.println("\t-> " + neighbours.GetName() + (neighbours.IsGassed() ? " (gassed)" : "") + (room.IsSticky() ? " (sticky)" : ""));
                     }
                 }
                 break;
@@ -250,5 +264,18 @@ public class Commands {
         }
 
         return slotNumber;
+    }
+
+    private static Entity GetEntityByName(String name) {
+        for (Entity entity : Main.game.GetStudents()) {
+            if (entity.GetName().equals(name)) return entity;
+        }
+        for (Entity entity : Main.game.GetProfessors()) {
+            if (entity.GetName().equals(name)) return entity;
+        }
+        for (Entity entity : Main.game.GetJanitors()) {
+            if (entity.GetName().equals(name)) return entity;
+        }
+        return null;
     }
 }

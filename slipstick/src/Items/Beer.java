@@ -10,7 +10,12 @@ import java.util.Random;
  */
 public class Beer extends Item {
     private static int ID = 0;
-    private String name = GameConstants.Beer + ++ID;
+
+    @Override
+    public void AutoName() {
+        this.name = GameConstants.Beer + ++ID;
+    }
+
     /**
      * Increases the student's remaining turns.
      * If the student has any other than the beer currently used, then the function makes the student lose (not drop) a random one.

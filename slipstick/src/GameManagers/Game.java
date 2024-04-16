@@ -1,6 +1,7 @@
 package GameManagers;
 
 import Entities.*;
+import Items.*;
 import Labyrinth.*;
 import Constants.*;
 import Labyrinth.Map;
@@ -217,7 +218,14 @@ public class Game {
             if (_type.equals("gas")) {
                 newRoom.SetToxicity();
             }
-            map.AddRoom(newRoom);
+            if (_type.equals("sticky")) {
+                newRoom.SetSticky(true);
+            }
+            if (_name.contains(GameConstants.RoomName_TeachersLounge)) map.AddTeachersLounge(newRoom);
+            else if (_name.contains(GameConstants.RoomName_JanitorsRoom)) map.AddJanitorsRoom(newRoom);
+            else if (_name.contains(GameConstants.RoomName_MainHall)) map.AddMainHall(newRoom);
+            else if (_name.contains(GameConstants.RoomName_WinningRoom)) map.AddWinningRoom(newRoom);
+            else map.AddRoom(newRoom);
             roomNames.put(_name, newRoom);
             // GET THE NEIGHBOURS
             strings = strings[1].split("#");
@@ -225,11 +233,48 @@ public class Game {
             ArrayList<String> neighbourList = new ArrayList<>(Arrays.asList(_neighbours));
             neighbourNames.put(_name, neighbourList);
 
-            System.out.println(_name + "::");
-            for (String s : _neighbours) {
-                System.out.println("\t->" + s);
+            strings = strings[0].split("\\$", 2);
+            // GET ROOM ITEMS AND ADD THEM TO THE ROOM
+            if (!strings[1].isEmpty()) {
+                String[] _itemNames = strings[1].split(",");
+                for (String _itemName : _itemNames) {
+                    Item newItem = GetItemFromName(_itemName);
+                    if (newItem != null) {
+                        newItem.SetName(_itemName);
+                    }
+                    newRoom.AddItemToRoom(newItem);
+                }
             }
 
+            // GET THE PLAYERS IN THE ROOM AND ADD THEM
+            if (!strings[0].isEmpty()) {
+                String[] _playerNamesWithItems = strings[0].split(",");
+                for (String _playerString : _playerNamesWithItems) {
+                    String[] _entity = _playerString.split("\\(", 2);
+                    String _entityName = _entity[0];
+                    Entity newEntity = GetEntityFromName(_entityName);
+                    _entity = _entity[1].split("\\)");
+                    if (_entity.length > 0) {
+                        String[] _items = _entity[0].split("\\|");
+                        for (String _item : _items) {
+                            Item newItem = GetItemFromName(_item);
+                            if (newItem != null) {
+                                newItem.SetName(_item);
+                            }
+                            newEntity.AddItem(newItem);
+                        }
+                    }
+                    if (newEntity.getClass() == Professor.class) {
+                        this.professors.add((Professor) newEntity);
+                    }
+                    else if (newEntity.getClass() == Janitor.class) {
+                        this.janitors.add((Janitor) newEntity);
+                    }
+                    else {
+                        this.students.add((Student) newEntity);
+                    }
+                }
+            }
         }
 
         // ADD THE NEIGHBOURS TO THE ROOMS
@@ -240,7 +285,37 @@ public class Game {
         }
 
         // FINALLY
-        // ADD EVERYTHING TO THE GAME
+        this.roundManager.Init();
+    }
+
+    private Item GetItemFromName(String itemName) {
+
+        if (itemName.contains(GameConstants.AirFreshener)) return new AirFreshener();
+        if (itemName.contains(GameConstants.Beer)) return new Beer();
+        if (itemName.contains(GameConstants.Cheese)) return new Cheese();
+        if (itemName.contains(GameConstants.FakeItem)) return new Fake();
+        if (itemName.contains(GameConstants.FFP2Mask)) return new FFP2Mask();
+        if (itemName.contains(GameConstants.SlipSlick)) return new SlipStick();
+        if (itemName.contains(GameConstants.Transistor)) return new Transistor();
+        if (itemName.contains(GameConstants.TVSZ)) return new TVSZ();
+        if (itemName.contains(GameConstants.WetCloth)) return new WetCloth();
+
+        return null;
+    }
+
+    private Entity GetEntityFromName(String name) {
+
+        if (name.contains(GameConstants.JanitorName)) {
+            Janitor janitor = new Janitor(this);
+            janitor.SetName(name);
+            return janitor;
+        }
+        if (name.contains(GameConstants.ProfName)) {
+            Professor professor = new Professor(this);
+            professor.SetName(name);
+            return professor;
+        }
+        return new Student(this, name);
     }
 //endregion
 
@@ -280,7 +355,6 @@ public class Game {
         Student activeStudent = roundManager.GetActiveStudent();
         IAI activeAIEntity = roundManager.GetActiveAIEntity();
 
-        System.out.println("pusy");
         // Handle student and professor
         this.HandleStudent(activeStudent);
         this.HandleAIEntities(activeAIEntity);

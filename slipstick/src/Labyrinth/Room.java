@@ -18,7 +18,7 @@ public class Room {
     /**
      * Reference for the Game object.
      */
-    private Game game;
+    private final Game game;
     /**
      * Reference for the Map object.
      */
@@ -26,23 +26,24 @@ public class Room {
     /**
      * All items placed in the room.
      */
-    private List<Item> roomsListOfItems;
+    private final List<Item> roomsListOfItems;
     /**
      * All not pickupable items placed in the room.
      */
-    private List<Item> listOfUnpickupableItems;
+    private final List<Item> listOfUnpickupableItems;
     /**
      * All students placed in the room.
      */
-    private List<Student> roomsListOfStudents;
+    private final List<Student> roomsListOfStudents;
     /**
      * All professors placed in the room.
      */
-    private List<Professor> roomsListOfProfessors;
+    private final List<Professor> roomsListOfProfessors;
+    private final List<Janitor> roomsListOfJanitors;
     /**
      * All rooms that are currently neighbours to this room.
      */
-    private List<Room> roomsListOfNeighbours;
+    private final List<Room> roomsListOfNeighbours;
     /**
      * Shows whether a room is filled with toxic gas.
      */
@@ -78,6 +79,7 @@ public class Room {
         roomsListOfProfessors = new ArrayList<>();
         roomsListOfItems = new ArrayList<>();
         roomsListOfNeighbours = new ArrayList<>();
+        roomsListOfJanitors = new ArrayList<>();
         listOfUnpickupableItems = new ArrayList<>();
         gassed = false;
         remainingRoundsBeingGassed = 0;
@@ -100,6 +102,7 @@ public class Room {
         roomsListOfProfessors = new ArrayList<>();
         roomsListOfItems = new ArrayList<>();
         roomsListOfNeighbours = new ArrayList<>();
+        roomsListOfJanitors = new ArrayList<>();
         listOfUnpickupableItems = new ArrayList<>();
         gassed = false;
         remainingRoundsBeingGassed = 0;
@@ -306,6 +309,14 @@ public class Room {
         }
         else {
             p.KillEveryoneInTheRoom();
+        }
+    }
+
+    public void AddJanitorToRoom(Janitor janitor){
+        this.roomsListOfJanitors.add(janitor);
+        janitor.SetCurrentRoom(this);
+        if (gassed) {
+            janitor.SteppedIntoGassedRoom();
         }
     }
 
