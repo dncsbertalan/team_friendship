@@ -244,6 +244,43 @@ public class Commands {
         }
     }
 
+    public static void State(String[] args) {
+        if (args.length < 2) {
+            os.println("Usage: list <-it/-in/-n/-m> [<entity>]"); // TODO
+            return;
+        }
+
+        String option = args[1];
+
+        switch (option) {
+            case "-r": {
+                if (args.length < 3) {
+                    os.println("Usage: list <-it/-in/-n/-m> [<entity>]"); // TODO
+                    return;
+                }
+
+                Entity entity = GetEntityByName(args[2]);
+                Room entityRoom = entity.GetCurrentRoom();
+                os.print(entityRoom.GetName() + " state:");
+                if (entityRoom.IsGassed()) {
+                    os.print(" gassed");
+                }
+                if (entityRoom.IsGassed()) {
+                    os.print(" sticky");
+                }
+                else {
+                    os.print(" normal");
+                }
+                os.print("\n");
+
+                break;
+            }
+            default:
+                os.println("Invalid option: " + option);
+                break;
+        }
+    }
+
     private static int validateSlotNumber(String[] args) {
         if (args.length != 2) {
             os.println("Usage: <use/activate>_item <slot number>");

@@ -457,4 +457,11 @@ public class Room {
     public boolean IsSticky() {
         return this.sticky;
     }
+
+    public ArrayList<Entity> GetEntities() {
+        ArrayList<Entity> entities = new ArrayList<>(this.roomsListOfStudents);
+        entities.addAll(this.roomsListOfProfessors);
+        entities.addAll(this.roomsListOfJanitors);
+        return entities;
+    }
 }

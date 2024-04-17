@@ -23,6 +23,8 @@ public class CommandController {
         commands.put("save", Commands::Save);
         commands.put("random", Commands::Random);
         commands.put("roundm", Commands::Roundm);
+
+        commands.put("state", Commands::State);
     }
 
     private static boolean getInput = true;

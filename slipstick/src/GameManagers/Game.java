@@ -9,6 +9,7 @@ import Labyrinth.Map;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.*;
 
 import static Constants.GameConstants.randomSeed;
@@ -172,7 +173,65 @@ public class Game {
      */
     public void SaveGame(String fileName) {
 
-        // TODO:
+        try {
+            PrintWriter printWriter = new PrintWriter(new File(fileName));
+            printWriter.println("rounds:" + GameConstants.MaxRounds);
+
+            for (Room room : this.map.GetRooms()) {
+                // room base
+                printWriter.write(room.GetName() + ":" + room.CheckCapacity() + ";");
+                // room state
+                if (room.IsSticky()){
+                    printWriter.write("sticky");
+                }
+                else if (room.IsGassed()) {
+                    printWriter.write("gas");
+                }
+                else {
+                    printWriter.write("empty");
+                }
+                // entities
+                printWriter.write("%");
+                int entSize = room.GetEntities().size();
+                for (int j = 0; j < entSize; j++) {
+                    Entity entity = room.GetEntities().get(j);
+                    printWriter.write(entity.GetName() + "(");
+                    int invSize = entity.GetInventory().size();
+                    for (int i = 0; i < invSize; i++) {
+                        printWriter.write(entity.GetInventory().get(i).GetName());
+                        if (i + 1 < invSize) {
+                            printWriter.write(",");
+                        }
+                    }
+                    printWriter.write(")");
+                    if (j + 1 < entSize) {
+                        printWriter.write(",");
+                    }
+                }
+                // items
+                printWriter.write("$");
+                int itemSize = room.GetInventory().size();
+                for (int i = 0; i < itemSize; i++) {
+                    printWriter.write(room.GetInventory().get(i).GetName());
+                    if (i + 1 < itemSize) {
+                        printWriter.write(",");
+                    }
+                }
+                // neighbours
+                printWriter.write("#");
+                int neighSize = room.GetNeighbours().size();
+                for (int i = 0; i < neighSize; i++) {
+                    printWriter.write(room.GetNeighbours().get(i).GetName());
+                    if (i + 1 < neighSize) {
+                        printWriter.write(",");
+                    }
+                }
+                printWriter.write("\n");
+            }
+            printWriter.close();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -202,9 +261,6 @@ public class Game {
         GameConstants.MaxRounds = Integer.parseInt(rounds.split(":")[1]);
 
         // process the data in lines
-        /*for (String line : lines) {
-            System.out.println(line);
-        }*/
         for (String line : lines) {
             // CREATE THE ROOM
             String[] strings = line.split(":");
@@ -246,7 +302,7 @@ public class Game {
                 }
             }
 
-            // GET THE PLAYERS IN THE ROOM AND ADD THEM
+            // GET THE ENTITIES IN THE ROOM AND ADD THEM
             if (!strings[0].isEmpty()) {
                 String[] _playerNamesWithItems = strings[0].split(",");
                 for (String _playerString : _playerNamesWithItems) {
@@ -268,12 +324,15 @@ public class Game {
                     }
                     if (newEntity.getClass() == Professor.class) {
                         this.professors.add((Professor) newEntity);
+                        newRoom.AddProfessorToRoom((Professor) newEntity);
                     }
                     else if (newEntity.getClass() == Janitor.class) {
                         this.janitors.add((Janitor) newEntity);
+                        newRoom.AddJanitorToRoom((Janitor) newEntity);
                     }
                     else {
                         this.students.add((Student) newEntity);
+                        newRoom.AddStudentToRoom((Student) newEntity);
                     }
                 }
             }
