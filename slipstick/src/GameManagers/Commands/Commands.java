@@ -12,6 +12,7 @@ import static Runnable.Main.os;
 
 public class Commands {
 
+//region ==================== COMMAND METHODS ====================
     public static void Move(String[] args) {
         if (args.length != 3) {
             os.println("Usage: move <-s/-j> <room name>");
@@ -281,6 +282,12 @@ public class Commands {
         }
     }
 
+    public static void Pair(String[] args) {
+
+    }
+//endregion
+
+//region ==================== HELPER METHODS ====================
     private static int validateSlotNumber(String[] args) {
         if (args.length != 2) {
             os.println("Usage: <use/activate>_item <slot number>");
@@ -315,4 +322,5 @@ public class Commands {
         }
         return null;
     }
+//endregion
 }

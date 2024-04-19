@@ -6,6 +6,8 @@ import GameManagers.Commands.ICommand;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import static Runnable.Main.os;
+
 public class CommandController {
 
     private final static HashMap<String, ICommand> commands = new HashMap<>();
@@ -25,6 +27,7 @@ public class CommandController {
         commands.put("roundm", Commands::Roundm);
 
         commands.put("state", Commands::State);
+        commands.put("pair", Commands::Pair);
     }
 
     private static boolean getInput = true;
@@ -38,7 +41,7 @@ public class CommandController {
 
             ICommand command = commands.get(cmd[0]);
             if (command == null) {
-                System.out.println("Error: Unknown command");
+                os.println("Error: Unknown command");
             }
             else {
                 command.execute(cmd);
