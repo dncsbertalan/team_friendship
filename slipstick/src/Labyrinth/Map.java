@@ -73,40 +73,6 @@ public class Map {
         return null;
     }
 
-    public void __Berci__MAPTEST() {
-        rooms = new ArrayList<>();
-        winningRoom = null;
-
-        //teachersLounge = new Room(10, game);
-        //this.teachersLounge.SetName(GameConstants.RoomName_TeachersLounge);
-        //mainHall = new Room(10, game);
-        //this.mainHall.SetName(GameConstants.RoomName_MainHall);
-        //janitorsRoom = new Room(10, game);
-        //this.janitorsRoom.SetName(GameConstants.RoomName_JanitorsRoom);
-
-        Room r1 = new Room(4, game);
-        Room r2 = new Room(4, game);
-
-        r1.AddNeighbour(r2);
-        r2.AddNeighbour(r1);
-        r2.AddNeighbour(mainHall);
-        r2.AddNeighbour(teachersLounge);
-        r2.AddNeighbour(janitorsRoom);
-        mainHall.AddNeighbour(r2);
-        teachersLounge.AddNeighbour(r2);
-        janitorsRoom.AddNeighbour(r2);
-
-        this.rooms.add(r1);
-        this.rooms.add(r2);
-        this.rooms.add(mainHall);
-        this.rooms.add(teachersLounge);
-        this.rooms.add(janitorsRoom);
-
-        Student student = this.game.GetRoundManager().GetActiveStudent();
-        mainHall.AddStudentToRoom(student);
-        student.StepInto(r2);
-    }
-
     /**
      * Generate labyrinth of rooms.
      * @param players

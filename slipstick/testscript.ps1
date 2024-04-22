@@ -1,12 +1,13 @@
 $testOutputPath = "tests/output/"
 $testExpectedPath = "tests/expected/"
 $testsPath = "tests/input/"
-$testFiles = "test1.txt", "test2.txt"
+$testFiles = "move.txt", "test2.txt"
 
 $totalTests = 0
 $successfulTest = 0
 
 foreach ($testFile in $testFiles) {
+    Write-Host "----------------------------"
     Write-Host "Running: $testFile"
     $totalTests++
     
@@ -20,12 +21,14 @@ foreach ($testFile in $testFiles) {
     #Write-Host "$expectedFile" # path check
 
     if (Compare-Object (Get-Content $outputFile) (Get-Content $expectedFile)) {
-        Write-Host "$test_name was unsuccessful"
+        Write-Host "Test $test_name was unsuccessful"
     } else {
-        Write-Host "$test_name was successful"
+        Write-Host "Test $test_name was successful"
 	$successfulTest++
     }
 }
 
-Write-Host "$successfulTest successful test out of $totalTests"
+Write-Host ""
+Write-Host "============================================"
+Write-Host "RESULT:	$successfulTest successful test out of $totalTests"
 

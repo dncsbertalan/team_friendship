@@ -62,7 +62,6 @@ public class Commands {
         Room roomToMoveInto = Main.game.GetMap().GetRoomByName(roomName);
         if (roomToMoveInto == null) {
             os.println("Error: No existing room with the name: " + roomName);
-            os.println("Error: " + entityToMove.GetName() + " has no neighbour with the name: " + roomName);
             return;
         }
 
@@ -73,6 +72,7 @@ public class Commands {
                 break;
             }
         }
+        //os.println("Error: " + entityToMove.GetName() + " has no neighbour with the name: " + roomName);
 
         if (isNeighbour) {
             os.println("Moving " + entityToMove.GetName() + " from " + entityToMove.GetCurrentRoom().GetName() + " to " + roomName);

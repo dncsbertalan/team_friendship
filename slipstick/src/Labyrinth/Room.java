@@ -284,7 +284,6 @@ public class Room {
      * @param student: the student being placed in the room.
      */
     public void AddStudentToRoom(Student student){
-        System.out.println("\t-> " + student.GetName() + " stepped into " + this.GetName());
         this.roomsListOfStudents.add(student);
         student.SetCurrentRoom(this);
 
@@ -301,7 +300,6 @@ public class Room {
      * @param p: the professor being placed in the room.
      */
     public void AddProfessorToRoom(Professor p){
-        System.out.println("\t-> Professor (" + p.hashCode() + ") stepped into room (" + this.hashCode() + ")");
         this.roomsListOfProfessors.add(p);
         p.SetCurrentRoom(this);
         if (gassed) {
@@ -325,7 +323,6 @@ public class Room {
      * @param s: The student being removed from the room.
      */
     public void RemoveStudentFromRoom(Student s) {
-        System.out.println("\t-> " + s.GetName() + " stepped out of " + this.GetName());
         this.roomsListOfStudents.remove(s);
     }
 
@@ -334,7 +331,6 @@ public class Room {
      * @param p: The professor being removed from the room.
      */
     public void RemoveProfessorFromRoom(Professor p) {
-        System.out.println("\t-> Professor (" + p.hashCode() + ") stepped out of room (" + this.hashCode() + ")");
         this.roomsListOfProfessors.remove(p);
     }
 
