@@ -26,10 +26,6 @@ public class Professor extends Entity implements IAI {
             this.room.RemoveProfessorFromRoom(this);
             this.room = room;
             room.AddProfessorToRoom(this);
-            //System.out.println("\t-> Professor " + this.hashCode() + ") stepped into room (" + this.room.hashCode() + ")");
-        }
-        else {
-            System.out.println("\t-> Professor " + this.hashCode() + ") cannot step into room (" + room.hashCode() + ")");
         }
     }
 
@@ -68,7 +64,6 @@ public class Professor extends Entity implements IAI {
      * @param student specified student
      */
     public void KillStudent(Student student) {
-        System.out.println("\t-> Professor (" + this.hashCode() + ") tries to kill student (" + student.hashCode() + ")");
         student.Kill(this);
     }
 

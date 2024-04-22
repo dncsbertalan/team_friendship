@@ -14,14 +14,6 @@ public class Main {
     public static final Game game = new Game();
 
     public static void main(String[] args) throws FileNotFoundException {
-        //Game game = new Game();
-        //game.MainGameLoop();
-
-        //os = new PrintStream("text.txt");
-        //game.__Berci__LISTALLTEST();
-        //game.GetMap().__Berci__MAPTEST();
-        game.LoadGame("testmap.txt");
-        game.SaveGame("pusy.txt");
-        CommandController.GetInput();
+       CommandController.GetInput();
     }
 }

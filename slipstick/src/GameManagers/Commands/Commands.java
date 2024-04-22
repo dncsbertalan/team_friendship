@@ -8,6 +8,7 @@ import Runnable.Main;
 
 import java.time.chrono.IsoChronology;
 
+import static Runnable.Main.game;
 import static Runnable.Main.os;
 
 public class Commands {
@@ -15,61 +16,69 @@ public class Commands {
 //region ==================== COMMAND METHODS ====================
     public static void Move(String[] args) {
         if (args.length != 3) {
-            os.println("Usage: move <-s/-j> <room name>");
+            os.println("Usage: move <-s/-j/-p/entity name> <room name>");
             return;
         }
 
-        String option = args[1];
+        String option_name = args[1];
         String roomName = args[2];
 
-        switch (option) {
+        Entity entityToMove = null;
+
+        switch (option_name) {
             case "-s":
-                Student student = Main.game.GetRoundManager().GetActiveStudent();
-                if (student == null) {
+                entityToMove = Main.game.GetRoundManager().GetActiveStudent();
+                if (entityToMove == null) {
                     os.println("Error: No active player.");
-                    break;
+                    return;
                 }
-                Room studRoom = Main.game.GetMap().GetRoomByName(roomName);
-                if (studRoom == null) {
-                    os.println("Error: No existing room with the name: " + roomName);
-                    break;
-                }
-                os.println("Moving " + student.GetName() + " to " + roomName);
-                student.StepInto(studRoom);
                 break;
             case "-j":
-                if (Main.game.GetRoundManager().GetActiveAIEntity().getClass() != Janitor.class
-                    || Main.game.GetRoundManager().GetActiveAIEntity() == null) {
+                if (Main.game.GetRoundManager().GetActiveAIEntity() == null
+                        || Main.game.GetRoundManager().GetActiveAIEntity().getClass() != Janitor.class) {
                     os.println("Error: No active janitor.");
-                    break;
+                    return;
                 }
-                Janitor janitor = (Janitor) Main.game.GetRoundManager().GetActiveAIEntity();
-                Room janRoom = Main.game.GetMap().GetRoomByName(roomName);
-                if (janRoom == null) {
-                    os.println("Error: No existing room with the name: " + roomName);
-                    break;
-                }
-                os.println("Moving " + janitor.GetName() + " to " + roomName);
-                janitor.StepInto(janRoom);
+                entityToMove = (Entity) Main.game.GetRoundManager().GetActiveAIEntity();
                 break;
             case "-p":
-                if (Main.game.GetRoundManager().GetActiveAIEntity().getClass() != Professor.class
-                        || Main.game.GetRoundManager().GetActiveAIEntity() == null) {
+                if (Main.game.GetRoundManager().GetActiveAIEntity() == null
+                        || Main.game.GetRoundManager().GetActiveAIEntity().getClass() != Professor.class) {
                     os.println("Error: No active professor.");
-                    break;
+                    return;
                 }
-                Professor professor = (Professor) Main.game.GetRoundManager().GetActiveAIEntity();
-                Room profRoom = Main.game.GetMap().GetRoomByName(roomName);
-                if (profRoom == null) {
-                    os.println("Error: No existing room with the name: " + roomName);
-                    break;
-                }
-                os.println("Moving " + professor.GetName() + " to " + roomName);
-                professor.StepInto(profRoom);
+                entityToMove = (Entity) Main.game.GetRoundManager().GetActiveAIEntity();
                 break;
             default:    // searches by name
-                os.println("Invalid option: " + option);
+                entityToMove = GetEntityByName(option_name);
                 break;
+        }
+
+        if (entityToMove == null) {
+            os.println("Error: No existing entity with the name: " + option_name);
+            return;
+        }
+
+        Room roomToMoveInto = Main.game.GetMap().GetRoomByName(roomName);
+        if (roomToMoveInto == null) {
+            os.println("Error: No existing room with the name: " + roomName);
+            os.println("Error: " + entityToMove.GetName() + " has no neighbour with the name: " + roomName);
+            return;
+        }
+
+        boolean isNeighbour = false;
+        for (Room room : entityToMove.GetCurrentRoom().GetNeighbours()) {
+            if (room.equals(roomToMoveInto)) {
+                isNeighbour = true;
+                break;
+            }
+        }
+
+        if (isNeighbour) {
+            os.println("Moving " + entityToMove.GetName() + " from " + entityToMove.GetCurrentRoom().GetName() + " to " + roomName);
+            entityToMove.StepInto(roomToMoveInto);
+        } else {
+            os.println("Moving " + entityToMove.GetName() + " to " + roomName + " was unsuccessful");
         }
     }
 
@@ -195,11 +204,21 @@ public class Commands {
     }
 
     public static void Load(String[] args) {
-
+        if (args.length == 2) {
+            game.LoadGame(args[1]);
+            os.println("Successfully loaded " + args[1]);
+        } else {
+            os.println("Usage: load <file name>");
+        }
     }
 
     public static void Save(String[] args) {
-
+        if (args.length == 2) {
+            game.SaveGame(args[1]);
+            os.println("Successfully saved the game to " + args[1]);
+        } else {
+            os.println("Usage: save <file name>");
+        }
     }
 
     public static void Random(String[] args) {

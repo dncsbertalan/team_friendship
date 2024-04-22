@@ -28,11 +28,6 @@ public class Map {
     private List<Room> rooms;
 
     /**
-     * All the rooms of the labyrinth stored by their name as keys.
-     */
-    private HashMap<String, Room> roomNames;
-
-    /**
      * The room the students have to secure the slipstick in.
      */
     private Room winningRoom;
@@ -59,7 +54,6 @@ public class Map {
      */
     public Map(Game game) {
         rooms = new ArrayList<>();
-        this.roomNames = new HashMap<>();
         winningRoom = new Room(game);
         teachersLounge = new Room(game);
         mainHall = new Room(game);
@@ -69,11 +63,14 @@ public class Map {
 
     /**
      * Returns the room give as parameter.
-     * @param nameKey the name of the room
+     * @param name the name of the room
      * @return the room if exists, {@code null} otherwise
      */
-    public Room GetRoomByName(String nameKey) {
-        return roomNames.get(nameKey);
+    public Room GetRoomByName(String name) {
+        for (Room room : rooms) {
+            if (room.GetName().equals(name)) return room;
+        }
+        return null;
     }
 
     public void __Berci__MAPTEST() {

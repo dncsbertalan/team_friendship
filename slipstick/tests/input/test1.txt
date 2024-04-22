@@ -1,0 +1,6 @@
+load testmap.txt
+move Student_1 Room_1
+move Professor_1 Room_6
+move Janitor_1 Room_9
+move Student_1 Room_9
+exit

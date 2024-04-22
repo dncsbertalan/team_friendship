@@ -35,10 +35,6 @@ public class Student extends Entity{
         if (room.GetNeighbours().contains(this.room) && room.CanStepIn()){
             ChangeRoom(room);
         }
-        else {
-            System.out.println("\t-> Student (" + this.hashCode() + ") cannot step into room (" + room.hashCode() + ")");
-        }
-
     }
 
     /**
@@ -49,7 +45,6 @@ public class Student extends Entity{
         this.room.RemoveStudentFromRoom(this);
         this.room = room;
         room.AddStudentToRoom(this);
-        //System.out.println("\t-> Student (" + this.hashCode() + ") stepped into room (" + this.room.hashCode() + ")");
 
         if(game.GetMap().IsWinningRoom(room))
             game.EndGame(true);
@@ -57,11 +52,9 @@ public class Student extends Entity{
 
     @Override
     public void SteppedIntoGassedRoom() {
-        System.out.println("\t-> Student (" + this.hashCode() + ") is in gassed room (" + this.room.hashCode() + ")");
         Item protectionItem = this.GetProtectionItem(Enums.ThreatType.gas);
 
         if (protectionItem == null) {   // no protection
-            System.out.println("\t-> Student (" + this.hashCode() + ") doesn't have protective item.");
             this.MissRounds(GameConstants.RoundsMissed_GasRoom);
             this.DropAllItems();
             Map map = this.game.GetMap();
@@ -70,7 +63,6 @@ public class Student extends Entity{
         else {  // has protection
             if (protectionItem.GetProtectionType() == Enums.ProtectionType.ffp2Mask) {
                 FFP2Mask ffp2Mask = (FFP2Mask) protectionItem;
-                System.out.println("\t-> Student (" + this.hashCode() + ") has protective item (" + ffp2Mask.hashCode() + ")");
                 ffp2Mask.DecreaseDurability();
                 this.IncreaseMoveCount(GameConstants.FFP2Mask_MoveCountIncrease);
             }
@@ -154,7 +146,6 @@ public class Student extends Entity{
         Item protectionItem = this.GetProtectionItem(Enums.ThreatType.professor);
 
         if (protectionItem == null) {   // HAS NO PROTECTION
-            System.out.println("\t-> Student (" + this.hashCode() + ") doesn't have protective item, the student dies");
             DropAllItems();
             isDead = true;
             this.game.GetRoundManager().EndTurn();
@@ -163,7 +154,6 @@ public class Student extends Entity{
 
         if (protectionItem.GetProtectionType() == Enums.ProtectionType.wetCloth) {
             WetCloth wetCloth = (WetCloth) protectionItem;
-            System.out.println("\t-> Student (" + this.hashCode() + ") has protective item (" + wetCloth.hashCode() + "), it doesn't die");
             wetCloth.ProtectStudentFromProfessor(professor);
             Map map = this.game.GetMap();
             map.TransferStudentToMainHall(this);
@@ -171,7 +161,6 @@ public class Student extends Entity{
 
         if (protectionItem.GetProtectionType() == Enums.ProtectionType.tvsz) {
             TVSZ tvsz = (TVSZ) protectionItem;
-            System.out.println("\t-> Student (" + this.hashCode() + ") has protective item (" + tvsz.hashCode() + "), it doesn't die");
             tvsz.DecreaseUsability();
             Map map = this.game.GetMap();
             map.TransferProfessorToTeachersLounge(professor);
@@ -193,7 +182,7 @@ public class Student extends Entity{
     @Override
     public void PickUpItem(Item item) {
         if (inventory.size() == GameConstants.InventoryMaxSize) {
-            System.out.println("\t-> Player's (" + this.hashCode() + ") inventory is full");
+            System.out.println(this.Name + "'s inventory is full");
             return;
         }
         if(item.getClass()== SlipStick.class){
@@ -206,13 +195,6 @@ public class Student extends Entity{
             this.selectedItem = null;
         }
         this.room.RemoveItemFromRoom(item);
-    }
-
-    /**
-     * Player wins
-     */
-    public void Win() {
-        System.out.println("You won");
     }
 
     /**
@@ -256,7 +238,6 @@ public class Student extends Entity{
      * Gets a random item from the student's inventory.
      * @return: The random item chosen.
      */
-
     public Item GetRandomItemFromStudent(){
         Random random = new Random();
         int minInclusive = 0;
