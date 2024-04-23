@@ -237,8 +237,9 @@ public class Game {
     /**
      * Loads the game from the given file.
      * @param fileName the file
+     * @throws FileNotFoundException if the file doesn't exists
      */
-    public void LoadGame(String fileName) {
+    public void LoadGame(String fileName) throws FileNotFoundException {
 
         ArrayList<Room> map_rooms = new ArrayList<>();
         HashMap<String, Room> roomNames = new HashMap<>();
@@ -246,16 +247,12 @@ public class Game {
         ArrayList<String> lines = new ArrayList<>();
 
         // reads the file into the lines array
-        try {
-            Scanner scanner = new Scanner(new File(fileName));
-            while (scanner.hasNextLine()) {
-                lines.add(scanner.nextLine());
-            }
-            scanner.close();
+        Scanner scanner = new Scanner(new File(fileName));
+        while (scanner.hasNextLine()) {
+            lines.add(scanner.nextLine());
         }
-        catch (FileNotFoundException e) {
-            System.out.println("Error: " + fileName + " not found.");
-        }
+        scanner.close();
+
         // set the MaxRounds
         String rounds = lines.get(0); lines.remove(0);
         GameConstants.MaxRounds = Integer.parseInt(rounds.split(":")[1]);

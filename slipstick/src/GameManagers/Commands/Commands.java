@@ -7,6 +7,7 @@ import Labyrinth.Map;
 import Labyrinth.Room;
 import Runnable.Main;
 
+import java.io.FileNotFoundException;
 import java.util.Random;
 
 import static Runnable.Main.game;
@@ -219,7 +220,12 @@ public class Commands {
 
     public static void Load(String[] args) {
         if (args.length == 2) {
-            game.LoadGame(args[1]);
+            try {
+                game.LoadGame(args[1]);
+            } catch (FileNotFoundException e) {
+                os.println("Error: " + args[1] + " not found.");
+                return;
+            }
             os.println("Successfully loaded " + args[1]);
         } else {
             os.println("Usage: load <file name>");
