@@ -269,4 +269,8 @@ public class Map {
     }
 
     public List<Room> GetRooms() { return rooms; }
+
+    public Room GetMainHall() { return mainHall; }
+    public Room GetTeachersLounge() { return teachersLounge; }
+    public Room GetJanitorsRoom() { return janitorsRoom; }
 }

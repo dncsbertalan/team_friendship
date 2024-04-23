@@ -3,15 +3,17 @@ package GameManagers.Commands;
 import Constants.GameConstants;
 import Entities.*;
 import Items.Item;
+import Labyrinth.Map;
 import Labyrinth.Room;
 import Runnable.Main;
 
-import java.time.chrono.IsoChronology;
+import java.util.Random;
 
 import static Runnable.Main.game;
 import static Runnable.Main.os;
 
 public class Commands {
+    private static Random random = new Random();
 
 //region ==================== COMMAND METHODS ====================
     public static void Move(String[] args) {
@@ -147,7 +149,7 @@ public class Commands {
     }
 
     public static void UseItem(String[] args) {
-        int slotNumber = validateSlotNumber(args);
+        int slotNumber = ValidateSlotNumber(args);
         if (slotNumber == -1) {
             return;
         }
@@ -156,7 +158,7 @@ public class Commands {
     }
 
     public static void ActivateItem(String[] args) {
-        int slotNumber = validateSlotNumber(args);
+        int slotNumber = ValidateSlotNumber(args);
         if (slotNumber == -1) {
             return;
         }
@@ -172,7 +174,7 @@ public class Commands {
     }
 
     public static void DropItem(String[] args) {
-        int slotNumber = validateSlotNumber(args);
+        int slotNumber = ValidateSlotNumber(args);
         if (slotNumber == -1) {
             return;
         }
@@ -181,12 +183,24 @@ public class Commands {
     }
 
     public static void Merge(String[] args) {
+        Map map = game.GetMap();
         if (args.length == 1) {
-            //random merge
+            // Random merge
+            Room firstRandomlySelectedRoom = RandomlySelectRoomFromMap(map);
+            Room secondRandomlySelectedRoom = RandomlySelectRoomFromMap(map);
+
+            map.MergeRooms(firstRandomlySelectedRoom, secondRandomlySelectedRoom);
         } else if (args.length == 3) {
-            String room1 = args[1];
-            String room2 = args[2];
-            //manual merge
+            // Manual merge
+            String room1name = args[1];
+            String room2name = args[2];
+
+            Room r1 = map.GetRoomByName(room1name);
+            Room r2 = map.GetRoomByName(room2name);
+
+            if (RoomIsValidForMerge(map, r1) && RoomIsValidForMerge(map, r2)) {
+                map.MergeRooms(r1, r2);
+            }
         } else {
             os.println("Usage: merge [<room name> <room name>]");
         }
@@ -307,7 +321,7 @@ public class Commands {
 //endregion
 
 //region ==================== HELPER METHODS ====================
-    private static int validateSlotNumber(String[] args) {
+    private static int ValidateSlotNumber(String[] args) {
         if (args.length != 2) {
             os.println("Usage: <use/activate>_item <slot number>");
             return -1;
@@ -340,6 +354,23 @@ public class Commands {
             if (entity.GetName().equals(name)) return entity;
         }
         return null;
+    }
+
+    private static Room RandomlySelectRoomFromMap(Map map) {
+        int randomRoomNumber;
+        Room randomlySelectedRoom = null;
+
+        do {
+            randomRoomNumber = random.nextInt(0, map.GetRooms().size());
+            randomlySelectedRoom = map.GetRooms().get(randomRoomNumber);
+        } while (!RoomIsValidForMerge(map, randomlySelectedRoom));
+
+        return randomlySelectedRoom;
+    }
+
+    private static boolean RoomIsValidForMerge(Map map, Room room) {
+        return !room.equals(map.GetMainHall()) || !room.equals(map.GetTeachersLounge()) ||
+                !room.equals(map.GetJanitorsRoom()) || !map.IsWinningRoom(room);
     }
 //endregion
 }
