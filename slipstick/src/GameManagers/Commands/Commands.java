@@ -2,16 +2,21 @@ package GameManagers.Commands;
 
 import Constants.GameConstants;
 import Entities.*;
+import GameManagers.CommandController;
 import Items.Item;
 import Labyrinth.Map;
 import Labyrinth.Room;
 import Runnable.Main;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.util.Random;
+import java.util.Scanner;
 
-import static Runnable.Main.game;
-import static Runnable.Main.os;
+import static GameManagers.CommandController.commands;
+import static Runnable.Main.*;
 
 public class Commands {
     private static Random random = new Random();
@@ -26,7 +31,7 @@ public class Commands {
         String option_name = args[1];
         String roomName = args[2];
 
-        Entity entityToMove = null;
+        Entity entityToMove;
 
         switch (option_name) {
             case "-s":
@@ -87,37 +92,70 @@ public class Commands {
 
     public static void List(String[] args) {
         if (args.length < 2) {
-            os.println("Usage: list <-it/-in/-n/-m> [<entity>]");
+            os.println("Usage: list <-it/-in/-n/-m/-all> [<entity>]");
             return;
         }
 
         String option = args[1];
 
         switch (option) {
-            case "-it":
-                break;
-            case "-in": {
-                if (args.length > 2) { // if specified entity
-                    Entity entity = GetEntityByName(args[2]);
-                    if (entity == null) {
-                        os.println("No entity with the name " + args[2]);
-                        break;
-                    }
-                    os.println(args[2] + "'s inventory: " + (entity.GetInventory().isEmpty() ? "(empty)" : ""));
-                    for (Item item : entity.GetInventory()) {
-                        os.println("\t-> " + item.GetName());
-                    }
+            case "-it": {
+                if (args.length < 3) {
+                    os.println("Usage: list -it <entity>");
+                    return;
+                }
+                String name = args[2];
+                Entity entity = GetEntityByName(name);
+
+                if (entity == null) {
+                    os.println("Error: No existing entity with the name: " + name);
+                    return;
+                }
+
+                os.println("Pickupable items in " + entity.GetName() + "'s room: " + (entity.GetCurrentRoom().GetInventory().isEmpty() ? "(empty)" : ""));
+                for (Item item : entity.GetCurrentRoom().GetInventory()) {
+                    os.println("\t-> " + item.GetName());
                 }
 
                 break;
             }
-            case "-n":
+            case "-in": {
+                if (args.length < 3) {
+                    os.println("Usage: list -in <entity>");
+                    return;
+                }
+
+                String name = args[2];
+                Entity entity = GetEntityByName(name);
+
+                if (entity == null) {
+                    os.println("Error: No existing entity with the name: " + name);
+                    return;
+                }
+
+                os.println(entity.GetName() + "'s inventory: " + (entity.GetInventory().isEmpty() ? "(empty)" : ""));
+                for (Item item : entity.GetInventory()) {
+                    os.println("\t-> " + item.GetName());
+                }
+
+                break;
+            }
+            case "-n": {
                 if (args.length < 3) {
                     os.println("Usage: list -n <entity>");
                     return;
                 }
-                String entity = args[2];
+                Entity entity = GetEntityByName(args[2]);
+                if (entity == null) {
+                    os.println("No entity with the name " + args[2]);
+                    return;
+                }
+                os.println("The neighbouring rooms of " + args[2]);
+                for (Room room : entity.GetCurrentRoom().GetNeighbours()) {
+                    os.println("\t-> " + room.GetName() + (room.IsGassed() ? " (gassed)" : "") + (room.IsSticky() ? " (sticky)" : ""));
+                }
                 break;
+            }
             case "-m": {
 
                 os.println("The rooms and their neighbours in the map:");
@@ -245,6 +283,48 @@ public class Commands {
 
     }
 
+    public static void Input(String[] args) {
+        if (args.length < 2) {
+            os.println("Usage: input <file name>");
+            return;
+        }
+
+        //String basePath = "tests/input/";
+
+        Scanner scanner;
+        try {
+            scanner = new Scanner(new File(/*basePath + */args[1]));
+        } catch (FileNotFoundException e) {
+            os.println("Error: " + args[1] + " not found.");
+            return;
+        }
+        CommandController.DefaultIS = false;
+        while (!CommandController.DefaultIS) {
+            String[] cmd = scanner.nextLine().split(" ");
+
+            ICommand command = commands.get(cmd[0]);
+            if (command == null) {
+                os.println("Error: Unknown command");
+            }
+            else {
+                command.execute(cmd);
+            }
+        }
+    }
+
+    public static void Output(String[] args) {
+        if (args.length < 2) {
+            os.println("Usage: input <file name>");
+            return;
+        }
+        try {
+            os = new PrintStream(args[1]);
+        } catch (FileNotFoundException e) {
+            os = System.out;
+            os.println("Error: " + args[1] + " not found.");
+        }
+    }
+
     public static void Roundm(String[] args) {
         if (args.length < 2) {
             os.println("Informations of the current round:");
@@ -323,6 +403,15 @@ public class Commands {
 
     public static void Pair(String[] args) {
 
+    }
+
+    public static void Exit(String[] args) {
+        if (CommandController.DefaultIS) {
+            CommandController.GetInput = false;
+            return;
+        }
+        os = System.out;
+        CommandController.DefaultIS = true;
     }
 //endregion
 

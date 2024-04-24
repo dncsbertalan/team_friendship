@@ -10,9 +10,9 @@ import static Runnable.Main.os;
 
 public class CommandController {
 
-    private final static HashMap<String, ICommand> commands = new HashMap<>();
+    public final static HashMap<String, ICommand> commands = new HashMap<>();
     static {
-        commands.put("exit", (args) -> CommandController.getInput = false);
+        commands.put("exit", Commands::Exit);
         commands.put("move", Commands::Move);
         commands.put("list", Commands::List);
         commands.put("use_item", Commands::UseItem);
@@ -26,17 +26,21 @@ public class CommandController {
         commands.put("random", Commands::Random);
         commands.put("roundm", Commands::Roundm);
 
+        commands.put("input", Commands::Input);
+        commands.put("output", Commands::Output);
+
         commands.put("state", Commands::State);
         commands.put("pair", Commands::Pair);
     }
 
-    private static boolean getInput = true;
+    public static boolean GetInput = true;
+    public static boolean DefaultIS = true;
 
     public static void GetInput() {
 
         Scanner scanner = new Scanner(System.in);
 
-        while (getInput) {
+        while (GetInput) {
             String[] cmd = scanner.nextLine().split(" ");
 
             ICommand command = commands.get(cmd[0]);

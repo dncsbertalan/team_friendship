@@ -6,10 +6,8 @@ import Labyrinth.*;
 import Constants.*;
 import Labyrinth.Map;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 import static Constants.GameConstants.randomSeed;
