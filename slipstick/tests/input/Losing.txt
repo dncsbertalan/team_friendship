@@ -1,0 +1,4 @@
+load testmap.txt
+roundm -endr
+state -g
+exit

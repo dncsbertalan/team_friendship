@@ -1,0 +1,3 @@
+Successfully loaded testmap.txt
+Current round ended
+The current game state: lost

@@ -8,13 +8,13 @@ function TestSikeres($testName, $outputFile) {
     $testFile = $testsPath + $testName + ".txt"
     type $testFile | java -cp bin Runnable.Main | tee $outputFile
     $expectedFile = $testExpectedPath + $testName + "_expected.txt"
-    $expectedContent = Get-Content $expectedFile
-    $actualContent = Get-Content $outputFile
+    $expectedContent = Get-Content $expectedFile -Raw
+    $actualContent = Get-Content $outputFile -Raw
 
     Write-Host "Expected output:"
-    Write-Host (Get-Content $expectedFile -Raw) -ForegroundColor DarkGray
+    Write-Host $expectedContent -ForegroundColor DarkGray
     Write-Host "Actual output:"
-    Write-Host (Get-Content $outputFile -Raw) -ForegroundColor DarkGray
+    Write-Host $actualContent -ForegroundColor DarkGray
 
     return ($actualContent -eq $expectedContent)
 }
