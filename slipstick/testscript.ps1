@@ -3,7 +3,7 @@ javac -d bin .\src\Constants\* .\src\Entities\* .\src\Items\* .\src\Labyrinth\* 
 $testOutputPath = "tests/output/"
 $testExpectedPath = "tests/expected/"
 $testsPath = "tests/input/"
-$testFiles = "move.txt", "test2.txt", "test3.txt"
+$testFiles = "Move.txt", "test2.txt", "test3.txt"
 
 $totalTests = 0
 $successfulTest = 0
@@ -11,8 +11,8 @@ $successfulTest = 0
 function Test($testName, $outputFile) {
     $testFile = $testsPath + $testName + ".txt"
     
-    type $testFile | java -cp bin Runnable.Main | tee $outputFile
-    #Get-Content $testFile -Encoding UTF8 | java -cp bin Runnable.Main | Out-File -FilePath $outputFile -Encoding UTF8
+    #type $testFile | java -cp bin Runnable.Main | tee $outputFile
+    Get-Content $testFile -Encoding UTF8 | java -cp bin Runnable.Main | Out-File -FilePath $outputFile -Encoding UTF8
 
     $expectedFile = $testExpectedPath + $testName + "_expected.txt"
     $expectedContent = Get-Content $expectedFile

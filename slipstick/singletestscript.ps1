@@ -12,9 +12,9 @@ function TestSikeres($testName, $outputFile) {
     $actualContent = Get-Content $outputFile
 
     Write-Host "Expected output:"
-    Write-Host $expectedContent -ForegroundColor DarkGray
+    Write-Host (Get-Content $expectedFile -Raw) -ForegroundColor DarkGray
     Write-Host "Actual output:"
-    Write-Host $actualContent -ForegroundColor DarkGray
+    Write-Host (Get-Content $outputFile -Raw) -ForegroundColor DarkGray
 
     return ($actualContent -eq $expectedContent)
 }
@@ -35,7 +35,7 @@ do {
     }
 
     Write-Host "Input:"
-    Write-Host (Get-Content $testFile) -ForegroundColor DarkGray
+    Write-Host (Get-Content $testFile -Raw) -ForegroundColor DarkGray
 
     $outputFile = $testOutputPath + $testName + "_output.txt"
     if ((TestSikeres $testName $outputFile -Raw) -eq $true) {
