@@ -252,6 +252,15 @@ public class Commands {
             os.println("Usage: pick_up_item <item name>");
             return;
         }
+
+        Student student = game.GetRoundManager().GetActiveStudent();
+        String itemName = args[1];
+
+        Item item = GetItemFromEntityByName(student, itemName);
+        if (item != null) {
+            student.PickUpItem(item);
+            os.println(student.GetName() + " picked up " + item.GetName());
+        }
     }
 
     public static void DropItem(String[] args) {
