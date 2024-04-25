@@ -256,10 +256,12 @@ public class Commands {
         Student student = game.GetRoundManager().GetActiveStudent();
         String itemName = args[1];
 
-        Item item = GetItemFromEntityByName(student, itemName);
+        Item item = GetItemFromRoomByName(student.GetCurrentRoom(), itemName);
         if (item != null) {
             student.PickUpItem(item);
             os.println(student.GetName() + " picked up " + item.GetName());
+        } else {
+            os.println(student.GetName() + " could not pick up " + itemName);
         }
     }
 
@@ -563,6 +565,15 @@ public class Commands {
         for(Item itemIter : entity.GetInventory()){
             if(itemIter.GetName().equals(itemName)){
                 return itemIter;
+            }
+        }
+        return null;
+    }
+
+    private static Item GetItemFromRoomByName(Room room, String itemName) {
+        for (Item item : room.GetInventory()) {
+            if (item.GetName().equals(itemName)) {
+                return item;
             }
         }
         return null;
