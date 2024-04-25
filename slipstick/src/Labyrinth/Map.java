@@ -86,29 +86,19 @@ public class Map {
      * @param r1 The first randomly selected room.
      * @param r2 The second randomly selected room.
      */
-    public void MergeRooms(Room r1, Room r2) {
-        System.out.println("Room merge:");
-
+    public Room MergeRooms(Room r1, Room r2) {
         if (r1.CheckForEntityInRoom() != 0) {
-            System.out.println(">Room merge not successful");
-            System.out.println(">The first given room was not empty");
-            return;
+            return null;
         }
 
         if (r2.CheckForEntityInRoom() != 0) {
-            System.out.println(">Room merge not successful");
-            System.out.println(">The second given room was not empty");
-            return;
+            return null;
         }
 
         int r1capacity = r1.CheckCapacity();
-        System.out.println(">Checking capacity of the first room: " + r1capacity);
         int r2capacity = r2.CheckCapacity();
-        System.out.println(">Checking capacity of the second room: " + r2capacity);
         Room biggerRoom;
 
-        System.out.println(">Deciding which room has bigger capacity\n" +
-                "\t(if the capacities are equal, choose one randomly)");
         // Decide which rooms' capacity is bigger
         // If the rooms' capacities are equal, randomly choose one
         if (r1capacity == r2capacity) {
@@ -125,20 +115,16 @@ public class Map {
         }
 
         if (biggerRoom.equals(r1)) {
-            System.out.println(">Merging into the first room");
-            System.out.println(">Second room sending all neighbours");
             r2.SendAllNeighbours(r1);
-            System.out.println(">Second room sending all items");
             r2.SendAllItems(r1);
             rooms.remove(r2);
         } else {
-            System.out.println(">Merging into the second room");
-            System.out.println(">First room sending all neighbours");
             r1.SendAllNeighbours(r2);
-            System.out.println(">First room sending all items");
             r1.SendAllItems(r2);
             rooms.remove(r1);
         }
+
+        return biggerRoom;
     }
 
     /**
