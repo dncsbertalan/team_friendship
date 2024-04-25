@@ -1,5 +1,0 @@
-﻿Successfully loaded testmap.txt
-Moving Student_1 from MainHall to Room_1
-Moving Professor_1 from Teachers'Lounge to Room_6
-Moving Janitor_1 from Janitors'Room to Room_9
-Moving Student_1 to Room_9 was unsuccessful
