@@ -39,6 +39,9 @@ public class Room {
      * All professors placed in the room.
      */
     private final List<Professor> roomsListOfProfessors;
+    /**
+     * All janitors placed in the room.
+     */
     private final List<Janitor> roomsListOfJanitors;
     /**
      * All rooms that are currently neighbours to this room.
@@ -313,6 +316,7 @@ public class Room {
     public void AddJanitorToRoom(Janitor janitor){
         this.roomsListOfJanitors.add(janitor);
         janitor.SetCurrentRoom(this);
+        janitor.EvictEveryone();
         if (gassed) {
             janitor.SteppedIntoGassedRoom();
         }
@@ -332,6 +336,13 @@ public class Room {
      */
     public void RemoveProfessorFromRoom(Professor p) {
         this.roomsListOfProfessors.remove(p);
+    }
+    /**
+     * The room removes janitor from the room's list of entities.
+     * @param j: The janitor being removed from the room.
+     */
+    public void RemoveJanitorFromRoom(Janitor j) {
+        this.roomsListOfJanitors.remove(j);
     }
 
     /**
@@ -392,9 +403,19 @@ public class Room {
     public List<Room> GetNeighbours() {
         return roomsListOfNeighbours;
     }
-
+    /**
+     * Gets a list of the students currently in the room
+     * @return a list of students that are in the current room
+     */
     public List<Student> GetStudents() {
         return roomsListOfStudents;
+    }
+    /**
+     * Gets a list of the professors currently in the room
+     * @return a list of professor that are in the current room
+     */
+    public List<Professor> GetProfessors() {
+        return roomsListOfProfessors;
     }
 
     /**

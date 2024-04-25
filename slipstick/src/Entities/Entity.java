@@ -35,6 +35,11 @@ public abstract class Entity {
      * Game instance.
      */
     protected Game game;
+
+    /**
+     * Whether the entity is KO from toxic gas.
+     */
+    private boolean paralysed;
 //endregion
 
     public Entity(Game g) {
@@ -74,6 +79,9 @@ public abstract class Entity {
      * @return: the remaining turns of the entity.
      */
     public int GetRemainingTurns(){
+        if(remainingTurns > -1){
+            this.SetParalysed(false);
+        }
         return remainingTurns;
     }
     /**
@@ -198,5 +206,13 @@ public abstract class Entity {
             return;
         }
         this.inventory.add(item);
+    }
+
+    public void SetParalysed(boolean isParalysed){
+        paralysed = isParalysed;
+    }
+
+    public boolean IsParalysed(){
+        return paralysed;
     }
 }

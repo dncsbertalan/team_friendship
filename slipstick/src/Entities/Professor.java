@@ -38,7 +38,7 @@ public class Professor extends Entity implements IAI {
             this.MissRounds(GameConstants.RoundsMissed_GasRoom);
             this.DropAllItems();
             Map map = this.game.GetMap();
-            map.TransferProfessorToTeachersLounge(this);
+            this.SetParalysed(true);
         }
         else {  // has protection
             if (protectionItem.GetProtectionType() == Enums.ProtectionType.ffp2Mask) {

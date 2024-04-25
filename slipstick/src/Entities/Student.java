@@ -58,7 +58,7 @@ public class Student extends Entity{
             this.MissRounds(GameConstants.RoundsMissed_GasRoom);
             this.DropAllItems();
             Map map = this.game.GetMap();
-            map.TransferStudentToMainHall(this);
+            this.SetParalysed(true);
         }
         else {  // has protection
             if (protectionItem.GetProtectionType() == Enums.ProtectionType.ffp2Mask) {
