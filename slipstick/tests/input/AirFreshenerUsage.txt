@@ -1,6 +1,9 @@
 load testmap.txt
 move Student_1 Room_1
 pick_up_item FFP2_2
+move Student_1 Room_2
+pick_up_item AirFreshener_1
 move Student_1 Room_5
+use_item AirFreshener_1
 state -r Student_1
 exit

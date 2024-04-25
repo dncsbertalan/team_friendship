@@ -1,0 +1,4 @@
+﻿Successfully loaded testmap.txt
+Moving Student_1 from MainHall to Room_1
+Usage: pick_up_item <item name>
+Invalid slot number. Please enter a number between 1 and 5.

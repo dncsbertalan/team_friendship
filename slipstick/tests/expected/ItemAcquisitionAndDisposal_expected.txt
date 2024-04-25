@@ -1,5 +1,4 @@
 Successfully loaded testmap.txt
 Moving Student_1 from MainHall to Room_1
 Student_1 picked up FFP2_2
-Moving Student_1 from Room_1 to Room_5
-Room_5 state: gassed
+Student_1 dropped FFP2_2

@@ -1,0 +1,5 @@
+load testmap.txt
+move Janitor_1 Room_9
+move Janitor_1 Room_10
+state -r Janitor_1
+exit

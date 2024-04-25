@@ -1,0 +1,10 @@
+﻿Successfully loaded testmap.txt
+Moving Student_1 from MainHall to Room_1
+Moving Student_1 from Room_1 to Room_2
+Moving Student_1 from Room_2 to Room_8
+Usage: pick_up_item <item name>
+Moving Professor_1 from Teachers'Lounge to Room_6
+Moving Professor_1 from Room_6 to Room_3
+Moving Professor_1 from Room_3 to Room_2
+Moving Student_1 from Room_8 to Room_2
+Invalid option: -e

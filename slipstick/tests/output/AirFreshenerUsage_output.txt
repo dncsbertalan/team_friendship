@@ -1,0 +1,8 @@
+﻿Successfully loaded testmap.txt
+Moving Student_1 from MainHall to Room_1
+Usage: pick_up_item <item name>
+Moving Student_1 from Room_1 to Room_2
+Usage: pick_up_item <item name>
+Moving Student_1 from Room_2 to Room_5
+Invalid slot number. Please enter a number between 1 and 5.
+Room_3 state: normal

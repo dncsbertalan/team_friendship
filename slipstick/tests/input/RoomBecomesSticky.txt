@@ -1,0 +1,20 @@
+load testmap.txt
+move Janitor_1 Room_9
+move Janitor_1 Room_10
+move Janitor_1 Room_4
+move Student_1 Room_1
+move Student_1 Room_2
+move Student_1 Room_3
+move Student_1 Room_9
+move Student_1 Room_10
+state -r Student_1
+move Student_1 Room_9
+move Student_1 Room_10
+move Student_1 Room_9
+move Student_1 Room_10
+move Student_1 Room_9
+move Student_1 Room_10
+move Student_1 Room_9
+move Student_1 Room_10
+state -r Student_1
+exit

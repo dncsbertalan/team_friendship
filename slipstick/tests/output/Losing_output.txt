@@ -1,0 +1,3 @@
+﻿Successfully loaded testmap.txt
+pipa_ended
+Invalid option: -g

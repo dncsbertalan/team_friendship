@@ -1,0 +1,4 @@
+﻿Successfully loaded testmap.txt
+Moving Janitor_1 from Janitors'Room to Room_9
+Moving Janitor_1 to Room_10 was unsuccessful
+Janitors'Room state: normal

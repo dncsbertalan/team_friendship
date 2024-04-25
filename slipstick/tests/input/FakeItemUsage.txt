@@ -1,0 +1,8 @@
+load testmap.txt
+move Student_1 Room_1
+move Student_1 Room_2
+move Student_1 Room_3
+pick_up_item FakeItem_1
+use_item FakeItem_1
+list -in Student_1
+exit
