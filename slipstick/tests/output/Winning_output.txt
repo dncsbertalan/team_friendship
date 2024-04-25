@@ -6,5 +6,5 @@ Student_1 picked up Slipstick
 Moving Student_1 from Room_3 to Room_2
 Moving Student_1 from Room_2 to Room_8
 Moving Student_1 from Room_8 to Room_7
-Error: No existing room with the name: WinningRoom
-Invalid option: -g
+Moving Student_1 from Room_7 to WinningRoom
+The current game state: won

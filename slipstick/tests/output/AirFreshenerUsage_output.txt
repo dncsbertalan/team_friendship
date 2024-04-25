@@ -4,5 +4,5 @@ Student_1 picked up FFP2_2
 Moving Student_1 from Room_1 to Room_2
 Student_1 picked up AirFreshener_1
 Moving Student_1 from Room_2 to Room_5
-Invalid slot number. Please enter a number between 1 and 5.
-Room_5 state: gassed sticky
+Student_1 used AirFreshener_1
+Room_5 state: normal

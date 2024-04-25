@@ -42,5 +42,7 @@ The rooms and their neighbours in the map:
 -> Room_10 (gassed)
 	-> Room_4
 	-> Room_9
+-> WinningRoom
+	-> Room_7
 -> Janitors'Room
 	-> Room_9

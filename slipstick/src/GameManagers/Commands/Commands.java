@@ -456,11 +456,11 @@ public class Commands {
 
         switch (option) {
             case "-endt":
-                os.println("pipa");
+                os.println("Current turn ended");
                 Main.game.GetRoundManager().EndTurn();
                 break;
             case "-endr":
-                os.println("pipa_ended");
+                os.println("Current round ended");
                 Main.game.GetRoundManager().EndOfRound();   // TODO: safe check to not skip 2 rounds
                 Main.game.GetRoundManager().EndTurn();
                 break;
@@ -473,7 +473,7 @@ public class Commands {
 
     public static void State(String[] args) {
         if (args.length < 2) {
-            os.println("Usage: list <-it/-in/-n/-m> [<entity>]"); // TODO
+            os.println("Usage: state <-g/-r/-e> [<entity>]");
             return;
         }
 
@@ -482,11 +482,15 @@ public class Commands {
         switch (option) {
             case "-r": {
                 if (args.length < 3) {
-                    os.println("Usage: list <-it/-in/-n/-m> [<entity>]"); // TODO
+                    os.println("Usage: state -r <entity>");
                     return;
                 }
 
                 Entity entity = GetEntityByName(args[2]);
+                if (entity == null) {
+                    os.println("No entity with the name " + args[2]);
+                    return;
+                }
                 Room entityRoom = entity.GetCurrentRoom();
                 os.print(entityRoom.GetName() + " state:");
                 if (entityRoom.IsGassed()) {
@@ -500,6 +504,34 @@ public class Commands {
                 }
                 os.print("\n");
 
+                break;
+            }
+            case "-g": {
+                if (args.length > 2) {
+                    os.println("Usage: state -g");
+                    return;
+                }
+
+                if (!game.IsEnded() && game.IsLastPhase()) {
+                    os.println("The current game state: last phase");
+                    break;
+                }
+                if (game.IsEnded() && game.GetWin()) {
+                    os.println("The current game state: won");
+                    break;
+                }
+                if (game.IsEnded() && !game.GetWin()) {
+                    os.println("The current game state: lost");
+                    break;
+                }
+                os.println("The current game state: normal");
+                break;
+            }
+            case "-e": {
+                if (args.length < 3) {
+                    os.println("Usage: state -e <entity>");
+                    return;
+                }
                 break;
             }
             default:

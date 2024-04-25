@@ -21,14 +21,15 @@ public class Game {
 
 //region Attributes ====================================================================================================
     private boolean over;
+    private boolean win = false;
     /**
      * The map where the Game takes place.
      */
-    private Map map;
+    private final Map map;
     /**
      * The round manager associated with the game.
      */
-    private RoundManager roundManager;
+    private final RoundManager roundManager;
 
     /**
      * Indicates whether the game is in its last phase.
@@ -158,11 +159,14 @@ public class Game {
      */
     public void EndGame(boolean isWin) {
         over = true;
-        // TODO: WHAT HAPPENS WHEN WE WIN
+        win = isWin;
     }
 
     public boolean IsEnded() {
         return over;
+    }
+    public boolean GetWin() {
+        return win;
     }
 
     /**

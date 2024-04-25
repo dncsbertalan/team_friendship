@@ -201,6 +201,7 @@ public class Map {
      * Chooses the room the students have to secure the slipstick in.
      */
     public void AddWinningRoom(Room room) {
+        this.rooms.add(room);
         winningRoom = room;
     }
 

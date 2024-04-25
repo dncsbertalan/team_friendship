@@ -7,6 +7,7 @@ import Items.SlipStick;
 import Labyrinth.Room;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import static Runnable.Main.os;
 
@@ -106,9 +107,10 @@ public abstract class Entity {
      * Drops all items from inventory
      */
     public void DropAllItems() {
-        for (Item item : inventory) {
-            DropItem(item);
+        for (Item item : this.inventory) {
+            this.room.AddItemToRoom(item);
         }
+        inventory.clear();
     }
 
     /**
