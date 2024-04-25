@@ -1,4 +1,4 @@
 ﻿Successfully loaded testmap.txt
 Moving Student_1 from MainHall to Room_1
 Student_1 picked up FFP2_2
-Invalid slot number. Please enter a number between 1 and 5.
+Student_1 dropped FFP2_2

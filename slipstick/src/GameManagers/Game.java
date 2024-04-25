@@ -274,7 +274,7 @@ public class Game {
                 newRoom.SetToxicity();
             }
             if (_type.equals("sticky")) {
-                newRoom.SetSticky(true);
+                newRoom.SetSticky();
             }
             if (_name.contains(GameConstants.RoomName_TeachersLounge)) map.AddTeachersLounge(newRoom);
             else if (_name.contains(GameConstants.RoomName_JanitorsRoom)) map.AddJanitorsRoom(newRoom);

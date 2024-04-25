@@ -7,4 +7,4 @@ Moving Professor_1 from Teachers'Lounge to Room_6
 Moving Professor_1 from Room_6 to Room_3
 Moving Professor_1 from Room_3 to Room_2
 Moving Student_1 from Room_8 to Room_2
-Invalid option: -e
+Student_1 is alive

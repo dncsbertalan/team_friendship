@@ -79,9 +79,7 @@ public abstract class Entity {
      * @return: the remaining turns of the entity.
      */
     public int GetRemainingTurns(){
-        if(remainingTurns > -1){
-            this.SetParalysed(false);
-        }
+        this.paralysed = remainingTurns <= -1;
         return remainingTurns;
     }
     /**
@@ -108,7 +106,7 @@ public abstract class Entity {
     public void DropItem(Item item) {
         room.AddItemToRoom(item);
         inventory.remove(item);
-        System.out.println(this.GetName() + " dropped " + item.GetName());
+        //System.out.println(this.GetName() + " dropped " + item.GetName());
     }
 
     /**

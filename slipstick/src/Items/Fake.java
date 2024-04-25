@@ -18,7 +18,7 @@ public class Fake extends Item{
      */
     @Override
     public void UseItem(Student student) {
-        System.out.println("im so fake");
+        System.out.println("Nothing happened, it was a fake item! ^^");
         student.GetInventory().remove(this);
     }
 }

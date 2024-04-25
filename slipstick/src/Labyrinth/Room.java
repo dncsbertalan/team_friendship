@@ -127,10 +127,6 @@ public class Room {
         this.name = name;
     }
 
-    //public void SetName(String name) {
-   //     this.name = name;
-    //}
-
     public String GetName() {
         return this.name;
     }
@@ -296,6 +292,10 @@ public class Room {
         else {
             this.NotifyProfessors(student);
         }
+
+        if (cleaned) {
+            SteppedIntoCleanedRoom();
+        }
     }
 
     /**
@@ -311,6 +311,10 @@ public class Room {
         else {
             p.KillEveryoneInTheRoom();
         }
+
+        if (cleaned) {
+            SteppedIntoCleanedRoom();
+        }
     }
 
     public void AddJanitorToRoom(Janitor janitor){
@@ -319,6 +323,13 @@ public class Room {
         janitor.EvictEveryone();
         if (gassed) {
             janitor.SteppedIntoGassedRoom();
+        }
+    }
+
+    private void SteppedIntoCleanedRoom() {
+        IncreaseEntityNumberAfterCleaning();
+        if (entityCounterAfterCleaning == GameConstants.EntitiesToBecomeSticky) {
+            SetSticky();
         }
     }
 
@@ -453,6 +464,7 @@ public class Room {
      */
     public void SetRoomAsCleaned(){
         cleaned = true;
+        gassed = false;
     }
     /**
      * The entity counter goes up by 1 when one steps into a cleaned room.
@@ -467,8 +479,11 @@ public class Room {
         return entityCounterAfterCleaning;
     }
 
-    public void SetSticky(boolean sticky) {
-        this.sticky = sticky;
+    public void SetSticky() {
+        this.cleaned = false;
+        this.sticky = true;
+        this.listOfUnpickupableItems.addAll(this.roomsListOfItems);
+        this.roomsListOfItems.clear();
     }
 
     public boolean IsSticky() {

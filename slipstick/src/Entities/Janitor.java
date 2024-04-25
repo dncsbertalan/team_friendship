@@ -4,6 +4,7 @@ import Constants.GameConstants;
 import GameManagers.Game;
 import Labyrinth.Room;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Janitor extends Entity implements IAI {
@@ -54,7 +55,7 @@ public class Janitor extends Entity implements IAI {
         List<Student> studentsOfRoom = this.GetCurrentRoom().GetStudents();
         List<Professor> professorsOfRoom = this.GetCurrentRoom().GetProfessors();
 
-        List<Room> neighboursOfRoom_ = neighboursOfRoom;
+        List<Room> neighboursOfRoom_ = new ArrayList<>(neighboursOfRoom);
 
         //roomID is for the currently chosen neighbour list iteration (neighboursOfRoom_)
         //nr is for choosing a room from the original neighbourslist (neighboursOfRoom), and making its neighbours as the list for iteration (neighboursOfRoom_)
@@ -112,7 +113,7 @@ public class Janitor extends Entity implements IAI {
                     neighboursOfRoom = neighboursOfRoom_;
                 }
             }
-        } while(professorsOfRoom.isEmpty());
+        } while(!professorsOfRoom.isEmpty()); // TODO: ! FIXED IT BUT THE TEST IS STILL WRONG :(
 
     }
 }

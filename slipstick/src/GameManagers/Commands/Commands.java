@@ -186,6 +186,7 @@ public class Commands {
                 break;
         }
     }
+
     public static void UseItem(String[] args) {
 
         if (args.length < 2) {
@@ -212,12 +213,8 @@ public class Commands {
         os.println(entity.GetName() + " used " + itemName);
         entity.UseItem(item);
     }
-    public static void ActivateItem(String[] args) {
-        int slotNumber = ValidateSlotNumber(args);
-        if (slotNumber == -1) {
-            return;
-        }
 
+    public static void ActivateItem(String[] args) {
         if (args.length < 2) {
             os.println("Usage: use_item <item name>");
             return;
@@ -239,8 +236,8 @@ public class Commands {
             return;
         }
 
+        os.println(entity.GetName() + " activated " + itemName);
         entity.ActivateItem(item);
-        return;
     }
 
     public static void PickUpItem(String[] args) {
@@ -267,8 +264,8 @@ public class Commands {
     }
 
     public static void DropItem(String[] args) {
-        int slotNumber = ValidateSlotNumber(args);
-        if (slotNumber == -1) {
+        if (args.length != 2) {
+            os.println("Usage: drop_item <item name>");
             return;
         }
 
@@ -278,13 +275,12 @@ public class Commands {
             return;
         }
 
-        student.SelectInventorySlot(slotNumber);
-        Item item = student.GetSelectedItem();
+        Item item = GetItemFromEntityByName(student, args[1]);
         if (item != null) {
             student.DropSelectedItem();
             os.println(student.GetName() + " dropped " + item.GetName());
         } else {
-            os.println(student.GetName() + " does not have and item in the given inventory slot");
+            os.println(student.GetName() + " does not have " + args[1]);
         }
     }
 
@@ -496,10 +492,13 @@ public class Commands {
                 if (entityRoom.IsGassed()) {
                     os.print(" gassed");
                 }
-                if (entityRoom.IsGassed()) {
+                if (entityRoom.IsSticky()) {
                     os.print(" sticky");
                 }
-                else {
+                if (entityRoom.IsCleaned()) {
+                    os.print(" cleaned");
+                }
+                if (!entityRoom.IsGassed() && !entityRoom.IsSticky() && !entityRoom.IsCleaned()) {
                     os.print(" normal");
                 }
                 os.print("\n");
@@ -524,7 +523,7 @@ public class Commands {
                     os.println("The current game state: lost");
                     break;
                 }
-                os.println("The current game state: normal");
+                os.println("The current game state: normal state");
                 break;
             }
             case "-e": {
@@ -532,6 +531,22 @@ public class Commands {
                     os.println("Usage: state -e <entity>");
                     return;
                 }
+
+                Entity entity = GetEntityByName(args[2]);
+                if (entity == null) {
+                    os.println("No entity with name " + args[2]);
+                    return;
+                }
+
+                if (entity.IsParalysed()) {
+                    os.println(entity.GetName() + " is paralyzed");
+                    return;
+                }
+                if (entity.getClass() == Student.class && ((Student) entity).IsDead()) {
+                    os.println(entity.GetName() + " is dead");
+                    return;
+                }
+                os.println(entity.GetName() + " is alive");
                 break;
             }
             default:

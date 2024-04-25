@@ -4,5 +4,5 @@ Moving Student_1 from Room_1 to Room_2
 Moving Student_1 from Room_2 to Room_3
 Student_1 picked up FakeItem_1
 Student_1 used FakeItem_1
-im so fake
+Nothing happened, it was a fake item! ^^
 Student_1's inventory: (empty)
