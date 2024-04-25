@@ -186,16 +186,49 @@ public class Commands {
                 break;
         }
     }
-
+    /*use_item <slot number>
+    Leírás: A hallgató a raktárában lévő, megadott sorszámnak megfelelő tárgyat
+    használja.
+    Opciók: Az megadott szám 1-5 bármi lehet, hiszen a hallgató raktárában 5 item lehet.
+    UseItem*/
     public static void UseItem(String[] args) {
         int slotNumber = ValidateSlotNumber(args);
         if (slotNumber == -1) {
             return;
         }
 
+        if (args.length < 3) {
+            os.println("Usage: use_item <entity> <item name>");
+            return;
+        }
+
+        String entityName = args[1];
+        String itemName = args[2];
+
+        Student entity = (Student)GetEntityByName(entityName);
+
+        if(entity == null){
+            os.println("Error: No existing entity with the name: " + entityName);
+            return;
+        }
+
+        Item item = GetItemFromEntityByName(entity, itemName);
+
+        if(item == null){
+            os.println("Error: entity " + entityName + " does not own item " + itemName);
+            return;
+        }
+
+        entity.UseItem(item);
+        return;
+
         //use
     }
-
+    /*activate_item <slot number>
+        Leírás: A hallgató a raktárában lévő, megadott sorszámnak megfelelő tárgyat
+        aktiválja.
+                Opciók: Az megadott szám 1-5 bármi lehet, hiszen a hallgató raktárában 5 item lehet.
+                ActivateItem*/
     public static void ActivateItem(String[] args) {
         int slotNumber = ValidateSlotNumber(args);
         if (slotNumber == -1) {
@@ -497,6 +530,15 @@ public class Commands {
     private static boolean RoomIsValidForMergeOrDivision(Map map, Room room) {
         return !room.equals(map.GetMainHall()) || !room.equals(map.GetTeachersLounge()) ||
                 !room.equals(map.GetJanitorsRoom()) || !map.IsWinningRoom(room);
+    }
+
+    private static Item GetItemFromEntityByName(Entity entity, String itemName){
+        for(Item itemIter : entity.GetInventory()){
+            if(itemIter.GetName().equals(itemName)){
+                return itemIter;
+            }
+        }
+        return null;
     }
 //endregion
 }
