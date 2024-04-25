@@ -1,0 +1,4 @@
+load testmap.txt
+separate Room_1
+list -m
+exit
