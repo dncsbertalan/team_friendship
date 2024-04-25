@@ -209,4 +209,8 @@ public abstract class Entity {
     public void SetParalysed(boolean isParalysed){
         paralysed = isParalysed;
     }
+
+    public boolean IsParalysed(){
+        return paralysed;
+    }
 }

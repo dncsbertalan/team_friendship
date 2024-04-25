@@ -62,13 +62,14 @@ public class Janitor extends Entity implements IAI {
         int nr = 0;
         do{
             for(Student studentIter : studentsOfRoom){
-
-                //roomID % sizeOfList, for there might be more students than neighbouring rooms
-                Room currentNeighbour = neighboursOfRoom_.get(roomID % neighboursOfRoom_.size());
-                if(currentNeighbour.CanStepIn()){
-                    studentIter.StepInto(currentNeighbour);
+                if(studentIter.IsParalysed() == false){
+                    //roomID % sizeOfList, for there might be more students than neighbouring rooms
+                    Room currentNeighbour = neighboursOfRoom_.get(roomID % neighboursOfRoom_.size());
+                    if(currentNeighbour.CanStepIn()){
+                        studentIter.StepInto(currentNeighbour);
+                    }
+                    roomID++;
                 }
-                roomID++;
             }
 
             //if all the students couldn't fit into the neighbours of current iteration list
@@ -88,13 +89,14 @@ public class Janitor extends Entity implements IAI {
 
         do{
             for(Professor professorIter : professorsOfRoom){
-
-                //roomID % sizeOfList, for there might be more professors than neighbouring rooms
-                Room currentNeighbour = neighboursOfRoom_.get(roomID % neighboursOfRoom_.size());
-                if(currentNeighbour.CanStepIn()){
-                    professorIter.StepInto(currentNeighbour);
+                if(professorIter.IsParalysed() == false){
+                    //roomID % sizeOfList, for there might be more professors than neighbouring rooms
+                    Room currentNeighbour = neighboursOfRoom_.get(roomID % neighboursOfRoom_.size());
+                    if(currentNeighbour.CanStepIn()){
+                        professorIter.StepInto(currentNeighbour);
+                    }
+                    roomID++;
                 }
-                roomID++;
             }
 
             //if all the professors couldn't fit into the neighbours of current iteration list
