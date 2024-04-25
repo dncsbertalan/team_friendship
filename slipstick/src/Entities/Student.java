@@ -247,4 +247,8 @@ public class Student extends Entity{
         Item resultItem = this.GetInventory().get(itemIndex);
         return resultItem;
     }
+
+    public Item GetSelectedItem() {
+        return selectedItem;
+    }
 }
