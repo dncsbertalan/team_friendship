@@ -289,6 +289,9 @@ public class Commands {
             if (merged != null) {
                 os.println(firstRandomlySelectedRoom.GetName() + " and " +
                         secondRandomlySelectedRoom.GetName() + " merged into " + merged.GetName());
+            } else {
+                os.println("Merge of " + firstRandomlySelectedRoom.GetName() + " and " +
+                        secondRandomlySelectedRoom.GetName() + " not successful");
             }
         } else if (args.length == 3) {
             // Manual merge
@@ -302,6 +305,8 @@ public class Commands {
                 merged = map.MergeRooms(r1, r2);
                 if (merged != null) {
                     os.println(room1name + " and " + room2name + " merged into " + merged.GetName());
+                } else {
+                    os.println("Merge of " + room1name + " and " + room2name + " not successful");
                 }
             }
         } else {
@@ -321,6 +326,8 @@ public class Commands {
             if (separated != null) {
                 os.println(randomlySelectedRoom.GetName() + " separated into " +
                         randomlySelectedRoom.GetName() + " and " + separated.GetName());
+            } else {
+                os.println("Separation of " + randomlySelectedRoom.GetName() + " not successful");
             }
         } else if (args.length == 2) {
             // Manual separation
@@ -331,6 +338,8 @@ public class Commands {
                 separated = map.SeparateRooms(r);
                 if (separated != null) {
                     os.println(roomName + " separated into " + roomName + " and " + separated.GetName());
+                } else {
+                    os.println("Separation of " + roomName + " not successful");
                 }
             }
         } else {
