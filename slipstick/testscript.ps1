@@ -3,7 +3,7 @@ javac -d bin .\src\Constants\* .\src\Entities\* .\src\Items\* .\src\Labyrinth\* 
 $testOutputPath = "tests/output/"
 $testExpectedPath = "tests/expected/"
 $testsPath = "tests/input/"
-$testFiles = "Move.txt", "RoomMerge.txt", "Winning.txt", "Losing.txt"
+$testFiles = "Move.txt", "TransistorUsage.txt", "RoomMerge.txt", "RoomDivision.txt", "Winning.txt", "Losing.txt", "SlipstickPickUpAndDrop.txt", "CheeseUsage.txt", "BeerUsage.txt", "WetClothUsage.txt", "FFP2Usage.txt", "TVSZUsage.txt", "AirFreshenerUsage.txt", "FakeItemUsage.txt", "SteppingIntoGassedRoom.txt", "ItemAcquisitionAndDisposal.txt", "JanitorEvictsEveryoneInTheRoom.txt", "JanitorVentilatesGassedRoom.txt", "RoomBecomesSticky.txt"
 
 $totalTests = 0
 $successfulTest = 0
