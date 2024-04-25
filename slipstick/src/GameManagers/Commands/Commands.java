@@ -266,10 +266,15 @@ public class Commands {
     public static void Merge(String[] args) {
         Map map = game.GetMap();
         Room merged = null;
+
         if (args.length == 1) {
             // Random merge
-            Room firstRandomlySelectedRoom = RandomlySelectRoomFromMap(map);
-            Room secondRandomlySelectedRoom = RandomlySelectRoomFromMap(map);
+            Room firstRandomlySelectedRoom = null;
+            Room secondRandomlySelectedRoom = null;
+            do {
+                firstRandomlySelectedRoom = RandomlySelectRoomFromMap(map);
+                secondRandomlySelectedRoom = RandomlySelectRoomFromMap(map);
+            } while (firstRandomlySelectedRoom.equals(secondRandomlySelectedRoom));
 
             merged = map.MergeRooms(firstRandomlySelectedRoom, secondRandomlySelectedRoom);
             if (merged != null) {
@@ -284,7 +289,7 @@ public class Commands {
             Room r1 = map.GetRoomByName(room1name);
             Room r2 = map.GetRoomByName(room2name);
 
-            if (RoomIsValidForMerge(map, r1) && RoomIsValidForMerge(map, r2)) {
+            if (RoomIsValidForMergeOrDivision(map, r1) && RoomIsValidForMergeOrDivision(map, r2)) {
                 merged = map.MergeRooms(r1, r2);
                 if (merged != null) {
                     os.println(room1name + " and " + room2name + " merged into " + merged.GetName());
@@ -296,11 +301,29 @@ public class Commands {
     }
 
     public static void Separate(String[] args) {
+        Map map = game.GetMap();
+        Room separated = null;
+
         if (args.length == 1) {
-            //random separation
+            // Random separation
+            Room randomlySelectedRoom = RandomlySelectRoomFromMap(map);
+
+            separated = map.SeparateRooms(randomlySelectedRoom);
+            if (separated != null) {
+                os.println(randomlySelectedRoom.GetName() + " separated into " +
+                        randomlySelectedRoom.GetName() + " and " + separated.GetName());
+            }
         } else if (args.length == 2) {
-            String room = args[1];
-            //manual separation
+            // Manual separation
+            String roomName = args[1];
+            Room r = map.GetRoomByName(roomName);
+
+            if (RoomIsValidForMergeOrDivision(map, r)) {
+                separated = map.SeparateRooms(r);
+                if (separated != null) {
+                    os.println(roomName + " separated into " + roomName + " and " + separated.GetName());
+                }
+            }
         } else {
             os.println("Usage: separate [<room name>]");
         }
@@ -508,12 +531,12 @@ public class Commands {
         do {
             randomRoomNumber = random.nextInt(0, map.GetRooms().size());
             randomlySelectedRoom = map.GetRooms().get(randomRoomNumber);
-        } while (!RoomIsValidForMerge(map, randomlySelectedRoom));
+        } while (!RoomIsValidForMergeOrDivision(map, randomlySelectedRoom));
 
         return randomlySelectedRoom;
     }
 
-    private static boolean RoomIsValidForMerge(Map map, Room room) {
+    private static boolean RoomIsValidForMergeOrDivision(Map map, Room room) {
         return !room.equals(map.GetMainHall()) || !room.equals(map.GetTeachersLounge()) ||
                 !room.equals(map.GetJanitorsRoom()) || !map.IsWinningRoom(room);
     }
