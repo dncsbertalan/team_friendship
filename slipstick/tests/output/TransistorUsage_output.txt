@@ -1,7 +1,7 @@
 ﻿Successfully loaded testmap.txt
 Moving Student_1 from MainHall to Room_1
-Usage: pick_up_item <item name>
-Usage: pick_up_item <item name>
+Student_1 picked up Transistor_1
+Student_1 picked up Transistor_2
 Invalid slot number. Please enter a number between 1 and 5.
 Invalid slot number. Please enter a number between 1 and 5.
 Invalid slot number. Please enter a number between 1 and 5.

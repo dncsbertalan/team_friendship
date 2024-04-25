@@ -8,6 +8,8 @@ import Labyrinth.Room;
 
 import java.util.ArrayList;
 
+import static Runnable.Main.os;
+
 public abstract class Entity {
 //region Attributes ====================================================================================================
     /**
@@ -97,6 +99,7 @@ public abstract class Entity {
     public void DropItem(Item item) {
         room.AddItemToRoom(item);
         inventory.remove(item);
+        System.out.println(this.GetName() + " dropped " + item.GetName());
     }
 
     /**

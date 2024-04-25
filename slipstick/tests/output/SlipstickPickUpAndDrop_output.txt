@@ -2,7 +2,7 @@
 Moving Student_1 from MainHall to Room_1
 Moving Student_1 from Room_1 to Room_2
 Moving Student_1 from Room_2 to Room_3
-Usage: pick_up_item <item name>
+Student_1 picked up Slipstick
 Invalid option: -g
 Invalid slot number. Please enter a number between 1 and 5.
 Invalid option: -g

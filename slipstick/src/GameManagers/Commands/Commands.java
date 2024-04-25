@@ -187,10 +187,6 @@ public class Commands {
         }
     }
     public static void UseItem(String[] args) {
-        int slotNumber = ValidateSlotNumber(args);
-        if (slotNumber == -1) {
-            return;
-        }
 
         if (args.length < 2) {
             os.println("Usage: use_item <item name>");
@@ -213,8 +209,8 @@ public class Commands {
             return;
         }
 
+        os.println(entity.GetName() + " used " + itemName);
         entity.UseItem(item);
-        return;
     }
     public static void ActivateItem(String[] args) {
         int slotNumber = ValidateSlotNumber(args);
