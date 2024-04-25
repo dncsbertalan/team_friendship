@@ -131,22 +131,16 @@ public class Map {
      * Divide a randomly selected room into 2 rooms.
      * @param room The randomly selected room to be separated.
      */
-    public void SeparateRooms(Room room) {
-        System.out.println("Room division:");
-
+    public Room SeparateRooms(Room room) {
         if (room.CheckForEntityInRoom() != 0) {
-            System.out.println(">Room division not successful");
-            System.out.println(">The given room is not empty");
-            return;
+            return null;
         }
 
-        System.out.println(">Creating a new room");
         Room newRoom = new Room(this.game);
-        System.out.println(">Sending some neighbours to the new room");
         room.SendSomeNeighbour(newRoom);
-        System.out.println(">Sending some items to the new room");
         room.SendEveryOtherItem(newRoom);
         rooms.add(newRoom);
+        return newRoom;
     }
 
     /**
