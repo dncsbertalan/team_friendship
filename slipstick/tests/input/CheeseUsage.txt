@@ -1,0 +1,9 @@
+load testmap.txt
+move Student_1 Room_1
+move Student_1 Room_2
+move Student_1 Room_8
+pick_up_item Cheese_1
+activate_item Cheese_1
+use_item Cheese_1
+state -r Student_1
+exit
