@@ -248,12 +248,17 @@ public class Commands {
     }
 
     public static void PickUpItem(String[] args) {
-        if (args.length != 1) {
+        if (args.length != 2) {
             os.println("Usage: pick_up_item <item name>");
             return;
         }
 
         Student student = game.GetRoundManager().GetActiveStudent();
+        if (student == null) {
+            os.println("Error: No active player.");
+            return;
+        }
+
         String itemName = args[1];
 
         Item item = GetItemFromRoomByName(student.GetCurrentRoom(), itemName);
@@ -271,7 +276,20 @@ public class Commands {
             return;
         }
 
-        //drop
+        Student student = game.GetRoundManager().GetActiveStudent();
+        if (student == null) {
+            os.println("Error: No active player.");
+            return;
+        }
+
+        student.SelectInventorySlot(slotNumber);
+        Item item = student.GetSelectedItem();
+        if (item != null) {
+            student.DropSelectedItem();
+            os.println(student.GetName() + " dropped " + item.GetName());
+        } else {
+            os.println(student.GetName() + " does not have and item in the given inventory slot");
+        }
     }
 
     public static void Merge(String[] args) {
