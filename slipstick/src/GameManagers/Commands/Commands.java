@@ -223,12 +223,17 @@ public class Commands {
 
     public static void Merge(String[] args) {
         Map map = game.GetMap();
+        Room merged = null;
         if (args.length == 1) {
             // Random merge
             Room firstRandomlySelectedRoom = RandomlySelectRoomFromMap(map);
             Room secondRandomlySelectedRoom = RandomlySelectRoomFromMap(map);
 
-            map.MergeRooms(firstRandomlySelectedRoom, secondRandomlySelectedRoom);
+            merged = map.MergeRooms(firstRandomlySelectedRoom, secondRandomlySelectedRoom);
+            if (merged != null) {
+                os.println(firstRandomlySelectedRoom.GetName() + " and " +
+                        secondRandomlySelectedRoom.GetName() + " merged into " + merged.GetName());
+            }
         } else if (args.length == 3) {
             // Manual merge
             String room1name = args[1];
@@ -238,7 +243,10 @@ public class Commands {
             Room r2 = map.GetRoomByName(room2name);
 
             if (RoomIsValidForMerge(map, r1) && RoomIsValidForMerge(map, r2)) {
-                map.MergeRooms(r1, r2);
+                merged = map.MergeRooms(r1, r2);
+                if (merged != null) {
+                    os.println(room1name + " and " + room2name + " merged into " + merged.GetName());
+                }
             }
         } else {
             os.println("Usage: merge [<room name> <room name>]");
