@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.Objects;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -383,7 +384,19 @@ public class Commands {
     }
 
     public static void Random(String[] args) {
-
+            if(args.length == 2){
+                int i = -1;
+                if(Objects.equals(args[1], "true")) i = 1;
+                if(Objects.equals(args[1], "false")) i = 0;
+                if(i == -1){
+                    os.println("Incorrect boolean");
+                    return;
+                }
+                game.InitRandom(i);
+                os.println("Game's random state is now " + args[1]);
+            }else{
+                os.println("Usage: random <boolean>");
+            }
     }
 
     public static void Input(String[] args) {

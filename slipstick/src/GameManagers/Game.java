@@ -57,7 +57,7 @@ public class Game {
 //endregion
 
     /**
-     * Before the game starts {@link Game#InitPlayers(ArrayList)} and {@link Game#InitRandom(boolean)}
+     * Before the game starts {@link Game#InitPlayers(ArrayList)} and {@link Game#InitRandom(int)}
      * must be called properly or during the game it will throw {@link NullPointerException}.
      */
     public Game(){
@@ -86,9 +86,9 @@ public class Game {
      * Must be only used once before the game starts!
      * @param rand the value of the {@link Game#random}
      */
-    public void InitRandom(boolean rand) {
+    public void InitRandom(int rand) {
         random = new Random();
-        if(rand) {
+        if(rand == 1) {
             random.setSeed(System.currentTimeMillis());
         }else {
             random.setSeed(randomSeed);
