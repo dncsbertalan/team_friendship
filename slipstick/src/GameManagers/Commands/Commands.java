@@ -4,6 +4,7 @@ import Constants.GameConstants;
 import Entities.*;
 import GameManagers.CommandController;
 import Items.Item;
+import Items.Transistor;
 import Labyrinth.Map;
 import Labyrinth.Room;
 import Runnable.Main;
@@ -577,6 +578,44 @@ public class Commands {
     }
 
     public static void Pair(String[] args) {
+        if(args.length==3 || args.length==4){
+            Student entity;
+            String transistorString1;
+            String transistorString2;
+            if(args.length==3) {
+                transistorString1= args[1];
+                 transistorString2 = args[2];
+                    entity = Main.game.GetRoundManager().GetActiveStudent();
+                } else{
+                     transistorString1 = args[3];
+                     transistorString2 = args[4];
+                    entity = (Student) GetEntityByName(args[0]);
+                }
+                if(entity == null){
+                    os.println("Error: No active player.");
+                    return;
+                }
+
+                Transistor transistor1 = (Transistor)GetItemFromEntityByName(entity, transistorString1);
+                Transistor transistor2 = (Transistor)GetItemFromEntityByName(entity, transistorString2);
+
+                if(transistor1 == null){
+                    os.println("Error: Entity " + entity.GetName() + " does not own item " + transistorString1);
+                    return;
+                }
+                if(transistor2 == null){
+                    os.println("Error: Entity " + entity.GetName() + " does not own item " + transistorString2);
+                    return;
+                }
+
+                os.println(entity.GetName() + " paired " + transistorString1 + " and " + transistorString2);
+                transistor1.PairTransistor(transistor2);
+
+
+        }else{
+            os.println("Usage: pair <transistor 1> <transistor 2> / pair <student> <transistor 1> <transistor 2>");
+        }
+
 
     }
 
@@ -651,6 +690,7 @@ public class Commands {
         }
         return null;
     }
+
 
     private static Item GetItemFromRoomByName(Room room, String itemName) {
         for (Item item : room.GetInventory()) {
