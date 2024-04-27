@@ -256,7 +256,7 @@ public class Commands {
         String itemName = args[1];
 
         Item item = GetItemFromRoomByName(student.GetCurrentRoom(), itemName);
-        if (item != null) {
+        if (item != null ) {
             student.PickUpItem(item);
             os.println(student.GetName() + " picked up " + item.GetName());
         } else {
@@ -384,6 +384,9 @@ public class Commands {
     }
 
     public static void Random(String[] args) {
+        if(!game.IsPreGame()){
+            os.println("The game has already started.");
+        }
             if(args.length == 2){
                 int i = -1;
                 if(Objects.equals(args[1], "true")) i = 1;
@@ -522,6 +525,11 @@ public class Commands {
                 if (args.length > 2) {
                     os.println("Usage: state -g");
                     return;
+                }
+
+                if (!game.IsEnded() && game.IsPreGame()) {
+                    os.println(("The current game state: pre-game"));
+                    break;
                 }
 
                 if (!game.IsEnded() && game.IsLastPhase()) {

@@ -54,6 +54,7 @@ public class Game {
 
     private boolean isRunning;
     public static Random random;
+    boolean pregame = true;
 //endregion
 
     /**
@@ -131,6 +132,8 @@ public class Game {
     public List<Janitor> GetJanitors() {
         return janitors;
     }
+
+    public boolean IsPreGame() {return pregame;}
 //endregion
 
 //region Methods
@@ -430,5 +433,6 @@ public class Game {
 
         entities.AI();
     }
+
 //endregion
 }

@@ -7,12 +7,13 @@ import java.util.ArrayList;
 public class Menu {
 
     private ArrayList<String> playerNames;
-    private boolean gameRandom = true;
+    //private boolean gameRandom = true;
 
     /**
      * Starts the game from the menu.
      */
-    public void StartGame() {
+    public void StartGame(Game game) {
+        game.pregame = false;
         Main.game.InitPlayers(playerNames);
         Main.game.GetRoundManager(); // TODO: start method here
     }
@@ -31,7 +32,7 @@ public class Menu {
         }
         playerNames.add(newName);
     }
-    public void Random(boolean b) {
-        gameRandom = b;
-    }
+   // public void Random(boolean b) {
+   //     gameRandom = b;
+   // }
 }
