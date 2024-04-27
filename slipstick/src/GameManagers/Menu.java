@@ -7,7 +7,6 @@ import java.util.ArrayList;
 public class Menu {
 
     private ArrayList<String> playerNames;
-    //private boolean gameRandom = true;
 
     /**
      * Starts the game from the menu.
@@ -32,7 +31,4 @@ public class Menu {
         }
         playerNames.add(newName);
     }
-   // public void Random(boolean b) {
-   //     gameRandom = b;
-   // }
 }

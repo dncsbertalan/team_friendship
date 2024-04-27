@@ -246,7 +246,6 @@ public class Game {
      */
     public void LoadGame(String fileName) throws FileNotFoundException {
 
-        ArrayList<Room> map_rooms = new ArrayList<>();
         HashMap<String, Room> roomNames = new HashMap<>();
         HashMap<String, ArrayList<String>> neighbourNames = new HashMap<>();
         ArrayList<String> lines = new ArrayList<>();
@@ -349,6 +348,7 @@ public class Game {
 
         // FINALLY
         this.roundManager.Init();
+        pregame = false;
     }
 
     private Item GetItemFromName(String itemName) {
