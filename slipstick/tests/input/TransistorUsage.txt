@@ -8,5 +8,5 @@ activate_item Transistor_2
 drop_item Transistor_1
 move Student_1 Room_2
 move Student_1 Room_3
-drop Transistor_2
+drop_item Transistor_2
 exit

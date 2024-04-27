@@ -251,4 +251,8 @@ public class Student extends Entity{
     public Item GetSelectedItem() {
         return selectedItem;
     }
+
+    public void SetSelectedItem(Item item) {
+        selectedItem = item;
+    }
 }

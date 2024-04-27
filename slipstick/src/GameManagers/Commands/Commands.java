@@ -266,6 +266,7 @@ public class Commands {
     }
 
     public static void DropItem(String[] args) {
+        Room OriginalRoom;
         if (args.length != 2) {
             os.println("Usage: drop_item <item name>");
             return;
@@ -277,10 +278,18 @@ public class Commands {
             return;
         }
 
+        OriginalRoom = student.GetCurrentRoom();
         Item item = GetItemFromEntityByName(student, args[1]);
+        student.SetSelectedItem(item);
         if (item != null) {
-            student.DropSelectedItem();
+            if(item.getClass() == Transistor.class){
+                student.DropItem(item);
+            }else {
+                student.DropSelectedItem();
+            }
             os.println(student.GetName() + " dropped " + item.GetName());
+            if(student.GetCurrentRoom() != OriginalRoom)
+                os.println("Teleported " + student.GetName() + " to " + student.GetCurrentRoom().GetName() +" from "+ OriginalRoom.GetName());
         } else {
             os.println(student.GetName() + " does not have " + args[1]);
         }
@@ -579,37 +588,37 @@ public class Commands {
 
     public static void Pair(String[] args) {
         if(args.length==3 || args.length==4){
-            Student entity;
+            Student student;
             String transistorString1;
             String transistorString2;
             if(args.length==3) {
                 transistorString1= args[1];
                  transistorString2 = args[2];
-                    entity = Main.game.GetRoundManager().GetActiveStudent();
+                student = Main.game.GetRoundManager().GetActiveStudent();
                 } else{
                      transistorString1 = args[3];
                      transistorString2 = args[4];
-                    entity = (Student) GetEntityByName(args[0]);
+                    student = (Student) GetEntityByName(args[0]);
                 }
-                if(entity == null){
+                if(student == null){
                     os.println("Error: No active player.");
                     return;
                 }
 
-                Transistor transistor1 = (Transistor)GetItemFromEntityByName(entity, transistorString1);
-                Transistor transistor2 = (Transistor)GetItemFromEntityByName(entity, transistorString2);
+                Transistor transistor1 = (Transistor)GetItemFromEntityByName(student, transistorString1);
+                Transistor transistor2 = (Transistor)GetItemFromEntityByName(student, transistorString2);
 
                 if(transistor1 == null){
-                    os.println("Error: Entity " + entity.GetName() + " does not own item " + transistorString1);
+                    os.println("Error: Entity " + student.GetName() + " does not own item " + transistorString1);
                     return;
                 }
                 if(transistor2 == null){
-                    os.println("Error: Entity " + entity.GetName() + " does not own item " + transistorString2);
+                    os.println("Error: Entity " + student.GetName() + " does not own item " + transistorString2);
                     return;
                 }
 
-                os.println(entity.GetName() + " paired " + transistorString1 + " and " + transistorString2);
-                transistor1.PairTransistor(transistor2);
+                os.println(transistorString1 + " and "+ transistorString2 +" were paired");
+                student.PairTransistors(transistor1,transistor2);
 
 
         }else{
