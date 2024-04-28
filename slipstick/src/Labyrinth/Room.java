@@ -161,7 +161,11 @@ public class Room {
      * @param r: The destination room for all the current neighbours.
      */
     public void SendAllNeighbours(Room r){
-        r.GetNeighbours().addAll(this.roomsListOfNeighbours);
+        for (Room neighbour : this.roomsListOfNeighbours) {
+            if (!neighbour.equals(r) && !r.GetNeighbours().contains(neighbour)) {
+                r.GetNeighbours().add(neighbour);
+            }
+        }
         this.roomsListOfStudents.clear();
     }
 
