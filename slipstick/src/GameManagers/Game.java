@@ -55,6 +55,7 @@ public class Game {
     private boolean isRunning;
     public static Random random;
     boolean pregame = true;
+    private boolean isRandom;
 //endregion
 
     /**
@@ -91,8 +92,10 @@ public class Game {
         random = new Random();
         if(rand == 1) {
             random.setSeed(System.currentTimeMillis());
+            isRandom = true;
         }else {
             random.setSeed(randomSeed);
+            isRandom = false;
         }
     }
 
@@ -171,6 +174,7 @@ public class Game {
     public boolean GetWin() {
         return win;
     }
+    public boolean IsRandom() { return isRandom; }
 
     /**
      * Saves the game into the given file.

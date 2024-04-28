@@ -102,13 +102,18 @@ public class Map {
         // Decide which rooms' capacity is bigger
         // If the rooms' capacities are equal, randomly choose one
         if (r1capacity == r2capacity) {
-            // Generate a random value from 0.0 to 1.0
-            double randomValue = Math.random();
-            if (randomValue < 0.5) {
+            if (game.IsRandom()) {
+                // Generate a random value from 0.0 to 1.0
+                double randomValue = Math.random();
+                if (randomValue < 0.5) {
+                    biggerRoom = r1;
+                }
+                else {
+                    biggerRoom = r2;
+                }
+            } else {
+                // If random is off, always choose the first room
                 biggerRoom = r1;
-            }
-            else {
-                biggerRoom = r2;
             }
         } else {
             biggerRoom = (r1capacity > r2capacity) ? r1 : r2;
