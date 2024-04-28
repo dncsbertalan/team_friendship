@@ -188,13 +188,18 @@ public class Student extends Entity{
         if(item.getClass()== SlipStick.class){
             game.LastPhase(true,this);
         }
-        inventory.add(item);
-        try {   // if the new item is in the same index as the selected inventory slot than the item gets selected.
-            this.selectedItem = this.inventory.get(this.selectedInventorySlot);
-        } catch (IndexOutOfBoundsException ex) {
-            this.selectedItem = null;
+        if(this.GetCurrentRoom().GetUnpickupableItems().contains(item) == false){
+            this.inventory.add(item);
+            try {   // if the new item is in the same index as the selected inventory slot than the item gets selected.
+                this.selectedItem = this.inventory.get(this.selectedInventorySlot);
+            } catch (IndexOutOfBoundsException ex) {
+                this.selectedItem = null;
+            }
+            this.room.RemoveItemFromRoom(item);
+        } else {
+            System.out.println("Item is not pickupable.");
+            return;
         }
-        this.room.RemoveItemFromRoom(item);
     }
 
     /**

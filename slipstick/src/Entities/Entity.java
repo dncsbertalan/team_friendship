@@ -95,8 +95,14 @@ public abstract class Entity {
             //studentnel megvalositva
             return;
         }
-        this.inventory.add(item);
-        this.room.RemoveItemFromRoom(item);
+        if(this.GetCurrentRoom().GetUnpickupableItems().contains(item) == false){
+            this.inventory.add(item);
+            this.room.RemoveItemFromRoom(item);
+        } else {
+            System.out.println("Item is not pickupable.");
+            return;
+        }
+
     }
 
     /**
