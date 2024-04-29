@@ -143,6 +143,8 @@ public class Map {
 
         Room newRoom = new Room(this.game);
         room.SendSomeNeighbour(newRoom);
+        newRoom.GetNeighbours().add(room);
+        room.GetNeighbours().add(newRoom);
         room.SendEveryOtherItem(newRoom);
         rooms.add(newRoom);
         return newRoom;

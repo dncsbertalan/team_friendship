@@ -204,7 +204,7 @@ public class Room {
      */
     public void SendSomeNeighbour(Room r){
         for(int i = 0; i < roomsListOfNeighbours.size(); i++){
-            if(i % 2 == 0){
+            if(i % 2 == 0 && !roomsListOfNeighbours.get(i).equals(r)){
                 r.AddNeighbour(roomsListOfNeighbours.get(i));
                 this.RemoveNeighbour(roomsListOfNeighbours.get(i));
             }

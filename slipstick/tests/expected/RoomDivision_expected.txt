@@ -1,12 +1,12 @@
 Successfully loaded testmap.txt
-Room_1 separated into Room_1 and Room_15
+Room_1 separated into Room_1 and Room_19
 The rooms and their neighbours in the map:
 -> MainHall
--	> Room_1
+	-> Room_1
 -> Room_1
 	-> Room_5 (gassed)
 	-> Room_2
-	-> Room_15
+	-> Room_19
 -> Room_2
 	-> Room_1
 	-> Room_3
@@ -28,8 +28,8 @@ The rooms and their neighbours in the map:
 	-> Room_3
 	-> Room_5 (gassed)
 -> Teachers'Lounge
-	-> Room_6
 	-> Room_4
+	-> Room_6
 -> Room_7
 	-> WinningRoom
 	-> Room_8
@@ -47,6 +47,6 @@ The rooms and their neighbours in the map:
 	-> Room_7
 -> Janitors'Room
 	-> Room_9
--> Room_15
+-> Room_19
 	-> MainHall
 	-> Room_1
