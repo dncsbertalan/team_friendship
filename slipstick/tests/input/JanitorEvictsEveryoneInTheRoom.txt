@@ -1,4 +1,4 @@
-load C:\Users\bened\team_friendship\team_friendship\slipstick\testmap.txt
+load testmap.txt
 move Student_1 Room_1
 move Student_1 Room_2
 move Student_1 Room_3
