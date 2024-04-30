@@ -6,6 +6,7 @@ import GameManagers.Game;
 import Items.*;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -160,13 +161,37 @@ public class Room {
      * From then those rooms are only the other room's neighbours.
      * @param r: The destination room for all the current neighbours.
      */
-    public void SendAllNeighbours(Room r){
+    public void SendAllNeighbours(Room r) {
         for (Room neighbour : this.roomsListOfNeighbours) {
             if (!neighbour.equals(r) && !r.GetNeighbours().contains(neighbour)) {
-                r.GetNeighbours().add(neighbour);
+                UpdateNeighbourOfNeighbourToRoom(neighbour, r);
+                r.AddNeighbour(neighbour);
+            }
+            else if (!neighbour.equals(r) && r.GetNeighbours().contains(neighbour)) {
+                neighbour.RemoveNeighbour(this);
             }
         }
+        if (r.GetNeighbours().contains(this)) {
+            r.RemoveNeighbour(this);
+        }
         this.roomsListOfStudents.clear();
+    }
+
+    /**
+     * Helper method for when the map wants to merge/separate rooms.
+     * When merging the room sends all neighbours to the room it is merged in.
+     * But it doesn't update the neighbours' neighbouring relations.
+     * For example: Room_1 has a neighbour: Room_3 and Room_1 is being merged into Room_2.
+     * Room_2 will have Room_3 as it's neighbour, but Room_3 still has Room_1 as it's.
+     * This function resolves this issue, updating Room_3's neighbour to Room_2.
+     * This also applies when the map wants to separate a room.
+     * @param neighbour The neighbour whose neighbour needs to be changed.
+     * @param room The room that the neighbour's neighbour needs to change to.
+     */
+    private void UpdateNeighbourOfNeighbourToRoom(Room neighbour, Room room) {
+        int replaceIndex = neighbour.GetNeighbours().indexOf(this);
+        neighbour.GetNeighbours().remove(replaceIndex);
+        neighbour.GetNeighbours().add(replaceIndex, room);
     }
 
     /**
@@ -205,6 +230,7 @@ public class Room {
     public void SendSomeNeighbour(Room r){
         for(int i = 0; i < roomsListOfNeighbours.size(); i++){
             if(i % 2 == 0 && !roomsListOfNeighbours.get(i).equals(r)){
+                UpdateNeighbourOfNeighbourToRoom(roomsListOfNeighbours.get(i), r);
                 r.AddNeighbour(roomsListOfNeighbours.get(i));
                 this.RemoveNeighbour(roomsListOfNeighbours.get(i));
             }
