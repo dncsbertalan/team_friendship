@@ -145,7 +145,7 @@ public class Map {
         room.SendSomeNeighbourTo(newRoom);
         newRoom.AddNeighbour(room);
         room.AddNeighbour(newRoom);
-        room.SendEveryOtherItem(newRoom);
+        room.SendEveryOtherItemTo(newRoom);
         rooms.add(newRoom);
         return newRoom;
     }

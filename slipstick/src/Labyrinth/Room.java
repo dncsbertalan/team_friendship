@@ -211,14 +211,22 @@ public class Room {
      * From then those items are placed only in the other room.
      * @param r: The destination room for every second items.
      */
-    public void SendEveryOtherItem(Room r){
-        if(roomsListOfItems.isEmpty()) return;
+    public void SendEveryOtherItemTo(Room r) {
+        if (roomsListOfItems.isEmpty()) {
+            return;
+        }
 
-        for(int i = 0; i < this.roomsListOfItems.size(); i++){
-            if(i % 2 == 0){
-                r.AddItemToRoom(roomsListOfItems.get(i));
-                this.RemoveItemFromRoom(roomsListOfItems.get(i));
+        Iterator<Item> itemIterator = roomsListOfItems.iterator();
+        int iterations = 0;
+        Item currentItem = null;
+
+        while (itemIterator.hasNext()) {
+            currentItem = itemIterator.next();
+            if (iterations % 2 == 0) {
+                r.AddItemToRoom(currentItem);
+                itemIterator.remove();
             }
+            iterations++;
         }
     }
 
@@ -228,9 +236,14 @@ public class Room {
      * @param r: The destination room for every second current neighbours.
      */
     public void SendSomeNeighbourTo(Room r) {
+        if (roomsListOfNeighbours.isEmpty()) {
+            return;
+        }
+
         Iterator<Room> neighbourIterator = roomsListOfNeighbours.iterator();
         int iterations = 0;
         Room currentNeighbour = null;
+
         while (neighbourIterator.hasNext()) {
             currentNeighbour = neighbourIterator.next();
             if (iterations % 2 == 0 && !currentNeighbour.equals(r)) {
