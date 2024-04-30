@@ -227,13 +227,18 @@ public class Room {
      * From then those rooms are only the other room's neighbours.
      * @param r: The destination room for every second current neighbours.
      */
-    public void SendSomeNeighbour(Room r){
-        for(int i = 0; i < roomsListOfNeighbours.size(); i++){
-            if(i % 2 == 0 && !roomsListOfNeighbours.get(i).equals(r)){
-                UpdateNeighbourOfNeighbourToRoom(roomsListOfNeighbours.get(i), r);
-                r.AddNeighbour(roomsListOfNeighbours.get(i));
-                this.RemoveNeighbour(roomsListOfNeighbours.get(i));
+    public void SendSomeNeighbourTo(Room r) {
+        Iterator<Room> neighbourIterator = roomsListOfNeighbours.iterator();
+        int iterations = 0;
+        Room currentNeighbour = null;
+        while (neighbourIterator.hasNext()) {
+            currentNeighbour = neighbourIterator.next();
+            if (iterations % 2 == 0 && !currentNeighbour.equals(r)) {
+                UpdateNeighbourOfNeighbourToRoom(currentNeighbour, r);
+                r.AddNeighbour(currentNeighbour);
+                neighbourIterator.remove();
             }
+            iterations++;
         }
     }
 

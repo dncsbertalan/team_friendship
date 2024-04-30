@@ -142,8 +142,8 @@ public class Map {
         }
 
         Room newRoom = new Room(this.game);
-        room.SendSomeNeighbour(newRoom);
-        newRoom.AddNeighbour(newRoom);
+        room.SendSomeNeighbourTo(newRoom);
+        newRoom.AddNeighbour(room);
         room.AddNeighbour(newRoom);
         room.SendEveryOtherItem(newRoom);
         rooms.add(newRoom);
