@@ -1,13 +1,13 @@
 package GameManagers;
 
 import Entities.*;
+import Items.*;
 import Labyrinth.*;
 import Constants.*;
 import Labyrinth.Map;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.OutputStream;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 import static Constants.GameConstants.randomSeed;
@@ -21,14 +21,15 @@ public class Game {
 
 //region Attributes ====================================================================================================
     private boolean over;
+    private boolean win = false;
     /**
      * The map where the Game takes place.
      */
-    private Map map;
+    private final Map map;
     /**
      * The round manager associated with the game.
      */
-    private RoundManager roundManager;
+    private final RoundManager roundManager;
 
     /**
      * Indicates whether the game is in its last phase.
@@ -53,10 +54,12 @@ public class Game {
 
     private boolean isRunning;
     public static Random random;
+    boolean pregame = true;
+    private boolean isRandom;
 //endregion
 
     /**
-     * Before the game starts {@link Game#InitPlayers(ArrayList)} and {@link Game#InitRandom(boolean)}
+     * Before the game starts {@link Game#InitPlayers(ArrayList)} and {@link Game#InitRandom(int)}
      * must be called properly or during the game it will throw {@link NullPointerException}.
      */
     public Game(){
@@ -85,38 +88,24 @@ public class Game {
      * Must be only used once before the game starts!
      * @param rand the value of the {@link Game#random}
      */
-    public void InitRandom(boolean rand) {
+    public void InitRandom(int rand) {
         random = new Random();
-        if(rand) {
+        if(rand == 1) {
             random.setSeed(System.currentTimeMillis());
+            isRandom = true;
         }else {
             random.setSeed(randomSeed);
+            isRandom = false;
         }
     }
 
 //region Get/Setters ===================================================================================================
-    /**
-     * Setter of the map attribute.
-     * @param rm: the new roundManager
-     */
-    public void SetRoundManager(RoundManager rm) {
-        this.roundManager = rm;
-    }
-
     /**
      * Getter of the roundManager attribute.
      * @return the roundManager
      */
     public RoundManager GetRoundManager(){
         return this.roundManager;
-    }
-
-    /**
-     * Setter of the map attribute.
-     * @param map: the new map
-     */
-    public void SetMap(Map map) {
-        this.map = map;
     }
 
     /**
@@ -147,21 +136,7 @@ public class Game {
         return janitors;
     }
 
-    /**
-     * Appends the students list with a student.
-     * @param student: the new student
-     */
-    public void AddStudent(Student student){
-        students.add(student);
-    }
-
-    /**
-     * Appends the professors list with a professors.
-     * @param professor: the new professor
-     */
-    public void AddProfessor(Professor professor){
-        professors.add(professor);
-    }
+    public boolean IsPreGame() {return pregame;}
 //endregion
 
 //region Methods
@@ -186,15 +161,20 @@ public class Game {
 
     /**
      * Ends the game with the given output.
-     * @param b win/lose
+     * @param isWin win/lose
      */
-    public void EndGame(boolean b) {
-        over = b;
+    public void EndGame(boolean isWin) {
+        over = true;
+        win = isWin;
     }
 
     public boolean IsEnded() {
         return over;
     }
+    public boolean GetWin() {
+        return win;
+    }
+    public boolean IsRandom() { return isRandom; }
 
     /**
      * Saves the game into the given file.
@@ -202,40 +182,207 @@ public class Game {
      */
     public void SaveGame(String fileName) {
 
-        // TODO:
+        try {
+            PrintWriter printWriter = new PrintWriter(new File(fileName));
+            printWriter.println("rounds:" + GameConstants.MaxRounds);
+
+            for (Room room : this.map.GetRooms()) {
+                // room base
+                printWriter.write(room.GetName() + ":" + room.CheckCapacity() + ";");
+                // room state
+                if (room.IsSticky()){
+                    printWriter.write("sticky");
+                }
+                else if (room.IsGassed()) {
+                    printWriter.write("gas");
+                }
+                else {
+                    printWriter.write("empty");
+                }
+                // entities
+                printWriter.write("%");
+                int entSize = room.GetEntities().size();
+                for (int j = 0; j < entSize; j++) {
+                    Entity entity = room.GetEntities().get(j);
+                    printWriter.write(entity.GetName() + "(");
+                    int invSize = entity.GetInventory().size();
+                    for (int i = 0; i < invSize; i++) {
+                        printWriter.write(entity.GetInventory().get(i).GetName());
+                        if (i + 1 < invSize) {
+                            printWriter.write(",");
+                        }
+                    }
+                    printWriter.write(")");
+                    if (j + 1 < entSize) {
+                        printWriter.write(",");
+                    }
+                }
+                // items
+                printWriter.write("$");
+                int itemSize = room.GetInventory().size();
+                for (int i = 0; i < itemSize; i++) {
+                    printWriter.write(room.GetInventory().get(i).GetName());
+                    if (i + 1 < itemSize) {
+                        printWriter.write(",");
+                    }
+                }
+                // neighbours
+                printWriter.write("#");
+                int neighSize = room.GetNeighbours().size();
+                for (int i = 0; i < neighSize; i++) {
+                    printWriter.write(room.GetNeighbours().get(i).GetName());
+                    if (i + 1 < neighSize) {
+                        printWriter.write(",");
+                    }
+                }
+                printWriter.write("\n");
+            }
+            printWriter.close();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
      * Loads the game from the given file.
      * @param fileName the file
+     * @throws FileNotFoundException if the file doesn't exists
      */
-    public void LoadGame(String fileName) {
+    public void LoadGame(String fileName) throws FileNotFoundException {
 
-        HashMap<Integer, ArrayList<Integer>> neighbours = new HashMap<>();
+        HashMap<String, Room> roomNames = new HashMap<>();
+        HashMap<String, ArrayList<String>> neighbourNames = new HashMap<>();
         ArrayList<String> lines = new ArrayList<>();
 
         // reads the file into the lines array
-        try {
-            Scanner scanner = new Scanner(new File(fileName));
-            while (scanner.hasNextLine()) {
-                lines.add(scanner.nextLine());
-            }
-            scanner.close();
+        Scanner scanner = new Scanner(new File(fileName));
+        while (scanner.hasNextLine()) {
+            lines.add(scanner.nextLine());
         }
-        catch (FileNotFoundException e) {
+        scanner.close();
 
-        }
+        // set the MaxRounds
+        String rounds = lines.get(0); lines.remove(0);
+        GameConstants.MaxRounds = Integer.parseInt(rounds.split(":")[1]);
 
         // process the data in lines
         for (String line : lines) {
-            System.out.println(line);
-        }
-        for (String line : lines) {
+            // CREATE THE ROOM
             String[] strings = line.split(":");
-            for (String s : strings) {
-                System.out.println(s);
+            String _name = strings[0];
+            strings = strings[1].split(";");
+            int _cap = Integer.parseInt(strings[0]);
+            strings = strings[1].split("%");
+            String _type = strings[0];
+
+            Room newRoom = new Room(_cap, this, _name);
+            if (_type.equals("gas")) {
+                newRoom.SetToxicity();
+            }
+            if (_type.equals("sticky")) {
+                newRoom.SetSticky();
+            }
+            if (_name.contains(GameConstants.RoomName_TeachersLounge)) map.AddTeachersLounge(newRoom);
+            else if (_name.contains(GameConstants.RoomName_JanitorsRoom)) map.AddJanitorsRoom(newRoom);
+            else if (_name.contains(GameConstants.RoomName_MainHall)) map.AddMainHall(newRoom);
+            else if (_name.contains(GameConstants.RoomName_WinningRoom)) map.AddWinningRoom(newRoom);
+            else map.AddRoom(newRoom);
+            roomNames.put(_name, newRoom);
+            // GET THE NEIGHBOURS
+            strings = strings[1].split("#");
+            String[] _neighbours = strings[1].split(",");
+            ArrayList<String> neighbourList = new ArrayList<>(Arrays.asList(_neighbours));
+            neighbourNames.put(_name, neighbourList);
+
+            strings = strings[0].split("\\$", 2);
+            // GET ROOM ITEMS AND ADD THEM TO THE ROOM
+            if (!strings[1].isEmpty()) {
+                String[] _itemNames = strings[1].split(",");
+                for (String _itemName : _itemNames) {
+                    Item newItem = GetItemFromName(_itemName);
+                    if (newItem != null) {
+                        newItem.SetName(_itemName);
+                    }
+                    newRoom.AddItemToRoom(newItem);
+                }
+            }
+
+            // GET THE ENTITIES IN THE ROOM AND ADD THEM
+            if (!strings[0].isEmpty()) {
+                String[] _playerNamesWithItems = strings[0].split(",");
+                for (String _playerString : _playerNamesWithItems) {
+                    String[] _entity = _playerString.split("\\(", 2);
+                    String _entityName = _entity[0];
+                    Entity newEntity = GetEntityFromName(_entityName);
+                    _entity = _entity[1].split("\\)");
+                    if (_entity.length > 0) {
+                        String[] _items = _entity[0].split("\\|");
+                        if (_items.length > 5)
+                            System.out.println("Caution: Items limit exceeded for " + _entityName + "! Exceeding item will not be loaded! ");
+                        for (String _item : _items) {
+                            Item newItem = GetItemFromName(_item);
+                            if (newItem != null) {
+                                newItem.SetName(_item);
+                            }
+                            newEntity.AddItem(newItem);
+                        }
+                    }
+                    if (newEntity.getClass() == Professor.class) {
+                        this.professors.add((Professor) newEntity);
+                        newRoom.AddProfessorToRoom((Professor) newEntity);
+                    }
+                    else if (newEntity.getClass() == Janitor.class) {
+                        this.janitors.add((Janitor) newEntity);
+                        newRoom.AddJanitorToRoom((Janitor) newEntity);
+                    }
+                    else {
+                        this.students.add((Student) newEntity);
+                        newRoom.AddStudentToRoom((Student) newEntity);
+                    }
+                }
             }
         }
+
+        // ADD THE NEIGHBOURS TO THE ROOMS
+        for (Room room : map.GetRooms()) {
+            for (String key : neighbourNames.get(room.GetName())) {
+                room.AddNeighbour(roomNames.get(key));
+            }
+        }
+
+        // FINALLY
+        this.roundManager.Init();
+        pregame = false;
+    }
+
+    private Item GetItemFromName(String itemName) {
+
+        if (itemName.contains(GameConstants.AirFreshener)) return new AirFreshener();
+        if (itemName.contains(GameConstants.Beer)) return new Beer();
+        if (itemName.contains(GameConstants.Cheese)) return new Cheese();
+        if (itemName.contains(GameConstants.FakeItem)) return new Fake();
+        if (itemName.contains(GameConstants.FFP2Mask)) return new FFP2Mask();
+        if (itemName.contains(GameConstants.SlipSlick)) return new SlipStick();
+        if (itemName.contains(GameConstants.Transistor)) return new Transistor();
+        if (itemName.contains(GameConstants.TVSZ)) return new TVSZ();
+        if (itemName.contains(GameConstants.WetCloth)) return new WetCloth();
+
+        return null;
+    }
+
+    private Entity GetEntityFromName(String name) {
+
+        if (name.contains(GameConstants.JanitorName)) {
+            Janitor janitor = new Janitor(this);
+            janitor.SetName(name);
+            return janitor;
+        }
+        if (name.contains(GameConstants.ProfName)) {
+            Professor professor = new Professor(this);
+            professor.SetName(name);
+            return professor;
+        }
+        return new Student(this, name);
     }
 //endregion
 
@@ -275,7 +422,6 @@ public class Game {
         Student activeStudent = roundManager.GetActiveStudent();
         IAI activeAIEntity = roundManager.GetActiveAIEntity();
 
-        System.out.println("pusy");
         // Handle student and professor
         this.HandleStudent(activeStudent);
         this.HandleAIEntities(activeAIEntity);
@@ -290,22 +436,6 @@ public class Game {
         if (entities == null) return;
 
         entities.AI();
-    }
-
-    public void __Berci__LISTALLTEST() {
-        for (int i = 0; i < 10; i++ ) {
-            this.janitors.add(new Janitor(this));
-        }
-        for (int i = 0; i < 10; i++ ) {
-            this.professors.add(new Professor(this));
-        }
-        this.students.add(new Student(this, "Player1"));
-        this.students.add(new Student(this, "Benedek"));
-        this.students.add(new Student(this, "Berci"));
-        this.students.add(new Student(this, "Boti"));
-        this.students.add(new Student(this, "Kincső"));
-        this.students.add(new Student(this, "Norbi"));
-        this.roundManager.Init();
     }
 
 //endregion

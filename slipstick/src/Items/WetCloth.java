@@ -6,10 +6,16 @@ import Entities.Professor;
 import Entities.Student;
 
 public class WetCloth extends Item {
+    private static int ID = 0;
 
     @Override
     public void UseItem(Student student) {
 
+    }
+
+    @Override
+    public void AutoName() {
+        this.name = GameConstants.WetCloth + ++ID;
     }
 
     @Override

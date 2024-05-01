@@ -1,0 +1,9 @@
+load testmap.txt
+move Student_1 Room_1
+move Student_1 Room_2
+move Student_1 Room_3
+pick_up_item Slipstick
+state -g
+drop_item Slipstick
+state -g
+exit

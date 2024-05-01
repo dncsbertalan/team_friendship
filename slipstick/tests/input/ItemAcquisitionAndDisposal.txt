@@ -1,0 +1,5 @@
+load testmap.txt
+move Student_1 Room_1
+pick_up_item FFP2_2
+drop_item FFP2_2
+exit

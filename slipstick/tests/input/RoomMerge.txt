@@ -1,0 +1,4 @@
+load testmap.txt
+merge Room_1 Room_2
+list -m
+exit

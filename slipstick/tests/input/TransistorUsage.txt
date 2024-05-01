@@ -1,0 +1,12 @@
+load testmap.txt
+move Student_1 Room_1
+pick_up_item Transistor_1
+pick_up_item Transistor_2
+pair Transistor_1 Transistor_2
+activate_item Transistor_1
+activate_item Transistor_2
+drop_item Transistor_1
+move Student_1 Room_2
+move Student_1 Room_3
+drop_item Transistor_2
+exit

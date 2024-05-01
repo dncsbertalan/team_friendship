@@ -1,9 +1,12 @@
 package Items;
 
+import Constants.GameConstants;
 import Entities.Student;
 import Labyrinth.Room;
 
 public class Transistor extends Item {
+    private static int ID = 0;
+
     /**
      * Pair of this transistor (mutual) if unpaired is null
      */
@@ -11,11 +14,17 @@ public class Transistor extends Item {
     /**
      * if paired and dropped the room it is in
      */
-    private Room room; // currentRoom rename maybe?
+    private Room room;
+
     /**
      * true if pair is ready to teleport
      */
     private boolean pairReadyToTeleport; //pairSet?
+
+    @Override
+    public void AutoName() {
+        this.name = GameConstants.Transistor + ++ID;
+    }
 
     @Override
     public void UseItem(Student student) {

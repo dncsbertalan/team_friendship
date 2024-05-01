@@ -6,6 +6,7 @@ import GameManagers.Game;
 import Items.*;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -18,7 +19,7 @@ public class Room {
     /**
      * Reference for the Game object.
      */
-    private Game game;
+    private final Game game;
     /**
      * Reference for the Map object.
      */
@@ -26,23 +27,27 @@ public class Room {
     /**
      * All items placed in the room.
      */
-    private List<Item> roomsListOfItems;
+    private final List<Item> roomsListOfItems;
     /**
      * All not pickupable items placed in the room.
      */
-    private List<Item> listOfUnpickupableItems;
+    private final List<Item> listOfUnpickupableItems;
     /**
      * All students placed in the room.
      */
-    private List<Student> roomsListOfStudents;
+    private final List<Student> roomsListOfStudents;
     /**
      * All professors placed in the room.
      */
-    private List<Professor> roomsListOfProfessors;
+    private final List<Professor> roomsListOfProfessors;
+    /**
+     * All janitors placed in the room.
+     */
+    private final List<Janitor> roomsListOfJanitors;
     /**
      * All rooms that are currently neighbours to this room.
      */
-    private List<Room> roomsListOfNeighbours;
+    private final List<Room> roomsListOfNeighbours;
     /**
      * Shows whether a room is filled with toxic gas.
      */
@@ -78,6 +83,7 @@ public class Room {
         roomsListOfProfessors = new ArrayList<>();
         roomsListOfItems = new ArrayList<>();
         roomsListOfNeighbours = new ArrayList<>();
+        roomsListOfJanitors = new ArrayList<>();
         listOfUnpickupableItems = new ArrayList<>();
         gassed = false;
         remainingRoundsBeingGassed = 0;
@@ -100,6 +106,7 @@ public class Room {
         roomsListOfProfessors = new ArrayList<>();
         roomsListOfItems = new ArrayList<>();
         roomsListOfNeighbours = new ArrayList<>();
+        roomsListOfJanitors = new ArrayList<>();
         listOfUnpickupableItems = new ArrayList<>();
         gassed = false;
         remainingRoundsBeingGassed = 0;
@@ -116,7 +123,8 @@ public class Room {
         this.name = GameConstants.RoomName + ++ID;
     }
 
-    public void SetName(String name) {
+    public Room(int capacity, Game game, String name) {
+        this(capacity, game);
         this.name = name;
     }
 
@@ -153,9 +161,37 @@ public class Room {
      * From then those rooms are only the other room's neighbours.
      * @param r: The destination room for all the current neighbours.
      */
-    public void SendAllNeighbours(Room r){
-        r.GetNeighbours().addAll(this.roomsListOfNeighbours);
+    public void SendAllNeighbours(Room r) {
+        for (Room neighbour : this.roomsListOfNeighbours) {
+            if (!neighbour.equals(r) && !r.GetNeighbours().contains(neighbour)) {
+                UpdateNeighbourOfNeighbourToRoom(neighbour, r);
+                r.AddNeighbour(neighbour);
+            }
+            else if (!neighbour.equals(r) && r.GetNeighbours().contains(neighbour)) {
+                neighbour.RemoveNeighbour(this);
+            }
+        }
+        if (r.GetNeighbours().contains(this)) {
+            r.RemoveNeighbour(this);
+        }
         this.roomsListOfStudents.clear();
+    }
+
+    /**
+     * Helper method for when the map wants to merge/separate rooms.
+     * When merging the room sends all neighbours to the room it is merged in.
+     * But it doesn't update the neighbours' neighbouring relations.
+     * For example: Room_1 has a neighbour: Room_3 and Room_1 is being merged into Room_2.
+     * Room_2 will have Room_3 as it's neighbour, but Room_3 still has Room_1 as it's.
+     * This function resolves this issue, updating Room_3's neighbour to Room_2.
+     * This also applies when the map wants to separate a room.
+     * @param neighbour The neighbour whose neighbour needs to be changed.
+     * @param room The room that the neighbour's neighbour needs to change to.
+     */
+    private void UpdateNeighbourOfNeighbourToRoom(Room neighbour, Room room) {
+        int replaceIndex = neighbour.GetNeighbours().indexOf(this);
+        neighbour.GetNeighbours().remove(replaceIndex);
+        neighbour.GetNeighbours().add(replaceIndex, room);
     }
 
     /**
@@ -175,14 +211,22 @@ public class Room {
      * From then those items are placed only in the other room.
      * @param r: The destination room for every second items.
      */
-    public void SendEveryOtherItem(Room r){
-        if(roomsListOfItems.isEmpty()) return;
+    public void SendEveryOtherItemTo(Room r) {
+        if (roomsListOfItems.isEmpty()) {
+            return;
+        }
 
-        for(int i = 0; i < this.roomsListOfItems.size(); i++){
-            if(i % 2 == 0){
-                r.AddItemToRoom(roomsListOfItems.get(i));
-                this.RemoveItemFromRoom(roomsListOfItems.get(i));
+        Iterator<Item> itemIterator = roomsListOfItems.iterator();
+        int iterations = 0;
+        Item currentItem = null;
+
+        while (itemIterator.hasNext()) {
+            currentItem = itemIterator.next();
+            if (iterations % 2 == 0) {
+                r.AddItemToRoom(currentItem);
+                itemIterator.remove();
             }
+            iterations++;
         }
     }
 
@@ -191,12 +235,23 @@ public class Room {
      * From then those rooms are only the other room's neighbours.
      * @param r: The destination room for every second current neighbours.
      */
-    public void SendSomeNeighbour(Room r){
-        for(int i = 0; i < roomsListOfNeighbours.size(); i++){
-            if(i % 2 == 0){
-                r.AddNeighbour(roomsListOfNeighbours.get(i));
-                this.RemoveNeighbour(roomsListOfNeighbours.get(i));
+    public void SendSomeNeighbourTo(Room r) {
+        if (roomsListOfNeighbours.isEmpty()) {
+            return;
+        }
+
+        Iterator<Room> neighbourIterator = roomsListOfNeighbours.iterator();
+        int iterations = 0;
+        Room currentNeighbour = null;
+
+        while (neighbourIterator.hasNext()) {
+            currentNeighbour = neighbourIterator.next();
+            if (iterations % 2 == 0 && !currentNeighbour.equals(r)) {
+                UpdateNeighbourOfNeighbourToRoom(currentNeighbour, r);
+                r.AddNeighbour(currentNeighbour);
+                neighbourIterator.remove();
             }
+            iterations++;
         }
     }
 
@@ -276,7 +331,6 @@ public class Room {
      * @param student: the student being placed in the room.
      */
     public void AddStudentToRoom(Student student){
-        System.out.println("\t-> " + student.GetName() + " stepped into " + this.GetName());
         this.roomsListOfStudents.add(student);
         student.SetCurrentRoom(this);
 
@@ -286,6 +340,10 @@ public class Room {
         else {
             this.NotifyProfessors(student);
         }
+
+        if (cleaned) {
+            SteppedIntoCleanedRoom();
+        }
     }
 
     /**
@@ -293,7 +351,6 @@ public class Room {
      * @param p: the professor being placed in the room.
      */
     public void AddProfessorToRoom(Professor p){
-        System.out.println("\t-> Professor (" + p.hashCode() + ") stepped into room (" + this.hashCode() + ")");
         this.roomsListOfProfessors.add(p);
         p.SetCurrentRoom(this);
         if (gassed) {
@@ -302,6 +359,26 @@ public class Room {
         else {
             p.KillEveryoneInTheRoom();
         }
+
+        if (cleaned) {
+            SteppedIntoCleanedRoom();
+        }
+    }
+
+    public void AddJanitorToRoom(Janitor janitor){
+        this.roomsListOfJanitors.add(janitor);
+        janitor.SetCurrentRoom(this);
+        janitor.EvictEveryone();
+        if (gassed) {
+            janitor.SteppedIntoGassedRoom();
+        }
+    }
+
+    private void SteppedIntoCleanedRoom() {
+        IncreaseEntityNumberAfterCleaning();
+        if (entityCounterAfterCleaning == GameConstants.EntitiesToBecomeSticky) {
+            SetSticky();
+        }
     }
 
     /**
@@ -309,7 +386,6 @@ public class Room {
      * @param s: The student being removed from the room.
      */
     public void RemoveStudentFromRoom(Student s) {
-        System.out.println("\t-> " + s.GetName() + " stepped out of " + this.GetName());
         this.roomsListOfStudents.remove(s);
     }
 
@@ -318,8 +394,14 @@ public class Room {
      * @param p: The professor being removed from the room.
      */
     public void RemoveProfessorFromRoom(Professor p) {
-        System.out.println("\t-> Professor (" + p.hashCode() + ") stepped out of room (" + this.hashCode() + ")");
         this.roomsListOfProfessors.remove(p);
+    }
+    /**
+     * The room removes janitor from the room's list of entities.
+     * @param j: The janitor being removed from the room.
+     */
+    public void RemoveJanitorFromRoom(Janitor j) {
+        this.roomsListOfJanitors.remove(j);
     }
 
     /**
@@ -380,9 +462,19 @@ public class Room {
     public List<Room> GetNeighbours() {
         return roomsListOfNeighbours;
     }
-
+    /**
+     * Gets a list of the students currently in the room
+     * @return a list of students that are in the current room
+     */
     public List<Student> GetStudents() {
         return roomsListOfStudents;
+    }
+    /**
+     * Gets a list of the professors currently in the room
+     * @return a list of professor that are in the current room
+     */
+    public List<Professor> GetProfessors() {
+        return roomsListOfProfessors;
     }
 
     /**
@@ -420,6 +512,7 @@ public class Room {
      */
     public void SetRoomAsCleaned(){
         cleaned = true;
+        gassed = false;
     }
     /**
      * The entity counter goes up by 1 when one steps into a cleaned room.
@@ -434,11 +527,21 @@ public class Room {
         return entityCounterAfterCleaning;
     }
 
-    public void SetSticky(boolean sticky) {
-        this.sticky = sticky;
+    public void SetSticky() {
+        this.cleaned = false;
+        this.sticky = true;
+        this.listOfUnpickupableItems.addAll(this.roomsListOfItems);
+        this.roomsListOfItems.clear();
     }
 
     public boolean IsSticky() {
         return this.sticky;
+    }
+
+    public ArrayList<Entity> GetEntities() {
+        ArrayList<Entity> entities = new ArrayList<>(this.roomsListOfStudents);
+        entities.addAll(this.roomsListOfProfessors);
+        entities.addAll(this.roomsListOfJanitors);
+        return entities;
     }
 }

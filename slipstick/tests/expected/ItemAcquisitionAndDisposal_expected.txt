@@ -1,0 +1,4 @@
+Successfully loaded testmap.txt
+Moving Student_1 from MainHall to Room_1
+Student_1 picked up FFP2_2
+Student_1 dropped FFP2_2

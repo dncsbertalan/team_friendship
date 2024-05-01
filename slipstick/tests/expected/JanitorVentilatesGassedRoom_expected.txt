@@ -1,0 +1,4 @@
+Successfully loaded testmap.txt
+Moving Janitor_1 from Janitors'Room to Room_9
+Moving Janitor_1 from Room_9 to Room_10
+Room_10 state: cleaned

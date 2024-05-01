@@ -1,0 +1,8 @@
+load testmap.txt
+move Student_1 Room_1
+move Student_1 Room_5
+move Professor_1 Room_6
+move Professor_1 Room_5
+state -e Student_1
+state -e Professor_1
+exit

@@ -1,0 +1,11 @@
+Successfully loaded testmap.txt
+Moving Student_1 from MainHall to Room_1
+Moving Student_1 from Room_1 to Room_2
+Moving Student_1 from Room_2 to Room_3
+Moving Student_2 from MainHall to Room_1
+Moving Student_2 from Room_1 to Room_2
+Moving Student_2 from Room_2 to Room_3
+Moving Janitor_1 from Janitors'Room to Room_9
+Moving Janitor_1 from Room_9 to Room_3
+Moving Student_1 from Room_3 to Room_2
+Moving Student_2 from Room_3 to Room_6

@@ -1,6 +1,7 @@
 package Items;
 
 import Constants.Enums.ProtectionType;
+import Constants.GameConstants;
 import Entities.Student;
 
 /**
@@ -8,6 +9,9 @@ import Entities.Student;
  * Contains everything generally assosiated with items.
  */
 public abstract class Item {
+
+    protected String name;
+
      /**
      * Wether the item is activated or not.
      */
@@ -17,6 +21,26 @@ public abstract class Item {
      * The type of protection this item can provide.
      */
     protected ProtectionType protectionType = ProtectionType.none;
+
+    /**
+     * Automatically generates a name to the new item.
+     */
+    public Item() {
+        AutoName();
+    }
+
+    public void SetName(String name) {
+        this.name = name;
+    }
+
+    public String GetName() {
+        return this.name;
+    }
+
+    /**
+     * Called in {@link Item#Item()} to generate a specified name by the type of the item.
+     */
+    protected abstract void AutoName();
 
     /**
      * Called when an item is used by the student.

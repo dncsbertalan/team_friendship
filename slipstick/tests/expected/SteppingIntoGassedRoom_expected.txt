@@ -1,0 +1,7 @@
+Successfully loaded testmap.txt
+Moving Student_1 from MainHall to Room_1
+Moving Student_1 from Room_1 to Room_5
+Moving Professor_1 from Teachers'Lounge to Room_6
+Moving Professor_1 from Room_6 to Room_5
+Student_1 is paralyzed
+Professor_1 is paralyzed

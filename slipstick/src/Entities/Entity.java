@@ -7,34 +7,39 @@ import Items.SlipStick;
 import Labyrinth.Room;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+
+import static Runnable.Main.os;
 
 public abstract class Entity {
 //region Attributes ====================================================================================================
     /**
      * Name of the Entity
      */
-    String Name = "anonymous";
+    protected String Name = "anonymous";
     /**
      * Current Room of the Entity
      */
-    Room room;
-    /**
-     * If the current Room is Gassed
-     */
-    boolean inGassedRoom;
+    protected Room room;
+
     /**
      * Items belonging to the Entity (5 max)
      */
-    ArrayList<Item> inventory = new ArrayList<>();
+    protected ArrayList<Item> inventory = new ArrayList<>();
     /**
      * Number of moves left this Round
      */
-    int remainingTurns;
+    protected int remainingTurns;
 
     /**
      * Game instance.
      */
     protected Game game;
+
+    /**
+     * Whether the entity is KO from toxic gas.
+     */
+    private boolean paralysed;
 //endregion
 
     public Entity(Game g) {
@@ -43,6 +48,10 @@ public abstract class Entity {
 
     public String GetName() {
         return this.Name;
+    }
+
+    public void SetName(String name) {
+        this.Name = name;
     }
 
     /**
@@ -70,6 +79,7 @@ public abstract class Entity {
      * @return: the remaining turns of the entity.
      */
     public int GetRemainingTurns(){
+        this.paralysed = remainingTurns <= -1;
         return remainingTurns;
     }
     /**
@@ -82,10 +92,17 @@ public abstract class Entity {
             return;
         }
         if (item.getClass() == SlipStick.class) {
+            //studentnel megvalositva
             return;
         }
-        this.inventory.add(item);
-        this.room.RemoveItemFromRoom(item);
+        if(this.GetCurrentRoom().GetUnpickupableItems().contains(item) == false){
+            this.inventory.add(item);
+            this.room.RemoveItemFromRoom(item);
+        } else {
+            System.out.println("Item is not pickupable.");
+            return;
+        }
+
     }
 
     /**
@@ -95,15 +112,17 @@ public abstract class Entity {
     public void DropItem(Item item) {
         room.AddItemToRoom(item);
         inventory.remove(item);
+        //System.out.println(this.GetName() + " dropped " + item.GetName());
     }
 
     /**
      * Drops all items from inventory
      */
     public void DropAllItems() {
-        for (Item item : inventory) {
-            DropItem(item);
+        for (Item item : this.inventory) {
+            this.room.AddItemToRoom(item);
         }
+        inventory.clear();
     }
 
     /**
@@ -183,5 +202,21 @@ public abstract class Entity {
 
     public ArrayList<Item> GetInventory() {
         return inventory;
+    }
+
+    public void AddItem(Item item) {
+        if (inventory.size() == 5) {
+            System.out.println("Inventory full");
+            return;
+        }
+        this.inventory.add(item);
+    }
+
+    public void SetParalysed(boolean isParalysed){
+        paralysed = isParalysed;
+    }
+
+    public boolean IsParalysed(){
+        return paralysed;
     }
 }

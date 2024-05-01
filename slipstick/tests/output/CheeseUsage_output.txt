@@ -1,0 +1,8 @@
+﻿Successfully loaded testmap.txt
+Moving Student_1 from MainHall to Room_1
+Moving Student_1 from Room_1 to Room_2
+Moving Student_1 from Room_2 to Room_8
+Student_1 picked up Cheese_1
+Student_1 activated Cheese_1
+Student_1 used Cheese_1
+Room_8 state: gassed
