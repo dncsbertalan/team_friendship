@@ -1,5 +1,6 @@
 package GameManagers;
 
+import Control.GameController;
 import Entities.*;
 import Items.*;
 import Labyrinth.*;
@@ -51,8 +52,7 @@ public class Game {
      */
     private final List<Professor> professors;
     private final List<Janitor> janitors;
-
-    private boolean isRunning;
+    GameController controller;
     public static Random random;
     boolean pregame = true;
     private boolean isRandom;
@@ -68,7 +68,8 @@ public class Game {
         this.janitors = new ArrayList<>();
         this.roundManager = new RoundManager(this);
         this.map = new Map(this);
-        this.isRunning = true;
+        controller = new GameController();
+        controller.StartGame(this);
     }
 
     /**
@@ -388,36 +389,8 @@ public class Game {
 
 //region Game loop and logic ===========================================================================================
 
-    public void MainGameLoop() {
 
-        double drawInterval = 1_000_000_000.0 / GameConstants.DesiredFPS;
-        double delta = 0;
-        long lastTime = System.nanoTime();
-        long currentTime;
-        long timer = 0;
-
-        while (isRunning) {
-
-            currentTime = System.nanoTime();
-
-            delta += (currentTime - lastTime) / drawInterval;
-            timer += currentTime - lastTime;
-            lastTime = currentTime;
-
-            if (delta >= 1) {
-                GameLogic();
-
-                delta--;
-            }
-
-            if (timer >= 1_000_000_000) {
-                timer = 0;
-            }
-
-        }
-    }
-
-    private void GameLogic() {
+    public void GameLogic() {
 
         Student activeStudent = roundManager.GetActiveStudent();
         IAI activeAIEntity = roundManager.GetActiveAIEntity();
