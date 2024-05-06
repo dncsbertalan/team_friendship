@@ -1,16 +1,16 @@
 ﻿Successfully loaded testmap.txt
-Room_1 and Room_2 merged into Room_2
+Room_1 and Room_2 merged into Room_1
 The rooms and their neighbours in the map:
 -> MainHall
 	-> Room_1
--> Room_2
+-> Room_1
+	-> MainHall
+	-> Room_5 (gassed)
+	-> Room_2
 	-> Room_1
 	-> Room_3
 	-> Room_5 (gassed)
 	-> Room_8
-	-> MainHall
-	-> Room_5 (gassed)
-	-> Room_2
 -> Room_3
 	-> Room_2
 	-> Room_6
