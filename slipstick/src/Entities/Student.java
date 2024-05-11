@@ -97,6 +97,14 @@ public class Student extends Entity{
     }
 
     /**
+     * Return the index of the selected inventory slot of the student.
+     * @return the selected slot's index.
+     */
+    public int GetSelectedInventorySlot() {
+        return this.selectedInventorySlot;
+    }
+
+    /**
      * Select an Item from the room for pickup
      * @param item selected item
      */

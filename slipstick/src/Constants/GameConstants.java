@@ -1,5 +1,7 @@
 package Constants;
 
+import Utils.Vector2;
+
 public class GameConstants {
     public static int MaxRounds = 20;
     public static final int RoundsMissed_GasRoom = 1;
@@ -29,4 +31,31 @@ public class GameConstants {
     public static final String  RoomName_TeachersLounge = "Teachers'Lounge_";
     public static final String  RoomName_WinningRoom = "WinningRoom";
     public static final long randomSeed = 69;
+
+// region GRAPHICS CONSTANTS ===========================================================================================
+
+    public static final String WindowTitle = "Slipstick";
+    // MENU 1
+    public static final int MenuPanel1_WIDTH = 200;
+    public static final int MenuPanel1_HEIGHT = 300;
+    public static final String MenuPanel1_EXIT_BUTTON = "Exit";
+    public static final String MenuPanel1_PLAY_BUTTON = "Play";
+
+    // MENU 2
+    public static final int MenuPanel2_WIDTH = 200;
+    public static final int MenuPanel2_HEIGHT = 300;
+    public static final int MenuPanel2_NAME_FIELD_WIDTH = 10;
+    public static final String MenuPanel2_DONE_BUTTON = "Done";
+
+    // GAME
+    public static final String GamePanel_ROUND_TEXT = "Round: ";
+
+    public static final int GamePanel_WIDTH = 1000;
+    public static final int GamePanel_HEIGHT = 800;
+
+    public static Vector2 GamePanel_INVENTORY_POS() { return new Vector2(20, 20); }
+    public static Vector2 GamePanel_ROUND_POS() { return new Vector2(900, 20); }
+    public static Vector2 GamePanel_ENTITY_INFO_POS() { return new Vector2(20, 100); }
+
+// endregion
 }

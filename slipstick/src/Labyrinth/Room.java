@@ -136,9 +136,11 @@ public class Room {
      * Sets the room's capacity to the value given as argument.
      * @param c: the new value for the room's capacity.
      */
-    public void setCapacity(int c){
+    public void SetCapacity(int c){
         capacity = c;
     }
+
+    public int GetCapacity() { return capacity; }
 
     /**
      * Returns the maximum of entities that can be placed in the room.

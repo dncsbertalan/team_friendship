@@ -52,7 +52,7 @@ public class Game {
      */
     private final List<Professor> professors;
     private final List<Janitor> janitors;
-    GameController controller;
+    //private final GameController controller;
     public static Random random;
     boolean pregame = true;
     private boolean isRandom;
@@ -68,8 +68,8 @@ public class Game {
         this.janitors = new ArrayList<>();
         this.roundManager = new RoundManager(this);
         this.map = new Map(this);
-        controller = new GameController();
-        controller.StartGame(this);
+        //controller = new GameController();
+        //controller.StartGame(this);
     }
 
     /**
@@ -387,8 +387,7 @@ public class Game {
     }
 //endregion
 
-//region Game loop and logic ===========================================================================================
-
+//region Game logic ====================================================================================================
 
     public void GameLogic() {
 
