@@ -2,11 +2,14 @@ package Graphics;
 
 import Constants.GameConstants;
 import Entities.Entity;
+import Entities.Janitor;
+import Entities.Professor;
 import Entities.Student;
 import Labyrinth.Room;
 import Utils.Vector2;
 
 import javax.swing.*;
+import javax.swing.text.Style;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -14,6 +17,7 @@ import static Runnable.Main.game;
 
 public class GameWindowPanel extends JPanel {
     private final GameWindowFrame gameWindowFrame;
+    private Vector2 mousePosition;
 
     public GameWindowPanel(GameWindowFrame frame) {
 
@@ -30,6 +34,10 @@ public class GameWindowPanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D graphics2D = (Graphics2D) g;
+
+        Point point = MouseInfo.getPointerInfo().getLocation();
+        SwingUtilities.convertPointFromScreen(point, this);
+        mousePosition = new Vector2(point.x, point.y);
 
         //Random random = new Random();
         //graphics2D.drawRect(random.nextInt(200, 600), random.nextInt(100, 300), 10, 20);
@@ -63,11 +71,12 @@ public class GameWindowPanel extends JPanel {
         for (int i = 0; i < neighbours; i++) {
             point = Vector2.Add(centerPos, Vector2.RotateBy(distanceFromCenter,i * angleBetween));
             polygon.addPoint(point.x, point.y);
-            System.out.println(point + " " + i);
         }
 
         graphics2D.setColor(Color.pink);
         graphics2D.fillPolygon(polygon);
+
+        DrawRoomInside(graphics2D, curRoom);
     }
 
     /**
@@ -79,9 +88,28 @@ public class GameWindowPanel extends JPanel {
 
         int cap = room.GetCapacity();
         float angleBetween = 360f / cap;
-        int radius = 50;
+        Vector2 distanceFromCenter = new Vector2(50, 0);
         Vector2 centerPos = new Vector2(GameConstants.GamePanel_WIDTH / 2, GameConstants.GamePanel_HEIGHT / 2);
 
+        ArrayList<Entity> entities = room.GetEntities();
+        int drawnEntities = 0;
+
+        for (Entity entity : entities) {
+            if (entity.getClass() == Student.class) {
+                graphics2D.setColor(Color.green);
+            }
+            else if (entity.getClass() == Professor.class) {
+                graphics2D.setColor(Color.red);
+            }
+            else if (entity.getClass() == Janitor.class) {
+                graphics2D.setColor(Color.orange);
+            }
+            Vector2 pos = Vector2.Add(centerPos, Vector2.RotateBy(distanceFromCenter,drawnEntities++ * angleBetween));
+            graphics2D.fillRect(pos.x, pos.y, 10, 10);
+        }
+
+        ClickablePane clickablePane = new ClickablePane(centerPos);
+        clickablePane.Draw(graphics2D, mousePosition);
     }
 
     /**

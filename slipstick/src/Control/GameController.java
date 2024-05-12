@@ -26,7 +26,7 @@ public class GameController {
         long currentTime;
         long timer = 0;
 
-        long ellapsedTime = 0;
+        //long ellapsedTime = 0;
 
         while (isRunning) {
 
@@ -40,13 +40,20 @@ public class GameController {
 
                 HandleInput();
                 game.GameLogic();
+                //long t1 = System.currentTimeMillis();
+                //long t1 = System.nanoTime();
                 gamePanel.repaint();
+                //long t2 = System.currentTimeMillis();
+                //long t2 = System.nanoTime();
+                //long dt = t2 - t1;
+                //System.out.println(dt + " ns");
+                //System.out.println(dt + " ms");
                 delta--;
             }
 
             if (timer >= 1_000_000_000) {
                 timer = 0;
-                System.out.println(++ellapsedTime);
+                //System.out.println(++ellapsedTime);
             }
 
         }

@@ -19,7 +19,6 @@ public class Main {
 
     public static void main(String[] args) {
         //System.setProperty("file.encoding", "UTF-8");
-        //CommandController.GetInput();
 
         try {
             game.LoadGame("testmap.txt");
@@ -27,5 +26,7 @@ public class Main {
             throw new RuntimeException(e);
         }
         MenuWindowFrame menuWF = new MenuWindowFrame();
+
+        CommandController.GetInput();
     }
 }

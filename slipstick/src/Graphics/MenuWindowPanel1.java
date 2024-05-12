@@ -2,13 +2,12 @@ package Graphics;
 
 import Constants.GameConstants;
 
-import static Runnable.Main.game;
-import static Runnable.Main.menu;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import static Runnable.Main.*;
 
 public class MenuWindowPanel1 extends JPanel implements ActionListener {
     private final JButton exitButton;
@@ -43,6 +42,10 @@ public class MenuWindowPanel1 extends JPanel implements ActionListener {
 
         if (event.getSource().equals(playButton)) {         // PLAY BUTTON
             menuWF.SetMenuPanel2Visible();
+        }
+        if (event.getSource().equals(exitButton)) {         // EXIT BUTTON
+            gameController.StopGame();
+            System.exit(0);
         }
     }
 
