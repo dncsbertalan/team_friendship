@@ -1,4 +1,4 @@
-package Utils;
+package Graphics.Utils;
 
 public class Vector2 {
 

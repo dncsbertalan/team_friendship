@@ -5,11 +5,11 @@ import Entities.Entity;
 import Entities.Janitor;
 import Entities.Professor;
 import Entities.Student;
+import Graphics.Utils.ClickablePane;
 import Labyrinth.Room;
-import Utils.Vector2;
+import Graphics.Utils.Vector2;
 
 import javax.swing.*;
-import javax.swing.text.Style;
 import java.awt.*;
 import java.util.ArrayList;
 

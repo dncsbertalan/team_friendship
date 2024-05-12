@@ -1,6 +1,6 @@
-package Graphics;
+package Graphics.Utils;
 
-import Utils.Vector2;
+import Graphics.Utils.Vector2;
 
 import java.awt.*;
 

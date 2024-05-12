@@ -1,6 +1,6 @@
 package Constants;
 
-import Utils.Vector2;
+import Graphics.Utils.Vector2;
 
 public class GameConstants {
     public static int MaxRounds = 20;
