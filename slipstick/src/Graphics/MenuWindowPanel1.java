@@ -1,7 +1,6 @@
 package Graphics;
 
 import Constants.GameConstants;
-import GameManagers.Game;
 import Graphics.Utils.MenuButton;
 
 import javax.imageio.ImageIO;
@@ -10,7 +9,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImagingOpException;
 import java.io.File;
 import java.io.IOException;
 
@@ -43,14 +41,20 @@ public class MenuWindowPanel1 extends JPanel implements ActionListener {
         }
 
         // Initialize buttons
-        exitButton = new MenuButton(GameConstants.MenuPanel1_EXIT_BUTTON);
-        playButton = new MenuButton(GameConstants.MenuPanel1_PLAY_BUTTON);
+        exitButton = new MenuButton(
+                GameConstants.MenuPanel1_EXIT_BUTTON,
+                GameConstants.MenuPanel1_BUTTON_BACKGROUND_COLOR,
+                GameConstants.GamePanel_EXIT_BUTTON_BORDER_COLOR);
+        playButton = new MenuButton(
+                GameConstants.MenuPanel1_PLAY_BUTTON,
+                GameConstants.MenuPanel1_BUTTON_BACKGROUND_COLOR,
+                GameConstants.GamePanel_EXIT_BUTTON_BORDER_COLOR);
 
-        exitButton.setFont(GameConstants.Menu_BUTTONFONT);
-        playButton.setFont(GameConstants.Menu_BUTTONFONT);
+        exitButton.setFont(GameConstants.MenuPanel1_BUTTON_FONT);
+        playButton.setFont(GameConstants.MenuPanel1_BUTTON_FONT);
 
-        exitButton.setPreferredSize(new Dimension(GameConstants.Menu_BUTTON_WIDTH, GameConstants.Menu_BUTTON_HEIGHT));
-        playButton.setPreferredSize(new Dimension(GameConstants.Menu_BUTTON_WIDTH, GameConstants.Menu_BUTTON_HEIGHT));
+        exitButton.setPreferredSize(new Dimension(GameConstants.MenuPanel1_BUTTON_WIDTH, GameConstants.MenuPanel1_BUTTON_HEIGHT));
+        playButton.setPreferredSize(new Dimension(GameConstants.MenuPanel1_BUTTON_WIDTH, GameConstants.MenuPanel1_BUTTON_HEIGHT));
 
         playButton.addActionListener(this);
         exitButton.addActionListener(this);

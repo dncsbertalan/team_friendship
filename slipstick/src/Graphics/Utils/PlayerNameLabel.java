@@ -5,14 +5,11 @@ import Constants.GameConstants;
 import javax.swing.*;
 import java.awt.*;
 
-public class MenuButton extends JButton {
+public class PlayerNameLabel extends JLabel {
     private final CustomShapedComponent customShapedComponent;
 
-    public MenuButton(String text, Color backgroundColor, Color borderColor) {
+    public PlayerNameLabel(String text) {
         super(text);
-        setContentAreaFilled(false);
-        setBorderPainted(false);
-        setOpaque(false);
         customShapedComponent = new CustomShapedComponent(this) {
             @Override
             protected Shape createShape(JComponent component) {
@@ -23,12 +20,12 @@ public class MenuButton extends JButton {
 
             @Override
             protected Color getBackgroundColor() {
-                return backgroundColor;
+                return GameConstants.MenuPanel2_TEXTFIELD_LABEL_BACKGROUND_COLOR;
             }
 
             @Override
             protected Color getBorderColor() {
-                return borderColor;
+                return GameConstants.MenuPanel2_TEXTFIELD_LABEL_BORDER_COLOR;
             }
         };
     }

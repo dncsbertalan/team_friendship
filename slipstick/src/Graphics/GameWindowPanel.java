@@ -64,11 +64,14 @@ public class GameWindowPanel extends JPanel {
 
         // TODO temp or maybe good (?) xd
         this.setLayout(null);
-        MenuButton menuButton = new MenuButton("exit");
+        MenuButton menuButton = new MenuButton(
+                GameConstants.GamePanel_EXIT_BUTTON,
+                GameConstants.GamePanel_EXIT_BUTTON_BACKGROUND_COLOR,
+                GameConstants.GamePanel_EXIT_BUTTON_BORDER_COLOR);
         this.add(menuButton);
         menuButton.setLayout(null);
         menuButton.setBounds((int) (windowSize.x * 0.9f), (int) (windowSize.y * 0.85f), 150, 100 );
-        menuButton.setFont(GameConstants.Menu_BUTTONFONT);
+        menuButton.setFont(GameConstants.MenuPanel1_BUTTON_FONT);
         menuButton.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {

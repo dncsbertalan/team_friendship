@@ -21,7 +21,7 @@ public class Main {
         //System.setProperty("file.encoding", "UTF-8");
 
         try {
-            game.LoadGame("testmap.txt");
+            game.LoadGame("slipstick/testmap.txt");
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }

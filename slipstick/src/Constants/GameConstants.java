@@ -43,28 +43,51 @@ public class GameConstants {
     public static final Color MenuPanel1_BACKGROUND_COLOR = Color.BLACK;
     public static final String MenuPanel1_EXIT_BUTTON = "Exit";
     public static final String MenuPanel1_PLAY_BUTTON = "Play";
+    // LOGO
     public static final String MenuPanel1_LOGO_FILEPATH = "slipstick/rsc/logo.png";
     public static final int MenuPanel1_LOGO_RESIZE_WIDTH = 550;
     public static final int MenuPanel1_LOGO_RESIZE_HEIGHT = 250;
+    // BUTTONS FOR MENU 1
+    public static final int MenuPanel1_BUTTON_WIDTH = 300;
+    public static final int MenuPanel1_BUTTON_HEIGHT = 80;
+    public static final Font MenuPanel1_BUTTON_FONT = new Font("Times New Roman", Font.BOLD, 28);
+    public static final Color MenuPanel1_BUTTON_BORDER_COLOR = new Color(115,85,90,255);
+    public static final Color MenuPanel1_BUTTON_BACKGROUND_COLOR = Color.WHITE;
 
     // MENU 2
-    public static final int MenuPanel2_WIDTH = 200;
-    public static final int MenuPanel2_HEIGHT = 300;
-    public static final int MenuPanel2_NAME_FIELD_WIDTH = 10;
+    public static final int MenuPanel2_WIDTH = 1000;
+    public static final int MenuPanel2_HEIGHT = 800;
+    public static final Color MenuPanel2_BACKGROUND_COLOR = Color.BLACK;
+    public static final int MenuPanel2_NAME_FIELD_WIDTH = 50;
     public static final String MenuPanel2_DONE_BUTTON = "Done";
-
-    // MENU BUTTONS
-    public static final int Menu_BUTTON_WIDTH = 300;
-    public static final int Menu_BUTTON_HEIGHT = 80;
-    public static final Font Menu_BUTTONFONT = new Font("Times New Roman", Font.BOLD, 28);
-    public static final Color Menu_BUTTON_BORDER_COLOR = new Color(115,85,90,255);
-    public static final Color Menu_BUTTON_BACKGROUND_COLOR = Color.WHITE;
+    public static final String MenuPanel2_CANCEL_BUTTON = "Cancel";
+    // BUTTONS FOR MENU 2
+    public static final int MenuPanel2_BUTTON_WIDTH = 150;
+    public static final int MenuPanel2_BUTTON_HEIGHT = 60;
+    public static final Font MenuPanel2_BUTTON_FONT = new Font("Times New Roman", Font.BOLD, 28);
+    public static final Color MenuPanel2_BUTTON_BORDER_COLOR = new Color(115,85,90,255);
+    public static final Color MenuPanel2_BUTTON_BACKGROUND_COLOR = Color.WHITE;
+    // TEXT FIELDS FOR PLAYER NAMES IN MENU 2
+    public static final int MenuPanel2_TEXTFIELD_WIDTH = 400;
+    public static final int MenuPanel2_TEXTFIELD_HEIGHT = 60;
+    public static final Color MenuPanel2_TEXTFIELD_BORDER_COLOR = new Color(115,85,90,255);
+    public static final Color MenuPanel2_TEXTFIELD_BACKGROUND_COLOR = Color.WHITE;
+    public static final Font MenuPanel2_TEXTFIELD_FONT = new Font("Times New Roman", Font.BOLD, 28);
+    // LABELS FOR TEXT FIELDS IN MENU 2
+    public static final int MenuPanel2_TEXTFIELD_LABEL_WIDTH = 200;
+    public static final int MenuPanel2_TEXTFIELD_LABEL_HEIGHT = 60;
+    public static final Color MenuPanel2_TEXTFIELD_LABEL_BORDER_COLOR = new Color(115,85,90,255);
+    public static final Color MenuPanel2_TEXTFIELD_LABEL_BACKGROUND_COLOR = Color.WHITE;
+    public static final Font MenuPanel2_TEXTFIELD_LABEL_FONT = new Font("Times New Roman", Font.BOLD, 28);
 
     // GAME
     public static final String GamePanel_ROUND_TEXT = "Round: ";
 
     public static final int GamePanel_WIDTH = 1000;
     public static final int GamePanel_HEIGHT = 800;
+    public static final String GamePanel_EXIT_BUTTON = "Exit";
+    public static final Color GamePanel_EXIT_BUTTON_BORDER_COLOR = new Color(115,85,90,255);
+    public static final Color GamePanel_EXIT_BUTTON_BACKGROUND_COLOR = Color.WHITE;
 
     public static Vector2 GamePanel_INVENTORY_POS() { return new Vector2(20, 20); }
     public static Vector2 GamePanel_ROUND_POS() { return new Vector2(900, 20); }
