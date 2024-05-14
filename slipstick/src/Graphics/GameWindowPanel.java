@@ -7,12 +7,14 @@ import Entities.Professor;
 import Entities.Student;
 import Graphics.Utils.ClickableObject;
 import Graphics.Utils.GameWindowMouseListener;
+import Graphics.Utils.MenuButton;
 import Labyrinth.Room;
 import Graphics.Utils.Vector2;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -24,10 +26,12 @@ import static Runnable.Main.game;
 public class GameWindowPanel extends JPanel {
     private final GameWindowFrame gameWindowFrame;
     private Vector2 mousePosition;
+    private final Vector2 windowSize;
 
     public GameWindowPanel(GameWindowFrame frame) {
 
         gameWindowFrame = frame;
+        windowSize = new Vector2(frame.getWidth(), frame.getHeight());
 
         // ez kurvára ideiglenes // TODO change this bitches
         this.setBackground(Color.lightGray);
@@ -56,6 +60,41 @@ public class GameWindowPanel extends JPanel {
         this.clickableObjects = new ArrayList<>();
         GameWindowMouseListener mouseListener = new GameWindowMouseListener(this);
         this.addMouseListener(mouseListener);
+        this.setDoubleBuffered(true);
+
+        // TODO temp or maybe good (?) xd
+        this.setLayout(null);
+        MenuButton menuButton = new MenuButton("exit");
+        this.add(menuButton);
+        menuButton.setLayout(null);
+        menuButton.setBounds((int) (windowSize.x * 0.9f), (int) (windowSize.y * 0.85f), 150, 100 );
+        menuButton.setFont(GameConstants.Menu_BUTTONFONT);
+        menuButton.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                frame.dispose();
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
     }
 
     @Override
@@ -100,7 +139,7 @@ public class GameWindowPanel extends JPanel {
         float angleBetween = 360f / neighbours;
         Vector2 distanceFromCenter = new Vector2(250, 0);
 
-        Vector2 centerPos = new Vector2(GameConstants.GamePanel_WIDTH / 2, GameConstants.GamePanel_HEIGHT / 2);
+        Vector2 centerPos = Vector2.Mult(windowSize, 0.5f);
         Vector2 point;
         Polygon polygon = new Polygon();
 
@@ -125,7 +164,7 @@ public class GameWindowPanel extends JPanel {
         int cap = room.GetCapacity();
         float angleBetween = 360f / cap;
         Vector2 distanceFromCenter = new Vector2(50, 0);
-        Vector2 centerPos = new Vector2(GameConstants.GamePanel_WIDTH / 2, GameConstants.GamePanel_HEIGHT / 2);
+        Vector2 centerPos = Vector2.Mult(windowSize, 0.5f);
 
         ArrayList<Entity> entities = room.GetEntities();
         int drawnEntities = 0;
@@ -180,10 +219,11 @@ public class GameWindowPanel extends JPanel {
      */
     private void DrawCurrentRound(Graphics2D graphics2D) {
         // TODO TEMPORARY
-        Font font = new Font("Times New Roman", Font.BOLD, 20);
+        //Font font = new Font("Times New Roman", Font.BOLD, 25);
+        Font font = new Font("Courier New", Font.BOLD, 25);
         graphics2D.setFont(font);
 
-        Vector2 pos = GameConstants.GamePanel_ROUND_POS();
+        Vector2 pos = Vector2.Mult(windowSize, 0.9f, 0.05f);
         graphics2D.drawString(GameConstants.GamePanel_ROUND_TEXT + game.GetRoundManager().GetCurrentRound()
         , pos.x, pos.y);
     }
@@ -193,7 +233,7 @@ public class GameWindowPanel extends JPanel {
      * @param graphics2D graphics instance
      */
     private void DrawEntitryInfo(Graphics2D graphics2D) {
-        Vector2 pos = GameConstants.GamePanel_ENTITY_INFO_POS();
+        Vector2 pos = new Vector2(GameConstants.GamePanel_ENTITY_INFO_POS().x, (int) (windowSize.y * 0.15f));
         int spaceBetweenLines = 20;
 
         // TODO TEMPORARY
@@ -245,4 +285,5 @@ public class GameWindowPanel extends JPanel {
     }
 
 // endregion
+
 }

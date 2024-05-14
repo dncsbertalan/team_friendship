@@ -13,7 +13,7 @@ public class RoundManager{
 
 //region Attributes ====================================================================================================
     private final Game game;
-    private int rounds = 0;
+    private int rounds = 1;
     private Student activeStudent;
     private IAI activeAIEntity;
     private final ArrayList<Student> studentsLeftThisRound;

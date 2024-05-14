@@ -89,7 +89,7 @@ public class Vector2 {
      * Rotates the vector by the specified amount.
      * @param vector the vector to be rotated
      * @param degree the rotation in degrees
-     * @return the rotated vector
+     * @return a new vector that is the rotated version of the original vector
      */
     public static Vector2 RotateBy(Vector2 vector, float degree) {
         double radian = Math.toRadians(degree);
@@ -101,6 +101,27 @@ public class Vector2 {
         res.x = (int) newX;
         res.y = (int) newY;
         return res;
+    }
+
+    /**
+     * Multiplies the vector by the specified amount.
+     * @param vector a vector
+     * @param mult the number the vector is multiplied by
+     * @return a new vector that is the multiplied version of the original
+     */
+    public static Vector2 Mult(Vector2 vector, float mult) {
+        return new Vector2((int) (vector.x * mult), (int) (vector.y * mult));
+    }
+
+    /**
+     * Multiplies the vector's components by the specified amounts.
+     * @param vector a vector
+     * @param multX the number the vector's x component is multiplied by
+     * @param multY the number the vector's y component is multiplied by
+     * @return a new vector that is the multiplied version of the original
+     */
+    public static Vector2 Mult(Vector2 vector, float multX, float multY) {
+        return new Vector2((int) (vector.x * multX), (int) (vector.y * multY));
     }
 
     @Override

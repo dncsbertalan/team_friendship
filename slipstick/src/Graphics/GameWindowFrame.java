@@ -4,6 +4,7 @@ import Constants.GameConstants;
 
 import javax.swing.*;
 
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -18,18 +19,21 @@ public class GameWindowFrame extends JFrame {
         menuWF = menuFrame;
 
         // Window init
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        this.setUndecorated(true);
         this.setTitle(GameConstants.WindowTitle);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        this.setResizable(false);
+        //this.setResizable(false);
         this.setVisible(true);
-        this.setLocationRelativeTo(null);
 
         // Game panel init
         gameWindowPanel = new GameWindowPanel(this);
         this.add(gameWindowPanel);
-        this.pack();
+        //this.pack();
         this.setLocationRelativeTo(null);
         gameController.SetGamePanel(gameWindowPanel);
+
+        //this.setSize(Toolkit.getDefaultToolkit().getScreenSize());
 
         // temp
         addWindowListener(new WindowAdapter() {
