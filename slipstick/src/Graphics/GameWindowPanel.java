@@ -5,7 +5,7 @@ import Entities.Entity;
 import Entities.Janitor;
 import Entities.Professor;
 import Entities.Student;
-import Graphics.Utils.ClickablePane;
+import Graphics.Utils.ClickableObject;
 import Labyrinth.Room;
 import Graphics.Utils.Vector2;
 
@@ -108,7 +108,7 @@ public class GameWindowPanel extends JPanel {
             graphics2D.fillRect(pos.x, pos.y, 10, 10);
         }
 
-        ClickablePane clickablePane = new ClickablePane(centerPos);
+        ClickableObject clickablePane = new ClickableObject(centerPos);
         clickablePane.Draw(graphics2D, mousePosition);
     }
 

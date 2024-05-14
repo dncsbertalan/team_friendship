@@ -1,16 +1,14 @@
 package Graphics.Utils;
 
-import Graphics.Utils.Vector2;
-
 import java.awt.*;
 
-public class ClickablePane {
+public class ClickableObject {
 
     protected final Vector2 position;
     protected final Vector2 centerPosition;
     protected final int size;
 
-    public ClickablePane(Vector2 centerPosition) {
+    public ClickableObject(Vector2 centerPosition) {
         this.centerPosition = centerPosition;
         this.position = new Vector2(centerPosition.x - 16, centerPosition.y - 16);
         this.size = 25;

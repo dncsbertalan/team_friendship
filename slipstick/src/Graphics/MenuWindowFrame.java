@@ -4,7 +4,12 @@ import Constants.GameConstants;
 
 import javax.swing.*;
 
+import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import static Runnable.Main.gameController;
+import static Runnable.Main.os;
 
 public class MenuWindowFrame extends JFrame {
     private final MenuWindowPanel1 menuWindowPanel1;
@@ -27,7 +32,17 @@ public class MenuWindowFrame extends JFrame {
         this.setLocationRelativeTo(null);
 
         // Window icon
-        //this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/pacman/assets/icon.png")));
+        ImageIcon img = new ImageIcon(GameConstants.MenuPanel1_LOGO_FILEPATH);
+        this.setIconImage(img.getImage());
+
+        // temp
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                os.println("Probably temporary window closing because of the GetInput() infinite loop for the input");
+                System.exit(0);
+            }
+        });
     }
 
     /**
