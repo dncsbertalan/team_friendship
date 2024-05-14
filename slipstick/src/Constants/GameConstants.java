@@ -40,8 +40,12 @@ public class GameConstants {
     // MENU 1
     public static final int MenuPanel1_WIDTH = 1000;
     public static final int MenuPanel1_HEIGHT = 800;
+    public static final Color MenuPanel1_BACKGROUND_COLOR = Color.BLACK;
     public static final String MenuPanel1_EXIT_BUTTON = "Exit";
     public static final String MenuPanel1_PLAY_BUTTON = "Play";
+    public static final String MenuPanel1_LOGO_FILEPATH = "slipstick/rsc/logo.png";
+    public static final int MenuPanel1_LOGO_RESIZE_WIDTH = 550;
+    public static final int MenuPanel1_LOGO_RESIZE_HEIGHT = 250;
 
     // MENU 2
     public static final int MenuPanel2_WIDTH = 200;
@@ -50,7 +54,8 @@ public class GameConstants {
     public static final String MenuPanel2_DONE_BUTTON = "Done";
 
     // MENU BUTTONS
-    public static final Dimension Menu_BUTTONSIZE = new Dimension(240, 60);
+    public static final int Menu_BUTTON_WIDTH = 300;
+    public static final int Menu_BUTTON_HEIGHT = 80;
     public static final Font Menu_BUTTONFONT = new Font("Times New Roman", Font.BOLD, 28);
     public static final Color Menu_BUTTON_BORDER_COLOR = new Color(115,85,90,255);
     public static final Color Menu_BUTTON_BACKGROUND_COLOR = Color.WHITE;
