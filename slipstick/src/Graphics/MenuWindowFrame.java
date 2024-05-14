@@ -8,7 +8,6 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import static Runnable.Main.gameController;
 import static Runnable.Main.os;
 
 public class MenuWindowFrame extends JFrame {
@@ -21,7 +20,6 @@ public class MenuWindowFrame extends JFrame {
         this.setTitle(GameConstants.WindowTitle);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setResizable(true);
-        this.setMinimumSize(new Dimension(1000, 700));
         this.setVisible(true);
         this.setLocationRelativeTo(null);
 
@@ -50,6 +48,7 @@ public class MenuWindowFrame extends JFrame {
      * Sets the first menu panel visible and the second invisible.
      */
     public void SetMenuPanel1Visible() {
+        this.setMinimumSize(new Dimension(1000, 700));
         this.remove(menuWindowPanel2);
         this.add(menuWindowPanel1);
         this.pack();
