@@ -1,6 +1,7 @@
 package Graphics;
 
 import Constants.GameConstants;
+import Graphics.Utils.MenuButton;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,10 +25,18 @@ public class MenuWindowPanel1 extends JPanel implements ActionListener {
         this.setPreferredSize(new Dimension(GameConstants.MenuPanel1_WIDTH, GameConstants.MenuPanel1_HEIGHT));
 
         // Panel init
-        exitButton = new JButton(GameConstants.MenuPanel1_EXIT_BUTTON);
-        playButton = new JButton(GameConstants.MenuPanel1_PLAY_BUTTON);
+        exitButton = new MenuButton(GameConstants.MenuPanel1_EXIT_BUTTON);
+        playButton = new MenuButton(GameConstants.MenuPanel1_PLAY_BUTTON);
+
+        exitButton.setFont(GameConstants.Menu_BUTTONFONT);
+        playButton.setFont(GameConstants.Menu_BUTTONFONT);
+
+        exitButton.setPreferredSize(GameConstants.Menu_BUTTONSIZE);
+        playButton.setPreferredSize(GameConstants.Menu_BUTTONSIZE);
+
         playButton.addActionListener(this);
         exitButton.addActionListener(this);
+
         this.add(playButton);
         this.add(exitButton);
     }

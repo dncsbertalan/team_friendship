@@ -2,6 +2,8 @@ package Constants;
 
 import Graphics.Utils.Vector2;
 
+import java.awt.*;
+
 public class GameConstants {
     public static int MaxRounds = 20;
     public static final int RoundsMissed_GasRoom = 1;
@@ -36,8 +38,8 @@ public class GameConstants {
 
     public static final String WindowTitle = "Slipstick";
     // MENU 1
-    public static final int MenuPanel1_WIDTH = 200;
-    public static final int MenuPanel1_HEIGHT = 300;
+    public static final int MenuPanel1_WIDTH = 1000;
+    public static final int MenuPanel1_HEIGHT = 800;
     public static final String MenuPanel1_EXIT_BUTTON = "Exit";
     public static final String MenuPanel1_PLAY_BUTTON = "Play";
 
@@ -46,6 +48,12 @@ public class GameConstants {
     public static final int MenuPanel2_HEIGHT = 300;
     public static final int MenuPanel2_NAME_FIELD_WIDTH = 10;
     public static final String MenuPanel2_DONE_BUTTON = "Done";
+
+    // MENU BUTTONS
+    public static final Dimension Menu_BUTTONSIZE = new Dimension(240, 60);
+    public static final Font Menu_BUTTONFONT = new Font("Times New Roman", Font.BOLD, 28);
+    public static final Color Menu_BUTTON_BORDER_COLOR = new Color(115,85,90,255);
+    public static final Color Menu_BUTTON_BACKGROUND_COLOR = Color.WHITE;
 
     // GAME
     public static final String GamePanel_ROUND_TEXT = "Round: ";
