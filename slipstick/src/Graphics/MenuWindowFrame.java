@@ -20,7 +20,8 @@ public class MenuWindowFrame extends JFrame {
         // Window init
         this.setTitle(GameConstants.WindowTitle);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        this.setResizable(false);
+        this.setResizable(true);
+        this.setMinimumSize(new Dimension(1000, 700));
         this.setVisible(true);
         this.setLocationRelativeTo(null);
 
