@@ -1,14 +1,13 @@
 package GameManagers;
 
-import Control.GameController;
 import Entities.*;
 import Items.*;
 import Labyrinth.*;
 import Constants.*;
 import Labyrinth.Map;
+import static Runnable.Main.os;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 import static Constants.GameConstants.randomSeed;
@@ -81,6 +80,7 @@ public class Game {
             students.add(new Student(this, name));
         }
         this.roundManager.Init();
+        os.println("TODO: majd clear a lista ha van már lebirintus generálás, addig jó így");
     }
 
     /**
@@ -184,7 +184,7 @@ public class Game {
     public void SaveGame(String fileName) {
 
         try {
-            PrintWriter printWriter = new PrintWriter(new File(fileName));
+            PrintWriter printWriter = new PrintWriter(fileName);
             printWriter.println("rounds:" + GameConstants.MaxRounds);
 
             for (Room room : this.map.GetRooms()) {

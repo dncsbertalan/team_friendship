@@ -2,17 +2,14 @@ package Control;
 
 import Constants.GameConstants;
 import GameManagers.Game;
-import GameManagers.RoundManager;
 import Graphics.GameWindowPanel;
-
-import java.awt.*;
 
 import static Runnable.Main.*;
 
 public class GameController {
-    private boolean isRunning = true;
+    private boolean isRunning;
     private GameWindowPanel gamePanel;
-    private final Thread gameThread = new Thread(this::MainGameLoop);
+    private Thread gameThread;
 
     /**
      * The core of the game. It "pulls" the required information from the game.
@@ -57,6 +54,8 @@ public class GameController {
             }
 
         }
+
+        os.println("Game thread exited");
     }
 
     /**
@@ -67,7 +66,9 @@ public class GameController {
         this.gamePanel = panel;
     }
 
-    public void StartGame(Game game){
+    public void StartGame(){
+        gameThread = new Thread(this::MainGameLoop);
+        isRunning = true;
         gameThread.start();
     }
 

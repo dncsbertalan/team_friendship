@@ -13,7 +13,7 @@ public class Menu {
      */
     public void StartGame(Game game) {
         Main.game.InitPlayers(playerNames);
-        Main.gameController.StartGame(game);
+        Main.gameController.StartGame();
     }
 
     /**
