@@ -6,11 +6,17 @@ import Entities.Janitor;
 import Entities.Professor;
 import Entities.Student;
 import Graphics.Utils.ClickableObject;
+import Graphics.Utils.GameWindowMouseListener;
 import Labyrinth.Room;
 import Graphics.Utils.Vector2;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static Runnable.Main.game;
@@ -26,8 +32,30 @@ public class GameWindowPanel extends JPanel {
         // ez kurvára ideiglenes // TODO change this bitches
         this.setBackground(Color.lightGray);
         this.setPreferredSize(new Dimension(GameConstants.GamePanel_WIDTH, GameConstants.GamePanel_HEIGHT));
+        /*int width = GameConstants.GamePanel_WIDTH;
+        int height = GameConstants.GamePanel_HEIGHT;
+        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        Graphics g = image.getGraphics();
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 0, width, height);
+        int centerX = width / 2;
+        int centerY = height / 2;
+        int circleRadius = 100;
+        g.setColor(Color.yellow);
+        g.fillOval(centerX - circleRadius, centerY - circleRadius, 2 * circleRadius, 2 * circleRadius);
+        g.dispose();
+        File outputFile = new File("TransparentCircleImage.png");
+        try {
+            ImageIO.write(image, "png", outputFile);
+            System.out.println("A kép sikeresen létrejött: " + outputFile.getAbsolutePath());
+        } catch (IOException e) {
+            System.err.println("Hiba a kép létrehozása közben: " + e.getMessage());
+        }*/
 
         // Panel init
+        this.clickableObjects = new ArrayList<>();
+        GameWindowMouseListener mouseListener = new GameWindowMouseListener(this);
+        this.addMouseListener(mouseListener);
     }
 
     @Override
@@ -35,18 +63,26 @@ public class GameWindowPanel extends JPanel {
         super.paintComponent(g);
         Graphics2D graphics2D = (Graphics2D) g;
 
+        ResetClickables();
+
         Point point = MouseInfo.getPointerInfo().getLocation();
         SwingUtilities.convertPointFromScreen(point, this);
         mousePosition = new Vector2(point.x, point.y);
-
-        //Random random = new Random();
-        //graphics2D.drawRect(random.nextInt(200, 600), random.nextInt(100, 300), 10, 20);
 
         DrawCurrentRound(graphics2D);
         DrawEntitryInfo(graphics2D);
         DrawInventory(graphics2D);
         DrawRoom(graphics2D);
     }
+
+// region Getters/Setters ==============================================================================================
+
+    public Vector2 GetMousePosiotion() {
+        return mousePosition;
+    }
+
+//endregion
+
 // region DRAW =========================================================================================================
 
     /**
@@ -108,8 +144,9 @@ public class GameWindowPanel extends JPanel {
             graphics2D.fillRect(pos.x, pos.y, 10, 10);
         }
 
-        ClickableObject clickablePane = new ClickableObject(centerPos);
-        clickablePane.Draw(graphics2D, mousePosition);
+        ClickableObject clickableObject = new ClickableObject(centerPos, () -> System.out.println("clicked WIP"));
+        AddClickable(clickableObject);
+        clickableObject.Draw(graphics2D, mousePosition);
     }
 
     /**
@@ -169,6 +206,41 @@ public class GameWindowPanel extends JPanel {
             pos.AddY(spaceBetweenLines);
             String text = entity.GetName(); // TODO MORE INFO
             graphics2D.drawString(text, pos.x, pos.y);
+        }
+    }
+
+// endregion
+
+// region Clickable objects ============================================================================================
+
+    private final ArrayList<ClickableObject> clickableObjects;
+
+    /**
+     * Adds a new clickable object to the screen.
+     * @param clickableObject the clickable object to be added
+     */
+    private void AddClickable(ClickableObject clickableObject) {
+        clickableObjects.add(clickableObject);
+    }
+
+    /**
+     * Resests the clickable objects aka clears the content of the clickableObjects field.
+     */
+    private void ResetClickables() {
+        clickableObjects.clear();
+    }
+
+    /**
+     * Checks wether a click happened on a clickable object.
+     * If yes then it executes the objects command.
+     * @param mousePosition the position of the mouse on the screen
+     */
+    public void ClickOnScreen(Vector2 mousePosition) {
+        for (ClickableObject clickableObject : clickableObjects) {
+            if (clickableObject.IsInside(mousePosition)) {
+                clickableObject.Click();
+                return;
+            }
         }
     }
 

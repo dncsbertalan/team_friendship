@@ -1,5 +1,7 @@
 package Graphics.Utils;
 
+import GameManagers.Commands.ICommand;
+
 import java.awt.*;
 
 public class ClickableObject {
@@ -7,11 +9,13 @@ public class ClickableObject {
     protected final Vector2 position;
     protected final Vector2 centerPosition;
     protected final int size;
+    protected final IGraphicsCommand command;
 
-    public ClickableObject(Vector2 centerPosition) {
+    public ClickableObject(Vector2 centerPosition, IGraphicsCommand command) {
         this.centerPosition = centerPosition;
         this.position = new Vector2(centerPosition.x - 16, centerPosition.y - 16);
         this.size = 25;
+        this.command = command;
     }
 
     /**
@@ -41,5 +45,12 @@ public class ClickableObject {
                 && position.x > this.position.x
                 && position.y < this.position.y + this.size
                 && position.y > this.position.y;
+    }
+
+    /**
+     * Runs the command binded to this Clickable object.
+     */
+    public void Click() {
+        command.Execute();
     }
 }
