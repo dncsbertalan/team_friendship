@@ -51,6 +51,8 @@ public class MenuWindowFrame extends JFrame {
         this.setMinimumSize(new Dimension(1000, 700));
         this.remove(menuWindowPanel2);
         this.add(menuWindowPanel1);
+        this.revalidate();
+        this.repaint();
         this.pack();
     }
 
@@ -60,6 +62,8 @@ public class MenuWindowFrame extends JFrame {
     public void SetMenuPanel2Visible() {
         this.remove(menuWindowPanel1);
         this.add(menuWindowPanel2);
+        this.revalidate();
+        this.repaint();
         this.pack();
     }
 }

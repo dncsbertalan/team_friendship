@@ -45,7 +45,7 @@ public class GameConstants {
     public static final String MenuPanel1_EXIT_BUTTON = "Exit";
     public static final String MenuPanel1_PLAY_BUTTON = "Play";
     // LOGO
-    //public static final String MenuPanel1_LOGO_FILEPATH = "rsc/logo.png";
+    //public static final String MenuPanel1_LOGO_FILEPATH = "slipstick/rsc/logo.png";
     public static final String MenuPanel1_LOGO_FILEPATH = "rsc/logo.png"; // bercinek ez jó
     public static final int MenuPanel1_LOGO_RESIZE_WIDTH = 550;
     public static final int MenuPanel1_LOGO_RESIZE_HEIGHT = 250;
