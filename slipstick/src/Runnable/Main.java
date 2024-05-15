@@ -22,6 +22,7 @@ public class Main {
 
         try {
             game.LoadGame("slipstick/testmap.txt");
+            //game.LoadGame("testmap.txt"); // bercinek így jó
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }

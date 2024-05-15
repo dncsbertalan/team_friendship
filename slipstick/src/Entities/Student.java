@@ -31,10 +31,12 @@ public class Student extends Entity{
     }
 
     @Override
-    public void StepInto(Room room) {
+    public boolean StepInto(Room room) {
         if (room.GetNeighbours().contains(this.room) && room.CanStepIn()){
             ChangeRoom(room);
+            return true;
         }
+        return false;
     }
 
     /**

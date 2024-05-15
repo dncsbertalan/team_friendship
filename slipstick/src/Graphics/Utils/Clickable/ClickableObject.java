@@ -4,18 +4,16 @@ import Graphics.Utils.Vector2;
 
 import java.awt.*;
 
-public class ClickableObject {
+public abstract class ClickableObject {
 
     protected final Vector2 position;
     protected final Vector2 centerPosition;
     protected final int size;
-    protected final IGraphicsCommand command;
 
-    public ClickableObject(Vector2 centerPosition, IGraphicsCommand command) {
-        this.centerPosition = centerPosition;
-        this.position = new Vector2(centerPosition.x - 16, centerPosition.y - 16);
+    public ClickableObject(Vector2 centerPosition) {
         this.size = 25;
-        this.command = command;
+        this.centerPosition = centerPosition;
+        this.position = new Vector2(centerPosition.x - this.size  / 2, centerPosition.y - this.size / 2);
     }
 
     /**
@@ -48,9 +46,7 @@ public class ClickableObject {
     }
 
     /**
-     * Runs the command binded to this Clickable object.
+     * Defines what happens when clicked on this Clickable object.
      */
-    public void Click() {
-        command.Execute();
-    }
+    public abstract void Click();
 }

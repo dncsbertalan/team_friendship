@@ -8,7 +8,9 @@ import Entities.Student;
 import Graphics.Listeners.GameWindowMouseWheelListener;
 import Graphics.Utils.Clickable.ClickableObject;
 import Graphics.Listeners.GameWindowMouseListener;
+import Graphics.Utils.Clickable.DoorObject;
 import Graphics.Utils.MenuButton;
+import Graphics.Utils.ScreenMessage;
 import Labyrinth.Room;
 import Graphics.Utils.Vector2;
 
@@ -54,7 +56,6 @@ public class GameWindowPanel extends JPanel {
         }*/
 
         // Panel init
-        this.clickableObjects = new ArrayList<>();
         GameWindowMouseListener mouseListener = new GameWindowMouseListener(this);
         this.addMouseListener(mouseListener);
         GameWindowMouseWheelListener mouseWheelListener = new GameWindowMouseWheelListener();
@@ -137,9 +138,9 @@ public class GameWindowPanel extends JPanel {
 
         Room curRoom = active.GetCurrentRoom();
         int neighbours = curRoom.GetNeighbours().size();
-        neighbours = Math.max(neighbours, 3);
+        neighbours = Math.max(neighbours, GameConstants.GamePanel_ROOM_MIN_SIDES);
         float angleBetween = 360f / neighbours;
-        Vector2 distanceFromCenter = new Vector2(250, 0);
+        Vector2 distanceFromCenter = new Vector2(0, -GameConstants.GamePanel_ROOM_SIZE);
 
         Vector2 centerPos = Vector2.Mult(windowSize, 0.5f);
         Vector2 point;
@@ -185,9 +186,18 @@ public class GameWindowPanel extends JPanel {
             graphics2D.fillRect(pos.x, pos.y, 10, 10);
         }
 
-        ClickableObject clickableObject = new ClickableObject(centerPos, () -> System.out.println("clicked WIP"));
-        AddClickable(clickableObject);
-        clickableObject.Draw(graphics2D, mousePosition);
+        float doorAngleBetween = 360f / Math.max(room.GetNeighbours().size(), GameConstants.GamePanel_ROOM_MIN_SIDES);
+        int doorDist = (int) ((float) GameConstants.GamePanel_ROOM_SIZE * Math.cos(Math.toRadians(doorAngleBetween / 2.0)));
+        Vector2 doorDistanceFromCenter = new Vector2(0, -doorDist);
+        doorDistanceFromCenter.RotateBy(doorAngleBetween / 2f);
+        int drawnDoor = 0;
+
+        for (Room neighbour : room.GetNeighbours()) {
+            Vector2 pos = Vector2.Add(centerPos, Vector2.RotateBy(doorDistanceFromCenter,drawnDoor++ * doorAngleBetween));
+            DoorObject door = new DoorObject(pos, neighbour);
+            AddClickable(door);
+            door.Draw(graphics2D, mousePosition);
+        }
     }
 
     /**
@@ -255,7 +265,7 @@ public class GameWindowPanel extends JPanel {
 
 // region Clickable objects ============================================================================================
 
-    private final ArrayList<ClickableObject> clickableObjects;
+    private final ArrayList<ClickableObject> clickableObjects = new ArrayList<>();
 
     /**
      * Adds a new clickable object to the screen.
@@ -288,4 +298,29 @@ public class GameWindowPanel extends JPanel {
 
 // endregion
 
+// region Message panel ================================================================================================
+
+    private final ArrayList<ScreenMessage> screenMessages = new ArrayList<>();
+
+    /**
+     * Creates a new {@link ScreenMessage} and adds it the screen messages list.
+     * <p>If the number of messages exceeds the {@link GameConstants#GamePanel_MAX_SCREEN_MESSGES} the
+     * oldest message gets deleted.</p>
+     * @param timeLeft  the time this message has left
+     * @param message   the message
+     */
+    public void CreateScreenMessage(int timeLeft, String message) {
+        if (screenMessages.size() == GameConstants.GamePanel_MAX_SCREEN_MESSGES) {
+            screenMessages.remove(0);
+        }
+        screenMessages.add(new ScreenMessage(timeLeft, message));
+    }
+
+    public void UpdateScreenMessages() {
+        for (ScreenMessage message : screenMessages) {
+            message.Update();
+        }
+    }
+
+// endregion
 }

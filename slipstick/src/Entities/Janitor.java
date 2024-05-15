@@ -24,12 +24,14 @@ public class Janitor extends Entity implements IAI {
      * @param room the room it's trying to move into
      */
     @Override
-    public void StepInto(Room room) {
+    public boolean StepInto(Room room) {
         if (room.CanStepIn()) {
             this.room.RemoveJanitorFromRoom(this);
             this.room = room;
             room.AddJanitorToRoom(this);
+            return true;
         }
+        return false;
     }
 
     /**

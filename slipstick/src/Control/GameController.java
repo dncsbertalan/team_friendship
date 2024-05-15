@@ -1,8 +1,9 @@
 package Control;
 
 import Constants.GameConstants;
-import GameManagers.Game;
+import Entities.Student;
 import Graphics.GameWindowPanel;
+import Labyrinth.Room;
 
 import static Runnable.Main.*;
 
@@ -37,6 +38,7 @@ public class GameController {
 
                 HandleInput();
                 game.GameLogic();
+                gamePanel.UpdateScreenMessages();
                 //long t1 = System.currentTimeMillis();
                 //long t1 = System.nanoTime();
                 gamePanel.repaint();
@@ -78,5 +80,16 @@ public class GameController {
 
     private void HandleInput(){
 
+    }
+
+    /**
+     * The given student tries to step into the given room.
+     * @param student   the student that steps into the room
+     * @param stepInto  the room the student wants to step into
+     */
+    public void StepStudent(Student student, Room stepInto) {
+        boolean success = student.StepInto(stepInto);
+
+        if (success) gamePanel.CreateScreenMessage(240, "The room is full");
     }
 }
