@@ -75,7 +75,7 @@ public class MenuWindowPanel2 extends JPanel implements ActionListener {
         gbc.gridx = 0;
         gbc.gridy = 4;
         gbc.gridwidth = 2; // Span buttons across two columns
-        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.anchor = GridBagConstraints.CENTER; // Align to the center
         gbc.insets = new Insets(30, 10, 10, 10); // Margin between components
         this.add(buttonsPanel, gbc);
 
@@ -83,11 +83,25 @@ public class MenuWindowPanel2 extends JPanel implements ActionListener {
         doneButton.addActionListener(this);
         cancelButton.addActionListener(this);
 
-        // Add the fields panel to the main panel
+        // Create and add "Names" label
+        JLabel namesLabel = new JLabel(GameConstants.MenuPanel2_NAMES_LABEL);
+        namesLabel.setFont(GameConstants.MenuPanel2_NAMES_LABEL_FONT); // Set appropriate font
+        namesLabel.setHorizontalAlignment(JLabel.CENTER);
+        namesLabel.setForeground(GameConstants.MenuPanel2_NAMES_LABEL_COLOR);
+
+        // Adding the "Names" label to the main panel
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.gridwidth = 1;
+        gbc.gridwidth = 2; // Span the label across two columns
+        gbc.insets = new Insets(10, 200, 10, 10); // Align with the text fields
+        this.add(namesLabel, gbc);
+
+        // Add the fields panel to the main panel
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(10, 10, 10, 40); // Margin between components
         this.add(fieldsPanel, gbc);
     }
 
@@ -135,7 +149,7 @@ public class MenuWindowPanel2 extends JPanel implements ActionListener {
             GameWindowFrame gameWindowFrame = new GameWindowFrame(menuWF);
             menu.StartGame(game);
         }
-        if (event.getSource().equals(cancelButton)) {
+        if (event.getSource().equals(cancelButton)) {       // CANCEL BUTTON
             menuWF.SetMenuPanel1Visible();
         }
     }

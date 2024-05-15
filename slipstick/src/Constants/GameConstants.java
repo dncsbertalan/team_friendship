@@ -65,6 +65,9 @@ public class GameConstants {
     public static final int MenuPanel2_NAME_FIELD_WIDTH = 50;
     public static final String MenuPanel2_DONE_BUTTON = "Done";
     public static final String MenuPanel2_CANCEL_BUTTON = "Cancel";
+    public static final String MenuPanel2_NAMES_LABEL = "Names";
+    public static final Font MenuPanel2_NAMES_LABEL_FONT = new Font("Times New Roman", Font.PLAIN, 28);
+    public static final Color MenuPanel2_NAMES_LABEL_COLOR = new Color(115,85,90,255);
     // BUTTONS FOR MENU 2
     public static final int MenuPanel2_BUTTON_WIDTH = 150;
     public static final int MenuPanel2_BUTTON_HEIGHT = 60;
