@@ -56,6 +56,7 @@ public class MenuWindowPanel2 extends JPanel implements ActionListener {
                 GameConstants.MenuPanel2_BUTTON_BORDER_COLOR);
         doneButton.setFont(GameConstants.MenuPanel2_BUTTON_FONT);
         doneButton.setPreferredSize(new Dimension(GameConstants.MenuPanel2_BUTTON_WIDTH, GameConstants.MenuPanel2_BUTTON_HEIGHT));
+        doneButton.setMinimumSize(new Dimension(GameConstants.MenuPanel2_BUTTON_WIDTH, GameConstants.MenuPanel2_BUTTON_HEIGHT));
 
         // Initializing cancel button
         cancelButton = new MenuButton(
@@ -64,6 +65,7 @@ public class MenuWindowPanel2 extends JPanel implements ActionListener {
                 GameConstants.MenuPanel2_BUTTON_BORDER_COLOR);
         cancelButton.setFont(GameConstants.MenuPanel2_BUTTON_FONT);
         cancelButton.setPreferredSize(new Dimension(GameConstants.MenuPanel2_BUTTON_WIDTH, GameConstants.MenuPanel2_BUTTON_HEIGHT));
+        cancelButton.setMinimumSize(new Dimension(GameConstants.MenuPanel2_BUTTON_WIDTH, GameConstants.MenuPanel2_BUTTON_HEIGHT));
 
         // Adding buttons to the buttons panel
         buttonsPanel.add(cancelButton);
@@ -73,7 +75,7 @@ public class MenuWindowPanel2 extends JPanel implements ActionListener {
         gbc.gridx = 0;
         gbc.gridy = 4;
         gbc.gridwidth = 2; // Span buttons across two columns
-        gbc.anchor = GridBagConstraints.CENTER; // Align to the center
+        gbc.anchor = GridBagConstraints.CENTER;
         gbc.insets = new Insets(30, 10, 10, 10); // Margin between components
         this.add(buttonsPanel, gbc);
 
