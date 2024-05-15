@@ -21,5 +21,8 @@ public class DoorObject extends ClickableObject {
         if (active == null) return;
 
         gameController.StepStudent(active, roomToGo);
+
+        // TODO: temporary
+        gameController.CreateScreenMessage(240, "Clicked");
     }
 }

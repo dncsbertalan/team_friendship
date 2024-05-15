@@ -17,6 +17,8 @@ public class ScreenMessage {
         return message;
     }
 
+    public int GetTimeLeft() { return timeLeft; }
+
     /**
      * Updates the screen message. Decreases the time this screen message has left.
      */

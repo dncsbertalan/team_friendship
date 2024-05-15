@@ -100,7 +100,11 @@ public class GameConstants {
     public static final int GamePanel_ROOM_MIN_SIDES = 3;
 
     // Screen messages
-    public static final int GamePanel_MAX_SCREEN_MESSGES = 5;
+    public static final int GamePanel_MAX_SCREEN_MESSAGES = 5;
+    public static final int GamePanel_SCREEN_MESSAGE_DISTANCE = 7;
+    public static final Font GamePanel_SCREEN_MESSAGE_FONT = new Font("Courier New", Font.BOLD, 20);
+    public static Vector2 GamePanel_SCREEN_MESSAGE_BOTTOM_LEFT() { return new Vector2(20, 20); }
+
 
     public static Vector2 GamePanel_INVENTORY_POS() { return new Vector2(20, 20); }
     public static Vector2 GamePanel_ROUND_POS() { return new Vector2(900, 20); }

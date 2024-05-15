@@ -9,6 +9,7 @@ import Graphics.Listeners.GameWindowMouseWheelListener;
 import Graphics.Utils.Clickable.ClickableObject;
 import Graphics.Listeners.GameWindowMouseListener;
 import Graphics.Utils.Clickable.DoorObject;
+import Graphics.Utils.HelperMethods;
 import Graphics.Utils.MenuButton;
 import Graphics.Utils.ScreenMessage;
 import Labyrinth.Room;
@@ -70,7 +71,7 @@ public class GameWindowPanel extends JPanel {
                 GameConstants.GamePanel_EXIT_BUTTON_BORDER_COLOR);
         this.add(menuButton);
         menuButton.setLayout(null);
-        menuButton.setBounds((int) (windowSize.x * 0.9f), (int) (windowSize.y * 0.85f), 150, 100 );
+        menuButton.setBounds(windowSize.x - 125 - 20, windowSize.y - 75 - 20, 125, 75 );
         menuButton.setFont(GameConstants.MenuPanel1_BUTTON_FONT);
         menuButton.addMouseListener(new MouseListener() {
             @Override
@@ -105,7 +106,7 @@ public class GameWindowPanel extends JPanel {
         super.paintComponent(g);
         Graphics2D graphics2D = (Graphics2D) g;
 
-        ResetClickables();
+        ResetClickables();  // TODO ezt maybe nem itt
 
         Point point = MouseInfo.getPointerInfo().getLocation();
         SwingUtilities.convertPointFromScreen(point, this);
@@ -115,6 +116,7 @@ public class GameWindowPanel extends JPanel {
         DrawEntitryInfo(graphics2D);
         DrawInventory(graphics2D);
         DrawRoom(graphics2D);
+        DrawScreenMessages(graphics2D);
     }
 
 // region Getters/Setters ==============================================================================================
@@ -261,6 +263,30 @@ public class GameWindowPanel extends JPanel {
         }
     }
 
+    /**
+     * Draws the screen messages to the screen.
+     * @param graphics2D graphics instance
+     */
+    private void DrawScreenMessages(Graphics2D graphics2D) {
+        int textsHeight = (screenMessages.size() - 1) * GameConstants.GamePanel_SCREEN_MESSAGE_DISTANCE;
+        int textHeight = (int) -graphics2D.getFontMetrics().getStringBounds("GetHeight!<3", graphics2D).getY();
+        graphics2D.setFont(GameConstants.GamePanel_SCREEN_MESSAGE_FONT);
+
+        for (ScreenMessage sc : screenMessages) {
+            textsHeight += textHeight;
+        }
+
+        Vector2 posOnScreen = new Vector2(GameConstants.GamePanel_SCREEN_MESSAGE_BOTTOM_LEFT().x,
+                windowSize.y - GameConstants.GamePanel_SCREEN_MESSAGE_BOTTOM_LEFT().y - textsHeight);
+
+        for (ScreenMessage sc : screenMessages) {
+            int alpha = (int) HelperMethods.Remap(sc.GetTimeLeft(), 60, 0, 255, 0, true);
+            graphics2D.setColor(new Color(Color.black.getRed(), Color.black.getGreen(), Color.black.getBlue(), alpha));
+            graphics2D.drawString(sc.GetMessage(), posOnScreen.x, posOnScreen.y);
+            posOnScreen.AddY(textHeight + GameConstants.GamePanel_SCREEN_MESSAGE_DISTANCE);
+        }
+    }
+
 // endregion
 
 // region Clickable objects ============================================================================================
@@ -304,21 +330,31 @@ public class GameWindowPanel extends JPanel {
 
     /**
      * Creates a new {@link ScreenMessage} and adds it the screen messages list.
-     * <p>If the number of messages exceeds the {@link GameConstants#GamePanel_MAX_SCREEN_MESSGES} the
+     * <p>If the number of messages exceeds the {@link GameConstants#GamePanel_MAX_SCREEN_MESSAGES} the
      * oldest message gets deleted.</p>
      * @param timeLeft  the time this message has left
      * @param message   the message
      */
     public void CreateScreenMessage(int timeLeft, String message) {
-        if (screenMessages.size() == GameConstants.GamePanel_MAX_SCREEN_MESSGES) {
+        if (screenMessages.size() == GameConstants.GamePanel_MAX_SCREEN_MESSAGES) {
             screenMessages.remove(0);
         }
         screenMessages.add(new ScreenMessage(timeLeft, message));
     }
 
+    /**
+     * Updates the screen messages.
+     */
     public void UpdateScreenMessages() {
+        ArrayList<ScreenMessage> toDelete = new ArrayList<>();
+
         for (ScreenMessage message : screenMessages) {
             message.Update();
+            if (message.GetTimeLeft() == 0) toDelete.add(message);
+        }
+
+        for (ScreenMessage del : toDelete) {
+            screenMessages.remove(del);
         }
     }
 

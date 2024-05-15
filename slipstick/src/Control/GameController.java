@@ -3,6 +3,7 @@ package Control;
 import Constants.GameConstants;
 import Entities.Student;
 import Graphics.GameWindowPanel;
+import Graphics.Utils.ScreenMessage;
 import Labyrinth.Room;
 
 import static Runnable.Main.*;
@@ -47,6 +48,7 @@ public class GameController {
                 //long dt = t2 - t1;
                 //System.out.println(dt + " ns");
                 //System.out.println(dt + " ms");
+
                 delta--;
             }
 
@@ -90,6 +92,17 @@ public class GameController {
     public void StepStudent(Student student, Room stepInto) {
         boolean success = student.StepInto(stepInto);
 
-        if (success) gamePanel.CreateScreenMessage(240, "The room is full");
+        if (!success) gamePanel.CreateScreenMessage(240, "The room is full");
+    }
+
+    /**
+     * Creates a new {@link ScreenMessage} and adds it the screen messages list.
+     * <p>If the number of messages exceeds the {@link GameConstants#GamePanel_MAX_SCREEN_MESSAGES} the
+     * oldest message gets deleted.</p>
+     * @param timeLeft  the time this message has left
+     * @param message   the message
+     */
+    public void CreateScreenMessage(int timeLeft, String message) {
+        gamePanel.CreateScreenMessage(timeLeft, message);
     }
 }
