@@ -1,6 +1,6 @@
-package Graphics.Utils;
+package Graphics.Utils.Clickable;
 
-import GameManagers.Commands.ICommand;
+import Graphics.Utils.Vector2;
 
 import java.awt.*;
 

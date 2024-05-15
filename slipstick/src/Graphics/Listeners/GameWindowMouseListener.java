@@ -1,4 +1,4 @@
-package Graphics.Utils;
+package Graphics.Listeners;
 
 import Graphics.GameWindowPanel;
 

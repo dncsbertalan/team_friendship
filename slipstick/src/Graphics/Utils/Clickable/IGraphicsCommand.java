@@ -1,4 +1,4 @@
-package Graphics.Utils;
+package Graphics.Utils.Clickable;
 
 public interface IGraphicsCommand {
 

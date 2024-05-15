@@ -5,20 +5,17 @@ import Entities.Entity;
 import Entities.Janitor;
 import Entities.Professor;
 import Entities.Student;
-import Graphics.Utils.ClickableObject;
-import Graphics.Utils.GameWindowMouseListener;
+import Graphics.Listeners.GameWindowMouseWheelListener;
+import Graphics.Utils.Clickable.ClickableObject;
+import Graphics.Listeners.GameWindowMouseListener;
 import Graphics.Utils.MenuButton;
 import Labyrinth.Room;
 import Graphics.Utils.Vector2;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import static Runnable.Main.game;
@@ -60,6 +57,8 @@ public class GameWindowPanel extends JPanel {
         this.clickableObjects = new ArrayList<>();
         GameWindowMouseListener mouseListener = new GameWindowMouseListener(this);
         this.addMouseListener(mouseListener);
+        GameWindowMouseWheelListener mouseWheelListener = new GameWindowMouseWheelListener();
+        this.addMouseWheelListener(mouseWheelListener);
         this.setDoubleBuffered(true);
 
         // TODO temp or maybe good (?) xd
