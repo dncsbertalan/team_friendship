@@ -13,13 +13,13 @@ import java.awt.event.ActionListener;
 
 import static Runnable.Main.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MenuWindowPanel2 extends JPanel implements ActionListener {
     private final JButton doneButton;
     private final JButton cancelButton;
-    private JTextField nameField1;
-    private JTextField nameField2;
-    private JTextField nameField3;
-    private JTextField nameField4;
+    private final List<JTextField> nameFields = new ArrayList<>();
 
     private final MenuWindowFrame menuWF;
 
@@ -75,7 +75,7 @@ public class MenuWindowPanel2 extends JPanel implements ActionListener {
         gbc.gridx = 0;
         gbc.gridy = 4;
         gbc.gridwidth = 2; // Span buttons across two columns
-        gbc.anchor = GridBagConstraints.CENTER; // Align to the center
+        gbc.anchor = GridBagConstraints.CENTER;
         gbc.insets = new Insets(30, 10, 10, 10); // Margin between components
         this.add(buttonsPanel, gbc);
 
@@ -85,7 +85,7 @@ public class MenuWindowPanel2 extends JPanel implements ActionListener {
 
         // Create and add "Names" label
         JLabel namesLabel = new JLabel(GameConstants.MenuPanel2_NAMES_LABEL);
-        namesLabel.setFont(GameConstants.MenuPanel2_NAMES_LABEL_FONT); // Set appropriate font
+        namesLabel.setFont(GameConstants.MenuPanel2_NAMES_LABEL_FONT);
         namesLabel.setHorizontalAlignment(JLabel.CENTER);
         namesLabel.setForeground(GameConstants.MenuPanel2_NAMES_LABEL_COLOR);
 
@@ -115,13 +115,8 @@ public class MenuWindowPanel2 extends JPanel implements ActionListener {
         nameField.setMinimumSize(new Dimension(GameConstants.MenuPanel2_TEXTFIELD_WIDTH, GameConstants.MenuPanel2_TEXTFIELD_HEIGHT));
         nameField.setHorizontalAlignment(JTextField.CENTER);
 
-        // Set the field to the corresponding instance variable
-        switch (row) {
-            case 0 -> nameField1 = nameField;
-            case 1 -> nameField2 = nameField;
-            case 2 -> nameField3 = nameField;
-            case 3 -> nameField4 = nameField;
-        }
+        // Add the text field to the list
+        nameFields.add(nameField);
 
         // Adding label and text field to the panel
         gbc.gridx = 0;
@@ -139,10 +134,23 @@ public class MenuWindowPanel2 extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent event) {
         if (event.getSource().equals(doneButton)) {         // DONE BUTTON
-            menu.AddPlayer(nameField1.getText());
-            menu.AddPlayer(nameField2.getText());
-            menu.AddPlayer(nameField3.getText());
-            menu.AddPlayer(nameField4.getText());
+            boolean atLeastOneNameGiven = false;
+
+            for (JTextField textField : nameFields) {
+                if (!textField.getText().isEmpty()) {
+                    atLeastOneNameGiven = true;
+                    menu.AddPlayer(textField.getText());
+                }
+            }
+
+            // Show error message when no names were given
+            if (!atLeastOneNameGiven) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "At least one name must be given.",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
             menuWF.SetMenuPanel1Visible();
             menuWF.setVisible(false);
