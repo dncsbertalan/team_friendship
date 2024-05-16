@@ -9,7 +9,12 @@ import Graphics.Utils.Vector2;
 import Graphics.GameWindowPanel;
 import Labyrinth.Room;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class RoomObject {
@@ -31,8 +36,8 @@ public class RoomObject {
 
         int neighbours = room.GetNeighbours().size();
         neighbours = Math.max(neighbours, GameConstants.GamePanel_ROOM_MIN_SIDES);
-        float angleBetween = 360f / neighbours;
-        Vector2 distanceFromCenter = new Vector2(0, -GameConstants.GamePanel_ROOM_SIZE);
+        final float angleBetween = 360f / neighbours;
+        final Vector2 distanceFromCenter = new Vector2(0, -GameConstants.GamePanel_ROOM_SIZE);
 
         Vector2 point;
         Polygon polygon = new Polygon();
@@ -43,7 +48,8 @@ public class RoomObject {
         }
 
         graphics2D.setColor(Color.pink);
-        graphics2D.fillPolygon(polygon);
+        Rectangle rectangle = polygon.getBounds();
+        graphics2D.drawImage(GetRoomImage(graphics2D, polygon, 0, 0), rectangle.x, rectangle.y, null);
 
         DrawInside(graphics2D);
     }
@@ -82,5 +88,40 @@ public class RoomObject {
             gamePanel.AddClickable(door);
             door.Draw(graphics2D, gamePanel.GetMousePosiotion());
         }
+    }
+
+    private BufferedImage GetRoomImage(Graphics2D graphics, Shape polygon, int x, int y) {
+        // TODO image loading is temporary
+        File file;
+        BufferedImage image;
+        try {
+            file = new File("rsc/wall.png");
+            image = ImageIO.read(file);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        Rectangle rectangle = polygon.getBounds();
+        BufferedImage tmp = new BufferedImage(rectangle.width + 2,rectangle.height + 2,BufferedImage.TYPE_INT_ARGB);
+
+        Graphics2D g = tmp.createGraphics();
+
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
+
+        AffineTransform centerTransform = AffineTransform.getTranslateInstance(-rectangle.x + 1, -rectangle.y + 1);
+        g.setTransform(centerTransform);
+
+        g.setClip(polygon);
+        g.drawImage(image, x, y, null);
+        g.setClip(null);
+
+        g.setColor(Color.black);
+        g.setStroke(new BasicStroke(5f));
+        g.draw(polygon);
+
+        g.dispose();
+
+        return tmp;
     }
 }
