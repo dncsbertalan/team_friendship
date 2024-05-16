@@ -23,6 +23,7 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import static Runnable.Main.game;
+import static Runnable.Main.soundManager;
 
 public class GameWindowPanel extends JPanel {
     private final GameWindowFrame gameWindowFrame;
@@ -79,6 +80,7 @@ public class GameWindowPanel extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 frame.dispose();
+                soundManager.playSoundLooped("menu");
             }
 
             @Override

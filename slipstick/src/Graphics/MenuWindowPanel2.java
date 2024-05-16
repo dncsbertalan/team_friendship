@@ -12,10 +12,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static Runnable.Main.*;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import static Runnable.Main.game;
+import static Runnable.Main.menu;
+import static Runnable.Main.soundManager;
 
 public class MenuWindowPanel2 extends JPanel implements ActionListener {
     private final JButton doneButton;
@@ -157,6 +159,7 @@ public class MenuWindowPanel2 extends JPanel implements ActionListener {
             menuWF.setVisible(false);
             GameWindowFrame gameWindowFrame = new GameWindowFrame(menuWF);
             menu.StartGame(game);
+            soundManager.playSoundLooped("game");
         }
         if (event.getSource().equals(cancelButton)) {       // CANCEL BUTTON
             menuWF.SetMenuPanel1Visible();

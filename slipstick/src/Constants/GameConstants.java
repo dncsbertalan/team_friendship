@@ -132,4 +132,10 @@ public class GameConstants {
     public static Vector2 GamePanel_ENTITY_INFO_POS() { return new Vector2(20, 100); }
 
 // endregion
+
+// region SOUNDS =======================================================================================================
+    public static final String MENU_MUSIC_FILEPATH = "slipstick/rsc/sounds/menu.wav";
+    public static final String GAME_MUSIC_FILEPATH = "slipstick/rsc/sounds/game.wav";
+    public static final String ENDGAME_MUSIC_FILEPATH = "slipstick/rsc/sounds/endgame.wav";
+// endregion
 }
