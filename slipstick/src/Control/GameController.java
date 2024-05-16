@@ -3,15 +3,18 @@ package Control;
 import Constants.GameConstants;
 import Entities.Student;
 import Graphics.GameWindowPanel;
+import Graphics.Utils.Clickable.ItemObject;
 import Graphics.Utils.ScreenMessage;
 import Labyrinth.Room;
 
 import static Runnable.Main.*;
 
 public class GameController {
+
     private boolean isRunning;
     private GameWindowPanel gamePanel;
     private Thread gameThread;
+    private ItemObject selectedItem;
 
     /**
      * The core of the game. It "pulls" the required information from the game.
@@ -102,7 +105,18 @@ public class GameController {
      * @param timeLeft  the time this message has left
      * @param message   the message
      */
-    public void CreateScreenMessage(int timeLeft, String message) {
+    public void NewScreenMessage(int timeLeft, String message) {
         gamePanel.CreateScreenMessage(timeLeft, message);
     }
+
+    /**
+     * Sets the currently selected item.
+     * @param newSelectedItem the item
+     */
+    public void SetSelectedItem(ItemObject newSelectedItem) { selectedItem = newSelectedItem; }
+
+    /**
+     * Clears the currently selected item.
+     */
+    public void ClearSelectedItem() { selectedItem = null; }
 }
