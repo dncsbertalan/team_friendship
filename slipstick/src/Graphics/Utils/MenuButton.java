@@ -8,12 +8,12 @@ import java.awt.*;
 public class MenuButton extends JButton {
     private final CustomShapedComponent customShapedComponent;
 
-    public MenuButton(String text, Color backgroundColor, Color borderColor) {
+    public MenuButton(String text, Color backgroundColor, Color borderColor, float borderThickness) {
         super(text);
-        setContentAreaFilled(false);
-        setBorderPainted(false);
-        setOpaque(false);
-        customShapedComponent = new CustomShapedComponent(this) {
+        this.setContentAreaFilled(false);
+        this.setBorderPainted(false);
+        this.setOpaque(false);
+        customShapedComponent = new CustomShapedComponent(this, borderThickness) {
             @Override
             protected Shape createShape(JComponent component) {
                 double w = component.getWidth();

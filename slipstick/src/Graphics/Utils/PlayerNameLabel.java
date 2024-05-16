@@ -8,9 +8,9 @@ import java.awt.*;
 public class PlayerNameLabel extends JLabel {
     private final CustomShapedComponent customShapedComponent;
 
-    public PlayerNameLabel(String text) {
+    public PlayerNameLabel(String text, float borderThickness) {
         super(text);
-        customShapedComponent = new CustomShapedComponent(this) {
+        customShapedComponent = new CustomShapedComponent(this, borderThickness) {
             @Override
             protected Shape createShape(JComponent component) {
                 double w = component.getWidth();

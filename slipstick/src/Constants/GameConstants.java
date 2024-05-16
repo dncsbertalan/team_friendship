@@ -55,6 +55,7 @@ public class GameConstants {
     public static final Font MenuPanel1_BUTTON_FONT = new Font("Times New Roman", Font.BOLD, 28);
     public static final Color MenuPanel1_BUTTON_BORDER_COLOR = new Color(115,85,90,255);
     public static final Color MenuPanel1_BUTTON_BACKGROUND_COLOR = Color.WHITE;
+    public static final float MenuPanel1_BUTTON_BORDER_THICKNESS = 5.0f;
 
 // endregion
 
@@ -74,18 +75,34 @@ public class GameConstants {
     public static final Font MenuPanel2_BUTTON_FONT = new Font("Times New Roman", Font.BOLD, 28);
     public static final Color MenuPanel2_BUTTON_BORDER_COLOR = new Color(115,85,90,255);
     public static final Color MenuPanel2_BUTTON_BACKGROUND_COLOR = Color.WHITE;
+    public static final float MenuPanel2_BUTTON_BORDER_THICKNESS = 5.0f;
     // TEXT FIELDS FOR PLAYER NAMES IN MENU 2
     public static final int MenuPanel2_TEXTFIELD_WIDTH = 400;
     public static final int MenuPanel2_TEXTFIELD_HEIGHT = 60;
     public static final Color MenuPanel2_TEXTFIELD_BORDER_COLOR = new Color(115,85,90,255);
     public static final Color MenuPanel2_TEXTFIELD_BACKGROUND_COLOR = Color.WHITE;
     public static final Font MenuPanel2_TEXTFIELD_FONT = new Font("Times New Roman", Font.BOLD, 28);
+    public static final float MenuPanel2_TEXTFIELD_BORDER_THICKNESS = 5.0f;
     // LABELS FOR TEXT FIELDS IN MENU 2
     public static final int MenuPanel2_TEXTFIELD_LABEL_WIDTH = 200;
     public static final int MenuPanel2_TEXTFIELD_LABEL_HEIGHT = 60;
     public static final Color MenuPanel2_TEXTFIELD_LABEL_BORDER_COLOR = new Color(115,85,90,255);
     public static final Color MenuPanel2_TEXTFIELD_LABEL_BACKGROUND_COLOR = Color.WHITE;
     public static final Font MenuPanel2_TEXTFIELD_LABEL_FONT = new Font("Times New Roman", Font.BOLD, 28);
+    public static final float MenuPanel2_TEXTFIELD_LABEL_BORDER_THICKNESS = 5.0f;
+    // ERROR MESSAGE WHEN NO NAMES WERE GIVEN
+    public static final String MenuPanel2_ERROR_MESSAGE = "At least one name must be given.";
+    public static final int MenuPanel2_ERROR_MESSAGE_WIDTH = 320;
+    public static final int MenuPanel2_ERROR_MESSAGE_HEIGHT = 140;
+    public static final Color MenuPanel2_ERROR_MESSAGE_BORDER_COLOR = Color.RED;
+    public static final Color MenuPanel2_ERROR_MESSAGE_BACKGROUND_COLOR = Color.WHITE;
+    public static final float MenuPanel2_ERROR_MESSAGE_BORDER_THICKNESS = 5.0f;
+    public static final Font MenuPanel2_ERROR_MESSAGE_FONT = new Font("Times New Roman", Font.BOLD, 20);
+    public static final String MenuPanel2_ERROR_MESSAGE_BUTTON = "OK";
+    public static final Color MenuPanel2_ERROR_MESSAGE_BUTTON_BORDER_COLOR = Color.RED;
+    public static final Color MenuPanel2_ERROR_MESSAGE_BUTTON_BACKGROUND_COLOR = Color.WHITE;
+    public static final float MenuPanel2_ERROR_MESSAGE_BUTTON_BORDER_THICKNESS = 2.0f;
+    public static final Font MenuPanel2_ERROR_MESSAGE_BUTTON_FONT = new Font("Times New Roman", Font.BOLD, 28);
 
 // endregion
 
@@ -97,6 +114,7 @@ public class GameConstants {
     public static final String GamePanel_EXIT_BUTTON = "Exit";
     public static final Color GamePanel_EXIT_BUTTON_BORDER_COLOR = new Color(115,85,90,255);
     public static final Color GamePanel_EXIT_BUTTON_BACKGROUND_COLOR = Color.WHITE;
+    public static final float GamePanel_EXIT_BUTTON_BORDER_THICKNESS = 5.0f;
 
     // Room parameters
     public static final int GamePanel_ROOM_SIZE = 250;

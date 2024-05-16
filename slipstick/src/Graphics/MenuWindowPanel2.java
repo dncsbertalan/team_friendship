@@ -2,6 +2,7 @@ package Graphics;
 
 import Constants.GameConstants;
 import GameManagers.RoundManager;
+import Graphics.Utils.ErrorMessage;
 import Graphics.Utils.MenuButton;
 import Graphics.Utils.PlayerNameLabel;
 import Graphics.Utils.PlayerNameTextField;
@@ -53,7 +54,8 @@ public class MenuWindowPanel2 extends JPanel implements ActionListener {
         doneButton = new MenuButton(
                 GameConstants.MenuPanel2_DONE_BUTTON,
                 GameConstants.MenuPanel2_BUTTON_BACKGROUND_COLOR,
-                GameConstants.MenuPanel2_BUTTON_BORDER_COLOR);
+                GameConstants.MenuPanel2_BUTTON_BORDER_COLOR,
+                GameConstants.MenuPanel2_BUTTON_BORDER_THICKNESS);
         doneButton.setFont(GameConstants.MenuPanel2_BUTTON_FONT);
         doneButton.setPreferredSize(new Dimension(GameConstants.MenuPanel2_BUTTON_WIDTH, GameConstants.MenuPanel2_BUTTON_HEIGHT));
         doneButton.setMinimumSize(new Dimension(GameConstants.MenuPanel2_BUTTON_WIDTH, GameConstants.MenuPanel2_BUTTON_HEIGHT));
@@ -62,7 +64,8 @@ public class MenuWindowPanel2 extends JPanel implements ActionListener {
         cancelButton = new MenuButton(
                 GameConstants.MenuPanel2_CANCEL_BUTTON,
                 GameConstants.MenuPanel2_BUTTON_BACKGROUND_COLOR,
-                GameConstants.MenuPanel2_BUTTON_BORDER_COLOR);
+                GameConstants.MenuPanel2_BUTTON_BORDER_COLOR,
+                GameConstants.MenuPanel2_BUTTON_BORDER_THICKNESS);
         cancelButton.setFont(GameConstants.MenuPanel2_BUTTON_FONT);
         cancelButton.setPreferredSize(new Dimension(GameConstants.MenuPanel2_BUTTON_WIDTH, GameConstants.MenuPanel2_BUTTON_HEIGHT));
         cancelButton.setMinimumSize(new Dimension(GameConstants.MenuPanel2_BUTTON_WIDTH, GameConstants.MenuPanel2_BUTTON_HEIGHT));
@@ -106,11 +109,11 @@ public class MenuWindowPanel2 extends JPanel implements ActionListener {
     }
 
     private void addPlayerTextFields(JPanel panel, GridBagConstraints gbc, String labelText, int row) {
-        JLabel label = new PlayerNameLabel(labelText);
+        JLabel label = new PlayerNameLabel(labelText, GameConstants.MenuPanel2_TEXTFIELD_LABEL_BORDER_THICKNESS);
         label.setFont(GameConstants.MenuPanel2_TEXTFIELD_LABEL_FONT);
         label.setMinimumSize(new Dimension(GameConstants.MenuPanel2_TEXTFIELD_LABEL_WIDTH, GameConstants.MenuPanel2_TEXTFIELD_LABEL_HEIGHT));
         label.setHorizontalAlignment(JLabel.CENTER);
-        PlayerNameTextField nameField = new PlayerNameTextField(GameConstants.MenuPanel2_NAME_FIELD_WIDTH);
+        PlayerNameTextField nameField = new PlayerNameTextField(GameConstants.MenuPanel2_NAME_FIELD_WIDTH, GameConstants.MenuPanel2_TEXTFIELD_BORDER_THICKNESS);
         nameField.setFont(GameConstants.MenuPanel2_TEXTFIELD_FONT);
         nameField.setMinimumSize(new Dimension(GameConstants.MenuPanel2_TEXTFIELD_WIDTH, GameConstants.MenuPanel2_TEXTFIELD_HEIGHT));
         nameField.setHorizontalAlignment(JTextField.CENTER);
@@ -145,10 +148,8 @@ public class MenuWindowPanel2 extends JPanel implements ActionListener {
 
             // Show error message when no names were given
             if (!atLeastOneNameGiven) {
-                JOptionPane.showMessageDialog(
-                        this,
-                        "At least one name must be given.",
-                        "Error", JOptionPane.ERROR_MESSAGE);
+                ErrorMessage popup = new ErrorMessage(menuWF, GameConstants.MenuPanel2_ERROR_MESSAGE);
+                popup.setVisible(true);
                 return;
             }
 

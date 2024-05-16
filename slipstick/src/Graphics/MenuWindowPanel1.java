@@ -44,11 +44,13 @@ public class MenuWindowPanel1 extends JPanel implements ActionListener {
         exitButton = new MenuButton(
                 GameConstants.MenuPanel1_EXIT_BUTTON,
                 GameConstants.MenuPanel1_BUTTON_BACKGROUND_COLOR,
-                GameConstants.GamePanel_EXIT_BUTTON_BORDER_COLOR);
+                GameConstants.MenuPanel1_BUTTON_BORDER_COLOR,
+                GameConstants.MenuPanel1_BUTTON_BORDER_THICKNESS);
         playButton = new MenuButton(
                 GameConstants.MenuPanel1_PLAY_BUTTON,
                 GameConstants.MenuPanel1_BUTTON_BACKGROUND_COLOR,
-                GameConstants.GamePanel_EXIT_BUTTON_BORDER_COLOR);
+                GameConstants.MenuPanel1_BUTTON_BORDER_COLOR,
+                GameConstants.MenuPanel1_BUTTON_BORDER_THICKNESS);
 
         exitButton.setFont(GameConstants.MenuPanel1_BUTTON_FONT);
         playButton.setFont(GameConstants.MenuPanel1_BUTTON_FONT);

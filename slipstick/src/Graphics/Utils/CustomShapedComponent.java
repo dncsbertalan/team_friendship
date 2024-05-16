@@ -6,10 +6,12 @@ import java.awt.*;
 
 public abstract class CustomShapedComponent {
     protected Shape shape;
+    protected float borderThickness;
 
-    public CustomShapedComponent(JComponent component) {
+    public CustomShapedComponent(JComponent component, float borderThickness) {
         component.setOpaque(false);
         component.setBorder(new EmptyBorder(0, 0, 0, 0));
+        this.borderThickness = borderThickness;
     }
 
     public void paintComponent(Graphics g, JComponent component) {
@@ -24,7 +26,7 @@ public abstract class CustomShapedComponent {
 
         // border
         g2.setColor(getBorderColor());
-        g2.setStroke(new BasicStroke(5.0f));
+        g2.setStroke(new BasicStroke(borderThickness));
         g2.draw(shape);
 
         g2.dispose();

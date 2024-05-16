@@ -8,9 +8,9 @@ import java.awt.*;
 public class PlayerNameTextField extends JTextField {
     private final CustomShapedComponent customShapedComponent;
 
-    public PlayerNameTextField(int columns) {
+    public PlayerNameTextField(int columns, float borderThickness) {
         super(columns);
-        customShapedComponent = new CustomShapedComponent(this) {
+        customShapedComponent = new CustomShapedComponent(this, borderThickness) {
             @Override
             protected Shape createShape(JComponent component) {
                 double w = component.getWidth();

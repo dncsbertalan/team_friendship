@@ -68,7 +68,8 @@ public class GameWindowPanel extends JPanel {
         MenuButton menuButton = new MenuButton(
                 GameConstants.GamePanel_EXIT_BUTTON,
                 GameConstants.GamePanel_EXIT_BUTTON_BACKGROUND_COLOR,
-                GameConstants.GamePanel_EXIT_BUTTON_BORDER_COLOR);
+                GameConstants.GamePanel_EXIT_BUTTON_BORDER_COLOR,
+                GameConstants.GamePanel_EXIT_BUTTON_BORDER_THICKNESS);
         this.add(menuButton);
         menuButton.setLayout(null);
         menuButton.setBounds(windowSize.x - 125 - 20, windowSize.y - 75 - 20, 125, 75 );
