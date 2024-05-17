@@ -147,7 +147,7 @@ public class RoomObject {
 
         // clips the shape from the image
         g.setClip(polygon);
-        g.drawImage(image, (int) rectangle.x, (int) rectangle.y, null);
+        g.drawImage(image, rectangle.x, rectangle.y, null);
         g.setClip(null);
 
         // outline

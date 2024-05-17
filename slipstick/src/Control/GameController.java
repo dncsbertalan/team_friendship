@@ -82,6 +82,7 @@ public class GameController {
         gameThread = new Thread(this::MainGameLoop);
         isRunning = true;
         gameThread.start();
+        game.SetPreGame();
     }
 
     public void StopGame() {
@@ -100,7 +101,7 @@ public class GameController {
     public void StepStudent(Student student, Room stepInto) {
         boolean success = student.StepInto(stepInto);
 
-        if (!success) gamePanel.CreateScreenMessage(240, "The room is full");
+        if (!success) gamePanel.CreateScreenMessage(240, Color.red, "The room is full");
     }
 
     /**

@@ -11,7 +11,7 @@ public class Menu {
     /**
      * Starts the game from the menu.
      */
-    public void StartGame(Game game) {
+    public void StartGame() {
         Main.game.InitPlayers(playerNames);
         Main.gameController.StartGame();
     }

@@ -135,6 +135,8 @@ public class Game {
     }
 
     public boolean IsPreGame() {return pregame;}
+
+    public void SetPreGame() { pregame = false; }
 //endregion
 
 //region Methods
@@ -350,7 +352,6 @@ public class Game {
 
         // FINALLY
         this.roundManager.Init();
-        pregame = false;
     }
 
     private Item GetItemFromName(String itemName) {

@@ -13,10 +13,14 @@ import Graphics.Utils.ScreenMessage;
 import Labyrinth.Room;
 import Graphics.Utils.Vector2;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static Runnable.Main.game;
@@ -100,6 +104,7 @@ public class GameWindowPanel extends JPanel {
 
             }
         });
+        //menuButton.setVisible(false);
     }
 
     @Override
@@ -108,6 +113,7 @@ public class GameWindowPanel extends JPanel {
         Graphics2D graphics2D = (Graphics2D) g;
 
         if (game.IsPreGame()) {     // If the game is not loaded fully
+            DrawLoadingScreen(graphics2D);
             return;
         }
 
@@ -280,6 +286,25 @@ public class GameWindowPanel extends JPanel {
             graphics2D.drawString(sc.GetMessage(), posOnScreen.x, posOnScreen.y);
             posOnScreen.AddY(textHeight + GameConstants.SCREEN_MESSAGE_DISTANCE);
         }
+    }
+
+    /**
+     * Draws the loading screen.
+     * @param graphics2D graphics instance
+     */
+    private void DrawLoadingScreen(Graphics2D graphics2D) {
+        // Load the image
+        BufferedImage image;
+        try {
+            File file = new File(GameConstants.MenuPanel1_LOGO_FILEPATH);
+            image = ImageIO.read(file);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        // Draw the logo image
+        Vector2 center = Vector2.Mult(windowSize, 0.5f);
+        graphics2D.drawImage(image, center.x - (image.getWidth() / 2), center.y - (image.getHeight() / 2), null);
     }
 
 // endregion

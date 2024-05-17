@@ -158,7 +158,7 @@ public class MenuWindowPanel2 extends JPanel implements ActionListener {
             menuWF.SetMenuPanel1Visible();
             menuWF.setVisible(false);
             GameWindowFrame gameWindowFrame = new GameWindowFrame(menuWF);
-            menu.StartGame(game);
+            menu.StartGame();
             soundManager.playSoundLooped("game");
         }
         if (event.getSource().equals(cancelButton)) {       // CANCEL BUTTON

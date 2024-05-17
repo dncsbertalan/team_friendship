@@ -105,7 +105,7 @@ public class GameConstants {
 
 // endregion
 
-    // GAME
+// region GAME
     public static final String GamePanel_ROUND_TEXT = "Round: ";
 
     public static final int GamePanel_WIDTH = 1000;
@@ -118,7 +118,6 @@ public class GameConstants {
     // Room parameters
     public static final int ROOM_SIZE = 250;
     public static final int ROOM_MIN_SIDES = 3;
-    public static final int SMALL_ROOM_SIZE = 150;
     public static final float SMALL_ROOM_SIZE_RATIO = 0.6f;
 
     // Screen messages
@@ -131,7 +130,6 @@ public class GameConstants {
     public  static final String WALL_BG_TEMP = "slipstick/rsc/wall.png";
 
     public static Vector2 GamePanel_INVENTORY_POS() { return new Vector2(20, 20); }
-    public static Vector2 GamePanel_ROUND_POS() { return new Vector2(900, 20); }
     public static Vector2 GamePanel_ENTITY_INFO_POS() { return new Vector2(20, 100); }
 
 // endregion
