@@ -117,6 +117,11 @@ public class GameWindowPanel extends JPanel {
             return;
         }
 
+        if (game.IsEnded()) {      // If th game ended with
+            DrawEndScreen(graphics2D);
+            return;
+        }
+
         ResetClickables();  // TODO ezt maybe nem itt
 
         Point point = MouseInfo.getPointerInfo().getLocation();
@@ -305,6 +310,19 @@ public class GameWindowPanel extends JPanel {
         // Draw the logo image
         Vector2 center = Vector2.Mult(windowSize, 0.5f);
         graphics2D.drawImage(image, center.x - (image.getWidth() / 2), center.y - (image.getHeight() / 2), null);
+    }
+
+    /**
+     * Draws the end screen.
+     * @param graphics2D graphics instance
+     */
+    private void DrawEndScreen(Graphics2D graphics2D) {
+        // TODO: reposion exit button
+        if (game.GetWin()) {    // If the game was won
+
+            return;
+        }
+        // If the game was lost
     }
 
 // endregion
