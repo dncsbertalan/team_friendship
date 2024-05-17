@@ -45,8 +45,8 @@ public class GameConstants {
     public static final String MenuPanel1_EXIT_BUTTON = "Exit";
     public static final String MenuPanel1_PLAY_BUTTON = "Play";
     // LOGO
-    public static final String MenuPanel1_LOGO_FILEPATH = "slipstick/rsc/logo.png";
-    //public static final String MenuPanel1_LOGO_FILEPATH = "rsc/logo.png"; // bercinek ez jó
+    //public static final String MenuPanel1_LOGO_FILEPATH = "slipstick/rsc/logo.png";
+    public static final String MenuPanel1_LOGO_FILEPATH = "rsc/logo.png"; // bercinek ez jó
     public static final int MenuPanel1_LOGO_RESIZE_WIDTH = 550;
     public static final int MenuPanel1_LOGO_RESIZE_HEIGHT = 250;
     // BUTTONS FOR MENU 1
@@ -117,16 +117,20 @@ public class GameConstants {
     public static final float GamePanel_EXIT_BUTTON_BORDER_THICKNESS = 5.0f;
 
     // Room parameters
-    public static final int GamePanel_ROOM_SIZE = 250;
-    public static final int GamePanel_ROOM_MIN_SIDES = 3;
-    public static final int GamePanel_SMALL_ROOM_SIZE = 150;
+    public static final int ROOM_SIZE = 250;
+    public static final int ROOM_MIN_SIDES = 3;
+    public static final int SMALL_ROOM_SIZE = 150;
+    public static final float SMALL_ROOM_SIZE_RATIO = 0.6f;
 
     // Screen messages
-    public static final int GamePanel_MAX_SCREEN_MESSAGES = 5;
-    public static final int GamePanel_SCREEN_MESSAGE_DISTANCE = 7;
-    public static final Font GamePanel_SCREEN_MESSAGE_FONT = new Font("Courier New", Font.BOLD, 20);
+    public static final int MAX_SCREEN_MESSAGES = 5;
+    public static final int SCREEN_MESSAGE_DISTANCE = 7;
+    public static final Font SCREEN_MESSAGE_FONT = new Font("Courier New", Font.BOLD, 20);
+    public static final Color SCREEN_MESSAGE_DEFAUL_COLOR = Color.black;
     public static Vector2 GamePanel_SCREEN_MESSAGE_BOTTOM_LEFT() { return new Vector2(20, 20); }
 
+    public  static final String WALL_BG_TEMP_BERCI = "rsc/wall.png";
+    public  static final String WALL_BG_TEMP = "slipstick/rsc/wall.png";
 
     public static Vector2 GamePanel_INVENTORY_POS() { return new Vector2(20, 20); }
     public static Vector2 GamePanel_ROUND_POS() { return new Vector2(900, 20); }
@@ -136,12 +140,12 @@ public class GameConstants {
 
 // region SOUNDS =======================================================================================================
     // Bercinek
-    /*public static final String MENU_MUSIC_FILEPATH = "rsc/sounds/menu.wav";
+    public static final String MENU_MUSIC_FILEPATH = "rsc/sounds/menu.wav";
     public static final String GAME_MUSIC_FILEPATH = "rsc/sounds/game.wav";
-    public static final String ENDGAME_MUSIC_FILEPATH = "rsc/sounds/endgame.wav";*/
+    public static final String ENDGAME_MUSIC_FILEPATH = "rsc/sounds/endgame.wav";
 
-    public static final String MENU_MUSIC_FILEPATH = "slipstick/rsc/sounds/menu.wav";
+    /*public static final String MENU_MUSIC_FILEPATH = "slipstick/rsc/sounds/menu.wav";
     public static final String GAME_MUSIC_FILEPATH = "slipstick/rsc/sounds/game.wav";
-    public static final String ENDGAME_MUSIC_FILEPATH = "slipstick/rsc/sounds/endgame.wav";
+    public static final String ENDGAME_MUSIC_FILEPATH = "slipstick/rsc/sounds/endgame.wav";*/
 // endregion
 }

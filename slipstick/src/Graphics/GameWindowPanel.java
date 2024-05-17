@@ -2,13 +2,10 @@ package Graphics;
 
 import Constants.GameConstants;
 import Entities.Entity;
-import Entities.Janitor;
-import Entities.Professor;
 import Entities.Student;
 import Graphics.Listeners.GameWindowMouseWheelListener;
 import Graphics.Utils.Clickable.ClickableObject;
 import Graphics.Listeners.GameWindowMouseListener;
-import Graphics.Utils.Clickable.DoorObject;
 import Graphics.Utils.Clickable.RoomObject;
 import Graphics.Utils.HelperMethods;
 import Graphics.Utils.MenuButton;
@@ -148,11 +145,12 @@ public class GameWindowPanel extends JPanel {
 
         Room curRoom = active.GetCurrentRoom();
 
-        RoomObject roomObject = new RoomObject(this, Vector2.Mult(windowSize, 0.5f), curRoom, true);
+        RoomObject roomObject = new RoomObject(this, Vector2.Mult(windowSize, 0.5f), curRoom, false);
         roomObject.Draw(graphics2D);
 
-        float angle = 360f / Math.max(curRoom.GetNeighbours().size(), GameConstants.GamePanel_ROOM_MIN_SIDES);
-        int dist = (int) ((float) GameConstants.GamePanel_ROOM_SIZE * Math.cos(Math.toRadians(angle / 2.0)));
+        // Draw the neighbours
+        float angle = 360f / Math.max(curRoom.GetNeighbours().size(), GameConstants.ROOM_MIN_SIDES);
+        int dist = (int) ((float) GameConstants.ROOM_SIZE * Math.cos(Math.toRadians(angle / 2.0)));
         Vector2 neighbourDistanceFromCenter = new Vector2(0, -dist - 300);
         neighbourDistanceFromCenter.RotateBy(angle / 2f);
         int drawnRoom = 0;
@@ -160,7 +158,7 @@ public class GameWindowPanel extends JPanel {
 
         for (Room neighbour : curRoom.GetNeighbours()) {
             Vector2 pos = Vector2.Add(centerPos, Vector2.RotateBy(neighbourDistanceFromCenter,drawnRoom++ * angle));
-            RoomObject ro = new RoomObject(this, pos, neighbour, false);
+            RoomObject ro = new RoomObject(this, pos, neighbour, true);
             ro.Draw(graphics2D);
         }
     }
@@ -262,9 +260,12 @@ public class GameWindowPanel extends JPanel {
      * @param graphics2D graphics instance
      */
     private void DrawScreenMessages(Graphics2D graphics2D) {
-        int textsHeight = (screenMessages.size() - 1) * GameConstants.GamePanel_SCREEN_MESSAGE_DISTANCE;
+        if (screenMessages.isEmpty()) return;
+
+        // Calculates the height of the texts
+        int textsHeight = (screenMessages.size() - 1) * GameConstants.SCREEN_MESSAGE_DISTANCE;
         int textHeight = (int) -graphics2D.getFontMetrics().getStringBounds("GetHeight!<3", graphics2D).getY();
-        graphics2D.setFont(GameConstants.GamePanel_SCREEN_MESSAGE_FONT);
+        graphics2D.setFont(GameConstants.SCREEN_MESSAGE_FONT);
 
         for (ScreenMessage sc : screenMessages) {
             textsHeight += textHeight;
@@ -275,9 +276,9 @@ public class GameWindowPanel extends JPanel {
 
         for (ScreenMessage sc : screenMessages) {
             int alpha = (int) HelperMethods.Remap(sc.GetTimeLeft(), 60, 0, 255, 0, true);
-            graphics2D.setColor(new Color(Color.black.getRed(), Color.black.getGreen(), Color.black.getBlue(), alpha));
+            graphics2D.setColor(new Color(sc.GetColor().getRed(), sc.GetColor().getGreen(), sc.GetColor().getBlue(), alpha));
             graphics2D.drawString(sc.GetMessage(), posOnScreen.x, posOnScreen.y);
-            posOnScreen.AddY(textHeight + GameConstants.GamePanel_SCREEN_MESSAGE_DISTANCE);
+            posOnScreen.AddY(textHeight + GameConstants.SCREEN_MESSAGE_DISTANCE);
         }
     }
 
@@ -324,16 +325,31 @@ public class GameWindowPanel extends JPanel {
 
     /**
      * Creates a new {@link ScreenMessage} and adds it the screen messages list.
-     * <p>If the number of messages exceeds the {@link GameConstants#GamePanel_MAX_SCREEN_MESSAGES} the
+     * <p>If the number of messages exceeds the {@link GameConstants#MAX_SCREEN_MESSAGES} the
      * oldest message gets deleted.</p>
      * @param timeLeft  the time this message has left
      * @param message   the message
      */
     public void CreateScreenMessage(int timeLeft, String message) {
-        if (screenMessages.size() == GameConstants.GamePanel_MAX_SCREEN_MESSAGES) {
+        if (screenMessages.size() == GameConstants.MAX_SCREEN_MESSAGES) {
             screenMessages.remove(0);
         }
         screenMessages.add(new ScreenMessage(timeLeft, message));
+    }
+
+    /**
+     * Creates a new {@link ScreenMessage} and adds it the screen messages list.
+     * <p>If the number of messages exceeds the {@link GameConstants#MAX_SCREEN_MESSAGES} the
+     * oldest message gets deleted.</p>
+     * @param timeLeft  the time this message has left
+     * @param color     the color of the message
+     * @param message   the message
+     */
+    public void CreateScreenMessage(int timeLeft, Color color, String message) {
+        if (screenMessages.size() == GameConstants.MAX_SCREEN_MESSAGES) {
+            screenMessages.remove(0);
+        }
+        screenMessages.add(new ScreenMessage(timeLeft, color, message));
     }
 
     /**

@@ -7,6 +7,8 @@ import Graphics.Utils.Clickable.ItemObject;
 import Graphics.Utils.ScreenMessage;
 import Labyrinth.Room;
 
+import java.awt.*;
+
 import static Runnable.Main.*;
 
 public class GameController {
@@ -103,13 +105,25 @@ public class GameController {
 
     /**
      * Creates a new {@link ScreenMessage} and adds it the screen messages list.
-     * <p>If the number of messages exceeds the {@link GameConstants#GamePanel_MAX_SCREEN_MESSAGES} the
+     * <p>If the number of messages exceeds the {@link GameConstants#MAX_SCREEN_MESSAGES} the
      * oldest message gets deleted.</p>
      * @param timeLeft  the time this message has left
      * @param message   the message
      */
     public void NewScreenMessage(int timeLeft, String message) {
         gamePanel.CreateScreenMessage(timeLeft, message);
+    }
+
+    /**
+     * Creates a new {@link ScreenMessage} and adds it the screen messages list.
+     * <p>If the number of messages exceeds the {@link GameConstants#MAX_SCREEN_MESSAGES} the
+     * oldest message gets deleted.</p>
+     * @param timeLeft  the time this message has left
+     * @param color     the color of the message
+     * @param message   the message
+     */
+    public void NewScreenMessage(int timeLeft, Color color, String message) {
+        gamePanel.CreateScreenMessage(timeLeft, color, message);
     }
 
     /**

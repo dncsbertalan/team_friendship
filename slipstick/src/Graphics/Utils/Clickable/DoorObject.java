@@ -3,6 +3,9 @@ package Graphics.Utils.Clickable;
 import Entities.Student;
 import Graphics.Utils.Vector2;
 import Labyrinth.Room;
+
+import java.awt.*;
+
 import static Runnable.Main.*;
 
 public class DoorObject extends ClickableObject {
@@ -14,7 +17,6 @@ public class DoorObject extends ClickableObject {
         this.roomToGo = roomToGo;
     }
 
-
     @Override
     protected void click() {
         Student active = game.GetRoundManager().GetActiveStudent();
@@ -23,6 +25,6 @@ public class DoorObject extends ClickableObject {
         gameController.StepStudent(active, roomToGo);
 
         // TODO: temporary
-        gameController.NewScreenMessage(240, "Clicked");
+        gameController.NewScreenMessage(240, "Clicked door in " + active.GetCurrentRoom().GetName());
     }
 }
