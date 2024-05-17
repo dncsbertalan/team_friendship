@@ -5,6 +5,8 @@ import Items.*;
 import Labyrinth.*;
 import Constants.*;
 import Labyrinth.Map;
+
+import static Runnable.Main.gameController;
 import static Runnable.Main.os;
 
 import java.io.*;
@@ -390,24 +392,31 @@ public class Game {
 //region Game logic ====================================================================================================
 
     public void GameLogic() {
-
         Student activeStudent = roundManager.GetActiveStudent();
         IAI activeAIEntity = roundManager.GetActiveAIEntity();
 
         // Handle student and professor
         this.HandleStudent(activeStudent);
-        this.HandleAIEntities(activeAIEntity);
+        this.HandleAIEntity(activeAIEntity);
     }
 
+    /**
+     *
+     * @param student: neki adja a lépés jogát
+     */
     private void HandleStudent(Student student) {
         if (student == null) return;
-
+        gameController.activeStudent(student);
     }
 
-    private void HandleAIEntities(IAI entities) {
-        if (entities == null) return;
+    /**
+     *
+     * @param entity nekik adja a lépés jogát
+     */
+    private void HandleAIEntity(IAI entity) {
+        if (entity == null) return;
 
-        entities.AI();
+        entity.AI();
     }
 
 //endregion

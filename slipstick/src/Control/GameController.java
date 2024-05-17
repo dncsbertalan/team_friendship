@@ -119,4 +119,12 @@ public class GameController {
      * Clears the currently selected item.
      */
     public void ClearSelectedItem() { selectedItem = null; }
+
+    /**
+     * Gives control to the student
+     * @param student
+     */
+    public void activeStudent(Student student) {
+
+    }
 }

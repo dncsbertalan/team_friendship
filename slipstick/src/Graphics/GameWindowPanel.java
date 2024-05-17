@@ -184,8 +184,8 @@ public class GameWindowPanel extends JPanel {
         graphics2D.setFont(font);
 
         Vector2 pos = Vector2.Mult(windowSize, 0.9f, 0.05f);
-        graphics2D.drawString(GameConstants.GamePanel_ROUND_TEXT + game.GetRoundManager().GetCurrentRound()
-        , pos.x, pos.y);
+        graphics2D.drawString(GameConstants.GamePanel_ROUND_TEXT + game.GetRoundManager().GetCurrentRound(),
+        pos.x, pos.y);
     }
 
     /**

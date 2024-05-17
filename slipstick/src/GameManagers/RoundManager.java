@@ -37,8 +37,8 @@ public class RoundManager{
      */
     public void Init() {
         this.studentsLeftThisRound.addAll(this.game.GetStudents());
-        this.aiEntities.addAll(this.game.GetProfessors());  // TODO: takarító
-        this.aiEntities.addAll(this.game.GetJanitors());  // TODO: takarító
+        this.aiEntities.addAll(this.game.GetProfessors());  // TODO: takarító jó sorrend?
+        this.aiEntities.addAll(this.game.GetJanitors());
         activeStudent = this.studentsLeftThisRound.get(0);
     }
 
@@ -86,12 +86,14 @@ public class RoundManager{
         // TODO: reset remaining lists
         // reset the entities
         this.studentsLeftThisRound.addAll(this.game.GetStudents());
-        this.aiEntities.addAll(this.game.GetProfessors());  // TODO: takarító
+        this.aiEntities.addAll(this.game.GetProfessors());  // TODO: takarító jó sorrend?
+        this.aiEntities.addAll(this.game.GetJanitors());
 
-        activeStudent = this.studentsLeftThisRound.get(0);   // TODO: ennek kezdetben az első playernek kell lenni
+        activeStudent = this.studentsLeftThisRound.get(0);
         activeAIEntity = null;
 
-        // TODO: kör vége logikák számlálók...
+
+        // TODO: kör vége logikák számlálók... update targyak amik csak x korig ervenyesek
 
         // start a new round
         this.NextRound();
