@@ -175,6 +175,7 @@ public class GameWindowPanel extends JPanel {
         Student active = game.GetRoundManager().GetActiveStudent();
         if (active == null) return;
 
+        int numberOfStudentsItems = active.GetInventory().size();
         int selectedSlot = active.GetSelectedInventorySlot();
         int invRectSize = 50;
         int selectedRectSize = 54;
@@ -187,6 +188,19 @@ public class GameWindowPanel extends JPanel {
             }
             graphics2D.setColor(Color.black);
             graphics2D.fillRect(pos.x, pos.y, invRectSize, invRectSize);
+
+            if(i < numberOfStudentsItems){
+                graphics2D.setColor(Color.red);
+
+                if(i == selectedSlot){
+                    graphics2D.fillRect(pos.x + selectedRectSize/4, pos.y + selectedRectSize/4, selectedRectSize / 2, selectedRectSize / 2);
+
+                } else {
+                    graphics2D.fillRect(pos.x + (int)invRectSize/3, pos.y + (int)invRectSize/3, (int) invRectSize / 3, (int) invRectSize / 3);
+
+                }
+            }
+
         }
     }
 
@@ -220,9 +234,26 @@ public class GameWindowPanel extends JPanel {
         ArrayList<Entity> entities = new ArrayList<>(game.GetStudents()); // TODO IDK HOGY KELL E MINDEN ENTITÁS
         for (Entity entity : entities) {
 
+            Student entityCastAsStudent = (Student) entity;
+
             pos.AddY(spaceBetweenLines);
-            String text = entity.GetName(); // TODO MORE INFO
+            String textName = entityCastAsStudent.GetName();
+            String textStatus;
+
+            if(entityCastAsStudent.IsParalysed()){
+                textStatus = " : paralysed";
+            } else if(entityCastAsStudent.IsDead()){
+                textStatus = " : R.I.P.";
+            } else {
+                textStatus = " : alive and well";
+            }
+
+            String text = textName + textStatus;
+
             graphics2D.drawString(text, pos.x, pos.y);
+            if(entityCastAsStudent == game.GetRoundManager().GetActiveStudent()){
+                graphics2D.drawLine(pos.x, pos.y+2, pos.x + getFontMetrics(getFont()).stringWidth(textName), pos.y + 2);
+            }
         }
     }
 
