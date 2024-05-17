@@ -45,8 +45,8 @@ public class GameConstants {
     public static final String MenuPanel1_EXIT_BUTTON = "Exit";
     public static final String MenuPanel1_PLAY_BUTTON = "Play";
     // LOGO
-    //public static final String MenuPanel1_LOGO_FILEPATH = "slipstick/rsc/logo.png";
-    public static final String MenuPanel1_LOGO_FILEPATH = "rsc/logo.png"; // bercinek ez jó
+    public static final String MenuPanel1_LOGO_FILEPATH = "slipstick/rsc/logo.png";
+    //public static final String MenuPanel1_LOGO_FILEPATH = "rsc/logo.png"; // bercinek ez jó
     public static final int MenuPanel1_LOGO_RESIZE_WIDTH = 550;
     public static final int MenuPanel1_LOGO_RESIZE_HEIGHT = 250;
     // BUTTONS FOR MENU 1
@@ -135,12 +135,12 @@ public class GameConstants {
 
 // region SOUNDS =======================================================================================================
     // Bercinek
-    public static final String MENU_MUSIC_FILEPATH = "rsc/sounds/menu.wav";
+    /*public static final String MENU_MUSIC_FILEPATH = "rsc/sounds/menu.wav";
     public static final String GAME_MUSIC_FILEPATH = "rsc/sounds/game.wav";
-    public static final String ENDGAME_MUSIC_FILEPATH = "rsc/sounds/endgame.wav";
+    public static final String ENDGAME_MUSIC_FILEPATH = "rsc/sounds/endgame.wav";*/
 
-    /*public static final String MENU_MUSIC_FILEPATH = "slipstick/rsc/sounds/menu.wav";
+    public static final String MENU_MUSIC_FILEPATH = "slipstick/rsc/sounds/menu.wav";
     public static final String GAME_MUSIC_FILEPATH = "slipstick/rsc/sounds/game.wav";
-    public static final String ENDGAME_MUSIC_FILEPATH = "slipstick/rsc/sounds/endgame.wav";*/
+    public static final String ENDGAME_MUSIC_FILEPATH = "slipstick/rsc/sounds/endgame.wav";
 // endregion
 }

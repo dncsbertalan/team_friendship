@@ -95,7 +95,7 @@ public class RoomObject {
         File file;
         BufferedImage image;
         try {
-            file = new File("rsc/wall.png");
+            file = new File("slipstick/rsc/wall.png");
             image = ImageIO.read(file);
         } catch (IOException e) {
             throw new RuntimeException(e);

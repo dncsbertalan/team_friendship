@@ -1,5 +1,5 @@
 rounds:1
-MainHall:5;empty%Student_1(FFP2_10),Student_2()$#Room_1
+MainHall:5;empty%Student_1(FFP2_10|Beer_8),Student_2()$#Room_1
 Room_1:3;empty%$Transistor_1,Transistor_2,FFP2_2,FFP2_3#MainHall,Room_5,Room_2
 Room_2:3;empty%$Beer_1,Beer_2,WetCloth_1,AirFreshener_1#Room_1,Room_3,Room_5,Room_8
 Room_3:3;empty%$Slipstick,FakeItem_1#Room_2,Room_6,Room_9

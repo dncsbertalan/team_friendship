@@ -23,8 +23,8 @@ public class Main {
         //System.setProperty("file.encoding", "UTF-8");
 
         try {
-            //game.LoadGame("slipstick/testmap.txt");
-            game.LoadGame("testmap.txt"); // bercinek így jó
+            game.LoadGame("slipstick/testmap.txt");
+            //game.LoadGame("testmap.txt"); // bercinek így jó
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
