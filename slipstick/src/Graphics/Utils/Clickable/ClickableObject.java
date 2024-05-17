@@ -9,6 +9,7 @@ public abstract class ClickableObject {
     protected final Vector2 position;
     protected final Vector2 centerPosition;
     protected final int size;
+    protected boolean canBeClicked = true;
 
     public ClickableObject(Vector2 centerPosition) {
         this.size = 25;
@@ -48,5 +49,9 @@ public abstract class ClickableObject {
     /**
      * Defines what happens when clicked on this Clickable object.
      */
-    public abstract void Click();
+    public void Click() {
+        if (canBeClicked) click();
+    }
+
+    protected abstract void click();
 }

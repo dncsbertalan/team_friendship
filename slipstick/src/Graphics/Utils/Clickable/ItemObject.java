@@ -9,17 +9,18 @@ public class ItemObject extends ClickableObject {
     /**
      * The item this item object represents.
      */
-    private Item item;
+    private final Item item;
 
-    public ItemObject(Vector2 centerPosition, Item item) {
+    public ItemObject(Vector2 centerPosition, Item item, boolean canBeClicked) {
         super(centerPosition);
         this.item = item;
+        this.canBeClicked = canBeClicked;
     }
 
     public Item GetItem() { return item; }
 
     @Override
-    public void Click() {
+    protected void click() {
         gameController.SetSelectedItem(this);
     }
 }
