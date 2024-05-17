@@ -110,6 +110,10 @@ public class GameWindowPanel extends JPanel {
         super.paintComponent(g);
         Graphics2D graphics2D = (Graphics2D) g;
 
+        if (game.IsPreGame()) {     // If the game is not loaded fully
+            return;
+        }
+
         ResetClickables();  // TODO ezt maybe nem itt
 
         Point point = MouseInfo.getPointerInfo().getLocation();
@@ -144,8 +148,21 @@ public class GameWindowPanel extends JPanel {
 
         Room curRoom = active.GetCurrentRoom();
 
-        RoomObject roomObject = new RoomObject(this, Vector2.Mult(windowSize, 0.5f), curRoom);
+        RoomObject roomObject = new RoomObject(this, Vector2.Mult(windowSize, 0.5f), curRoom, true);
         roomObject.Draw(graphics2D);
+
+        float angle = 360f / Math.max(curRoom.GetNeighbours().size(), GameConstants.GamePanel_ROOM_MIN_SIDES);
+        int dist = (int) ((float) GameConstants.GamePanel_ROOM_SIZE * Math.cos(Math.toRadians(angle / 2.0)));
+        Vector2 neighbourDistanceFromCenter = new Vector2(0, -dist - 300);
+        neighbourDistanceFromCenter.RotateBy(angle / 2f);
+        int drawnRoom = 0;
+        Vector2 centerPos = Vector2.Mult(windowSize, 0.5f);
+
+        for (Room neighbour : curRoom.GetNeighbours()) {
+            Vector2 pos = Vector2.Add(centerPos, Vector2.RotateBy(neighbourDistanceFromCenter,drawnRoom++ * angle));
+            RoomObject ro = new RoomObject(this, pos, neighbour, false);
+            ro.Draw(graphics2D);
+        }
     }
 
     /**

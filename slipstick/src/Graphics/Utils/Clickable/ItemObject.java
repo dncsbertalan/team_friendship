@@ -12,9 +12,8 @@ public class ItemObject extends ClickableObject {
     private final Item item;
 
     public ItemObject(Vector2 centerPosition, Item item, boolean canBeClicked) {
-        super(centerPosition);
+        super(centerPosition, canBeClicked);
         this.item = item;
-        this.canBeClicked = canBeClicked;
     }
 
     public Item GetItem() { return item; }

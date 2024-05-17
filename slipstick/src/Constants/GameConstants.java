@@ -119,6 +119,7 @@ public class GameConstants {
     // Room parameters
     public static final int GamePanel_ROOM_SIZE = 250;
     public static final int GamePanel_ROOM_MIN_SIDES = 3;
+    public static final int GamePanel_SMALL_ROOM_SIZE = 150;
 
     // Screen messages
     public static final int GamePanel_MAX_SCREEN_MESSAGES = 5;

@@ -51,7 +51,6 @@ public class Game {
      */
     private final List<Professor> professors;
     private final List<Janitor> janitors;
-    //private final GameController controller;
     public static Random random;
     boolean pregame = true;
     private boolean isRandom;
@@ -67,8 +66,6 @@ public class Game {
         this.janitors = new ArrayList<>();
         this.roundManager = new RoundManager(this);
         this.map = new Map(this);
-        //controller = new GameController();
-        //controller.StartGame(this);
     }
 
     /**

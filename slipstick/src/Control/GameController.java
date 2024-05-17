@@ -40,6 +40,9 @@ public class GameController {
 
             if (delta >= 1) {
 
+                if (game.IsPreGame()) {     // If the game is not initialized yet
+                    // TODO: ez szükséges-e
+                }
                 HandleInput();
                 game.GameLogic();
                 gamePanel.UpdateScreenMessages();

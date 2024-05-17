@@ -9,12 +9,13 @@ public abstract class ClickableObject {
     protected final Vector2 position;
     protected final Vector2 centerPosition;
     protected final int size;
-    protected boolean canBeClicked = true;
+    protected boolean canBeClicked;
 
-    public ClickableObject(Vector2 centerPosition) {
+    public ClickableObject(Vector2 centerPosition, boolean canBeClicked) {
         this.size = 25;
         this.centerPosition = centerPosition;
         this.position = new Vector2(centerPosition.x - this.size  / 2, centerPosition.y - this.size / 2);
+        this.canBeClicked = canBeClicked;
     }
 
     /**
@@ -25,7 +26,7 @@ public abstract class ClickableObject {
     public void Draw(Graphics2D graphics2D, Vector2 mousePos) {
         boolean inside = IsInside(mousePos);
         // TODO INSIDE NEM ITT HANEM MÁSHOL CHECK?
-        if (inside) {
+        if (canBeClicked && inside) {
             graphics2D.setColor(Color.yellow);
             graphics2D.fillRect(this.position.x - 2, this.position.y - 2, this.size + 4, this.size + 4);
         }

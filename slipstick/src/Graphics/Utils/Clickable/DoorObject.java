@@ -9,8 +9,8 @@ public class DoorObject extends ClickableObject {
 
     private Room roomToGo;
 
-    public DoorObject(Vector2 centerPosition, Room roomToGo) {
-        super(centerPosition);
+    public DoorObject(Vector2 centerPosition, Room roomToGo, boolean canBeClicked) {
+        super(centerPosition, canBeClicked);
         this.roomToGo = roomToGo;
     }
 
