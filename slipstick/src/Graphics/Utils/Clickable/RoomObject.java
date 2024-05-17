@@ -127,7 +127,7 @@ public class RoomObject {
         File file;
         BufferedImage image;
         try {
-            file = new File(GameConstants.WALL_BG_TEMP_BERCI);
+            file = new File(GameConstants.WALL_BG_TEMP);
             image = ImageIO.read(file);
         } catch (IOException e) {
             throw new RuntimeException(e);
