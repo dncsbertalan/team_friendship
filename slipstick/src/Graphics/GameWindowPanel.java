@@ -347,8 +347,8 @@ public class GameWindowPanel extends JPanel {
      */
     private void DrawItemInformationTable (Graphics2D graphics2D){
 
-        int infoPanelWidth = 300;
-        int infoPanelHeight = 550;
+        int infoPanelWidth = (int) (windowSize.x * 0.15);
+        int infoPanelHeight = (int) (windowSize.x * 0.25);
 
         int x_coordinate_16_percent = (int) (windowSize.x * 0.165);
         int y_coordinate_79_percent = (int) (windowSize.y * 0.79);
