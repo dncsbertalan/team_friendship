@@ -181,10 +181,10 @@ public class GameConstants {
     public static final Color GamePanel_ITEM_INFORMATION_BORDER_COLOR = new Color(115,85,90,255);
     public static final Color GamePanel_ITEM_INFORMATION_FILL_COLOR = new Color(255, 255, 255, 186);
 
-    public static final String GamePanel_ROOM_ITEM_TEXT_1 = "Selected item from";
-    public static final String GamePanel_ROOM_ITEM_TEXT_2 = "room:";
-    public static final String GamePanel_INVENTORY_ITEM_TEXT_1 = "Selected item from";
-    public static final String GamePanel_INVENTORY_ITEM_TEXT_2 = "inventory:";
+    public static final String GamePanel_ROOM_ITEM_TEXT_1 = "Selected item";
+    public static final String GamePanel_ROOM_ITEM_TEXT_2 = "from room:";
+    public static final String GamePanel_INVENTORY_ITEM_TEXT_1 = "Selected item";
+    public static final String GamePanel_INVENTORY_ITEM_TEXT_2 = "from inventory:";
 
 // endregion
 }

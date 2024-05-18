@@ -384,7 +384,7 @@ public class GameWindowPanel extends JPanel {
 
         graphics2D.drawString(GameConstants.GamePanel_ROOM_ITEM_TEXT_2, x_second_text_coord, (y_second_text_coord + 1 * textHeight));
 
-        graphics2D.setFont(new Font("Courier New", Font.BOLD, 20));
+        graphics2D.setFont(new Font("Courier New", Font.BOLD, 17));
 
         DrawItemInformation1(graphics2D, textHeight, x_first_text_coord, y_first_text_coord);
         DrawItemInformation2(graphics2D, textHeight, x_second_text_coord, y_second_text_coord);
