@@ -104,12 +104,27 @@ public class GameController {
     public void HandleInput(Student student,char input) {
 
         switch (input) {
+            case '1':
+                student.SelectInventorySlot(1);
+                break;
+            case '2':
+                student.SelectInventorySlot(2);
+                break;
+            case '3':
+                student.SelectInventorySlot(3);
+                break;
+            case '4':
+                student.SelectInventorySlot(4);
+                break;
             case 'd':
-                student.DropSelectedItem();
+                if(student.GetSelectedItem() != null ) {
+                    NewScreenMessage(270, "Dropped " + student.GetSelectedItem());
+                    student.DropSelectedItem();
+                }
                 break;
             case 'p':
                 Item transistor1 = selectedItem;
-                if (transistor1.getClass() == Items.Transistor.class) {
+                if (selectedItem!=null && transistor1.getClass() == Items.Transistor.class) {
                     for (Item transistor2 : student.GetInventory()) {
                         if (transistor2 != transistor1 && transistor2.getClass() == Items.Transistor.class) {
                             student.PairTransistors((Transistor) transistor1, (Transistor) transistor2);
@@ -118,16 +133,21 @@ public class GameController {
                 }
                 break;
             case 'u':
-                student.UseSelectedItem();
+                if(selectedItem!=null) {
+                    student.UseSelectedItem();
+                }
                 break;
             case 'a':
-                student.ActivateItem(selectedItem);
+                if(selectedItem!=null) {
+                    student.ActivateItem(selectedItem);
+                }
                 break;
             case 'e':
                 roundManager.EndTurn();
                 isFirstMove = true;
                 return;
             case 'c':
+                //TODO ITEMS IN ROOM
                 student.PickUpItem(selectedItem);
                 break;
         }
