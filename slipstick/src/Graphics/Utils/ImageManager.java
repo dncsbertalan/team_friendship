@@ -68,8 +68,17 @@ public class ImageManager {
     /**
      * Loads the game images.
      */
-    public void LoadImages() {
+    public void LoadGameImages() {
 
         loadImageAs(GameConstants.IMAGE_WALL_TMP, GameConstants.IMAGE_WALL_TMP_FILEPATH);
+
+        loadImageAs(GameConstants.IMAGE_AIR_FRESHENER, GameConstants.IMAGE_AIR_FRESHENER_FILEPATH);
+        loadImageAs(GameConstants.IMAGE_BEER, GameConstants.IMAGE_BEER_FILEPATH);
+        loadImageAs(GameConstants.IMAGE_CHEESE, GameConstants.IMAGE_CHEESE_FILEPATH);
+        loadImageAs(GameConstants.IMAGE_WET_CLOTH, GameConstants.IMAGE_WALL_TMP_FILEPATH);
+        loadImageAs(GameConstants.IMAGE_FFP2_MASK, GameConstants.IMAGE_FFP2_MASK_FILEPATH);
+        loadImageAs(GameConstants.IMAGE_SLIPSTICK, GameConstants.IMAGE_SLIPSTICK_FILEPATH);
+        loadImageAs(GameConstants.IMAGE_TRANSISTOR, GameConstants.IMAGE_TRANSISTOR_FILEPATH);
+        loadImageAs(GameConstants.IMAGE_TVSZ, GameConstants.IMAGE_TVSZ_FILEPATH);
     }
 }

@@ -142,7 +142,7 @@ public class GameConstants {
     public static final String IMAGE_LOGO = "logo";
     public static final String IMAGE_WALL_TMP = "room_bg";
 
-    // items
+    // Items
     public static final String IMAGE_AIR_FRESHENER = "air_freshener";
     public static final String IMAGE_BEER = "beer";
     public static final String IMAGE_CHEESE = "cheese";
@@ -152,15 +152,15 @@ public class GameConstants {
     public static final String IMAGE_TRANSISTOR = "transistor";
     public static final String IMAGE_TVSZ = "tvsz";
 
-    // TODO !!!
-    public static final String IMAGE_AIR_FRESHENER_FILEPATH = "slipstick/rsc/items/.png";
-    public static final String IMAGE_BEER_FILEPATH = "slipstick/rsc/items/.png";
-    public static final String IMAGE_CHEESE_FILEPATH = "slipstick/rsc/items/.png";
-    public static final String IMAGE_WET_CLOTH_FILEPATH = "slipstick/rsc/items/.png";
-    public static final String IMAGE_FFP2_MASK_FILEPATH = "slipstick/rsc/items/.png";
-    public static final String IMAGE_SLIPSTICK_FILEPATH = "slipstick/rsc/items/.png";
-    public static final String IMAGE_TRANSISTOR_FILEPATH = "slipstick/rsc/items/.png";
-    public static final String IMAGE_TVSZ_FILEPATH = "slipstick/rsc/items/.png";
+    // Item paths
+    public static final String IMAGE_AIR_FRESHENER_FILEPATH = "slipstick/rsc/items/AirFreshener.png";
+    public static final String IMAGE_BEER_FILEPATH = "slipstick/rsc/items/Beer.png";
+    public static final String IMAGE_CHEESE_FILEPATH = "slipstick/rsc/items/Cheese.png";
+    public static final String IMAGE_WET_CLOTH_FILEPATH = "slipstick/rsc/items/Cloth.png";
+    public static final String IMAGE_FFP2_MASK_FILEPATH = "slipstick/rsc/items/Mask.png";
+    public static final String IMAGE_SLIPSTICK_FILEPATH = "slipstick/rsc/items/Slipstick.png";
+    public static final String IMAGE_TRANSISTOR_FILEPATH = "slipstick/rsc/items/Transistor.png";
+    public static final String IMAGE_TVSZ_FILEPATH = "slipstick/rsc/items/TVSZ.png";
 
 // endregion
 

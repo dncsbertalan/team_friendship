@@ -5,18 +5,13 @@ import Entities.IAI;
 import Entities.Student;
 import GameManagers.RoundManager;
 import Graphics.GameWindowPanel;
-import Graphics.Utils.Clickable.ItemObject;
 import Graphics.Utils.ScreenMessage;
 import Items.Item;
 import Items.Transistor;
 import Labyrinth.Room;
 
 import java.awt.*;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.Random;
-import java.util.Scanner;
 
 import static Runnable.Main.*;
 
@@ -41,7 +36,8 @@ public class GameController {
         long currentTime;
         long timer = 0;
 
-        //long ellapsedTime = 0;
+        long ellapsedTime = 0;
+        long drawtime = 0;
 
         while (isRunning) {
 
@@ -53,18 +49,17 @@ public class GameController {
 
             if (delta >= 1) {
 
-                if (game.IsPreGame()) {     // If the game is not initialized yet
-                    // TODO: ez szükséges-e
+                if (!game.IsPreGame()) {     // If the game is not initialized yet
+                    GameLogic();
+                    gamePanel.UpdateScreenMessages();
                 }
-                HandleInput(roundManager.GetActiveStudent());
-                GameLogic();
-                gamePanel.UpdateScreenMessages();
-                //long t1 = System.currentTimeMillis();
+                long t1 = System.currentTimeMillis();
                 //long t1 = System.nanoTime();
                 gamePanel.repaint();
-                //long t2 = System.currentTimeMillis();
+                long t2 = System.currentTimeMillis();
                 //long t2 = System.nanoTime();
-                //long dt = t2 - t1;
+                long dt = t2 - t1;
+                drawtime += dt;
                 //System.out.println(dt + " ns");
                 //System.out.println(dt + " ms");
 
@@ -74,6 +69,8 @@ public class GameController {
             if (timer >= 1_000_000_000) {
                 timer = 0;
                 //System.out.println(++ellapsedTime);
+                NewScreenMessage(1, Color.GREEN, "Avarage draw time: " + drawtime / 60 + " ms");
+                drawtime = 0;
             }
 
         }
@@ -93,7 +90,7 @@ public class GameController {
         gameThread = new Thread(this::MainGameLoop);
         isRunning = true;
         gameThread.start();
-        imageManager.LoadImages();
+        imageManager.LoadGameImages();
         soundManager.LoadGameSounds();
         game.SetPreGame();
     }
@@ -102,41 +99,58 @@ public class GameController {
         isRunning = false;
     }
 
-    private void HandleInput(Student student) {
-        /*Scanner scanner = new Scanner(System.in);
-        // Start the loop
-        while (true) {
-            NewScreenMessage(270,"Its your turn " + student.GetName());
-            String input = scanner.nextLine();
-            switch (input) {
-                case "D":
+    public void HandleInput(Student student,char input) {
+
+        switch (input) {
+            case '1':
+                student.SelectInventorySlot(1);
+                break;
+            case '2':
+                student.SelectInventorySlot(2);
+                break;
+            case '3':
+                student.SelectInventorySlot(3);
+                break;
+            case '4':
+                student.SelectInventorySlot(4);
+                break;
+            case 'd':
+                if(student.GetSelectedItem() != null ) {
+                    NewScreenMessage(270, "Dropped " + student.GetSelectedItem());
                     student.DropSelectedItem();
-                    break;
-                case "P":
-                    Item transistor1 = selectedItem;
-                    if(transistor1.getClass() == Items.Transistor.class) {
-                        for(Item transistor2 : student.GetInventory())
-                        {
-                            if(transistor2!=transistor1 && transistor2.getClass() == Items.Transistor.class){
-                                student.PairTransistors((Transistor) transistor1, (Transistor) transistor2);
-                            }
+                }
+                break;
+            case 'p':
+                Item transistor1 = selectedItem;
+                if (selectedItem!=null && transistor1.getClass() == Items.Transistor.class) {
+                    for (Item transistor2 : student.GetInventory()) {
+                        if (transistor2 != transistor1 && transistor2.getClass() == Items.Transistor.class) {
+                            student.PairTransistors((Transistor) transistor1, (Transistor) transistor2);
                         }
                     }
-                    break;
-                case "U":
+                }
+                break;
+            case 'u':
+                if(selectedItem!=null) {
                     student.UseSelectedItem();
-                    break;
-                case "A":
+                }
+                break;
+            case 'a':
+                if(selectedItem!=null) {
                     student.ActivateItem(selectedItem);
-                    break;
-                case "E":
-                    roundManager.EndTurn();
-                    isFirstMove = true;
-                    return;
-                case"C":
-                    student.PickUpItem(selectedItem);
-            }
-        }*/
+                }
+                break;
+            case 'e':
+                roundManager.EndTurn();
+                isFirstMove = true;
+                return;
+            case 'c':
+                //TODO ITEMS IN ROOM
+                student.PickUpItem(selectedItem);
+                break;
+        }
+
+
     }
 
     /**
@@ -160,7 +174,7 @@ public class GameController {
      * Creates a new {@link ScreenMessage} and adds it the screen messages list.
      * <p>If the number of messages exceeds the {@link GameConstants#MAX_SCREEN_MESSAGES} the
      * oldest message gets deleted.</p>
-     * @param timeLeft  the time this message has left
+     * @param timeLeft  the time this message has left in seconds
      * @param message   the message
      */
     public void NewScreenMessage(int timeLeft, String message) {
@@ -171,7 +185,7 @@ public class GameController {
      * Creates a new {@link ScreenMessage} and adds it the screen messages list.
      * <p>If the number of messages exceeds the {@link GameConstants#MAX_SCREEN_MESSAGES} the
      * oldest message gets deleted.</p>
-     * @param timeLeft  the time this message has left
+     * @param timeLeft  the time this message has left in seconds
      * @param color     the color of the message
      * @param message   the message
      */
@@ -199,7 +213,7 @@ public class GameController {
 
 //region Game logic ====================================================================================================
 
-    public void GameLogic() {
+    private void GameLogic() {
 
         Student activeStudent = roundManager.GetActiveStudent();
         IAI activeAIEntity = roundManager.GetActiveAIEntity();
@@ -212,12 +226,11 @@ public class GameController {
     private void HandleStudent(Student student) {
         if (student == null) return;
         if(student.IsDead()) {
-            NewScreenMessage(240, Color.RED,"Student " + student.GetName() + " is dead.");
+            NewScreenMessage(4, Color.RED,"Student " + student.GetName() + " is dead.");
             roundManager.EndTurn();
             isFirstMove = true;
         }
 
-        HandleInput(student);
     }
 
     private void HandleAIEntities(IAI entities) {
