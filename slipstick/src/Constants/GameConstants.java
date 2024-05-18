@@ -142,6 +142,26 @@ public class GameConstants {
     public static final String IMAGE_LOGO = "logo";
     public static final String IMAGE_WALL_TMP = "room_bg";
 
+    // items
+    public static final String IMAGE_AIR_FRESHENER = "air_freshener";
+    public static final String IMAGE_BEER = "beer";
+    public static final String IMAGE_CHEESE = "cheese";
+    public static final String IMAGE_WET_CLOTH = "cloth";
+    public static final String IMAGE_FFP2_MASK = "mask";
+    public static final String IMAGE_SLIPSTICK = "slipstick";
+    public static final String IMAGE_TRANSISTOR = "transistor";
+    public static final String IMAGE_TVSZ = "tvsz";
+
+    // TODO !!!
+    public static final String IMAGE_AIR_FRESHENER_FILEPATH = "slipstick/rsc/items/.png";
+    public static final String IMAGE_BEER_FILEPATH = "slipstick/rsc/items/.png";
+    public static final String IMAGE_CHEESE_FILEPATH = "slipstick/rsc/items/.png";
+    public static final String IMAGE_WET_CLOTH_FILEPATH = "slipstick/rsc/items/.png";
+    public static final String IMAGE_FFP2_MASK_FILEPATH = "slipstick/rsc/items/.png";
+    public static final String IMAGE_SLIPSTICK_FILEPATH = "slipstick/rsc/items/.png";
+    public static final String IMAGE_TRANSISTOR_FILEPATH = "slipstick/rsc/items/.png";
+    public static final String IMAGE_TVSZ_FILEPATH = "slipstick/rsc/items/.png";
+
 // endregion
 
 // region SOUNDS =======================================================================================================
