@@ -38,7 +38,6 @@ public class GameWindowPanel extends JPanel {
         gameWindowFrame = frame;
         windowSize = new Vector2(frame.getWidth(), frame.getHeight());
 
-        // ez kurvára ideiglenes // TODO change this bitches
         this.setBackground(Color.lightGray);
         this.setPreferredSize(new Dimension(GameConstants.GamePanel_WIDTH, GameConstants.GamePanel_HEIGHT));
         /*int width = GameConstants.GamePanel_WIDTH;
@@ -62,11 +61,12 @@ public class GameWindowPanel extends JPanel {
         }*/
 
         // Panel init
+        this.setDoubleBuffered(true);
+
         GameWindowMouseListener mouseListener = new GameWindowMouseListener(this);
         this.addMouseListener(mouseListener);
         GameWindowMouseWheelListener mouseWheelListener = new GameWindowMouseWheelListener();
         this.addMouseWheelListener(mouseWheelListener);
-        this.setDoubleBuffered(true);
 
         // Add the KeyListener
         KeyListener keyListener = new KeyListener() {
@@ -89,7 +89,7 @@ public class GameWindowPanel extends JPanel {
             }
         };
         this.addKeyListener(keyListener);
-        // TODO temp or maybe good (?) xd
+
         this.setLayout(null);
         MenuButton menuButton = new MenuButton(
                 GameConstants.GamePanel_EXIT_BUTTON,
@@ -141,12 +141,12 @@ public class GameWindowPanel extends JPanel {
             return;
         }
 
-        if (game.IsEnded()) {      // If th game ended with
+        if (game.IsEnded()) {      // If th game ended
             DrawEndScreen(graphics2D);
             return;
         }
 
-        ResetClickables();  // TODO ezt maybe nem itt
+        ResetClickables();
 
         Point point = MouseInfo.getPointerInfo().getLocation();
         SwingUtilities.convertPointFromScreen(point, this);
@@ -169,6 +169,57 @@ public class GameWindowPanel extends JPanel {
 //endregion
 
 // region DRAW =========================================================================================================
+
+    /**
+     * Draws the item to the screen.
+     * @param graphics2D    graphics2D instance
+     * @param item          the item to be drawn
+     * @param center        the center position of the item
+     * @param scale         the scale of the item's image
+     */
+    public static void DrawItem(final Graphics2D graphics2D, final Item item, final Vector2 center, final float scale) {
+
+        BufferedImage image;
+
+        if (item instanceof AirFreshener) {
+            //image = imageManager.resizeImage(GameConstants.IMAGE_AIR_FRESHENER, scale);
+            image = imageManager.GetImage(GameConstants.IMAGE_AIR_FRESHENER);
+        }
+        else if (item instanceof Beer) {
+            //image = imageManager.resizeImage(GameConstants.IMAGE_BEER, scale);
+            image = imageManager.GetImage(GameConstants.IMAGE_BEER);
+        }
+        else if (item instanceof Cheese) {
+            //image = imageManager.resizeImage(GameConstants.IMAGE_CHEESE, scale);
+            image = imageManager.GetImage(GameConstants.IMAGE_CHEESE);
+        }
+        else if (item instanceof FFP2Mask) {
+            //image = imageManager.resizeImage(GameConstants.IMAGE_FFP2_MASK, scale);
+            image = imageManager.GetImage(GameConstants.IMAGE_FFP2_MASK);
+        }
+        else if (item instanceof SlipStick) {
+            //image = imageManager.resizeImage(GameConstants.IMAGE_SLIPSTICK, scale);
+            image = imageManager.GetImage(GameConstants.IMAGE_SLIPSTICK);
+        }
+        else if (item instanceof Transistor) {
+            //image = imageManager.resizeImage(GameConstants.IMAGE_TRANSISTOR, scale);
+            image = imageManager.GetImage(GameConstants.IMAGE_TRANSISTOR);
+        }
+        else if (item instanceof TVSZ) {
+            //image = imageManager.resizeImage(GameConstants.IMAGE_TVSZ, scale);
+            image = imageManager.GetImage(GameConstants.IMAGE_TVSZ);
+        }
+        else if (item instanceof WetCloth) {
+            //image = imageManager.resizeImage(GameConstants.IMAGE_WET_CLOTH, scale);
+            image = imageManager.GetImage(GameConstants.IMAGE_WET_CLOTH);
+        }
+        else {  // FAKE ITEM
+            //image = imageManager.resizeImage("temp", scale);
+            image = imageManager.GetImage("temp");
+        }
+
+        graphics2D.drawImage(image, center.x - image.getWidth() / 2, center.y - image.getHeight() / 2, null);
+    }
 
     /**
      * Draws the currently active student's room.
@@ -205,26 +256,29 @@ public class GameWindowPanel extends JPanel {
      */
     private void DrawInventory(Graphics2D graphics2D) {
 
-        // TODO EZ SZAR XD
-        Student active = game.GetRoundManager().GetActiveStudent();
+        final Student active = game.GetRoundManager().GetActiveStudent();
         if (active == null) return;
 
-        int numberOfStudentsItems = active.GetInventory().size();
-        int selectedSlot = active.GetSelectedInventorySlot();
-        int invRectSize = 50;
-        int selectedRectSize = 54;
+        final int numberOfStudentsItems = active.GetInventory().size();
+        final int selectedSlot = active.GetSelectedInventorySlot();
+        final int invRectSize = 50;
+        final int selectedRectSize = 54;
+        final int arc = 10;
+
         for (int i = 0; i < 5; i++) {
             Vector2 pos = GameConstants.GamePanel_INVENTORY_POS();
             pos.AddX(i * (50 + 10));
             if (i == selectedSlot) {
                 graphics2D.setColor(Color.yellow);
-                graphics2D.fillRect(pos.x - 2, pos.y - 2, selectedRectSize, selectedRectSize);
+                graphics2D.fillRoundRect(pos.x - 2, pos.y - 2, selectedRectSize, selectedRectSize, arc, arc);
             }
             graphics2D.setColor(Color.black);
-            graphics2D.fillRect(pos.x, pos.y, invRectSize, invRectSize);
+            graphics2D.fillRoundRect(pos.x, pos.y, invRectSize, invRectSize, arc, arc);
 
             if(i < numberOfStudentsItems){
-                graphics2D.setColor(new Color(205, 48, 245));
+                Item item = active.GetInventory().get(i);
+                DrawItem(graphics2D, item, Vector2.Add(pos, new Vector2(invRectSize / 2, invRectSize / 2)), 1f);
+                /*graphics2D.setColor(new Color(205, 48, 245));
 
                 if(i == selectedSlot){
                     graphics2D.fillRect(pos.x + selectedRectSize/4, pos.y + selectedRectSize/4, selectedRectSize / 2, selectedRectSize / 2);
@@ -232,7 +286,7 @@ public class GameWindowPanel extends JPanel {
                 } else {
                     graphics2D.fillRect(pos.x + (int)invRectSize/3, pos.y + (int)invRectSize/3, (int) invRectSize / 3, (int) invRectSize / 3);
 
-                }
+                }*/
             }
 
         }
@@ -264,7 +318,7 @@ public class GameWindowPanel extends JPanel {
         Font font = new Font("Times New Roman", Font.BOLD, 20);
         graphics2D.setFont(font);
 
-        ArrayList<Entity> entities = new ArrayList<>(game.GetStudents()); // TODO IDK HOGY KELL E MINDEN ENTITÁS
+        ArrayList<Entity> entities = new ArrayList<>(game.GetStudents());
         for (Entity entity : entities) {
 
             Student entityCastAsStudent = (Student) entity;

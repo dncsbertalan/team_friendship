@@ -58,7 +58,7 @@ public class MenuWindowFrame extends JFrame {
     }
 
     /**
-     * Sets the second menu panel visible and the fisrt invisible.
+     * Sets the second menu panel visible and the first invisible.
      */
     public void SetMenuPanel2Visible() {
         this.remove(menuWindowPanel1);

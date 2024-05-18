@@ -5,18 +5,13 @@ import Entities.IAI;
 import Entities.Student;
 import GameManagers.RoundManager;
 import Graphics.GameWindowPanel;
-import Graphics.Utils.Clickable.ItemObject;
 import Graphics.Utils.ScreenMessage;
 import Items.Item;
 import Items.Transistor;
 import Labyrinth.Room;
 
 import java.awt.*;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.Random;
-import java.util.Scanner;
 
 import static Runnable.Main.*;
 
@@ -41,7 +36,8 @@ public class GameController {
         long currentTime;
         long timer = 0;
 
-        //long ellapsedTime = 0;
+        long ellapsedTime = 0;
+        long drawtime = 0;
 
         while (isRunning) {
 
@@ -53,17 +49,17 @@ public class GameController {
 
             if (delta >= 1) {
 
-                if (game.IsPreGame()) {     // If the game is not initialized yet
-                    // TODO: ez szükséges-e
+                if (!game.IsPreGame()) {     // If the game is not initialized yet
+                    GameLogic();
+                    gamePanel.UpdateScreenMessages();
                 }
-                GameLogic();
-                gamePanel.UpdateScreenMessages();
-                //long t1 = System.currentTimeMillis();
+                long t1 = System.currentTimeMillis();
                 //long t1 = System.nanoTime();
                 gamePanel.repaint();
-                //long t2 = System.currentTimeMillis();
+                long t2 = System.currentTimeMillis();
                 //long t2 = System.nanoTime();
-                //long dt = t2 - t1;
+                long dt = t2 - t1;
+                drawtime += dt;
                 //System.out.println(dt + " ns");
                 //System.out.println(dt + " ms");
 
@@ -73,6 +69,8 @@ public class GameController {
             if (timer >= 1_000_000_000) {
                 timer = 0;
                 //System.out.println(++ellapsedTime);
+                NewScreenMessage(1, Color.GREEN, "Avarage draw time: " + drawtime / 60 + " ms");
+                drawtime = 0;
             }
 
         }
@@ -92,7 +90,7 @@ public class GameController {
         gameThread = new Thread(this::MainGameLoop);
         isRunning = true;
         gameThread.start();
-        imageManager.LoadImages();
+        imageManager.LoadGameImages();
         soundManager.LoadGameSounds();
         game.SetPreGame();
     }
@@ -156,7 +154,7 @@ public class GameController {
      * Creates a new {@link ScreenMessage} and adds it the screen messages list.
      * <p>If the number of messages exceeds the {@link GameConstants#MAX_SCREEN_MESSAGES} the
      * oldest message gets deleted.</p>
-     * @param timeLeft  the time this message has left
+     * @param timeLeft  the time this message has left in seconds
      * @param message   the message
      */
     public void NewScreenMessage(int timeLeft, String message) {
@@ -167,7 +165,7 @@ public class GameController {
      * Creates a new {@link ScreenMessage} and adds it the screen messages list.
      * <p>If the number of messages exceeds the {@link GameConstants#MAX_SCREEN_MESSAGES} the
      * oldest message gets deleted.</p>
-     * @param timeLeft  the time this message has left
+     * @param timeLeft  the time this message has left in seconds
      * @param color     the color of the message
      * @param message   the message
      */
@@ -195,7 +193,7 @@ public class GameController {
 
 //region Game logic ====================================================================================================
 
-    public void GameLogic() {
+    private void GameLogic() {
 
         Student activeStudent = roundManager.GetActiveStudent();
         IAI activeAIEntity = roundManager.GetActiveAIEntity();
@@ -208,7 +206,7 @@ public class GameController {
     private void HandleStudent(Student student) {
         if (student == null) return;
         if(student.IsDead()) {
-            NewScreenMessage(240, Color.RED,"Student " + student.GetName() + " is dead.");
+            NewScreenMessage(4, Color.RED,"Student " + student.GetName() + " is dead.");
             roundManager.EndTurn();
             isFirstMove = true;
         }

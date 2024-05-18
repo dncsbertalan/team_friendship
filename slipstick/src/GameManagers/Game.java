@@ -78,7 +78,6 @@ public class Game {
     public void InitPlayers(ArrayList<String> names) {
         for (String name : names) {
             students.add(new Student(this, name));
-            System.out.println("added " + name);
         }
         this.roundManager.Init();
         os.println("TODO: majd clear a lista ha van már lebirintus generálás, addig jó így");
