@@ -158,7 +158,7 @@ public class Student extends Entity{
         if (protectionItem == null) {   // HAS NO PROTECTION
             DropAllItems();
             isDead = true;
-            this.game.GetRoundManager().EndTurn();
+            //this.game.GetRoundManager().EndTurn();
             return;
         }
 

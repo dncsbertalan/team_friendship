@@ -7,6 +7,7 @@ import GameManagers.RoundManager;
 import Graphics.GameWindowPanel;
 import Graphics.Utils.Clickable.ItemObject;
 import Graphics.Utils.ScreenMessage;
+import Items.Item;
 import Labyrinth.Room;
 
 import java.awt.*;
@@ -19,7 +20,7 @@ public class GameController {
     private boolean isRunning;
     private GameWindowPanel gamePanel;
     private Thread gameThread;
-    private ItemObject selectedItem;
+    private Item selectedItem;
     private final RoundManager roundManager = game.GetRoundManager();
 
     /**
@@ -95,7 +96,7 @@ public class GameController {
         isRunning = false;
     }
 
-    private void HandleInput(){
+    private void HandleInput() {
 
     }
 

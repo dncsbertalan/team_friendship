@@ -36,9 +36,14 @@ public class RoundManager{
      * or it will throw {@link NullPointerException}.
      */
     public void Init() {
+        activeStudent = null;
+        activeAIEntity = null;
+        studentsLeftThisRound.clear();
+        aiEntities.clear();
+
         this.studentsLeftThisRound.addAll(this.game.GetStudents());
-        this.aiEntities.addAll(this.game.GetProfessors());  // TODO: takarító
-        this.aiEntities.addAll(this.game.GetJanitors());  // TODO: takarító
+        this.aiEntities.addAll(this.game.GetProfessors());
+        this.aiEntities.addAll(this.game.GetJanitors());
         activeStudent = this.studentsLeftThisRound.get(0);
     }
 
