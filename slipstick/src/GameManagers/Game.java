@@ -1,10 +1,13 @@
 package GameManagers;
 
+import Control.GameController;
 import Entities.*;
 import Items.*;
 import Labyrinth.*;
 import Constants.*;
 import Labyrinth.Map;
+
+import static Runnable.Main.gameController;
 import static Runnable.Main.os;
 
 import java.io.*;
@@ -383,6 +386,10 @@ public class Game {
             return professor;
         }
         return new Student(this, name);
+    }
+
+    public GameController GetGameController() {
+        return gameController;
     }
 //endregion
 

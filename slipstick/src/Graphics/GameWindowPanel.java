@@ -17,6 +17,8 @@ import Graphics.Utils.Vector2;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
@@ -66,6 +68,26 @@ public class GameWindowPanel extends JPanel {
         this.addMouseWheelListener(mouseWheelListener);
         this.setDoubleBuffered(true);
 
+        KeyListener keyListener = new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                gameController.HandleInput(game.GetRoundManager().GetActiveStudent(), e.getKeyChar());
+                System.out.println("ADFS");
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                gameController.HandleInput(game.GetRoundManager().GetActiveStudent(), e.getKeyChar());
+                System.out.println("ADFS");
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                gameController.HandleInput(game.GetRoundManager().GetActiveStudent(), e.getKeyChar());
+                System.out.println("ADFS");
+            }
+        };
+        this.addKeyListener(keyListener);
         // TODO temp or maybe good (?) xd
         this.setLayout(null);
         MenuButton menuButton = new MenuButton(

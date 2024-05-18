@@ -24,7 +24,7 @@ public class GameWindowFrame extends JFrame {
         this.setTitle(GameConstants.WindowTitle);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setVisible(true);
-
+        
         // Game panel init
         gameWindowPanel = new GameWindowPanel(this);
         this.add(gameWindowPanel);

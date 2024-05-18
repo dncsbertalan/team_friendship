@@ -56,7 +56,6 @@ public class GameController {
                 if (game.IsPreGame()) {     // If the game is not initialized yet
                     // TODO: ez szükséges-e
                 }
-                HandleInput(roundManager.GetActiveStudent());
                 GameLogic();
                 gamePanel.UpdateScreenMessages();
                 //long t1 = System.currentTimeMillis();
@@ -102,41 +101,38 @@ public class GameController {
         isRunning = false;
     }
 
-    private void HandleInput(Student student) {
-        /*Scanner scanner = new Scanner(System.in);
-        // Start the loop
-        while (true) {
-            NewScreenMessage(270,"Its your turn " + student.GetName());
-            String input = scanner.nextLine();
-            switch (input) {
-                case "D":
-                    student.DropSelectedItem();
-                    break;
-                case "P":
-                    Item transistor1 = selectedItem;
-                    if(transistor1.getClass() == Items.Transistor.class) {
-                        for(Item transistor2 : student.GetInventory())
-                        {
-                            if(transistor2!=transistor1 && transistor2.getClass() == Items.Transistor.class){
-                                student.PairTransistors((Transistor) transistor1, (Transistor) transistor2);
-                            }
+    public void HandleInput(Student student,char input) {
+
+        switch (input) {
+            case 'd':
+                student.DropSelectedItem();
+                break;
+            case 'p':
+                Item transistor1 = selectedItem;
+                if (transistor1.getClass() == Items.Transistor.class) {
+                    for (Item transistor2 : student.GetInventory()) {
+                        if (transistor2 != transistor1 && transistor2.getClass() == Items.Transistor.class) {
+                            student.PairTransistors((Transistor) transistor1, (Transistor) transistor2);
                         }
                     }
-                    break;
-                case "U":
-                    student.UseSelectedItem();
-                    break;
-                case "A":
-                    student.ActivateItem(selectedItem);
-                    break;
-                case "E":
-                    roundManager.EndTurn();
-                    isFirstMove = true;
-                    return;
-                case"C":
-                    student.PickUpItem(selectedItem);
-            }
-        }*/
+                }
+                break;
+            case 'u':
+                student.UseSelectedItem();
+                break;
+            case 'a':
+                student.ActivateItem(selectedItem);
+                break;
+            case 'e':
+                roundManager.EndTurn();
+                isFirstMove = true;
+                return;
+            case 'c':
+                student.PickUpItem(selectedItem);
+                break;
+        }
+
+
     }
 
     /**
@@ -217,7 +213,6 @@ public class GameController {
             isFirstMove = true;
         }
 
-        HandleInput(student);
     }
 
     private void HandleAIEntities(IAI entities) {
