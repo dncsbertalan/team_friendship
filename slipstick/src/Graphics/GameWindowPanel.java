@@ -68,23 +68,24 @@ public class GameWindowPanel extends JPanel {
         this.addMouseWheelListener(mouseWheelListener);
         this.setDoubleBuffered(true);
 
+        // Add the KeyListener
         KeyListener keyListener = new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
                 gameController.HandleInput(game.GetRoundManager().GetActiveStudent(), e.getKeyChar());
-                System.out.println("ADFS");
+                System.out.println("Key typed: " + e.getKeyChar());
             }
 
             @Override
             public void keyPressed(KeyEvent e) {
+                // Handle keyPressed if needed
                 gameController.HandleInput(game.GetRoundManager().GetActiveStudent(), e.getKeyChar());
-                System.out.println("ADFS");
+                System.out.println("Key pressed: " + e.getKeyChar());
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
-                gameController.HandleInput(game.GetRoundManager().GetActiveStudent(), e.getKeyChar());
-                System.out.println("ADFS");
+                // Handle keyReleased if needed
             }
         };
         this.addKeyListener(keyListener);
@@ -132,6 +133,7 @@ public class GameWindowPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        requestFocusInWindow();
         Graphics2D graphics2D = (Graphics2D) g;
 
         if (game.IsPreGame()) {     // If the game is not loaded fully
