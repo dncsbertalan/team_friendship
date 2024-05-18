@@ -4,8 +4,11 @@ import Constants.GameConstants;
 import GameManagers.Commands.Commands;
 import GameManagers.Game;
 import Labyrinth.Room;
+
+import static Runnable.Main.gameController;
 import static Runnable.Main.os;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,8 +45,31 @@ public class Janitor extends Entity implements IAI {
         room.SetRoomAsCleaned();
     }
 
+    /**
+     * The function is responsible for moving the janitor and ending the janitors turn.
+     */
     @Override
     public void AI() {
+
+        Room stepFromThis = this.GetCurrentRoom();
+        Room stepIntoThis = null;
+        for(Room roomIter : this.GetCurrentRoom().GetNeighbours()){
+            if(roomIter.CanStepIn() == true){
+                stepIntoThis = roomIter;
+                break;
+            }
+        }
+
+        if(stepIntoThis == null){
+            return;
+        }
+
+        this.StepInto(stepIntoThis);
+
+        String message = this.GetName() + " went from " + stepFromThis.GetName() + " to " + stepIntoThis.GetName();
+        gameController.NewScreenMessage(60, new Color(98, 9, 119), message);
+
+        return;
 
     }
     /**
@@ -123,7 +149,7 @@ public class Janitor extends Entity implements IAI {
                     neighboursOfRoom = neighboursOfRoom_;
                 }
             }
-        } while(!professorsOfRoom.isEmpty()); // TODO: ! FIXED IT BUT THE TEST IS STILL WRONG :(
+        } while(!professorsOfRoom.isEmpty());
 
     }
 }
