@@ -6,6 +6,7 @@ import GameManagers.Game;
 import GameManagers.Menu;
 import Graphics.MenuWindowFrame;
 import Graphics.SoundManager;
+import Graphics.Utils.ImageManager;
 
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
@@ -17,6 +18,7 @@ public class Main {
     public static final Game game = new Game();
     public static final Menu menu = new Menu();
     public static final GameController gameController = new GameController();
+    public static final ImageManager imageManager = new ImageManager();
     public static final SoundManager soundManager = new SoundManager();
 
     public static void main(String[] args) {

@@ -142,7 +142,9 @@ public class MenuWindowPanel2 extends JPanel implements ActionListener {
             boolean atLeastOneNameGiven = false;
 
             for (JTextField textField : nameFields) {
-                if (!textField.getText().isEmpty()) {
+                String originalTextFieldContent = textField.getText();
+                String trimmedTextFieldContent = originalTextFieldContent.trim();
+                if (!trimmedTextFieldContent.isEmpty()) {
                     atLeastOneNameGiven = true;
                     menu.AddPlayer(textField.getText());
                 }
