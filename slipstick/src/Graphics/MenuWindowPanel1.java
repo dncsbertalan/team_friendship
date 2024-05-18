@@ -35,7 +35,7 @@ public class MenuWindowPanel1 extends JPanel implements ActionListener {
             int newWidth = GameConstants.MenuPanel1_LOGO_RESIZE_WIDTH;
             int newHeight = GameConstants.MenuPanel1_LOGO_RESIZE_HEIGHT;
             Image scaledLogo = logo.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
-            logoLabel = new JLabel(new ImageIcon(scaledLogo));
+                logoLabel = new JLabel(new ImageIcon(scaledLogo));
         } catch (IOException e) {
             os.println("Logo not found.");
         }

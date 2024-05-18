@@ -151,6 +151,21 @@ public class GameConstants {
     public static final String IMAGE_SLIPSTICK = "slipstick";
     public static final String IMAGE_TRANSISTOR = "transistor";
     public static final String IMAGE_TVSZ = "tvsz";
+    //Entity paths
+
+    public static final String IMAGE_STUDENT1 = "C:\\Users\\bene\\uj\\team_friendship\\slipstick\\rsc\\entities\\Player1.png";
+    public static final String IMAGE_STUDENT2 = "C:\\Users\\bene\\uj\\team_friendship\\slipstick\\rsc\\entities\\Player2.png";
+    public static final String IMAGE_STUDENT3 = "C:\\Users\\bene\\uj\\team_friendship\\slipstick\\rsc\\entities\\Player3.png";
+    public static final String IMAGE_STUDENT4 = "C:\\Users\\bene\\uj\\team_friendship\\slipstick\\rsc\\entities\\Player4.png";
+    public static final String IMAGE_PROFESSOR1 = "slipstick/rsc/entities/professor1.png";
+    public static final String IMAGE_PROFESSOR2 = "slipstick/rsc/entities/professor2.png";
+    public static final String IMAGE_PROFESSOR3 = "slipstick/rsc/entities/professor3.png";
+    public static final String IMAGE_PROFESSOR4 = "slipstick/rsc/entities/professor4.png";
+    public static final String IMAGE_JANITOR1 = "slipstick/rsc/entities/janitor1.png";
+    public static final String IMAGE_JANITOR2 = "slipstick/rsc/entities/janitor2.png";
+    public static final String IMAGE_JANITOR3 = "slipstick/rsc/entities/janitor3.png";
+    public static final String IMAGE_JANITOR4 = "slipstick/rsc/entities/janitor4.png";
+
 
     // Item paths
     public static final String IMAGE_AIR_FRESHENER_FILEPATH = "slipstick/rsc/items/AirFreshener.png";

@@ -8,12 +8,19 @@ import Entities.Student;
 import Graphics.Utils.Vector2;
 import Graphics.GameWindowPanel;
 import Labyrinth.Room;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+
 import static Runnable.Main.imageManager;
+import static Runnable.Main.os;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class RoomObject {
@@ -81,37 +88,69 @@ public class RoomObject {
         // Entities
         ArrayList<Entity> entities = room.GetEntities();
         int drawnEntities = 0;
+        int students = 0;
+        int professors = 0;
+        int janitors = 0;
 
         for (Entity entity : entities) {
+            BufferedImage image = null; // Reset image for each entity
+            String imagePath = "";
+
             if (entity instanceof Student) {
-                graphics2D.setColor(Color.green);
+                students++;
+                switch (students) {
+                    case 1 -> imagePath = GameConstants.IMAGE_STUDENT1;
+                    case 2 -> imagePath = GameConstants.IMAGE_STUDENT2;
+                    case 3 -> imagePath = GameConstants.IMAGE_STUDENT3;
+                    case 4 -> imagePath = GameConstants.IMAGE_STUDENT4;
+                }
+            } else if (entity instanceof Professor) {
+                professors++;
+                switch (professors) {
+                    case 1 -> imagePath = GameConstants.IMAGE_PROFESSOR1;
+                    case 2 -> imagePath = GameConstants.IMAGE_PROFESSOR2;
+                    case 3 -> imagePath = GameConstants.IMAGE_PROFESSOR3;
+                    case 4 -> imagePath = GameConstants.IMAGE_PROFESSOR4;
+                }
+            } else if (entity instanceof Janitor) {
+                janitors++;
+                switch (janitors) {
+                    case 1 -> imagePath = GameConstants.IMAGE_JANITOR1;
+                    case 2 -> imagePath = GameConstants.IMAGE_JANITOR2;
+                    case 3 -> imagePath = GameConstants.IMAGE_JANITOR3;
+                    case 4 -> imagePath = GameConstants.IMAGE_JANITOR4;
+                }
             }
-            else if (entity instanceof Professor) {
-                graphics2D.setColor(Color.red);
+
+            if (!imagePath.isEmpty()) {
+                try {
+                    image = ImageIO.read(new File(imagePath));
+                    if (image != null) {
+                        int newWidth = 70;
+                        int newHeight = 30;
+                        Image scaledImage = image.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+
+                        // Convert the scaled Image back to BufferedImage
+                        BufferedImage bufferedScaledImage = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
+                        Graphics2D g2d = bufferedScaledImage.createGraphics();
+                        g2d.drawImage(scaledImage, 0, 0, null);
+                        g2d.dispose();
+
+                        image = bufferedScaledImage; // Use the newly created buffered image
+                    }
+                } catch (IOException e) {
+                    System.out.println("Image not found: " + imagePath);
+                }
+
+                if (image != null) { // Ensure that we have an image to draw
+                    Vector2 pos = Vector2.Add(centerPos, Vector2.RotateBy(distanceFromCenter, drawnEntities++ * angleBetween));
+                    System.out.println("Drawing entity at position: " + pos + " with image: " + imagePath);
+                    graphics2D.drawImage(image, pos.x - image.getWidth() / 2, pos.y - image.getHeight() / 2, null);
+                } else {
+                    System.out.println("No image for entity: " + entity);
+                    return;
+                }
             }
-            else if (entity instanceof Janitor) {
-                graphics2D.setColor(Color.orange);
-            }
-            Vector2 pos = Vector2.Add(centerPos, Vector2.RotateBy(distanceFromCenter,drawnEntities++ * angleBetween));
-            graphics2D.fillRect(pos.x, pos.y, 10, 10);
-        }
-
-        // Items
-        // TODO
-
-        // Doors
-        final float doorAng = 360f / Math.max(room.GetNeighbours().size(), GameConstants.ROOM_MIN_SIDES);
-        final int y = isSmallRoom ? (int) (GameConstants.ROOM_SIZE * GameConstants.SMALL_ROOM_SIZE_RATIO) : GameConstants.ROOM_SIZE;
-        final int dist = (int) ((float) y * Math.cos(Math.toRadians(doorAng / 2.0)));
-        Vector2 doorPosFromCenter = new Vector2(0, -dist);
-        doorPosFromCenter.RotateBy(doorAng / 2f);
-        int drawnDoor = 0;
-
-        for (Room neighbour : room.GetNeighbours()) {
-            Vector2 pos = Vector2.Add(centerPos, Vector2.RotateBy(doorPosFromCenter,drawnDoor++ * doorAng));
-            DoorObject door = new DoorObject(pos, neighbour, !isSmallRoom);
-            gamePanel.AddClickable(door);
-            door.Draw(graphics2D, gamePanel.GetMousePosition());
         }
     }
 
