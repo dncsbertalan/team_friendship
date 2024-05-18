@@ -23,8 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static Runnable.Main.game;
-import static Runnable.Main.soundManager;
+import static Runnable.Main.*;
 
 public class GameWindowPanel extends JPanel {
     private final GameWindowFrame gameWindowFrame;
@@ -155,7 +154,7 @@ public class GameWindowPanel extends JPanel {
         if (active == null) return;
 
         Room curRoom = active.GetCurrentRoom();
-
+        boolean isFirstMove = gameController.isFirstMove;
         RoomObject roomObject = new RoomObject(this, Vector2.Mult(windowSize, 0.5f), curRoom, false);
         roomObject.Draw(graphics2D);
 

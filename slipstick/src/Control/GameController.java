@@ -8,15 +8,21 @@ import Graphics.GameWindowPanel;
 import Graphics.Utils.Clickable.ItemObject;
 import Graphics.Utils.ScreenMessage;
 import Items.Item;
+import Items.Transistor;
 import Labyrinth.Room;
 
 import java.awt.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Random;
+import java.util.Scanner;
 
 import static Runnable.Main.*;
 
 public class GameController {
 
+    public boolean isFirstMove = true;
     private boolean isRunning;
     private GameWindowPanel gamePanel;
     private Thread gameThread;
@@ -50,7 +56,7 @@ public class GameController {
                 if (game.IsPreGame()) {     // If the game is not initialized yet
                     // TODO: ez szükséges-e
                 }
-                HandleInput();
+                HandleInput(roundManager.GetActiveStudent());
                 GameLogic();
                 gamePanel.UpdateScreenMessages();
                 //long t1 = System.currentTimeMillis();
@@ -96,8 +102,41 @@ public class GameController {
         isRunning = false;
     }
 
-    private void HandleInput() {
-
+    private void HandleInput(Student student) {
+        Scanner scanner = new Scanner(System.in);
+        // Start the loop
+        while (true) {
+            NewScreenMessage(270,"Its your turn " + student.GetName());
+            String input = scanner.nextLine();
+            switch (input) {
+                case "D":
+                    student.DropSelectedItem();
+                    break;
+                case "P":
+                    Item transistor1 = selectedItem;
+                    if(transistor1.getClass() == Items.Transistor.class) {
+                        for(Item transistor2 : student.GetInventory())
+                        {
+                            if(transistor2!=transistor1 && transistor2.getClass() == Items.Transistor.class){
+                                student.PairTransistors((Transistor) transistor1, (Transistor) transistor2);
+                            }
+                        }
+                    }
+                    break;
+                case "U":
+                    student.UseSelectedItem();
+                    break;
+                case "A":
+                    student.ActivateItem(selectedItem);
+                    break;
+                case "E":
+                    roundManager.EndTurn();
+                    isFirstMove = true;
+                    return;
+                case"C":
+                    student.PickUpItem(selectedItem);
+            }
+        }
     }
 
     /**
@@ -107,12 +146,11 @@ public class GameController {
      */
     public void StepStudent(Student student, Room stepInto) {
         boolean success = student.StepInto(stepInto);
-
         if (!success) {
             gamePanel.CreateScreenMessage(240, Color.red, "The room is full");
             return;
         }
-
+        isFirstMove = false;
         Random rand = new Random();
         if (rand.nextBoolean()) soundManager.playSoundOnce(GameConstants.SOUND_DOOR1);
         else soundManager.playSoundOnce(GameConstants.SOUND_DOOR2);
@@ -166,12 +204,13 @@ public class GameController {
 
     private void HandleStudent(Student student) {
         if (student == null) return;
-        Student active = roundManager.GetActiveStudent();
-        if (active == null) return;
         if(student.IsDead()) {
-            NewScreenMessage(240, "Student " + active.GetName() + " is dead.");
+            NewScreenMessage(240, Color.RED,"Student " + student.GetName() + " is dead.");
             roundManager.EndTurn();
+            isFirstMove = true;
         }
+
+        HandleInput(student);
     }
 
     private void HandleAIEntities(IAI entities) {
