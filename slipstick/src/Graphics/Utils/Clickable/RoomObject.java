@@ -108,7 +108,7 @@ public class RoomObject {
 
         // Items
         final float itemAng = 360f / room.GetInventory().size();
-        final int itemDist = isSmallRoom ? (int) (75 * GameConstants.SMALL_ROOM_SIZE_RATIO) : 75;
+        final int itemDist = isSmallRoom ? (int) (90 * GameConstants.SMALL_ROOM_SIZE_RATIO) : 90;
         Vector2 itemDistFromCenter = new Vector2(itemDist, 0);
 
         ArrayList<Item> items = (ArrayList<Item>) room.GetInventory();
@@ -116,7 +116,8 @@ public class RoomObject {
 
         for (Item item : items) {
             Vector2 pos = Vector2.Add(centerPos, Vector2.RotateBy(itemDistFromCenter,drawnItems++ * itemAng));
-            ItemObject itemObject = new ItemObject(pos, item, true  );
+            ItemObject itemObject = new ItemObject(pos, item, !isSmallRoom);
+            gamePanel.AddClickable(itemObject);
             itemObject.Draw(graphics2D, gameController.GetMousePosition());
         }
 

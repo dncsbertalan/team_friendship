@@ -29,7 +29,7 @@ public class ItemObject extends ClickableObject {
 
         if (canBeClicked && (inside || selected)) {
             graphics2D.setColor(Color.yellow);
-            graphics2D.fillRect(this.position.x - 2, this.position.y - 2, this.size + 20, this.size + 20);
+            graphics2D.fillRect(this.position.x - 2, this.position.y - 2, this.size + 10, this.size + 10);
         }
 
         GameWindowPanel.DrawItem(graphics2D, item, centerPosition, 100);
@@ -38,6 +38,5 @@ public class ItemObject extends ClickableObject {
     @Override
     protected void click() {
         gameController.SetSelectedItem(item);
-        gameController.NewScreenMessage(120, "added");
     }
 }

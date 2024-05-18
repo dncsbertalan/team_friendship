@@ -134,7 +134,7 @@ public class GameController {
                 }
                 break;
             case 'u':
-                if(selectedItemInRoom !=null) {
+                if(student.GetSelectedItem() != null) {
                     student.UseSelectedItem();
                 }
                 break;
@@ -150,6 +150,7 @@ public class GameController {
             case 'c':
                 //TODO ITEMS IN ROOM
                 student.PickUpItem(selectedItemInRoom);
+                selectedItemInRoom = null;
                 break;
         }
 
@@ -171,6 +172,7 @@ public class GameController {
         Random rand = new Random();
         if (rand.nextBoolean()) soundManager.playSoundOnce(GameConstants.SOUND_DOOR1);
         else soundManager.playSoundOnce(GameConstants.SOUND_DOOR2);
+        ClearSelectedItem();
     }
 
     /**

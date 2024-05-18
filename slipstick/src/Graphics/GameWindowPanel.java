@@ -215,6 +215,8 @@ public class GameWindowPanel extends JPanel {
             //image = imageManager.GetImage("temp");
         }
 
+        if (image == null) return;
+
         graphics2D.drawImage(image, center.x - image.getWidth() / 2, center.y - image.getHeight() / 2, null);
     }
 
@@ -285,7 +287,6 @@ public class GameWindowPanel extends JPanel {
      * @param graphics2D graphics instance
      */
     private void DrawCurrentRound(Graphics2D graphics2D) {
-        // TODO TEMPORARY
         //Font font = new Font("Times New Roman", Font.BOLD, 25);
         Font font = new Font("Courier New", Font.BOLD, 25);
         graphics2D.setFont(font);
