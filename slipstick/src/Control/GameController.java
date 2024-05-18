@@ -37,7 +37,7 @@ public class GameController {
         long currentTime;
         long timer = 0;
 
-        long ellapsedTime = 0;
+        //long ellapsedTime = 0;
         long drawtime = 0;
 
         while (isRunning) {

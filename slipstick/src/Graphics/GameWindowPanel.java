@@ -149,10 +149,10 @@ public class GameWindowPanel extends JPanel {
         SwingUtilities.convertPointFromScreen(point, this);
         mousePosition = new Vector2(point.x, point.y);
 
+        DrawRoom(graphics2D);
         DrawCurrentRound(graphics2D);
         DrawEntityInfo(graphics2D);
         DrawInventory(graphics2D);
-        DrawRoom(graphics2D);
         DrawScreenMessages(graphics2D);
         DrawItemInformationTable(graphics2D);
     }
@@ -260,25 +260,33 @@ public class GameWindowPanel extends JPanel {
 
         final int numberOfStudentsItems = active.GetInventory().size();
         final int selectedSlot = active.GetSelectedInventorySlot();
-        final int invRectSize = 50;
-        final int selectedRectSize = 54;
+        final int invRectSize = 70;
+        final float invSelectedRectScale = 1.2f;
+        final int spaceBetweenSlots = 10;
         final int arc = 10;
+        Vector2 pos = GameConstants.GamePanel_INVENTORY_POS();
 
         for (int i = 0; i < 5; i++) {
-            Vector2 pos = GameConstants.GamePanel_INVENTORY_POS();
-            pos.AddX(i * (50 + 10));
+            int size = invRectSize;
+            float itemScale = 200;
+
             if (i == selectedSlot) {
+                size = (int) (invRectSize * invSelectedRectScale);
+                itemScale *= invSelectedRectScale;
                 graphics2D.setColor(Color.yellow);
-                graphics2D.fillRoundRect(pos.x - 2, pos.y - 2, selectedRectSize, selectedRectSize, arc, arc);
+                int y = pos.y + invRectSize / 2 - size / 2;
+                graphics2D.fillRoundRect(pos.x, y, size + 4, size + 4, arc, arc);
             }
             graphics2D.setColor(new Color(0, 0, 0, 150));
-            graphics2D.fillRoundRect(pos.x, pos.y, invRectSize, invRectSize, arc, arc);
+            int y = pos.y + invRectSize / 2 - size / 2;
+            graphics2D.fillRoundRect(pos.x + 2, y + 2, size, size, arc, arc);
 
             if(i < numberOfStudentsItems){
                 Item item = active.GetInventory().get(i);
-                DrawItem(graphics2D, item, Vector2.Add(pos, new Vector2(invRectSize / 2, invRectSize / 2)), 200);
+                DrawItem(graphics2D, item, Vector2.Add(pos, new Vector2(size / 2, invRectSize / 2)), itemScale);
             }
 
+            pos.AddX(size + spaceBetweenSlots);
         }
     }
 
