@@ -11,12 +11,10 @@ public class ScreenMessage {
 
     private int timeLeft;
     private final String message;
-    private Color color;
+    private final Color color;
 
     public ScreenMessage(int timeLeft, String message) {
-        this.timeLeft = timeLeft;
-        this.color = GameConstants.SCREEN_MESSAGE_DEFAUL_COLOR;
-        this.message = message;
+        this(timeLeft, GameConstants.SCREEN_MESSAGE_DEFAUL_COLOR, message);
     }
 
     public ScreenMessage(int timeLeft, Color color, String message) {

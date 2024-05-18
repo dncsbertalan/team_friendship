@@ -145,7 +145,7 @@ public class GameController {
      * Sets the currently selected item.
      * @param newSelectedItem the item
      */
-    public void SetSelectedItem(ItemObject newSelectedItem) { selectedItem = newSelectedItem; }
+    public void SetSelectedItem(Item newSelectedItem) { selectedItem = newSelectedItem; }
 
     /**
      * Clears the currently selected item.

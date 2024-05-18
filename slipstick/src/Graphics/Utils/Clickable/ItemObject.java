@@ -20,6 +20,6 @@ public class ItemObject extends ClickableObject {
 
     @Override
     protected void click() {
-        gameController.SetSelectedItem(this);
+        gameController.SetSelectedItem(item);
     }
 }
