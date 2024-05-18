@@ -179,40 +179,40 @@ public class GameWindowPanel extends JPanel {
         BufferedImage image;
 
         if (item instanceof AirFreshener) {
-            //image = imageManager.resizeImage(GameConstants.IMAGE_AIR_FRESHENER, scale);
-            image = imageManager.GetImage(GameConstants.IMAGE_AIR_FRESHENER);
+            image = imageManager.resizeImage(GameConstants.IMAGE_AIR_FRESHENER, scale);
+            //image = imageManager.GetImage(GameConstants.IMAGE_AIR_FRESHENER);
         }
         else if (item instanceof Beer) {
-            //image = imageManager.resizeImage(GameConstants.IMAGE_BEER, scale);
-            image = imageManager.GetImage(GameConstants.IMAGE_BEER);
+            image = imageManager.resizeImage(GameConstants.IMAGE_BEER, scale);
+            //image = imageManager.GetImage(GameConstants.IMAGE_BEER);
         }
         else if (item instanceof Cheese) {
-            //image = imageManager.resizeImage(GameConstants.IMAGE_CHEESE, scale);
-            image = imageManager.GetImage(GameConstants.IMAGE_CHEESE);
+            image = imageManager.resizeImage(GameConstants.IMAGE_CHEESE, scale);
+            //image = imageManager.GetImage(GameConstants.IMAGE_CHEESE);
         }
         else if (item instanceof FFP2Mask) {
-            //image = imageManager.resizeImage(GameConstants.IMAGE_FFP2_MASK, scale);
-            image = imageManager.GetImage(GameConstants.IMAGE_FFP2_MASK);
+            image = imageManager.resizeImage(GameConstants.IMAGE_FFP2_MASK, scale);
+            //image = imageManager.GetImage(GameConstants.IMAGE_FFP2_MASK);
         }
         else if (item instanceof SlipStick) {
             //image = imageManager.resizeImage(GameConstants.IMAGE_SLIPSTICK, scale);
             image = imageManager.GetImage(GameConstants.IMAGE_SLIPSTICK);
         }
         else if (item instanceof Transistor) {
-            //image = imageManager.resizeImage(GameConstants.IMAGE_TRANSISTOR, scale);
-            image = imageManager.GetImage(GameConstants.IMAGE_TRANSISTOR);
+            image = imageManager.resizeImage(GameConstants.IMAGE_TRANSISTOR, scale);
+            //image = imageManager.GetImage(GameConstants.IMAGE_TRANSISTOR);
         }
         else if (item instanceof TVSZ) {
-            //image = imageManager.resizeImage(GameConstants.IMAGE_TVSZ, scale);
-            image = imageManager.GetImage(GameConstants.IMAGE_TVSZ);
+            image = imageManager.resizeImage(GameConstants.IMAGE_TVSZ, scale);
+            //image = imageManager.GetImage(GameConstants.IMAGE_TVSZ);
         }
         else if (item instanceof WetCloth) {
-            //image = imageManager.resizeImage(GameConstants.IMAGE_WET_CLOTH, scale);
-            image = imageManager.GetImage(GameConstants.IMAGE_WET_CLOTH);
+            image = imageManager.resizeImage(GameConstants.IMAGE_WET_CLOTH, scale);
+            //image = imageManager.GetImage(GameConstants.IMAGE_WET_CLOTH);
         }
         else {  // FAKE ITEM
-            //image = imageManager.resizeImage("temp", scale);
-            image = imageManager.GetImage("temp");
+            image = imageManager.resizeImage("temp", scale);
+            //image = imageManager.GetImage("temp");
         }
 
         graphics2D.drawImage(image, center.x - image.getWidth() / 2, center.y - image.getHeight() / 2, null);
@@ -269,21 +269,12 @@ public class GameWindowPanel extends JPanel {
                 graphics2D.setColor(Color.yellow);
                 graphics2D.fillRoundRect(pos.x - 2, pos.y - 2, selectedRectSize, selectedRectSize, arc, arc);
             }
-            graphics2D.setColor(Color.black);
+            graphics2D.setColor(new Color(0, 0, 0, 150));
             graphics2D.fillRoundRect(pos.x, pos.y, invRectSize, invRectSize, arc, arc);
 
             if(i < numberOfStudentsItems){
                 Item item = active.GetInventory().get(i);
-                DrawItem(graphics2D, item, Vector2.Add(pos, new Vector2(invRectSize / 2, invRectSize / 2)), 1f);
-                /*graphics2D.setColor(new Color(205, 48, 245));
-
-                if(i == selectedSlot){
-                    graphics2D.fillRect(pos.x + selectedRectSize/4, pos.y + selectedRectSize/4, selectedRectSize / 2, selectedRectSize / 2);
-
-                } else {
-                    graphics2D.fillRect(pos.x + (int)invRectSize/3, pos.y + (int)invRectSize/3, (int) invRectSize / 3, (int) invRectSize / 3);
-
-                }*/
+                DrawItem(graphics2D, item, Vector2.Add(pos, new Vector2(invRectSize / 2, invRectSize / 2)), 200);
             }
 
         }

@@ -81,7 +81,42 @@ public class RoomObject {
      * @param graphics2D graphics2D instance
      */
     private void DrawInside(Graphics2D graphics2D) {
+
         final float angleBetween = 360f / room.GetCapacity();
+        final int _dist = isSmallRoom ? (int) (50 * GameConstants.SMALL_ROOM_SIZE_RATIO) : 50;
+        Vector2 distanceFromCenter = new Vector2(_dist, 0);
+        // Entities
+        ArrayList<Entity> entities = room.GetEntities();
+        int drawnEntities = 0;
+        for (Entity entity : entities) {
+            if (entity instanceof Student) {
+                graphics2D.setColor(Color.green);
+            }
+            else if (entity instanceof Professor) {
+                graphics2D.setColor(Color.red);
+            }
+            else if (entity instanceof Janitor) {
+                graphics2D.setColor(Color.orange);
+            }
+            Vector2 pos = Vector2.Add(centerPos, Vector2.RotateBy(distanceFromCenter,drawnEntities++ * angleBetween));
+            graphics2D.fillRect(pos.x, pos.y, 10, 10);
+        }
+        // Items
+        // TODO
+        // Doors
+        final float doorAng = 360f / Math.max(room.GetNeighbours().size(), GameConstants.ROOM_MIN_SIDES);
+        final int y = isSmallRoom ? (int) (GameConstants.ROOM_SIZE * GameConstants.SMALL_ROOM_SIZE_RATIO) : GameConstants.ROOM_SIZE;
+        final int dist = (int) ((float) y * Math.cos(Math.toRadians(doorAng / 2.0)));
+        Vector2 doorPosFromCenter = new Vector2(0, -dist);
+        doorPosFromCenter.RotateBy(doorAng / 2f);
+        int drawnDoor = 0;
+        for (Room neighbour : room.GetNeighbours()) {
+            Vector2 pos = Vector2.Add(centerPos, Vector2.RotateBy(doorPosFromCenter,drawnDoor++ * doorAng));
+            DoorObject door = new DoorObject(pos, neighbour, !isSmallRoom);
+            gamePanel.AddClickable(door);
+            door.Draw(graphics2D, gamePanel.GetMousePosition());
+        }
+        /*final float angleBetween = 360f / room.GetCapacity();
         final int _dist = isSmallRoom ? (int) (50 * GameConstants.SMALL_ROOM_SIZE_RATIO) : 50;
         Vector2 distanceFromCenter = new Vector2(_dist, 0);
 
@@ -151,7 +186,7 @@ public class RoomObject {
                     return;
                 }
             }
-        }
+        }*/
     }
 
     /**

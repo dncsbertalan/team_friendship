@@ -18,7 +18,7 @@ public class ScreenMessage {
     }
 
     public ScreenMessage(int timeLeft, Color color, String message) {
-        this.timeLeft = timeLeft * GameConstants.DesiredFPS;
+        this.timeLeft = timeLeft;
         this.color = color;
         this.message = message;
     }

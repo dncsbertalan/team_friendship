@@ -75,10 +75,23 @@ public class ImageManager {
         loadImageAs(GameConstants.IMAGE_AIR_FRESHENER, GameConstants.IMAGE_AIR_FRESHENER_FILEPATH);
         loadImageAs(GameConstants.IMAGE_BEER, GameConstants.IMAGE_BEER_FILEPATH);
         loadImageAs(GameConstants.IMAGE_CHEESE, GameConstants.IMAGE_CHEESE_FILEPATH);
-        loadImageAs(GameConstants.IMAGE_WET_CLOTH, GameConstants.IMAGE_WALL_TMP_FILEPATH);
+        loadImageAs(GameConstants.IMAGE_WET_CLOTH, GameConstants.IMAGE_WET_CLOTH_FILEPATH);
         loadImageAs(GameConstants.IMAGE_FFP2_MASK, GameConstants.IMAGE_FFP2_MASK_FILEPATH);
         loadImageAs(GameConstants.IMAGE_SLIPSTICK, GameConstants.IMAGE_SLIPSTICK_FILEPATH);
         loadImageAs(GameConstants.IMAGE_TRANSISTOR, GameConstants.IMAGE_TRANSISTOR_FILEPATH);
         loadImageAs(GameConstants.IMAGE_TVSZ, GameConstants.IMAGE_TVSZ_FILEPATH);
+
+        loadImageAs(GameConstants.IMAGE_STUDENT1, GameConstants.IMAGE_STUDENT1_FILEPATH);
+        loadImageAs(GameConstants.IMAGE_STUDENT2, GameConstants.IMAGE_STUDENT2_FILEPATH);
+        loadImageAs(GameConstants.IMAGE_STUDENT3, GameConstants.IMAGE_STUDENT3_FILEPATH);
+        loadImageAs(GameConstants.IMAGE_STUDENT4, GameConstants.IMAGE_STUDENT4_FILEPATH);
+        loadImageAs(GameConstants.IMAGE_PROFESSOR1, GameConstants.IMAGE_PROFESSOR1_FILEPATH);
+        loadImageAs(GameConstants.IMAGE_PROFESSOR2, GameConstants.IMAGE_PROFESSOR2_FILEPATH);
+        loadImageAs(GameConstants.IMAGE_PROFESSOR3, GameConstants.IMAGE_PROFESSOR3_FILEPATH);
+        loadImageAs(GameConstants.IMAGE_PROFESSOR4, GameConstants.IMAGE_PROFESSOR4_FILEPATH);
+        loadImageAs(GameConstants.IMAGE_JANITOR1, GameConstants.IMAGE_JANITOR1_FILEPATH);
+        loadImageAs(GameConstants.IMAGE_JANITOR2, GameConstants.IMAGE_JANITOR2_FILEPATH);
+        loadImageAs(GameConstants.IMAGE_JANITOR3, GameConstants.IMAGE_JANITOR3_FILEPATH);
+        loadImageAs(GameConstants.IMAGE_JANITOR4, GameConstants.IMAGE_JANITOR4_FILEPATH);
     }
 }

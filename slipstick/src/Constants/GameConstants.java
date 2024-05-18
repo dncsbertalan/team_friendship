@@ -105,7 +105,7 @@ public class GameConstants {
 
 // endregion
 
-// region GAME
+// region GAME =========================================================================================================
     public static final String GamePanel_ROUND_TEXT = "Round: ";
 
     public static final int GamePanel_WIDTH = 1000;
@@ -121,7 +121,7 @@ public class GameConstants {
     public static final float SMALL_ROOM_SIZE_RATIO = 0.6f;
 
     // Screen messages
-    public static final int MAX_SCREEN_MESSAGES = 5;
+    public static final int MAX_SCREEN_MESSAGES = 8;
     public static final int SCREEN_MESSAGE_DISTANCE = 7;
     public static final Font SCREEN_MESSAGE_FONT = new Font("Courier New", Font.BOLD, 20);
     public static final Color SCREEN_MESSAGE_DEFAUL_COLOR = Color.black;
@@ -142,7 +142,7 @@ public class GameConstants {
     public static final String IMAGE_LOGO = "logo";
     public static final String IMAGE_WALL_TMP = "room_bg";
 
-    // Items
+    // Item keys
     public static final String IMAGE_AIR_FRESHENER = "air_freshener";
     public static final String IMAGE_BEER = "beer";
     public static final String IMAGE_CHEESE = "cheese";
@@ -151,21 +151,6 @@ public class GameConstants {
     public static final String IMAGE_SLIPSTICK = "slipstick";
     public static final String IMAGE_TRANSISTOR = "transistor";
     public static final String IMAGE_TVSZ = "tvsz";
-    //Entity paths
-
-    public static final String IMAGE_STUDENT1 = "C:\\Users\\bene\\uj\\team_friendship\\slipstick\\rsc\\entities\\Player1.png";
-    public static final String IMAGE_STUDENT2 = "C:\\Users\\bene\\uj\\team_friendship\\slipstick\\rsc\\entities\\Player2.png";
-    public static final String IMAGE_STUDENT3 = "C:\\Users\\bene\\uj\\team_friendship\\slipstick\\rsc\\entities\\Player3.png";
-    public static final String IMAGE_STUDENT4 = "C:\\Users\\bene\\uj\\team_friendship\\slipstick\\rsc\\entities\\Player4.png";
-    public static final String IMAGE_PROFESSOR1 = "slipstick/rsc/entities/professor1.png";
-    public static final String IMAGE_PROFESSOR2 = "slipstick/rsc/entities/professor2.png";
-    public static final String IMAGE_PROFESSOR3 = "slipstick/rsc/entities/professor3.png";
-    public static final String IMAGE_PROFESSOR4 = "slipstick/rsc/entities/professor4.png";
-    public static final String IMAGE_JANITOR1 = "slipstick/rsc/entities/janitor1.png";
-    public static final String IMAGE_JANITOR2 = "slipstick/rsc/entities/janitor2.png";
-    public static final String IMAGE_JANITOR3 = "slipstick/rsc/entities/janitor3.png";
-    public static final String IMAGE_JANITOR4 = "slipstick/rsc/entities/janitor4.png";
-
 
     // Item paths
     public static final String IMAGE_AIR_FRESHENER_FILEPATH = "slipstick/rsc/items/AirFreshener.png";
@@ -177,7 +162,35 @@ public class GameConstants {
     public static final String IMAGE_TRANSISTOR_FILEPATH = "slipstick/rsc/items/Transistor.png";
     public static final String IMAGE_TVSZ_FILEPATH = "slipstick/rsc/items/TVSZ.png";
 
-// endregion
+    // Entity keys
+    public static final String IMAGE_STUDENT1 = "slipstick/rsc/entities/Player1.png";
+    public static final String IMAGE_STUDENT2 = "slipstick/rsc/entities/Player2.png";
+    public static final String IMAGE_STUDENT3 = "slipstick/rsc/entities/Player3.png";
+    public static final String IMAGE_STUDENT4 = "slipstick/rsc/entities/Player4.png";
+    public static final String IMAGE_PROFESSOR1 = "slipstick/rsc/entities/professor1.png";
+    public static final String IMAGE_PROFESSOR2 = "slipstick/rsc/entities/professor2.png";
+    public static final String IMAGE_PROFESSOR3 = "slipstick/rsc/entities/professor3.png";
+    public static final String IMAGE_PROFESSOR4 = "slipstick/rsc/entities/professor4.png";
+    public static final String IMAGE_JANITOR1 = "slipstick/rsc/entities/janitor1.png";
+    public static final String IMAGE_JANITOR2 = "slipstick/rsc/entities/janitor2.png";
+    public static final String IMAGE_JANITOR3 = "slipstick/rsc/entities/janitor3.png";
+    public static final String IMAGE_JANITOR4 = "slipstick/rsc/entities/janitor4.png";
+
+    // Entity paths
+    public static final String IMAGE_STUDENT1_FILEPATH = "slipstick/rsc/entities/Player1.png";
+    public static final String IMAGE_STUDENT2_FILEPATH = "slipstick/rsc/entities/Player2.png";
+    public static final String IMAGE_STUDENT3_FILEPATH = "slipstick/rsc/entities/Player3.png";
+    public static final String IMAGE_STUDENT4_FILEPATH = "slipstick/rsc/entities/Player4.png";
+    public static final String IMAGE_PROFESSOR1_FILEPATH = "slipstick/rsc/entities/professor1.png";
+    public static final String IMAGE_PROFESSOR2_FILEPATH = "slipstick/rsc/entities/professor2.png";
+    public static final String IMAGE_PROFESSOR3_FILEPATH = "slipstick/rsc/entities/professor3.png";
+    public static final String IMAGE_PROFESSOR4_FILEPATH = "slipstick/rsc/entities/professor4.png";
+    public static final String IMAGE_JANITOR1_FILEPATH = "slipstick/rsc/entities/janitor1.png";
+    public static final String IMAGE_JANITOR2_FILEPATH = "slipstick/rsc/entities/janitor2.png";
+    public static final String IMAGE_JANITOR3_FILEPATH = "slipstick/rsc/entities/janitor3.png";
+    public static final String IMAGE_JANITOR4_FILEPATH = "slipstick/rsc/entities/janitor4.png";
+
+// endregion ===========================================================================================================
 
 // region SOUNDS =======================================================================================================
 

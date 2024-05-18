@@ -4,8 +4,6 @@ import Entities.Student;
 import Graphics.Utils.Vector2;
 import Labyrinth.Room;
 
-import java.awt.*;
-
 import static Runnable.Main.*;
 
 public class DoorObject extends ClickableObject {
@@ -25,6 +23,6 @@ public class DoorObject extends ClickableObject {
         gameController.StepStudent(active, roomToGo);
 
         // TODO: temporary
-        gameController.NewScreenMessage(4, "Clicked door in " + active.GetCurrentRoom().GetName());
+        gameController.NewScreenMessage(240, "Clicked door in " + active.GetCurrentRoom().GetName());
     }
 }

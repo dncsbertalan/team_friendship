@@ -67,6 +67,7 @@ public class Student extends Entity{
                 FFP2Mask ffp2Mask = (FFP2Mask) protectionItem;
                 ffp2Mask.DecreaseDurability();
                 this.IncreaseMoveCount(GameConstants.FFP2Mask_MoveCountIncrease);
+                if (ffp2Mask.GetRemainingUsages() == 0) this.inventory.remove(ffp2Mask);
             }
         }
     }

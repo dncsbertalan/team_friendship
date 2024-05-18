@@ -53,11 +53,11 @@ public class GameController {
                     GameLogic();
                     gamePanel.UpdateScreenMessages();
                 }
-                long t1 = System.currentTimeMillis();
-                //long t1 = System.nanoTime();
+                //long t1 = System.currentTimeMillis();
+                long t1 = System.nanoTime();
                 gamePanel.repaint();
-                long t2 = System.currentTimeMillis();
-                //long t2 = System.nanoTime();
+                //long t2 = System.currentTimeMillis();
+                long t2 = System.nanoTime();
                 long dt = t2 - t1;
                 drawtime += dt;
                 //System.out.println(dt + " ns");
@@ -69,7 +69,9 @@ public class GameController {
             if (timer >= 1_000_000_000) {
                 timer = 0;
                 //System.out.println(++ellapsedTime);
-                NewScreenMessage(1, Color.GREEN, "Avarage draw time: " + drawtime / 60 + " ms");
+                double res = drawtime / (double) GameConstants.DesiredFPS / 1_000_000.0;
+                String formattedNumber = String.format("%.8f", res);
+                NewScreenMessage(60, Color.black, "Avarage draw time: " + formattedNumber + " ms");
                 drawtime = 0;
             }
 
@@ -226,7 +228,7 @@ public class GameController {
     private void HandleStudent(Student student) {
         if (student == null) return;
         if(student.IsDead()) {
-            NewScreenMessage(4, Color.RED,"Student " + student.GetName() + " is dead.");
+            NewScreenMessage(240, Color.RED,"Student " + student.GetName() + " is dead.");
             roundManager.EndTurn();
             isFirstMove = true;
         }
