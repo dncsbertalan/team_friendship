@@ -190,6 +190,13 @@ public class GameController {
      */
     public void ClearSelectedItem() { selectedItem = null; }
 
+    /**
+     * Returns selected item.
+     */
+    public Item GetSelectedItem(){
+        return selectedItem;
+    }
+
 //region Game logic ====================================================================================================
 
     public void GameLogic() {
