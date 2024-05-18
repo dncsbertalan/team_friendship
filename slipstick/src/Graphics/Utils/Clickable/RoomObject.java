@@ -7,13 +7,11 @@ import Entities.Professor;
 import Entities.Student;
 import Graphics.Utils.Vector2;
 import Graphics.GameWindowPanel;
+import Items.Item;
 import Labyrinth.Room;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-
-import static Runnable.Main.imageManager;
-import static Runnable.Main.os;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -22,6 +20,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import static Runnable.Main.*;
 
 public class RoomObject {
 
@@ -82,27 +82,44 @@ public class RoomObject {
      */
     private void DrawInside(Graphics2D graphics2D) {
 
+        // Entities
         final float angleBetween = 360f / room.GetCapacity();
         final int _dist = isSmallRoom ? (int) (50 * GameConstants.SMALL_ROOM_SIZE_RATIO) : 50;
         Vector2 distanceFromCenter = new Vector2(_dist, 0);
-        // Entities
+
         ArrayList<Entity> entities = room.GetEntities();
         int drawnEntities = 0;
+
+        // todo different texture and consistent
+        BufferedImage entityImage;
         for (Entity entity : entities) {
             if (entity instanceof Student) {
-                graphics2D.setColor(Color.green);
+                entityImage = imageManager.resizeImage(GameConstants.IMAGE_STUDENT1, 150);
             }
             else if (entity instanceof Professor) {
-                graphics2D.setColor(Color.red);
+                entityImage = imageManager.resizeImage(GameConstants.IMAGE_PROFESSOR1, 150);
             }
-            else if (entity instanceof Janitor) {
-                graphics2D.setColor(Color.orange);
+            else {  // JANITOR
+                entityImage = imageManager.resizeImage(GameConstants.IMAGE_JANITOR1, 150);
             }
             Vector2 pos = Vector2.Add(centerPos, Vector2.RotateBy(distanceFromCenter,drawnEntities++ * angleBetween));
-            graphics2D.fillRect(pos.x, pos.y, 10, 10);
+            graphics2D.drawImage(entityImage, pos.x, pos.y, null);
         }
+
         // Items
-        // TODO
+        final float itemAng = 360f / room.GetInventory().size();
+        final int itemDist = isSmallRoom ? (int) (75 * GameConstants.SMALL_ROOM_SIZE_RATIO) : 75;
+        Vector2 itemDistFromCenter = new Vector2(itemDist, 0);
+
+        ArrayList<Item> items = (ArrayList<Item>) room.GetInventory();
+        int drawnItems = 0;
+
+        for (Item item : items) {
+            Vector2 pos = Vector2.Add(centerPos, Vector2.RotateBy(itemDistFromCenter,drawnItems++ * itemAng));
+            ItemObject itemObject = new ItemObject(pos, item, true  );
+            itemObject.Draw(graphics2D, gameController.GetMousePosition());
+        }
+
         // Doors
         final float doorAng = 360f / Math.max(room.GetNeighbours().size(), GameConstants.ROOM_MIN_SIDES);
         final int y = isSmallRoom ? (int) (GameConstants.ROOM_SIZE * GameConstants.SMALL_ROOM_SIZE_RATIO) : GameConstants.ROOM_SIZE;

@@ -6,6 +6,7 @@ import Entities.Student;
 import GameManagers.RoundManager;
 import Graphics.GameWindowPanel;
 import Graphics.Utils.ScreenMessage;
+import Graphics.Utils.Vector2;
 import Items.Item;
 import Items.Transistor;
 import Labyrinth.Room;
@@ -21,7 +22,7 @@ public class GameController {
     private boolean isRunning;
     private GameWindowPanel gamePanel;
     private Thread gameThread;
-    private Item selectedItem;
+    private Item selectedItemInRoom;
     private final RoundManager roundManager = game.GetRoundManager();
 
     /**
@@ -123,8 +124,8 @@ public class GameController {
                 }
                 break;
             case 'p':
-                Item transistor1 = selectedItem;
-                if (selectedItem!=null && transistor1.getClass() == Items.Transistor.class) {
+                Item transistor1 = selectedItemInRoom;
+                if (selectedItemInRoom !=null && transistor1.getClass() == Items.Transistor.class) {
                     for (Item transistor2 : student.GetInventory()) {
                         if (transistor2 != transistor1 && transistor2.getClass() == Items.Transistor.class) {
                             student.PairTransistors((Transistor) transistor1, (Transistor) transistor2);
@@ -133,13 +134,13 @@ public class GameController {
                 }
                 break;
             case 'u':
-                if(selectedItem!=null) {
+                if(selectedItemInRoom !=null) {
                     student.UseSelectedItem();
                 }
                 break;
             case 'a':
-                if(selectedItem!=null) {
-                    student.ActivateItem(selectedItem);
+                if(selectedItemInRoom !=null) {
+                    student.ActivateItem(selectedItemInRoom);
                 }
                 break;
             case 'e':
@@ -148,7 +149,7 @@ public class GameController {
                 return;
             case 'c':
                 //TODO ITEMS IN ROOM
-                student.PickUpItem(selectedItem);
+                student.PickUpItem(selectedItemInRoom);
                 break;
         }
 
@@ -199,18 +200,26 @@ public class GameController {
      * Sets the currently selected item.
      * @param newSelectedItem the item
      */
-    public void SetSelectedItem(Item newSelectedItem) { selectedItem = newSelectedItem; }
+    public void SetSelectedItem(Item newSelectedItem) { selectedItemInRoom = newSelectedItem; }
 
     /**
      * Clears the currently selected item.
      */
-    public void ClearSelectedItem() { selectedItem = null; }
+    public void ClearSelectedItem() { selectedItemInRoom = null; }
 
     /**
      * Returns selected item.
      */
     public Item GetSelectedItem(){
-        return selectedItem;
+        return selectedItemInRoom;
+    }
+
+    /**
+     * Returns the cursor position on the screen.
+     * @return  the cursor position
+     */
+    public Vector2 GetMousePosition() {
+        return gamePanel.GetMousePosition();
     }
 
 //region Game logic ====================================================================================================
