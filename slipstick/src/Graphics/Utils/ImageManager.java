@@ -45,7 +45,7 @@ public class ImageManager {
             int newHeight = (int) (originalImage.getHeight() * (percentage / 100));
 
             Image scaledImage = originalImage.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
-            BufferedImage resizedImage = new BufferedImage(newWidth, newHeight, originalImage.getType());
+            BufferedImage resizedImage = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
 
             Graphics2D g2d = resizedImage.createGraphics();
             g2d.drawImage(scaledImage, 0, 0, null);
