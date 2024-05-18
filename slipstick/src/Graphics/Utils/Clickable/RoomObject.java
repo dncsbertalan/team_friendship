@@ -10,13 +10,10 @@ import Graphics.GameWindowPanel;
 import Labyrinth.Room;
 import static Runnable.Main.imageManager;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class RoomObject {
@@ -114,7 +111,7 @@ public class RoomObject {
             Vector2 pos = Vector2.Add(centerPos, Vector2.RotateBy(doorPosFromCenter,drawnDoor++ * doorAng));
             DoorObject door = new DoorObject(pos, neighbour, !isSmallRoom);
             gamePanel.AddClickable(door);
-            door.Draw(graphics2D, gamePanel.GetMousePosiotion());
+            door.Draw(graphics2D, gamePanel.GetMousePosition());
         }
     }
 

@@ -98,4 +98,12 @@ public class Transistor extends Item {
     public Transistor GetPair() {
         return pair;
     }
+
+    /**
+     * Gets whether the transistor is ready to teleport.
+     * @return is ready to teleport
+     */
+    public boolean GetPairReadyToTeleport(){
+        return pairReadyToTeleport;
+    }
 }

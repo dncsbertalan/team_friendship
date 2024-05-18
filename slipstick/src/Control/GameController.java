@@ -103,7 +103,7 @@ public class GameController {
     }
 
     private void HandleInput(Student student) {
-        Scanner scanner = new Scanner(System.in);
+        /*Scanner scanner = new Scanner(System.in);
         // Start the loop
         while (true) {
             NewScreenMessage(270,"Its your turn " + student.GetName());
@@ -136,7 +136,7 @@ public class GameController {
                 case"C":
                     student.PickUpItem(selectedItem);
             }
-        }
+        }*/
     }
 
     /**

@@ -175,5 +175,15 @@ public class GameConstants {
     public static final String SOUND_DOOR1 = "door1";
     public static final String SOUND_DOOR2 = "door2";
 
+    //kincso
+
+    // Item information
+    public static final Color GamePanel_ITEM_INFORMATION_BORDER_COLOR = new Color(115,85,90,255);
+    public static final Color GamePanel_ITEM_INFORMATION_FILL_COLOR = new Color(255, 255, 255, 186);
+
+    public static final String GamePanel_ROOM_ITEM_TEXT = "Selected item from room:";
+    public static final String GamePanel_INVENTORY_ITEM_TEXT_1 = "Selected item from";
+    public static final String GamePanel_INVENTORY_ITEM_TEXT_2 = "inventory:";
+
 // endregion
 }

@@ -10,6 +10,7 @@ import Graphics.Utils.Clickable.RoomObject;
 import Graphics.Utils.HelperMethods;
 import Graphics.Utils.MenuButton;
 import Graphics.Utils.ScreenMessage;
+import Items.*;
 import Labyrinth.Room;
 import Graphics.Utils.Vector2;
 
@@ -128,15 +129,16 @@ public class GameWindowPanel extends JPanel {
         mousePosition = new Vector2(point.x, point.y);
 
         DrawCurrentRound(graphics2D);
-        DrawEntitryInfo(graphics2D);
+        DrawEntityInfo(graphics2D);
         DrawInventory(graphics2D);
         DrawRoom(graphics2D);
         DrawScreenMessages(graphics2D);
+        DrawItemInformationTable(graphics2D);
     }
 
 // region Getters/Setters ==============================================================================================
 
-    public Vector2 GetMousePosiotion() {
+    public Vector2 GetMousePosition() {
         return mousePosition;
     }
 
@@ -198,7 +200,7 @@ public class GameWindowPanel extends JPanel {
             graphics2D.fillRect(pos.x, pos.y, invRectSize, invRectSize);
 
             if(i < numberOfStudentsItems){
-                graphics2D.setColor(Color.red);
+                graphics2D.setColor(new Color(205, 48, 245));
 
                 if(i == selectedSlot){
                     graphics2D.fillRect(pos.x + selectedRectSize/4, pos.y + selectedRectSize/4, selectedRectSize / 2, selectedRectSize / 2);
@@ -231,11 +233,10 @@ public class GameWindowPanel extends JPanel {
      * Draws the entities to the screen.
      * @param graphics2D graphics instance
      */
-    private void DrawEntitryInfo(Graphics2D graphics2D) {
+    private void DrawEntityInfo(Graphics2D graphics2D) {
         Vector2 pos = new Vector2(GameConstants.GamePanel_ENTITY_INFO_POS().x, (int) (windowSize.y * 0.15f));
         int spaceBetweenLines = 20;
 
-        // TODO TEMPORARY
         Font font = new Font("Times New Roman", Font.BOLD, 20);
         graphics2D.setFont(font);
 
@@ -261,6 +262,109 @@ public class GameWindowPanel extends JPanel {
             graphics2D.drawString(text, pos.x, pos.y);
             if(entityCastAsStudent == game.GetRoundManager().GetActiveStudent()){
                 graphics2D.drawLine(pos.x, pos.y+2, pos.x + getFontMetrics(getFont()).stringWidth(textName), pos.y + 2);
+            }
+        }
+    }
+
+    /**
+     * Draws the information about items to the screen.
+     * @param graphics2D graphics instance
+     */
+    private void DrawItemInformationTable (Graphics2D graphics2D){
+        int infoPanelWidth = 300;
+        int infoPanelHeight = 550;
+        Vector2 pos = new Vector2(windowSize.x - 320, windowSize.y - 850);
+
+        graphics2D.setColor(GameConstants.GamePanel_ITEM_INFORMATION_BORDER_COLOR);
+        graphics2D.fillRoundRect(pos.x - 5, pos.y - 5, infoPanelWidth + 10, infoPanelHeight + 10, 5, 5);
+        graphics2D.setColor(GameConstants.GamePanel_ITEM_INFORMATION_FILL_COLOR);
+        graphics2D.fillRoundRect(pos.x, pos.y, infoPanelWidth, infoPanelHeight, 5, 5);
+        graphics2D.setFont(new Font("Courier New", Font.BOLD, 20));
+        graphics2D.setColor(Color.black);
+        graphics2D.drawString(GameConstants.GamePanel_ROOM_ITEM_TEXT, windowSize.x - 314, windowSize.y - 830);
+        graphics2D.drawLine(windowSize.x - 314, windowSize.y - 830, windowSize.x - 314 + 280, windowSize.y - 830);
+
+        graphics2D.drawString(GameConstants.GamePanel_INVENTORY_ITEM_TEXT_1, windowSize.x - 314, windowSize.y - 600);
+        graphics2D.drawLine(windowSize.x - 314, windowSize.y - 600, windowSize.x - 314 + 220, windowSize.y - 600);
+        int textHeight = (int) -graphics2D.getFontMetrics().getStringBounds("GetHeight!<3", graphics2D).getY();
+        graphics2D.drawString(GameConstants.GamePanel_INVENTORY_ITEM_TEXT_2, windowSize.x - 314, (int) (windowSize.y - 600 + 2 * textHeight));
+        graphics2D.drawLine(windowSize.x - 314, (windowSize.y - 600 + 2 * textHeight), windowSize.x - 314 + 115, (int)(windowSize.y - 600 + 2 * textHeight));
+
+        DrawItemInformation(graphics2D, textHeight);
+    }
+
+    private void DrawItemInformation(Graphics2D graphics2D, int textHeight){
+        Vector2 posText1 = new Vector2(windowSize.x - 314, windowSize.y - 830 - textHeight);
+        Vector2 posText2 = new Vector2(windowSize.x - 314, (int) (windowSize.y - 600 + 3 * textHeight));
+
+        Student activeStudent = game.GetRoundManager().GetActiveStudent();
+        Item selectedItem = activeStudent.GetSelectedItem();
+        String name = null;
+        String usable = null;
+        String activateable = null;
+        String remainingUsages = null;
+
+        if(activeStudent != null && selectedItem != null){
+            if(selectedItem.getClass() == AirFreshener.class){
+                name = "-air freshener";
+                usable = "-useable";
+                graphics2D.drawString(name, windowSize.x - 314, windowSize.y - 830 + 1 * textHeight);
+                graphics2D.drawString(usable, windowSize.x - 314, windowSize.y - 830 + 2 * textHeight);
+            } else if(selectedItem.getClass() == Beer.class){
+                name = "-beer";
+                usable = "-useable";
+                graphics2D.drawString(name, windowSize.x - 314, windowSize.y - 830 + 1 * textHeight);
+                graphics2D.drawString(usable, windowSize.x - 314, windowSize.y - 830 + 2 * textHeight);
+            } else if(selectedItem.getClass() == Cheese.class){
+                name = "- stinky ass cheese";
+                usable = "-useable";
+                graphics2D.drawString(name, windowSize.x - 314, windowSize.y - 830 + 1 * textHeight);
+                graphics2D.drawString(usable, windowSize.x - 314, windowSize.y - 830 + 2 * textHeight);
+            } else if(selectedItem.getClass() == FFP2Mask.class){
+                name = "- ffp2 mask";
+                remainingUsages = "- " + ((FFP2Mask) selectedItem).GetRemainingUsages() + " active rounds left";
+                graphics2D.drawString(name, windowSize.x - 314, windowSize.y - 830 + 1 * textHeight);
+                graphics2D.drawString(remainingUsages, windowSize.x - 314, windowSize.y - 830 + 2 * textHeight);
+            } else if(selectedItem.getClass() == SlipStick.class){
+                name = "-slipstick";
+                usable = "-take to winning room";
+                graphics2D.drawString(name, windowSize.x - 314, windowSize.y - 830 + 1 * textHeight);
+                graphics2D.drawString(usable, windowSize.x - 314, windowSize.y - 830 + 2 * textHeight);
+            } else if(selectedItem.getClass() == Transistor.class){
+                name = "-transistor";
+                graphics2D.drawString(name, windowSize.x - 314, windowSize.y - 830 + 1 * textHeight);
+                if(((Transistor) selectedItem).GetPair() == null){
+                    activateable = "-not paired";
+                    graphics2D.drawString(activateable, windowSize.x - 314, windowSize.y - 830 + 2 * textHeight);
+                } else if(((Transistor) selectedItem).GetPairReadyToTeleport() == false){
+                    activateable = "-paired";
+                    usable = "-not activated";
+                    graphics2D.drawString(activateable, windowSize.x - 314, windowSize.y - 830 + 2 * textHeight);
+                    graphics2D.drawString(usable, windowSize.x - 314, windowSize.y - 830 + 3 * textHeight);
+                } else{
+                    activateable = "-paired";
+                    usable = "-activated";
+                    graphics2D.drawString(activateable, windowSize.x - 314, windowSize.y - 830 + 2 * textHeight);
+                    graphics2D.drawString(usable, windowSize.x - 314, windowSize.y - 830 + 3 * textHeight);
+                }
+            } else if(selectedItem.getClass() == TVSZ.class){
+                name = "-slipstick";
+                remainingUsages = "- " + ((TVSZ) selectedItem).GetRemainingPages() + " pages left";
+                graphics2D.drawString(name, windowSize.x - 314, windowSize.y - 830 + 1 * textHeight);
+                graphics2D.drawString(remainingUsages, windowSize.x - 314, windowSize.y - 830 + 2 * textHeight);
+            } else if(selectedItem.getClass() == WetCloth.class){
+                name = "wet cloth";
+                graphics2D.drawString(name, windowSize.x - 314, windowSize.y - 830);
+                if(((WetCloth) selectedItem).GetActivation() == false){
+                    activateable = "-not activated";
+                    graphics2D.drawString(activateable, windowSize.x - 314, windowSize.y - 830);
+                } else {
+                    activateable = "-activated";
+                    graphics2D.drawString(activateable, windowSize.x - 314, windowSize.y - 830);
+                }
+            } else if(selectedItem.getClass() == Fake.class){
+                name = "szoptad bohoc";
+                graphics2D.drawString(name, windowSize.x - 314, windowSize.y - 830);
             }
         }
     }

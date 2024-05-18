@@ -37,7 +37,7 @@ public class FFP2Mask extends Item {
      * How many uses are left for the mask.
      * @return : number of remaining uses.
      */
-    public int GetRemainingUsees(){
+    public int GetRemainingUsages(){
         return remainingUses;
     }
 }

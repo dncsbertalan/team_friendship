@@ -15,7 +15,7 @@ public class GameWindowMouseListener implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        gameWindowPanel.ClickOnScreen(gameWindowPanel.GetMousePosiotion());
+        gameWindowPanel.ClickOnScreen(gameWindowPanel.GetMousePosition());
     }
 
     @Override
