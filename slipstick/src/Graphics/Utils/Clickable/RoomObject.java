@@ -8,6 +8,7 @@ import Entities.Student;
 import Graphics.Utils.Vector2;
 import Graphics.GameWindowPanel;
 import Labyrinth.Room;
+import static Runnable.Main.imageManager;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -57,7 +58,7 @@ public class RoomObject {
 
         graphics2D.setColor(Color.pink);
         Rectangle rectangle = polygon.getBounds();
-        graphics2D.drawImage(GetRoomImage(polygon), rectangle.x, rectangle.y, null);
+        graphics2D.drawImage(GetRoomImage(polygon), rectangle.x - 10, rectangle.y - 10, null);
 
         // Room name
         Font font = new Font("Courier New", Font.BOLD, isSmallRoom ? 25 : 35);
@@ -123,18 +124,8 @@ public class RoomObject {
      * @return  the image of the textured polygon
      */
     private BufferedImage GetRoomImage(Shape polygon) {
-        // TODO image loading is temporary
-        File file;
-        BufferedImage image;
-        try {
-            file = new File(GameConstants.WALL_BG_TEMP);
-            image = ImageIO.read(file);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
         Rectangle rectangle = polygon.getBounds();
-        BufferedImage tmp = new BufferedImage(rectangle.width + 2,rectangle.height + 2,BufferedImage.TYPE_INT_ARGB);
+        BufferedImage tmp = new BufferedImage(rectangle.width + 20,rectangle.height + 20,BufferedImage.TYPE_INT_ARGB);
 
         Graphics2D g = tmp.createGraphics();
 
@@ -142,12 +133,12 @@ public class RoomObject {
         g.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
 
         // creates a transform that centers the shape in the image
-        AffineTransform centerTransform = AffineTransform.getTranslateInstance(-rectangle.x + 1, -rectangle.y + 1);
+        AffineTransform centerTransform = AffineTransform.getTranslateInstance(-rectangle.x + 10, -rectangle.y + 10);
         g.setTransform(centerTransform);
 
         // clips the shape from the image
         g.setClip(polygon);
-        g.drawImage(image, rectangle.x, rectangle.y, null);
+        g.drawImage(imageManager.GetImage(GameConstants.IMAGE_WALL_TMP), rectangle.x, rectangle.y, null);
         g.setClip(null);
 
         // outline

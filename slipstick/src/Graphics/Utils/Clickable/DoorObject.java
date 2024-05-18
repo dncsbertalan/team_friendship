@@ -10,7 +10,7 @@ import static Runnable.Main.*;
 
 public class DoorObject extends ClickableObject {
 
-    private Room roomToGo;
+    private final Room roomToGo;
 
     public DoorObject(Vector2 centerPosition, Room roomToGo, boolean canBeClicked) {
         super(centerPosition, canBeClicked);

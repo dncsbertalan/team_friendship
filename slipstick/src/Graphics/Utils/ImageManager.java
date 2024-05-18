@@ -1,5 +1,7 @@
 package Graphics.Utils;
 
+import Constants.GameConstants;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -9,10 +11,11 @@ import java.util.HashMap;
 import javax.swing.*;
 
 public class ImageManager {
-    private HashMap<String, BufferedImage> images;
+    private final HashMap<String, BufferedImage> images;
 
     public ImageManager() {
         images = new HashMap<>();
+        loadImageAs(GameConstants.IMAGE_LOGO, GameConstants.IMAGE_LOGO_FILEPATH);
     }
 
     // Method to load an image file and put it in the images' hashmap
@@ -51,5 +54,22 @@ public class ImageManager {
             return resizedImage;
         }
         return null;
+    }
+
+    /**
+     * Return the image paired with the given key.
+     * @param key   the key of the image
+     * @return  the image
+     */
+    public BufferedImage GetImage(String key) {
+        return images.get(key);
+    }
+
+    /**
+     * Loads the game images.
+     */
+    public void LoadImages() {
+
+        loadImageAs(GameConstants.IMAGE_WALL_TMP, GameConstants.IMAGE_WALL_TMP_FILEPATH);
     }
 }

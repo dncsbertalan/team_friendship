@@ -8,6 +8,7 @@ import Graphics.Utils.ScreenMessage;
 import Labyrinth.Room;
 
 import java.awt.*;
+import java.util.Random;
 
 import static Runnable.Main.*;
 
@@ -82,6 +83,8 @@ public class GameController {
         gameThread = new Thread(this::MainGameLoop);
         isRunning = true;
         gameThread.start();
+        imageManager.LoadImages();
+        soundManager.LoadGameSounds();
         game.SetPreGame();
     }
 
@@ -101,7 +104,14 @@ public class GameController {
     public void StepStudent(Student student, Room stepInto) {
         boolean success = student.StepInto(stepInto);
 
-        if (!success) gamePanel.CreateScreenMessage(240, Color.red, "The room is full");
+        if (!success) {
+            gamePanel.CreateScreenMessage(240, Color.red, "The room is full");
+            return;
+        }
+
+        Random rand = new Random();
+        if (rand.nextBoolean()) soundManager.playSoundOnce(GameConstants.SOUND_DOOR1);
+        else soundManager.playSoundOnce(GameConstants.SOUND_DOOR2);
     }
 
     /**

@@ -4,11 +4,11 @@ import Constants.GameConstants;
 
 import javax.swing.*;
 
-import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import static Runnable.Main.gameController;
+import static Runnable.Main.imageManager;
 
 public class GameWindowFrame extends JFrame {
     private final GameWindowPanel gameWindowPanel;
@@ -23,17 +23,17 @@ public class GameWindowFrame extends JFrame {
         this.setUndecorated(true);
         this.setTitle(GameConstants.WindowTitle);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        //this.setResizable(false);
         this.setVisible(true);
 
         // Game panel init
         gameWindowPanel = new GameWindowPanel(this);
         this.add(gameWindowPanel);
-        //this.pack();
         this.setLocationRelativeTo(null);
         gameController.SetGamePanel(gameWindowPanel);
 
-        //this.setSize(Toolkit.getDefaultToolkit().getScreenSize());
+        // Window icon
+        ImageIcon img = new ImageIcon(imageManager.GetImage(GameConstants.IMAGE_LOGO));
+        this.setIconImage(img.getImage());
 
         // temp
         addWindowListener(new WindowAdapter() {

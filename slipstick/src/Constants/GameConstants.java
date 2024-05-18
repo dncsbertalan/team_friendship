@@ -134,11 +134,26 @@ public class GameConstants {
 
 // endregion
 
+// region IMAGES =======================================================================================================
+
+    public static final String IMAGE_LOGO_FILEPATH = "slipstick/rsc/logo.png";
+    public static final String IMAGE_WALL_TMP_FILEPATH = "slipstick/rsc/wall.png";
+
+    public static final String IMAGE_LOGO = "logo";
+    public static final String IMAGE_WALL_TMP = "room_bg";
+
+// endregion
+
 // region SOUNDS =======================================================================================================
 
     public static final String MENU_MUSIC_FILEPATH = "slipstick/rsc/sounds/menu.wav";
     public static final String GAME_MUSIC_FILEPATH = "slipstick/rsc/sounds/game.wav";
     public static final String ENDGAME_MUSIC_FILEPATH = "slipstick/rsc/sounds/endgame.wav";
+
+    public static final String SOUND_DOOR1_FILEPATH = "slipstick/rsc/sounds/door1.wav";
+    public static final String SOUND_DOOR2_FILEPATH = "slipstick/rsc/sounds/door2.wav";
+    public static final String SOUND_DOOR1 = "door1";
+    public static final String SOUND_DOOR2 = "door2";
 
 // endregion
 }

@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import static Runnable.Main.imageManager;
 import static Runnable.Main.os;
 
 public class MenuWindowFrame extends JFrame {
@@ -31,7 +32,7 @@ public class MenuWindowFrame extends JFrame {
         this.setLocationRelativeTo(null);
 
         // Window icon
-        ImageIcon img = new ImageIcon(GameConstants.MenuPanel1_LOGO_FILEPATH);
+        ImageIcon img = new ImageIcon(imageManager.GetImage(GameConstants.IMAGE_LOGO));
         this.setIconImage(img.getImage());
 
         // temp

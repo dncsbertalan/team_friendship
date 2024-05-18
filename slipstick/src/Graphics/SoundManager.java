@@ -9,14 +9,23 @@ import java.util.HashMap;
 import javax.sound.sampled.*;
 
 public class SoundManager {
-    private HashMap<String, Clip> sounds = new HashMap<>();
+    private final HashMap<String, Clip> sounds = new HashMap<>();
     private Clip currentClip;
 
     public SoundManager() {
         // Initialize sounds with the audio clips
         loadSound("menu", GameConstants.MENU_MUSIC_FILEPATH);
+    }
+
+    /**
+     * Loads the sounds of the game.
+     */
+    public void LoadGameSounds() {
+
         loadSound("game", GameConstants.GAME_MUSIC_FILEPATH);
         loadSound("endgame", GameConstants.ENDGAME_MUSIC_FILEPATH);
+        loadSound(GameConstants.SOUND_DOOR1, GameConstants.SOUND_DOOR1_FILEPATH);
+        loadSound(GameConstants.SOUND_DOOR2, GameConstants.SOUND_DOOR2_FILEPATH);
     }
 
     // Method to load a sound file and put it in the sounds' hashmap
