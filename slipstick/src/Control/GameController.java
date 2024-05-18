@@ -1,7 +1,9 @@
 package Control;
 
 import Constants.GameConstants;
+import Entities.IAI;
 import Entities.Student;
+import GameManagers.RoundManager;
 import Graphics.GameWindowPanel;
 import Graphics.Utils.Clickable.ItemObject;
 import Graphics.Utils.ScreenMessage;
@@ -18,6 +20,7 @@ public class GameController {
     private GameWindowPanel gamePanel;
     private Thread gameThread;
     private ItemObject selectedItem;
+    private final RoundManager roundManager = game.GetRoundManager();
 
     /**
      * The core of the game. It "pulls" the required information from the game.
@@ -47,7 +50,7 @@ public class GameController {
                     // TODO: ez szükséges-e
                 }
                 HandleInput();
-                game.GameLogic();
+                GameLogic();
                 gamePanel.UpdateScreenMessages();
                 //long t1 = System.currentTimeMillis();
                 //long t1 = System.nanoTime();
@@ -147,4 +150,34 @@ public class GameController {
      * Clears the currently selected item.
      */
     public void ClearSelectedItem() { selectedItem = null; }
+
+//region Game logic ====================================================================================================
+
+    public void GameLogic() {
+
+        Student activeStudent = roundManager.GetActiveStudent();
+        IAI activeAIEntity = roundManager.GetActiveAIEntity();
+
+        // Handle student and professor
+        this.HandleStudent(activeStudent);
+        this.HandleAIEntities(activeAIEntity);
+    }
+
+    private void HandleStudent(Student student) {
+        if (student == null) return;
+        Student active = roundManager.GetActiveStudent();
+        if (active == null) return;
+        if(student.IsDead()) {
+            NewScreenMessage(240, "Student " + active.GetName() + " is dead.");
+            roundManager.EndTurn();
+        }
+    }
+
+    private void HandleAIEntities(IAI entities) {
+        if (entities == null) return;
+
+        entities.AI();
+    }
+
+//endregion
 }

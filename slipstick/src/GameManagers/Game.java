@@ -385,28 +385,4 @@ public class Game {
     }
 //endregion
 
-//region Game logic ====================================================================================================
-
-    public void GameLogic() {
-
-        Student activeStudent = roundManager.GetActiveStudent();
-        IAI activeAIEntity = roundManager.GetActiveAIEntity();
-
-        // Handle student and professor
-        this.HandleStudent(activeStudent);
-        this.HandleAIEntities(activeAIEntity);
-    }
-
-    private void HandleStudent(Student student) {
-        if (student == null) return;
-
-    }
-
-    private void HandleAIEntities(IAI entities) {
-        if (entities == null) return;
-
-        entities.AI();
-    }
-
-//endregion
 }
