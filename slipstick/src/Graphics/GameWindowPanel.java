@@ -370,20 +370,21 @@ public class GameWindowPanel extends JPanel {
         graphics2D.fillRoundRect(pos.x - 5, pos.y - 5, infoPanelWidth + 10, infoPanelHeight + 10, 5, 5);
         graphics2D.setColor(GameConstants.GamePanel_ITEM_INFORMATION_FILL_COLOR);
         graphics2D.fillRoundRect(pos.x, pos.y, infoPanelWidth, infoPanelHeight, 5, 5);
-        graphics2D.setFont(new Font("Courier New", Font.BOLD, 20));
+        graphics2D.setFont(new Font("Courier New", Font.BOLD, 22));
         graphics2D.setColor(Color.black);
 
 
         graphics2D.drawString(GameConstants.GamePanel_INVENTORY_ITEM_TEXT_1, x_first_text_coord, y_first_text_coord);
-        graphics2D.drawLine(x_first_text_coord, y_first_text_coord, x_first_text_coord + 220, y_first_text_coord);
 
         int textHeight = (int) -graphics2D.getFontMetrics().getStringBounds("GetHeight!<3", graphics2D).getY();
 
         graphics2D.drawString(GameConstants.GamePanel_INVENTORY_ITEM_TEXT_2, x_first_text_coord, (y_first_text_coord + 1 * textHeight));
-        graphics2D.drawLine(x_first_text_coord, (y_first_text_coord + 1 * textHeight), x_first_text_coord + 115, (y_first_text_coord + 1 * textHeight));
 
-        graphics2D.drawString(GameConstants.GamePanel_ROOM_ITEM_TEXT, x_second_text_coord, y_second_text_coord);
-        graphics2D.drawLine(x_second_text_coord, y_second_text_coord, x_second_text_coord + 280, y_second_text_coord);
+        graphics2D.drawString(GameConstants.GamePanel_ROOM_ITEM_TEXT_1, x_second_text_coord, y_second_text_coord);
+
+        graphics2D.drawString(GameConstants.GamePanel_ROOM_ITEM_TEXT_2, x_second_text_coord, (y_second_text_coord + 1 * textHeight));
+
+        graphics2D.setFont(new Font("Courier New", Font.BOLD, 17));
 
         DrawItemInformation1(graphics2D, textHeight, x_first_text_coord, y_first_text_coord);
         DrawItemInformation2(graphics2D, textHeight, x_second_text_coord, y_second_text_coord);
