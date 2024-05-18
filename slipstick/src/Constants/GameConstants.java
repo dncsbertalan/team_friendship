@@ -137,7 +137,7 @@ public class GameConstants {
 // region IMAGES =======================================================================================================
 
     public static final String IMAGE_LOGO_FILEPATH = "slipstick/rsc/logo.png";
-    public static final String IMAGE_WALL_TMP_FILEPATH = "slipstick/rsc/wall.png";
+    public static final String IMAGE_WALL_TMP_FILEPATH = "slipstick/rsc/bg2.png";
 
     public static final String IMAGE_LOGO = "logo";
     public static final String IMAGE_WALL_TMP = "room_bg";

@@ -208,9 +208,17 @@ public class RoomObject {
         g.setTransform(centerTransform);
 
         // clips the shape from the image
-        g.setClip(polygon);
+        /*g.setClip(polygon);
         g.drawImage(imageManager.GetImage(GameConstants.IMAGE_WALL_TMP), rectangle.x, rectangle.y, null);
-        g.setClip(null);
+        g.setClip(null);*/
+
+        // Create TexturePaint\
+        BufferedImage image = imageManager.GetImage(GameConstants.IMAGE_WALL_TMP);
+        TexturePaint texturePaint = new TexturePaint(image, new Rectangle2D.Float(rectangle.x, rectangle.y, image.getWidth(), image.getHeight()));
+
+        // Fill shape with TexturePaint
+        g.setPaint(texturePaint);
+        g.fill(polygon);
 
         // outline
         g.setColor(Color.black);
