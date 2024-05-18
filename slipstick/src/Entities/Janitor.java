@@ -46,7 +46,9 @@ public class Janitor extends Entity implements IAI {
     public void AI() {
 
     }
-
+    /**
+     * Evicts every entity that is not paralysed from the room.
+     */
 
     public void EvictEveryone() {
         //no students or professors in the room
