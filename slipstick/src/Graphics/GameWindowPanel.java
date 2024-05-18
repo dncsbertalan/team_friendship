@@ -72,20 +72,17 @@ public class GameWindowPanel extends JPanel {
         KeyListener keyListener = new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
-                gameController.HandleInput(game.GetRoundManager().GetActiveStudent(), e.getKeyChar());
-                System.out.println("Key typed: " + e.getKeyChar());
+
             }
 
             @Override
             public void keyPressed(KeyEvent e) {
                 // Handle keyPressed if needed
                 gameController.HandleInput(game.GetRoundManager().GetActiveStudent(), e.getKeyChar());
-                System.out.println("Key pressed: " + e.getKeyChar());
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
-                // Handle keyReleased if needed
             }
         };
         this.addKeyListener(keyListener);
