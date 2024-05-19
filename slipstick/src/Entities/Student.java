@@ -34,6 +34,7 @@ public class Student extends Entity{
     public boolean StepInto(Room room) {
         if (room.GetNeighbours().contains(this.room) && room.CanStepIn()){
             ChangeRoom(room);
+            this.remainingTurns--;
             return true;
         }
         return false;

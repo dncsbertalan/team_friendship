@@ -31,6 +31,7 @@ public class Professor extends Entity implements IAI {
             this.room.RemoveProfessorFromRoom(this);
             this.room = room;
             room.AddProfessorToRoom(this);
+            this.remainingTurns--;
             return true;
         }
         return false;
