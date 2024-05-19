@@ -42,7 +42,7 @@ public abstract class Entity {
      * Whether the entity is KO from toxic gas.
      */
     private boolean paralysed;
-//endregion
+//endregion ============================================================================================================
 
     public Entity(Game g) {
         game = g;
@@ -62,6 +62,7 @@ public abstract class Entity {
     public int hashCode() {
         return Objects.hash(Name);
     }
+
     public String GetName() {
         return this.Name;
     }
@@ -74,7 +75,6 @@ public abstract class Entity {
      * Tries to move to the specified room
      * @param room the room it's trying to move into
      */
-
     public abstract boolean StepInto(Room room);
 
     /**
@@ -98,6 +98,7 @@ public abstract class Entity {
         this.paralysed = remainingTurns <= -1;
         return remainingTurns;
     }
+
     /**
      * Picks up specified item from current room
      * @param item the item getting picked up
@@ -107,16 +108,15 @@ public abstract class Entity {
             System.out.println("Inventory full");
             return;
         }
-        if (item.getClass() == SlipStick.class) {
-            //studentnel megvalositva
+        if (item instanceof SlipStick) {
+            // Studentnel megvalositva
             return;
         }
-        if(this.GetCurrentRoom().GetUnpickupableItems().contains(item) == false){
+        if(!this.GetCurrentRoom().GetUnpickupableItems().contains(item)){
             this.inventory.add(item);
             this.room.RemoveItemFromRoom(item);
         } else {
             System.out.println("Item is not pickupable.");
-            return;
         }
 
     }
@@ -128,7 +128,6 @@ public abstract class Entity {
     public void DropItem(Item item) {
         room.AddItemToRoom(item);
         inventory.remove(item);
-        //System.out.println(this.GetName() + " dropped " + item.GetName());
     }
 
     /**
@@ -220,6 +219,10 @@ public abstract class Entity {
         return inventory;
     }
 
+    /**
+     * Adds and item to the students inventory.
+     * @param item  the added item.
+     */
     public void AddItem(Item item) {
         if (inventory.size() == 5) {
             System.out.println("Inventory full");

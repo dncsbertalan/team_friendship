@@ -1,5 +1,8 @@
 package Graphics.Utils;
 
+import java.awt.*;
+import java.util.ArrayList;
+
 public class HelperMethods {
 
     /**
@@ -56,5 +59,21 @@ public class HelperMethods {
     public static float Lerp(float value1, float value2, float amount)
     {
         return value1 + (value2 - value1) * amount;
+    }
+
+    /**
+     * Gives back the length of the longest line in the array.
+     * @param lines lines array
+     * @param g     graphics2D instance with the given font already loaded in it
+     * @return      the length of the longest line
+     */
+    public static int GetLongestLineLength(ArrayList<String> lines, Graphics2D g) {
+        int currentLongest = 0;
+
+        for (String line : lines) {
+            currentLongest = Math.max((int) g.getFontMetrics().getStringBounds(line, g).getWidth(), currentLongest);
+        }
+
+        return currentLongest;
     }
 }

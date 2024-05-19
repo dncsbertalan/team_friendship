@@ -2,10 +2,7 @@ package Graphics;
 
 import Constants.GameConstants;
 import GameManagers.RoundManager;
-import Graphics.Utils.ErrorMessage;
-import Graphics.Utils.MenuButton;
-import Graphics.Utils.PlayerNameLabel;
-import Graphics.Utils.PlayerNameTextField;
+import Graphics.Utils.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -119,6 +116,9 @@ public class MenuWindowPanel2 extends JPanel implements ActionListener {
         nameField.setFont(GameConstants.MenuPanel2_TEXTFIELD_FONT);
         nameField.setMinimumSize(new Dimension(GameConstants.MenuPanel2_TEXTFIELD_WIDTH, GameConstants.MenuPanel2_TEXTFIELD_HEIGHT));
         nameField.setHorizontalAlignment(JTextField.CENTER);
+
+        // Limits the number of characters a player name can be
+        nameField.setDocument(new LengthRestrictedDocument(GameConstants.MAXIMUM_PLAYER_NAME_LENGTH));
 
         // Add the text field to the list
         nameFields.add(nameField);

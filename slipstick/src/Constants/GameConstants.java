@@ -59,6 +59,8 @@ public class GameConstants {
 // endregion
 
 // region MENU 2 =======================================================================================================
+    public static final int MAXIMUM_PLAYER_NAME_LENGTH = 20;
+
     public static final int MenuPanel2_WIDTH = 1000;
     public static final int MenuPanel2_HEIGHT = 800;
     public static final Color MenuPanel2_BACKGROUND_COLOR = Color.BLACK;
@@ -107,6 +109,8 @@ public class GameConstants {
 
 // region GAME =========================================================================================================
     public static final String GamePanel_ROUND_TEXT = "Round: ";
+    public static final String REMAINING_ROUND_TEXT = "   -> steps left: ";
+    public static final String STUDENT_STEPS_TEXT = "Steps left: ";
 
     public static final int GamePanel_WIDTH = 1000;
     public static final int GamePanel_HEIGHT = 800;
@@ -114,6 +118,15 @@ public class GameConstants {
     public static final Color GamePanel_EXIT_BUTTON_BORDER_COLOR = new Color(115,85,90,255);
     public static final Color GamePanel_EXIT_BUTTON_BACKGROUND_COLOR = Color.WHITE;
     public static final float GamePanel_EXIT_BUTTON_BORDER_THICKNESS = 5.0f;
+
+    // Item information panel
+    public static final Color GamePanel_ITEM_INFORMATION_BORDER_COLOR = new Color(115,85,90,255);
+    public static final Color GamePanel_ITEM_INFORMATION_FILL_COLOR = new Color(255, 255, 255, 186);
+
+    public static final String GamePanel_ROOM_ITEM_TEXT_1 = "Selected item";
+    public static final String GamePanel_ROOM_ITEM_TEXT_2 = "from room:";
+    public static final String GamePanel_INVENTORY_ITEM_TEXT_1 = "Selected item";
+    public static final String GamePanel_INVENTORY_ITEM_TEXT_2 = "from inventory:";
 
     // Room parameters
     public static final int ROOM_SIZE = 250;
@@ -167,18 +180,18 @@ public class GameConstants {
     public static final String IMAGE_TVSZ_FILEPATH = "slipstick/rsc/items/TVSZ.png";
 
     // Entity keys
-    public static final String IMAGE_STUDENT1 = "slipstick/rsc/entities/Player1.png";
-    public static final String IMAGE_STUDENT2 = "slipstick/rsc/entities/Player2.png";
-    public static final String IMAGE_STUDENT3 = "slipstick/rsc/entities/Player3.png";
-    public static final String IMAGE_STUDENT4 = "slipstick/rsc/entities/Player4.png";
-    public static final String IMAGE_PROFESSOR1 = "slipstick/rsc/entities/professor1.png";
-    public static final String IMAGE_PROFESSOR2 = "slipstick/rsc/entities/professor2.png";
-    public static final String IMAGE_PROFESSOR3 = "slipstick/rsc/entities/professor3.png";
-    public static final String IMAGE_PROFESSOR4 = "slipstick/rsc/entities/professor4.png";
-    public static final String IMAGE_JANITOR1 = "slipstick/rsc/entities/janitor1.png";
-    public static final String IMAGE_JANITOR2 = "slipstick/rsc/entities/janitor2.png";
-    public static final String IMAGE_JANITOR3 = "slipstick/rsc/entities/janitor3.png";
-    public static final String IMAGE_JANITOR4 = "slipstick/rsc/entities/janitor4.png";
+    public static final String IMAGE_STUDENT1 = "Player1";
+    public static final String IMAGE_STUDENT2 = "Player2";
+    public static final String IMAGE_STUDENT3 = "Player3";
+    public static final String IMAGE_STUDENT4 = "Player4";
+    public static final String IMAGE_PROFESSOR1 = "professor1";
+    public static final String IMAGE_PROFESSOR2 = "professor2";
+    public static final String IMAGE_PROFESSOR3 = "professor3";
+    public static final String IMAGE_PROFESSOR4 = "professor4";
+    public static final String IMAGE_JANITOR1 = "janitor1";
+    public static final String IMAGE_JANITOR2 = "janitor2";
+    public static final String IMAGE_JANITOR3 = "janitor3";
+    public static final String IMAGE_JANITOR4 = "janitor4";
 
     // Entity paths
     public static final String IMAGE_STUDENT1_FILEPATH = "slipstick/rsc/entities/Player1.png";
@@ -206,17 +219,6 @@ public class GameConstants {
     public static final String SOUND_DOOR2_FILEPATH = "slipstick/rsc/sounds/door2.wav";
     public static final String SOUND_DOOR1 = "door1";
     public static final String SOUND_DOOR2 = "door2";
-
-    //kincso
-
-    // Item information
-    public static final Color GamePanel_ITEM_INFORMATION_BORDER_COLOR = new Color(115,85,90,255);
-    public static final Color GamePanel_ITEM_INFORMATION_FILL_COLOR = new Color(255, 255, 255, 186);
-
-    public static final String GamePanel_ROOM_ITEM_TEXT_1 = "Selected item";
-    public static final String GamePanel_ROOM_ITEM_TEXT_2 = "from room:";
-    public static final String GamePanel_INVENTORY_ITEM_TEXT_1 = "Selected item";
-    public static final String GamePanel_INVENTORY_ITEM_TEXT_2 = "from inventory:";
 
 // endregion
 }
