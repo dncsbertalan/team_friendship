@@ -166,11 +166,13 @@ public class GameController {
      */
     public void StepStudent(Student student, Room stepInto) {
         boolean success = student.StepInto(stepInto);
+
         if (!success) {
             gamePanel.CreateScreenMessage(240, Color.red, "The room is full");
             return;
         }
         student.MissRounds(1);
+
         Random rand = new Random();
         if (rand.nextBoolean()) soundManager.playSoundOnce(GameConstants.SOUND_DOOR1);
         else soundManager.playSoundOnce(GameConstants.SOUND_DOOR2);

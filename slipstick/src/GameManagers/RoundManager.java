@@ -94,18 +94,7 @@ public class RoundManager{
         this.aiEntities.addAll(this.game.GetProfessors());
         this.aiEntities.addAll(this.game.GetJanitors());
 
-        // Reset student steps
-        for (Student student : studentsLeftThisRound) {
-            if (!student.IsDead()) {
-                student.IncreaseMoveCount(GameConstants.STEPS_IN_ONE_ROUND);
-            }
-        }
-
-        // Reset janitor and prof steps
-        for (IAI entity : aiEntities) {
-            ((Entity) entity).IncreaseMoveCount(GameConstants.STEPS_IN_ONE_ROUND);
-        }
-
+        
         activeStudent = this.studentsLeftThisRound.get(0);
         activeAIEntity = null;
 

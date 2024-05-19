@@ -17,6 +17,8 @@ public class DoorObject extends ClickableObject {
 
     @Override
     protected void click() {
+        System.out.println("geci");
+
         Student active = game.GetRoundManager().GetActiveStudent();
         if (active == null) return;
 
