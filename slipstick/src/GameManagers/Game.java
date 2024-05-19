@@ -7,13 +7,11 @@ import Labyrinth.*;
 import Constants.*;
 import Labyrinth.Map;
 
-import static Runnable.Main.gameController;
-import static Runnable.Main.os;
-
 import java.io.*;
 import java.util.*;
 
 import static Constants.GameConstants.randomSeed;
+import static Runnable.Main.*;
 
 /**
  * Initializes the game. Its main task is to handle the actions of the currently active student
@@ -77,7 +75,12 @@ public class Game {
      */
     public void InitPlayers(ArrayList<String> names) {
         for (String name : names) {
-            students.add(new Student(this, name));
+            // TODO kikommentezni majd
+            //students.add(new Student(this, name));
+            // TODO törölni majd
+            Student student = new Student(this, name);
+            students.add(student);
+            game.GetMap().GetMainHall().AddStudentToRoom(student);
         }
         this.roundManager.Init();
         os.println("TODO: majd clear a lista ha van már lebirintus generálás, addig jó így");
@@ -142,7 +145,7 @@ public class Game {
     public void SetPreGame() { pregame = false; }
 //endregion
 
-//region Methods
+//region Methods =======================================================================================================
     /**
      * Enables/disables lastPhase
      * @param state: desired state of the attribute

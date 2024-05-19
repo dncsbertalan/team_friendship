@@ -13,6 +13,8 @@ public class GameConstants {
     public static final int WetCloth_MissRoundCount = 1;
     public static final int EntitiesToBecomeSticky = 5; // idk
 
+    public static final int STEPS_IN_ONE_ROUND = 1;
+
     public static final int InventoryMaxSize = 5;
     public static final int DesiredFPS = 60;
 
@@ -28,9 +30,9 @@ public class GameConstants {
     public static final String TVSZ = "TVSZ_";
     public static final String WetCloth = "WetCloth_";
     public static final String RoomName = "Room_";
-    public static final String RoomName_MainHall = "MainHall_";
-    public static final String RoomName_JanitorsRoom = "Janitor'sRoom_";
-    public static final String  RoomName_TeachersLounge = "Teachers'Lounge_";
+    public static final String RoomName_MainHall = "MainHall";
+    public static final String RoomName_JanitorsRoom = "Janitor'sRoom";
+    public static final String  RoomName_TeachersLounge = "Teachers'Lounge";
     public static final String  RoomName_WinningRoom = "WinningRoom";
     public static final long randomSeed = 69;
 

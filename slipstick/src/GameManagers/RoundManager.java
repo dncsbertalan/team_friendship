@@ -89,12 +89,24 @@ public class RoundManager{
      */
     public void EndOfRound() {
 
-        // TODO: reset remaining lists
-        // reset the entities
+        // Reset the entity lists
         this.studentsLeftThisRound.addAll(this.game.GetStudents());
-        this.aiEntities.addAll(this.game.GetProfessors());  // TODO: takarító
+        this.aiEntities.addAll(this.game.GetProfessors());
+        this.aiEntities.addAll(this.game.GetJanitors());
 
-        activeStudent = this.studentsLeftThisRound.get(0);   // TODO: ennek kezdetben az első playernek kell lenni
+        // Reset student steps
+        for (Student student : studentsLeftThisRound) {
+            if (!student.IsDead()) {
+                student.IncreaseMoveCount(GameConstants.STEPS_IN_ONE_ROUND);
+            }
+        }
+
+        // Reset janitor and prof steps
+        for (IAI entity : aiEntities) {
+            ((Entity) entity).IncreaseMoveCount(GameConstants.STEPS_IN_ONE_ROUND);
+        }
+
+        activeStudent = this.studentsLeftThisRound.get(0);
         activeAIEntity = null;
 
         // TODO: kör vége logikák számlálók...
