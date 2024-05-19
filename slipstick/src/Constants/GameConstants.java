@@ -118,7 +118,9 @@ public class GameConstants {
     // Room parameters
     public static final int ROOM_SIZE = 250;
     public static final int ROOM_MIN_SIDES = 3;
-    public static final float SMALL_ROOM_SIZE_RATIO = 0.6f;
+    public static final float SMALL_ROOM_SIZE_RATIO = 0.5f;
+    // Wall
+    public static final int WALL_SIZE = 50;
 
     // Screen messages
     public static final int MAX_SCREEN_MESSAGES = 8;
@@ -137,10 +139,12 @@ public class GameConstants {
 // region IMAGES =======================================================================================================
 
     public static final String IMAGE_LOGO_FILEPATH = "slipstick/rsc/logo.png";
-    public static final String IMAGE_WALL_TMP_FILEPATH = "slipstick/rsc/bg2.png";
+    public static final String IMAGE_BG_FILEPATH = "slipstick/rsc/bg2.png";
+    public static final String IMAGE_WALL_FILEPATH = "slipstick/rsc/wall1.png";
 
     public static final String IMAGE_LOGO = "logo";
-    public static final String IMAGE_WALL_TMP = "room_bg";
+    public static final String IMAGE_BG = "room_bg";
+    public static final String IMAGE_WALL = "room_wall";
 
     // Item keys
     public static final String IMAGE_AIR_FRESHENER = "air_freshener";

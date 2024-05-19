@@ -15,6 +15,7 @@ import javax.swing.*;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -65,7 +66,10 @@ public class RoomObject {
 
         graphics2D.setColor(Color.pink);
         Rectangle rectangle = polygon.getBounds();
-        graphics2D.drawImage(GetRoomImage(polygon), rectangle.x - 10, rectangle.y - 10, null);
+        rectangle.x -= 2*GameConstants.WALL_SIZE;
+        rectangle.y -= 2*GameConstants.WALL_SIZE;
+
+        graphics2D.drawImage(GetRoomImage(polygon), rectangle.x , rectangle.y , null);
 
         // Room name
         Font font = new Font("Courier New", Font.BOLD, isSmallRoom ? 25 : 35);
@@ -234,9 +238,10 @@ public class RoomObject {
      * @param polygon   the polygon to be textured
      * @return  the image of the textured polygon
      */
-    private BufferedImage GetRoomImage(Shape polygon) {
+    private BufferedImage GetRoomImage(Polygon polygon) {
         Rectangle rectangle = polygon.getBounds();
-        BufferedImage tmp = new BufferedImage(rectangle.width + 20,rectangle.height + 20,BufferedImage.TYPE_INT_ARGB);
+
+        BufferedImage tmp = new BufferedImage(rectangle.width + 4*GameConstants.WALL_SIZE,rectangle.height + 4*GameConstants.WALL_SIZE,BufferedImage.TYPE_INT_ARGB);
 
         Graphics2D g = tmp.createGraphics();
 
@@ -244,36 +249,71 @@ public class RoomObject {
         g.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
 
         // creates a transform that centers the shape in the image
-        AffineTransform centerTransform = AffineTransform.getTranslateInstance(-rectangle.x + 10, -rectangle.y + 10);
+        AffineTransform centerTransform = AffineTransform.getTranslateInstance(-rectangle.x + 2*GameConstants.WALL_SIZE, -rectangle.y + 2*GameConstants.WALL_SIZE);
         g.setTransform(centerTransform);
 
-        // clips the shape from the image
-        /*g.setClip(polygon);
-        g.drawImage(imageManager.GetImage(GameConstants.IMAGE_WALL_TMP), rectangle.x, rectangle.y, null);
-        g.setClip(null);*/
-
-        // Create TexturePaint\
-        BufferedImage image = imageManager.GetImage(GameConstants.IMAGE_WALL_TMP);
-        TexturePaint texturePaint = new TexturePaint(image, new Rectangle2D.Float(rectangle.x, rectangle.y, image.getWidth(), image.getHeight()));
+        // Create TexturePaint
+        BufferedImage bg_image = imageManager.GetImage(GameConstants.IMAGE_BG);
+        TexturePaint texturePaint = new TexturePaint(bg_image, new Rectangle2D.Float(rectangle.x, rectangle.y, bg_image.getWidth(), bg_image.getHeight()));
 
         // Fill shape with TexturePaint
         g.setPaint(texturePaint);
         g.fill(polygon);
 
-        // outline
-        g.setColor(Color.black);
-        g.setStroke(new BasicStroke(isSmallRoom ? 10f * GameConstants.SMALL_ROOM_SIZE_RATIO : 10f));
-        g.draw(polygon);
-
+        // Draw trapezoids facing outwards along each edge of the polygon
+        for (int i = 0; i < polygon.npoints; i++) {
+            drawTexturedWall(g, polygon, i);
+        }
         g.dispose();
-
         return tmp;
     }
 
+    /**
+     * Draws a textured wall along the side of a polygon
+     * @param g Graphics2D
+     * @param polygon the polygon
+     * @param i the index of the side to be drawn on
+     */
+    private void drawTexturedWall(Graphics2D g, Polygon polygon, int i) {
+        //get base corners
+        int x1 = polygon.xpoints[i];
+        int y1 = polygon.ypoints[i];
+        int x2 = polygon.xpoints[(i + 1) % polygon.npoints];
+        int y2 = polygon.ypoints[(i + 1) % polygon.npoints];
 
+        // Calculate the remaining coordinates for the trapezoid
+        AffineTransform originalTransform = g.getTransform();
+        double wallAngle = Math.PI/polygon.npoints;
+        double z = GameConstants.WALL_SIZE / Math.cos(wallAngle);
+        int x2n = (int) (x1+ Point2D.distance(x1,y1,x2,y2));
+        int y2n = y1;
+        int x3n = (int) (x2n + Math.sin(wallAngle)*z);
+        int y3n = y2n - GameConstants.WALL_SIZE;
+        int x4n = (int) (x1 - Math.sin(wallAngle)*z);
+        int y4n = y3n;
 
+        int[] xpoints = {x1, x2n, x3n, x4n};
+        int[] ypoints = {y1, y2n, y3n, y4n};
 
+        Polygon wall = new Polygon(xpoints, ypoints, 4);
+        Rectangle wallBounds = wall.getBounds();
 
+        // Calculate the angle of the wall segment
+        double angle = Math.atan2(y2 - y1, x2 - x1);
+
+        // Create a new TexturePaint with the original image
+        BufferedImage wallImage = imageManager.GetImage(GameConstants.IMAGE_WALL);
+        Rectangle2D anchorRect = new Rectangle2D.Float(wallBounds.x, wallBounds.y, GameConstants.WALL_SIZE, GameConstants.WALL_SIZE);
+        TexturePaint wallPaint = new TexturePaint(wallImage, anchorRect);
+
+        // Rotate the Graphics2D context to align the texture
+        g.rotate(angle, x1, y1);
+        g.setPaint(wallPaint);
+        g.fill(wall);
+
+        // Reset the transform
+        g.setTransform(originalTransform);
+    }
         public BufferedImage GetImageForEntity(Entity entity, int num) {
             String imagePath = null;
             num = num % 4;

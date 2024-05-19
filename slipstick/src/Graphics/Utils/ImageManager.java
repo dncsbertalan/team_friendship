@@ -70,7 +70,8 @@ public class ImageManager {
      */
     public void LoadGameImages() {
 
-        loadImageAs(GameConstants.IMAGE_WALL_TMP, GameConstants.IMAGE_WALL_TMP_FILEPATH);
+        loadImageAs(GameConstants.IMAGE_BG, GameConstants.IMAGE_BG_FILEPATH);
+        loadImageAs(GameConstants.IMAGE_WALL, GameConstants.IMAGE_WALL_FILEPATH);
 
         loadImageAs(GameConstants.IMAGE_AIR_FRESHENER, GameConstants.IMAGE_AIR_FRESHENER_FILEPATH);
         loadImageAs(GameConstants.IMAGE_BEER, GameConstants.IMAGE_BEER_FILEPATH);
