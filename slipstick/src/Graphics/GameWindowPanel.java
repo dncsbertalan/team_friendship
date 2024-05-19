@@ -12,6 +12,7 @@ import Items.*;
 import Labyrinth.Room;
 
 import javax.imageio.ImageIO;
+import javax.print.attribute.standard.ReferenceUriSchemesSupported;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -173,6 +174,7 @@ public class GameWindowPanel extends JPanel {
 
         Student active = game.GetRoundManager().GetActiveStudent();
         if (active == null) return;
+
         Room curRoom = active.GetCurrentRoom();
         RoomObject roomObject = new RoomObject(this, Vector2.Mult(windowSize, 0.5f), curRoom, active.GetRemainingTurns()<=0);
         roomObject.Draw(graphics2D);
@@ -403,13 +405,15 @@ public class GameWindowPanel extends JPanel {
     private void DrawItemInformation1(Graphics2D graphics2D, int textHeight, int x_first_text_coord, int y_first_text_coord){
 
         Student activeStudent = game.GetRoundManager().GetActiveStudent();
+        if (activeStudent == null) return;
+
         Item selectedItem = activeStudent.GetSelectedItem();
         String name = null;
         String usable = null;
         String activateable = null;
         String remainingUsages = null;
 
-        if(activeStudent != null && selectedItem != null){
+        if (selectedItem != null){
             if(selectedItem.getClass() == AirFreshener.class){
                 name = "air freshener";
                 usable = "-useable";
