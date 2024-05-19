@@ -1,18 +1,14 @@
 package Graphics;
 
 import Constants.GameConstants;
-import Entities.Entity;
 import Entities.Student;
 import Graphics.Listeners.GameWindowMouseWheelListener;
-import Graphics.Utils.Clickable.ClickableObject;
+import Graphics.Clickable.ClickableObject;
 import Graphics.Listeners.GameWindowMouseListener;
-import Graphics.Utils.Clickable.RoomObject;
-import Graphics.Utils.HelperMethods;
-import Graphics.Utils.MenuButton;
-import Graphics.Utils.ScreenMessage;
+import Graphics.Clickable.RoomObject;
+import Graphics.Utils.*;
 import Items.*;
 import Labyrinth.Room;
-import Graphics.Utils.Vector2;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -21,10 +17,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static Runnable.Main.*;
 
@@ -151,7 +149,7 @@ public class GameWindowPanel extends JPanel {
 
         DrawRoom(graphics2D);
         DrawCurrentRound(graphics2D);
-        DrawEntityInfo(graphics2D);
+        DrawStudentsInfo(graphics2D);
         DrawInventory(graphics2D);
         DrawScreenMessages(graphics2D);
         DrawItemInformationTable(graphics2D);
@@ -163,62 +161,9 @@ public class GameWindowPanel extends JPanel {
         return mousePosition;
     }
 
-//endregion
+//endregion ============================================================================================================
 
 // region DRAW =========================================================================================================
-
-    /**
-     * Draws the item to the screen.
-     * @param graphics2D    graphics2D instance
-     * @param item          the item to be drawn
-     * @param center        the center position of the item
-     * @param scale         the scale of the item's image
-     */
-    public static void DrawItem(final Graphics2D graphics2D, final Item item, final Vector2 center, final float scale) {
-
-        BufferedImage image;
-
-        if (item instanceof AirFreshener) {
-            image = imageManager.resizeImage(GameConstants.IMAGE_AIR_FRESHENER, scale);
-            //image = imageManager.GetImage(GameConstants.IMAGE_AIR_FRESHENER);
-        }
-        else if (item instanceof Beer) {
-            image = imageManager.resizeImage(GameConstants.IMAGE_BEER, scale);
-            //image = imageManager.GetImage(GameConstants.IMAGE_BEER);
-        }
-        else if (item instanceof Cheese) {
-            image = imageManager.resizeImage(GameConstants.IMAGE_CHEESE, scale);
-            //image = imageManager.GetImage(GameConstants.IMAGE_CHEESE);
-        }
-        else if (item instanceof FFP2Mask) {
-            image = imageManager.resizeImage(GameConstants.IMAGE_FFP2_MASK, scale);
-            //image = imageManager.GetImage(GameConstants.IMAGE_FFP2_MASK);
-        }
-        else if (item instanceof SlipStick) {
-            //image = imageManager.resizeImage(GameConstants.IMAGE_SLIPSTICK, scale);
-            image = imageManager.GetImage(GameConstants.IMAGE_SLIPSTICK);
-        }
-        else if (item instanceof Transistor) {
-            image = imageManager.resizeImage(GameConstants.IMAGE_TRANSISTOR, scale);
-            //image = imageManager.GetImage(GameConstants.IMAGE_TRANSISTOR);
-        }
-        else if (item instanceof TVSZ) {
-            image = imageManager.resizeImage(GameConstants.IMAGE_TVSZ, scale);
-            //image = imageManager.GetImage(GameConstants.IMAGE_TVSZ);
-        }
-        else if (item instanceof WetCloth) {
-            image = imageManager.resizeImage(GameConstants.IMAGE_WET_CLOTH, scale);
-            //image = imageManager.GetImage(GameConstants.IMAGE_WET_CLOTH);
-        }
-        else {  // FAKE ITEM
-            image = imageManager.resizeImage("temp", scale);
-            //image = imageManager.GetImage("temp");
-        }
-
-        if (image == null) return;
-
-        graphics2D.drawImage(image, center.x - image.getWidth() / 2, center.y - image.getHeight() / 2, null);
-    }
 
     /**
      * Draws the currently active student's room.
@@ -283,7 +228,7 @@ public class GameWindowPanel extends JPanel {
 
             if(i < numberOfStudentsItems){
                 Item item = active.GetInventory().get(i);
-                DrawItem(graphics2D, item, Vector2.Add(pos, new Vector2(size / 2, invRectSize / 2)), itemScale);
+                DrawUtils.DrawItem(graphics2D, item, Vector2.Add(pos, new Vector2(size / 2, invRectSize / 2)), itemScale);
             }
 
             pos.AddX(size + spaceBetweenSlots);
@@ -295,50 +240,113 @@ public class GameWindowPanel extends JPanel {
      * @param graphics2D graphics instance
      */
     private void DrawCurrentRound(Graphics2D graphics2D) {
-        //Font font = new Font("Times New Roman", Font.BOLD, 25);
         Font font = new Font("Courier New", Font.BOLD, 25);
-        graphics2D.setFont(font);
-
-        Vector2 pos = Vector2.Mult(windowSize, 0.9f, 0.05f);
-        graphics2D.drawString(GameConstants.GamePanel_ROUND_TEXT + game.GetRoundManager().GetCurrentRound()
-        , pos.x, pos.y);
+        ArrayList<String> lines = new ArrayList<>();
+        String roundText = GameConstants.GamePanel_ROUND_TEXT + game.GetRoundManager().GetCurrentRound();
+        lines.add(roundText);
+        PanelWithText roundPanel = new PanelWithText(graphics2D, lines, font, 0, 15);
+        roundPanel.Draw(new Vector2(windowSize.x - roundPanel.GetBoxWidth() - 20, 20));
     }
 
     /**
      * Draws the entities to the screen.
      * @param graphics2D graphics instance
      */
-    private void DrawEntityInfo(Graphics2D graphics2D) {
-        Vector2 pos = new Vector2(GameConstants.GamePanel_ENTITY_INFO_POS().x, (int) (windowSize.y * 0.15f));
-        int spaceBetweenLines = 20;
+    private void DrawStudentsInfo(Graphics2D graphics2D) {
+        Graphics2D g = (Graphics2D) graphics2D.create();
+        Font basicFont = new Font("Courier new", Font.PLAIN, 16);
+        Font activeFont = new Font("Courier new", Font.BOLD, 19);
+        g.setFont(basicFont);
 
-        Font font = new Font("Times New Roman", Font.BOLD, 20);
-        graphics2D.setFont(font);
+        final HashMap<Font, Integer> fontHeight = new HashMap<>();
+        final int characterHeight = (int) g.getFontMetrics().getStringBounds("GetHeight!<3", g).getHeight();
+        g.setFont(activeFont);
+        final int activeCharacterHeight = (int) g.getFontMetrics().getStringBounds("GetHeight!<3", g).getHeight();
+        fontHeight.put(basicFont, characterHeight);
+        fontHeight.put(activeFont, activeCharacterHeight);
 
-        ArrayList<Entity> entities = new ArrayList<>(game.GetStudents());
-        for (Entity entity : entities) {
+        // Puts the information into a string array
+        final ArrayList<String> infoLines = new ArrayList<>();
+        final HashMap<String, Font> infoLineFonts = new HashMap<>();
+        final int activeStudentPlusInfo = 1;
+        int activeStudentLine = 0;
+        for (Student student : game.GetStudents()) {
+            String line = student.GetName();
 
-            Student entityCastAsStudent = (Student) entity;
-
-            pos.AddY(spaceBetweenLines);
-            String textName = entityCastAsStudent.GetName();
-            String textStatus;
-
-            if(entityCastAsStudent.IsParalysed()){
-                textStatus = " : paralysed";
-            } else if(entityCastAsStudent.IsDead()){
-                textStatus = " : R.I.P.";
+            if(student.IsParalysed()){
+                line += " : paralysed";
+            } else if(student.IsDead()){
+                line += " : R.I.P.";
             } else {
-                textStatus = " : alive and well";
+                line += " : alive and well";
             }
 
-            String text = textName + textStatus;
+            infoLines.add(line);
 
-            graphics2D.drawString(text, pos.x, pos.y);
-            if(entityCastAsStudent == game.GetRoundManager().GetActiveStudent()){
-                graphics2D.drawLine(pos.x, pos.y+2, pos.x + getFontMetrics(getFont()).stringWidth(textName), pos.y + 2);
+            if(student == game.GetRoundManager().GetActiveStudent()){
+                String plusInfoLine1 = GameConstants.REMAINING_ROUND_TEXT + student.GetRemainingTurns();
+                infoLines.add(plusInfoLine1);
+                activeStudentLine = game.GetStudents().indexOf(student);
+                infoLineFonts.put(plusInfoLine1, activeFont);
+                infoLineFonts.put(line, activeFont);
+            }
+            else {
+                infoLineFonts.put(line, basicFont);
             }
         }
+
+        final int topPadding = 2;
+        final int bottomPadding = 10;
+        final int rightLeftPadding = 10;
+        final int backBoxSizeDiff = 3;
+        final int infoBoxTextsWidth = HelperMethods.GetLongestLineLength(infoLines, g);
+        final int infoBoxTextsHeight = (infoLines.size() - 1 - activeStudentPlusInfo) * characterHeight + (1 + activeStudentPlusInfo) * activeCharacterHeight;
+        final int infoBoxBackWidth = infoBoxTextsWidth + rightLeftPadding * 2 + backBoxSizeDiff * 2;
+        final int infoBoxBackHeight = infoBoxTextsHeight + topPadding + bottomPadding + backBoxSizeDiff * 2;
+        final int infoBoxWidth = infoBoxTextsWidth + rightLeftPadding * 2;
+        final int infoBoxHeight = infoBoxTextsHeight + topPadding + bottomPadding;
+        final int arc = 10;
+        final float activeStudentBoxOutlineWidth = 2f;
+        final int activeStudentBoxPosY = activeCharacterHeight * activeStudentLine + activeCharacterHeight / 4;
+        final int activeStudentBoxHeight = activeCharacterHeight * (1 + activeStudentPlusInfo);
+        Vector2 pos = new Vector2(GameConstants.GamePanel_ENTITY_INFO_POS().x, windowSize.y / 2 - infoBoxBackHeight / 2);
+
+        // Background box
+        final Color infoBackBoxColor = new Color(115,85,90,150);
+        g.setColor(infoBackBoxColor);
+        g.fillRoundRect(pos.x, pos.y, infoBoxBackWidth, infoBoxBackHeight, arc, arc);
+        pos.Add(new Vector2(backBoxSizeDiff, backBoxSizeDiff));
+
+        // Front box
+        final Color infoBoxColor = new Color(255, 255, 255, 186);
+        g.setColor(infoBoxColor);
+        g.fillRoundRect(pos.x, pos.y, infoBoxWidth, infoBoxHeight, arc, arc);
+
+        // The currently active students box
+        final Color activeBoxColor = new Color(101, 206, 96, 110);
+        g.setColor(activeBoxColor);
+        g.fillRoundRect(pos.x, pos.y + activeStudentBoxPosY, infoBoxWidth, activeStudentBoxHeight, arc, arc);
+
+        // The currently active students box outline
+        final Color activeBoxOutlineColor = new Color(81, 189, 77, 203);
+        g.setColor(activeBoxOutlineColor);
+        g.setStroke(new BasicStroke(activeStudentBoxOutlineWidth));
+        g.drawRoundRect(pos.x, pos.y + activeStudentBoxPosY, infoBoxWidth, activeStudentBoxHeight, arc, arc);
+
+        // Draw the info lines
+        pos.Add(new Vector2(rightLeftPadding, topPadding));
+        g.setColor(Color.black);
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        for (String infoLine : infoLines) {
+            Font font = infoLineFonts.get(infoLine);
+            g.setFont(font);
+            pos.AddY(fontHeight.get(font));
+            g.drawString(infoLine, pos.x, pos.y);
+            //g.drawRect(pos.x, pos.y - fontHeight.get(font), 10, fontHeight.get(font));
+        }
+
+        g.dispose();
     }
 
     /**
@@ -346,6 +354,8 @@ public class GameWindowPanel extends JPanel {
      * @param graphics2D graphics instance
      */
     private void DrawItemInformationTable (Graphics2D graphics2D){
+        Graphics2D g = (Graphics2D) graphics2D.create();
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         int infoPanelWidth = (int) (windowSize.x * 0.15);
         int infoPanelHeight = (int) (windowSize.x * 0.25);
@@ -366,28 +376,30 @@ public class GameWindowPanel extends JPanel {
 
         Vector2 pos = new Vector2(x_calculated_coord, y_calculated_coord);
 
-        graphics2D.setColor(GameConstants.GamePanel_ITEM_INFORMATION_BORDER_COLOR);
-        graphics2D.fillRoundRect(pos.x - 5, pos.y - 5, infoPanelWidth + 10, infoPanelHeight + 10, 5, 5);
-        graphics2D.setColor(GameConstants.GamePanel_ITEM_INFORMATION_FILL_COLOR);
-        graphics2D.fillRoundRect(pos.x, pos.y, infoPanelWidth, infoPanelHeight, 5, 5);
-        graphics2D.setFont(new Font("Courier New", Font.BOLD, 22));
-        graphics2D.setColor(Color.black);
+        g.setColor(GameConstants.GamePanel_ITEM_INFORMATION_BORDER_COLOR);
+        g.fillRoundRect(pos.x - 5, pos.y - 5, infoPanelWidth + 10, infoPanelHeight + 10, 5, 5);
+        g.setColor(GameConstants.GamePanel_ITEM_INFORMATION_FILL_COLOR);
+        g.fillRoundRect(pos.x, pos.y, infoPanelWidth, infoPanelHeight, 5, 5);
+        g.setFont(new Font("Courier New", Font.BOLD, 22));
+        g.setColor(Color.black);
 
 
-        graphics2D.drawString(GameConstants.GamePanel_INVENTORY_ITEM_TEXT_1, x_first_text_coord, y_first_text_coord);
+        g.drawString(GameConstants.GamePanel_INVENTORY_ITEM_TEXT_1, x_first_text_coord, y_first_text_coord);
 
-        int textHeight = (int) -graphics2D.getFontMetrics().getStringBounds("GetHeight!<3", graphics2D).getY();
+        int textHeight = (int) -g.getFontMetrics().getStringBounds("GetHeight!<3", g).getY();
 
-        graphics2D.drawString(GameConstants.GamePanel_INVENTORY_ITEM_TEXT_2, x_first_text_coord, (y_first_text_coord + 1 * textHeight));
+        g.drawString(GameConstants.GamePanel_INVENTORY_ITEM_TEXT_2, x_first_text_coord, (y_first_text_coord + 1 * textHeight));
 
-        graphics2D.drawString(GameConstants.GamePanel_ROOM_ITEM_TEXT_1, x_second_text_coord, y_second_text_coord);
+        g.drawString(GameConstants.GamePanel_ROOM_ITEM_TEXT_1, x_second_text_coord, y_second_text_coord);
 
-        graphics2D.drawString(GameConstants.GamePanel_ROOM_ITEM_TEXT_2, x_second_text_coord, (y_second_text_coord + 1 * textHeight));
+        g.drawString(GameConstants.GamePanel_ROOM_ITEM_TEXT_2, x_second_text_coord, (y_second_text_coord + 1 * textHeight));
 
-        graphics2D.setFont(new Font("Courier New", Font.BOLD, 17));
+        g.setFont(new Font("Courier New", Font.BOLD, 17));
 
-        DrawItemInformation1(graphics2D, textHeight, x_first_text_coord, y_first_text_coord);
-        DrawItemInformation2(graphics2D, textHeight, x_second_text_coord, y_second_text_coord);
+        DrawItemInformation1(g, textHeight, x_first_text_coord, y_first_text_coord);
+        DrawItemInformation2(g, textHeight, x_second_text_coord, y_second_text_coord);
+
+        g.dispose();
     }
 
     private void DrawItemInformation1(Graphics2D graphics2D, int textHeight, int x_first_text_coord, int y_first_text_coord){
@@ -546,10 +558,12 @@ public class GameWindowPanel extends JPanel {
     private void DrawScreenMessages(Graphics2D graphics2D) {
         if (screenMessages.isEmpty()) return;
 
+        Graphics2D g = (Graphics2D) graphics2D.create();
+
         // Calculates the height of the texts
         int textsHeight = (screenMessages.size() - 1) * GameConstants.SCREEN_MESSAGE_DISTANCE;
-        int textHeight = (int) -graphics2D.getFontMetrics().getStringBounds("GetHeight!<3", graphics2D).getY();
-        graphics2D.setFont(GameConstants.SCREEN_MESSAGE_FONT);
+        int textHeight = (int) -g.getFontMetrics().getStringBounds("GetHeight!<3", g).getY();
+        g.setFont(GameConstants.SCREEN_MESSAGE_FONT);
 
         for (ScreenMessage sc : screenMessages) {
             textsHeight += textHeight;
@@ -558,12 +572,16 @@ public class GameWindowPanel extends JPanel {
         Vector2 posOnScreen = new Vector2(GameConstants.GamePanel_SCREEN_MESSAGE_BOTTOM_LEFT().x,
                 windowSize.y - GameConstants.GamePanel_SCREEN_MESSAGE_BOTTOM_LEFT().y - textsHeight);
 
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
         for (ScreenMessage sc : screenMessages) {
             int alpha = (int) HelperMethods.Remap(sc.GetTimeLeft(), 60, 0, 255, 0, true);
-            graphics2D.setColor(new Color(sc.GetColor().getRed(), sc.GetColor().getGreen(), sc.GetColor().getBlue(), alpha));
-            graphics2D.drawString(sc.GetMessage(), posOnScreen.x, posOnScreen.y);
+            g.setColor(new Color(sc.GetColor().getRed(), sc.GetColor().getGreen(), sc.GetColor().getBlue(), alpha));
+            g.drawString(sc.GetMessage(), posOnScreen.x, posOnScreen.y);
             posOnScreen.AddY(textHeight + GameConstants.SCREEN_MESSAGE_DISTANCE);
         }
+
+        g.dispose();
     }
 
     /**
@@ -598,7 +616,7 @@ public class GameWindowPanel extends JPanel {
         // If the game was lost
     }
 
-// endregion
+// endregion ===========================================================================================================
 
 // region Clickable objects ============================================================================================
 
@@ -633,7 +651,7 @@ public class GameWindowPanel extends JPanel {
         }
     }
 
-// endregion
+// endregion ===========================================================================================================
 
 // region Message panel ================================================================================================
 
@@ -684,5 +702,5 @@ public class GameWindowPanel extends JPanel {
         }
     }
 
-// endregion
+// endregion ===========================================================================================================
 }

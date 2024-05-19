@@ -15,7 +15,7 @@ import java.io.PrintStream;
 public class Main {
 
     public static PrintStream os = System.out;
-    public static final Game game = new Game();
+    public static Game game = new Game(); // TODO NO INIT HERE AFTER LAB GEN
     public static final Menu menu = new Menu();
     public static final GameController gameController = new GameController();
     public static final ImageManager imageManager = new ImageManager();

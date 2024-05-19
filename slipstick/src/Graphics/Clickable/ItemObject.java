@@ -1,7 +1,7 @@
-package Graphics.Utils.Clickable;
+package Graphics.Clickable;
 
+import Graphics.Utils.DrawUtils;
 import Graphics.Utils.Vector2;
-import Graphics.GameWindowPanel;
 import Items.Item;
 
 import java.awt.*;
@@ -32,7 +32,7 @@ public class ItemObject extends ClickableObject {
             graphics2D.fillRect(this.position.x - 2, this.position.y - 2, this.size + 10, this.size + 10);
         }
 
-        GameWindowPanel.DrawItem(graphics2D, item, centerPosition, 100);
+        DrawUtils.DrawItem(graphics2D, item, centerPosition, 100);
     }
 
     @Override

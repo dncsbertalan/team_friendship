@@ -1,4 +1,4 @@
-package Graphics.Utils.Clickable;
+package Graphics.Clickable;
 
 import Graphics.Utils.Vector2;
 

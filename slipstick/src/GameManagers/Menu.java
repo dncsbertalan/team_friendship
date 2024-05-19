@@ -12,6 +12,8 @@ public class Menu {
      * Starts the game from the menu.
      */
     public void StartGame() {
+        //Main.game = new Game();
+        System.out.println("Ki kell szedni a menü startból a kommentet ha van lab generálás!");
         Main.game.InitPlayers(playerNames);
         Main.gameController.StartGame();
     }
