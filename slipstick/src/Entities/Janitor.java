@@ -32,6 +32,7 @@ public class Janitor extends Entity implements IAI {
             this.room.RemoveJanitorFromRoom(this);
             this.room = room;
             room.AddJanitorToRoom(this);
+            this.remainingTurns--;
             return true;
         }
         return false;

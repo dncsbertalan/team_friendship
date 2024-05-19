@@ -1,6 +1,7 @@
 package Entities;
 
 import Constants.Enums.*;
+import Constants.GameConstants;
 import GameManagers.Game;
 import Items.Item;
 import Items.SlipStick;
@@ -28,6 +29,7 @@ public abstract class Entity {
      * Items belonging to the Entity (5 max)
      */
     protected ArrayList<Item> inventory = new ArrayList<>();
+
     /**
      * Number of moves left this Round
      */
@@ -47,6 +49,7 @@ public abstract class Entity {
     public Entity(Game g) {
         game = g;
         id++;
+        remainingTurns = GameConstants.STEPS_IN_ONE_ROUND;
     }
 
     @Override
