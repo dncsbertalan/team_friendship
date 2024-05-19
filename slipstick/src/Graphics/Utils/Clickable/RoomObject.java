@@ -10,16 +10,11 @@ import Graphics.GameWindowPanel;
 import Items.Item;
 import Labyrinth.Room;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
-
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -93,8 +88,6 @@ public class RoomObject {
         final float angleBetween = 360f / room.GetCapacity();
         final int _dist = isSmallRoom ? (int) (50 * GameConstants.SMALL_ROOM_SIZE_RATIO) : 50;
         Vector2 distanceFromCenter = new Vector2(_dist, 0);
-
-        // todo different texture and consistent
 
         ArrayList<Entity> entities = room.GetEntities();
         int drawnEntities = 0;
@@ -292,7 +285,7 @@ public class RoomObject {
         int x4n = (int) (x1 - Math.sin(wallAngle)*z);
         int y4n = y3n;
 
-        int[] xpoints = {x1, x2n, x3n, x4n};
+        int[] xpoints = {x1-1, x2n+1, x3n+1, x4n-1};
         int[] ypoints = {y1, y2n, y3n, y4n};
 
         Polygon wall = new Polygon(xpoints, ypoints, 4);
@@ -345,7 +338,7 @@ public class RoomObject {
             }if(entity instanceof Janitor) {
                 imagePath = JanitorImageMap.get(num);
             }
-            return (imagePath != null) ? imageManager.resizeImage(imagePath, 150) : null;
+            return (imagePath != null) ? imageManager.resizeImage(imagePath, GameConstants.CHARACTERIZE) : null;
         }
 
 

@@ -119,6 +119,7 @@ public class GameConstants {
     public static final int ROOM_SIZE = 250;
     public static final int ROOM_MIN_SIDES = 3;
     public static final float SMALL_ROOM_SIZE_RATIO = 0.5f;
+    public static int CHARACTERIZE = 250;
     // Wall
     public static final int WALL_SIZE = 50;
 
@@ -129,8 +130,6 @@ public class GameConstants {
     public static final Color SCREEN_MESSAGE_DEFAUL_COLOR = Color.black;
     public static Vector2 GamePanel_SCREEN_MESSAGE_BOTTOM_LEFT() { return new Vector2(20, 20); }
 
-    public  static final String WALL_BG_TEMP = "slipstick/rsc/wall.png";
-
     public static Vector2 GamePanel_INVENTORY_POS() { return new Vector2(20, 20); }
     public static Vector2 GamePanel_ENTITY_INFO_POS() { return new Vector2(20, 100); }
 
@@ -140,7 +139,7 @@ public class GameConstants {
 
     public static final String IMAGE_LOGO_FILEPATH = "slipstick/rsc/logo.png";
     public static final String IMAGE_BG_FILEPATH = "slipstick/rsc/bg2.png";
-    public static final String IMAGE_WALL_FILEPATH = "slipstick/rsc/wall1.png";
+    public static final String IMAGE_WALL_FILEPATH = "slipstick/rsc/wall3.png";
 
     public static final String IMAGE_LOGO = "logo";
     public static final String IMAGE_BG = "room_bg";
