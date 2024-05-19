@@ -1,5 +1,6 @@
 package GameManagers;
 import Constants.GameConstants;
+import Control.GameController;
 import Entities.*;
 
 import java.util.ArrayList;
@@ -114,6 +115,7 @@ public class RoundManager{
             // Make the next student active
             if (!studentsLeftThisRound.isEmpty()) {
                 activeStudent = studentsLeftThisRound.get(0);
+                GameController.isFirstMove=false;
                 return;
             }
             // if there are no students left this round

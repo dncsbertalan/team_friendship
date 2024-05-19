@@ -1,6 +1,7 @@
 package Graphics;
 
 import Constants.GameConstants;
+import Control.GameController;
 import Entities.Student;
 import Graphics.Listeners.GameWindowMouseWheelListener;
 import Graphics.Clickable.ClickableObject;
@@ -65,7 +66,6 @@ public class GameWindowPanel extends JPanel {
         this.addMouseListener(mouseListener);
         GameWindowMouseWheelListener mouseWheelListener = new GameWindowMouseWheelListener();
         this.addMouseWheelListener(mouseWheelListener);
-
         // Add the KeyListener
         KeyListener keyListener = new KeyListener() {
             @Override
@@ -175,8 +175,7 @@ public class GameWindowPanel extends JPanel {
         if (active == null) return;
 
         Room curRoom = active.GetCurrentRoom();
-        boolean isFirstMove = gameController.isFirstMove;
-        RoomObject roomObject = new RoomObject(this, Vector2.Mult(windowSize, 0.5f), curRoom, false);
+        RoomObject roomObject = new RoomObject(this, Vector2.Mult(windowSize, 0.5f), curRoom, GameController.isFirstMove);
         roomObject.Draw(graphics2D);
 
         // Draw the neighbours

@@ -31,7 +31,7 @@ public class MenuWindowPanel1 extends JPanel implements ActionListener {
         this.setPreferredSize(new Dimension(GameConstants.MenuPanel1_WIDTH, GameConstants.MenuPanel1_HEIGHT));
 
         try {
-            BufferedImage logo = ImageIO.read(new File(GameConstants.MenuPanel1_LOGO_FILEPATH));
+            Image logo = ImageIO.read(new File(GameConstants.MenuPanel1_LOGO_FILEPATH));
             int newWidth = GameConstants.MenuPanel1_LOGO_RESIZE_WIDTH;
             int newHeight = GameConstants.MenuPanel1_LOGO_RESIZE_HEIGHT;
             Image scaledLogo = logo.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);

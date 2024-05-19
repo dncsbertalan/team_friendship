@@ -17,8 +17,8 @@ import java.util.Random;
 import static Runnable.Main.*;
 
 public class GameController {
-
-    public boolean isFirstMove = true;
+    //a student can only use 1 door in a turn
+    public static boolean isFirstMove = false;
     private boolean isRunning;
     private GameWindowPanel gamePanel;
     private Thread gameThread;
@@ -117,9 +117,12 @@ public class GameController {
             case '4':
                 student.SelectInventorySlot(4);
                 break;
+            case '5':
+                student.SelectInventorySlot(5);
+                break;
             case 'd':
                 if(student.GetSelectedItem() != null ) {
-                    NewScreenMessage(270, "Dropped " + student.GetSelectedItem());
+                    NewScreenMessage(270, "Dropped " + student.GetSelectedItem().GetName());
                     student.DropSelectedItem();
                 }
                 break;
@@ -145,7 +148,7 @@ public class GameController {
                 break;
             case 'e':
                 roundManager.EndTurn();
-                isFirstMove = true;
+                //isFirstMove = true;
                 return;
             case 'c':
                 //TODO ITEMS IN ROOM
@@ -168,7 +171,7 @@ public class GameController {
             gamePanel.CreateScreenMessage(240, Color.red, "The room is full");
             return;
         }
-        isFirstMove = false;
+        isFirstMove = true;
         Random rand = new Random();
         if (rand.nextBoolean()) soundManager.playSoundOnce(GameConstants.SOUND_DOOR1);
         else soundManager.playSoundOnce(GameConstants.SOUND_DOOR2);
@@ -241,7 +244,7 @@ public class GameController {
         if(student.IsDead()) {
             NewScreenMessage(240, Color.RED,"Student " + student.GetName() + " is dead.");
             roundManager.EndTurn();
-            isFirstMove = true;
+           // isFirstMove = true;
         }
 
     }
