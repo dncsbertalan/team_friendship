@@ -20,6 +20,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static Runnable.Main.*;
 
@@ -32,6 +34,7 @@ public class RoomObject {
     private final Vector2 centerPos;
     private final GameWindowPanel gamePanel;
     private final boolean isSmallRoom;
+    private HashMap<String, BufferedImage> skins = new HashMap<>();
 
     public RoomObject(GameWindowPanel gamePanel, Vector2 centerPos, Room room, boolean isSmallRoom) {
         this.gamePanel = gamePanel;
@@ -87,24 +90,43 @@ public class RoomObject {
         final int _dist = isSmallRoom ? (int) (50 * GameConstants.SMALL_ROOM_SIZE_RATIO) : 50;
         Vector2 distanceFromCenter = new Vector2(_dist, 0);
 
+        // todo different texture and consistent
+
         ArrayList<Entity> entities = room.GetEntities();
         int drawnEntities = 0;
+        int students = 0;
+        int professors = 0;
+        int janitors = 0;
 
-        // todo different texture and consistent
-        BufferedImage entityImage;
+        // assigns skin to entity if it doesn't already have one, otherwise draws the skin
         for (Entity entity : entities) {
-            if (entity instanceof Student) {
-                entityImage = imageManager.resizeImage(GameConstants.IMAGE_STUDENT1, 150);
+            BufferedImage entityImage = null;
+            if(!skins.containsKey(entity.GetName())) {
+                //System.out.println("ÚJ ENTITY" + entity.GetName());
+                //skins.forEach((key, value) -> System.out.println("Key: " + key + ", Value: " + value));
+                if (entity instanceof Student) {
+                    entityImage = GetImageForEntity(entity, ++students);
+                }
+                if (entity instanceof Professor) {
+                    entityImage = GetImageForEntity(entity, ++professors);
+                }
+                if (entity instanceof Janitor) {
+                    entityImage = GetImageForEntity(entity, ++janitors);
+                }
+                if (entityImage != null) {
+                    skins.put(entity.GetName(), entityImage);
+                    Vector2 pos = Vector2.Add(centerPos, Vector2.RotateBy(distanceFromCenter, drawnEntities++ * angleBetween));
+                    graphics2D.drawImage(entityImage, pos.x - entityImage.getWidth() / 2, pos.y - entityImage.getHeight() / 2, null);
+                } else {
+                    System.out.println("No image for entity: " + entity.GetName());
+                }
+            }else{
+                entityImage = skins.get(entity.GetName());
+                Vector2 pos = Vector2.Add(centerPos, Vector2.RotateBy(distanceFromCenter, drawnEntities++ * angleBetween));
+                graphics2D.drawImage(entityImage, pos.x - entityImage.getWidth() / 2, pos.y - entityImage.getHeight() / 2, null);
             }
-            else if (entity instanceof Professor) {
-                entityImage = imageManager.resizeImage(GameConstants.IMAGE_PROFESSOR1, 150);
-            }
-            else {  // JANITOR
-                entityImage = imageManager.resizeImage(GameConstants.IMAGE_JANITOR1, 150);
-            }
-            Vector2 pos = Vector2.Add(centerPos, Vector2.RotateBy(distanceFromCenter,drawnEntities++ * angleBetween));
-            graphics2D.drawImage(entityImage, pos.x, pos.y, null);
         }
+
 
         // Items
         final float itemAng = 360f / room.GetInventory().size();
@@ -247,4 +269,45 @@ public class RoomObject {
 
         return tmp;
     }
+
+
+
+
+
+        public BufferedImage GetImageForEntity(Entity entity, int num) {
+            String imagePath = null;
+            num = num % 4;
+
+            Map<Integer, String> StudentImageMap = new HashMap<>();
+            Map<Integer, String> ProfessorImageMap = new HashMap<>();
+            Map<Integer, String> JanitorImageMap = new HashMap<>();
+
+            // Add mappings for Students
+            StudentImageMap.put(0, GameConstants.IMAGE_STUDENT1);
+            StudentImageMap.put(1, GameConstants.IMAGE_STUDENT2);
+            StudentImageMap.put(2, GameConstants.IMAGE_STUDENT3);
+            StudentImageMap.put(3, GameConstants.IMAGE_STUDENT4);
+            // Add mappings for Professors
+            ProfessorImageMap.put(0, GameConstants.IMAGE_PROFESSOR1);
+            ProfessorImageMap.put(1, GameConstants.IMAGE_PROFESSOR2);
+            ProfessorImageMap.put(2, GameConstants.IMAGE_PROFESSOR3);
+            ProfessorImageMap.put(3, GameConstants.IMAGE_PROFESSOR4);
+            // Add mappings for Janitors
+            JanitorImageMap.put(0, GameConstants.IMAGE_JANITOR1);
+            JanitorImageMap.put(1, GameConstants.IMAGE_JANITOR2);
+            JanitorImageMap.put(2, GameConstants.IMAGE_JANITOR3);
+            JanitorImageMap.put(3, GameConstants.IMAGE_JANITOR4);
+
+            if(entity instanceof Student) {
+                imagePath = StudentImageMap.get(num);
+            }if(entity instanceof Professor) {
+                imagePath = ProfessorImageMap.get(num);
+            }if(entity instanceof Janitor) {
+                imagePath = JanitorImageMap.get(num);
+            }
+            return (imagePath != null) ? imageManager.resizeImage(imagePath, 150) : null;
+        }
+
+
+
 }

@@ -8,6 +8,7 @@ import Labyrinth.Room;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Objects;
 
 import static Runnable.Main.os;
 
@@ -21,6 +22,7 @@ public abstract class Entity {
      * Current Room of the Entity
      */
     protected Room room;
+    static int id = 0;
 
     /**
      * Items belonging to the Entity (5 max)
@@ -44,8 +46,22 @@ public abstract class Entity {
 
     public Entity(Game g) {
         game = g;
+        id++;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Entity entity = (Entity) o;
+        return (entity.GetName().equals(this.Name)  && entity.id == this.id);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(Name);
+    }
     public String GetName() {
         return this.Name;
     }
