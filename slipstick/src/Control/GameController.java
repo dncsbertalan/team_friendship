@@ -18,7 +18,6 @@ import static Runnable.Main.*;
 
 public class GameController {
     //a student can only use 1 door in a turn
-    public static boolean isFirstMove = false;
     private boolean isRunning;
     private GameWindowPanel gamePanel;
     private Thread gameThread;
@@ -171,7 +170,7 @@ public class GameController {
             gamePanel.CreateScreenMessage(240, Color.red, "The room is full");
             return;
         }
-        isFirstMove = true;
+        student.MissRounds(1);
         Random rand = new Random();
         if (rand.nextBoolean()) soundManager.playSoundOnce(GameConstants.SOUND_DOOR1);
         else soundManager.playSoundOnce(GameConstants.SOUND_DOOR2);

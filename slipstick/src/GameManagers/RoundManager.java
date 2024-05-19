@@ -27,7 +27,6 @@ public class RoundManager{
         this.studentsLeftThisRound = new ArrayList<>();
         this.aiEntities = new ArrayList<>();
 
-
         activeStudent = null;
         activeAIEntity = null;
     }
@@ -46,6 +45,7 @@ public class RoundManager{
         this.aiEntities.addAll(this.game.GetProfessors());
         this.aiEntities.addAll(this.game.GetJanitors());
         activeStudent = this.studentsLeftThisRound.get(0);
+
     }
 
     /**
@@ -115,7 +115,6 @@ public class RoundManager{
             // Make the next student active
             if (!studentsLeftThisRound.isEmpty()) {
                 activeStudent = studentsLeftThisRound.get(0);
-                GameController.isFirstMove=false;
                 return;
             }
             // if there are no students left this round

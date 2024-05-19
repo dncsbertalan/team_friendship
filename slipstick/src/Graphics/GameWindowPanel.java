@@ -173,9 +173,8 @@ public class GameWindowPanel extends JPanel {
 
         Student active = game.GetRoundManager().GetActiveStudent();
         if (active == null) return;
-
         Room curRoom = active.GetCurrentRoom();
-        RoomObject roomObject = new RoomObject(this, Vector2.Mult(windowSize, 0.5f), curRoom, GameController.isFirstMove);
+        RoomObject roomObject = new RoomObject(this, Vector2.Mult(windowSize, 0.5f), curRoom, active.GetRemainingTurns()<=0);
         roomObject.Draw(graphics2D);
 
         // Draw the neighbours

@@ -340,6 +340,7 @@ public class Game {
                     }
                     else {
                         this.students.add((Student) newEntity);
+                        newEntity.IncreaseMoveCount(1);
                         newRoom.AddStudentToRoom((Student) newEntity);
                     }
                 }

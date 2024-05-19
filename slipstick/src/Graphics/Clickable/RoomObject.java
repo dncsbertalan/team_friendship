@@ -134,7 +134,7 @@ public class RoomObject {
 
         for (Item item : items) {
             Vector2 pos = Vector2.Add(centerPos, Vector2.RotateBy(itemDistFromCenter,drawnItems++ * itemAng));
-            ItemObject itemObject = new ItemObject(pos, item, !isSmallRoom);
+            ItemObject itemObject = new ItemObject(pos, item, true);
             gamePanel.AddClickable(itemObject);
             itemObject.Draw(graphics2D, gameController.GetMousePosition());
         }
