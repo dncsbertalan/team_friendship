@@ -142,7 +142,10 @@ public class RoundManager{
             activeStudent = null;
             if (!aiEntities.isEmpty()) {
                 //activeAIEntity = aiEntities.get(0);
-                    activeAIEntity = new Professor(game);
+                // Because the ai entity array is not empty so this professor is just temporary,
+                // it will be deleted right away in the next loop and never used again.
+                // Hopefully the Garbage Collector finds it and devourers it <33 ^^
+                activeAIEntity = new Professor(game);
             }
         }
         if (activeAIEntity != null) {
