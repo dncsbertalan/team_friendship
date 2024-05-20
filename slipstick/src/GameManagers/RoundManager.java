@@ -111,6 +111,7 @@ public class RoundManager{
         // Check if everyone is dead
         if (studentsLeftThisRound.isEmpty()) {
             game.EndGame(false);
+            return;
         }
 
         // Reset active

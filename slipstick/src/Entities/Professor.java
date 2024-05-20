@@ -83,17 +83,22 @@ public class Professor extends Entity implements IAI {
     @Override
     public void AI() {
 
-        //try to see if any neighbouring rooms has enough capacity
         Room stepFromThis = this.GetCurrentRoom();
         Room stepIntoThis = null;
-        for(Room roomIter : this.GetCurrentRoom().GetNeighbours()){
-            if(roomIter.CanStepIn() == true){
-                stepIntoThis = roomIter;
-                break;
+        Random random = new Random();
+
+        //trys to catch a random room from neighbours
+        int stopFromEndlessLoop = 0;
+        while(stepIntoThis == null && stopFromEndlessLoop < 15){
+            int id = (int)(Math.random() * this.GetCurrentRoom().GetNeighbours().size());
+            Room tryThis = this.GetCurrentRoom().GetNeighbours().get(id);
+            //if a room is available, the entity will step into it
+            if(tryThis.CanStepIn()){
+                stepIntoThis = tryThis;
             }
         }
 
-        //if not, the entity does nothing
+        //if no room is available, the entity does nothing
         if(stepIntoThis == null){
             game.GetRoundManager().EndTurn();
             return;
@@ -106,7 +111,6 @@ public class Professor extends Entity implements IAI {
         gameController.NewScreenMessage(300, new Color(98, 9, 119), message1);
 
         //the entity randomly picks up an item from its current room
-        Random random = new Random();
         if(random.nextBoolean()){
           Item pickThisUp = null;
 
@@ -123,8 +127,8 @@ public class Professor extends Entity implements IAI {
 
           if(pickThisUp != null){
               this.PickUpItem(pickThisUp);
-              String message2 = this.GetName() + " picked up " + pickThisUp.GetName();
-              gameController.NewScreenMessage(60, new Color(98, 9, 119), message2);
+              String message2 = "   " + this.GetName() + " picked up " + pickThisUp.GetName();
+              gameController.NewScreenMessage(300, new Color(98, 9, 119), message2);
           }
         }
         game.GetRoundManager().EndTurn();

@@ -45,8 +45,8 @@ public class GameConstants {
     public static final HashMap<Integer, String> PROFESSOR_NAMES = new HashMap<>();
     public static final String PROFESSOR_NAME_END = " the professor";
 
-    public static final int POSSIBLE_PROF_NAMES_COUNT = 5;
-    public static final int POSSIBLE_JANITOR_NAMES_COUNT = 6;
+    public static final int POSSIBLE_JANITOR_NAMES_COUNT = 5;
+    public static final int POSSIBLE_PROF_NAMES_COUNT = 6;
 
     static {
         JANITOR_NAMES.put(0, "Consuela");
@@ -165,7 +165,7 @@ public class GameConstants {
     public static final int WALL_SIZE = 50;
 
     // Screen messages
-    public static final int MAX_SCREEN_MESSAGES = 8;
+    public static final int MAX_SCREEN_MESSAGES = 10;
     public static final int SCREEN_MESSAGE_DISTANCE = 7;
     public static final Font SCREEN_MESSAGE_FONT = new Font("Courier New", Font.BOLD, 20);
     public static final Color SCREEN_MESSAGE_DEFAUL_COLOR = Color.black;

@@ -279,7 +279,7 @@ public class Map {
                 Room newNeighbour = null;
                 do {
                     newNeighbour = rooms.get(random.nextInt(numberOfRooms));
-                } while (newNeighbour.equals(room) || newNeighbour.GetNeighbours().size() > 5);
+                } while (newNeighbour.equals(room) || newNeighbour.GetNeighbours().size() > 5 || room.GetNeighbours().contains(newNeighbour));
 
                 room.AddNeighbour(newNeighbour);
                 newNeighbour.AddNeighbour(room);
