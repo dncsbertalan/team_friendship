@@ -3,6 +3,7 @@ package Constants;
 import Graphics.Utils.Vector2;
 
 import java.awt.*;
+import java.util.HashMap;
 
 public class GameConstants {
     public static int MaxRounds = 20;
@@ -14,6 +15,8 @@ public class GameConstants {
     public static final int EntitiesToBecomeSticky = 5; // idk
 
     public static final int STEPS_IN_ONE_ROUND = 1;
+    public static final int JANITOR_NUMBER = 2;
+    public static final int PROFESSOR_NUMBER = 2;
 
     public static final int InventoryMaxSize = 5;
     public static final int DesiredFPS = 60;
@@ -32,9 +35,26 @@ public class GameConstants {
     public static final String RoomName = "Room_";
     public static final String RoomName_MainHall = "MainHall";
     public static final String RoomName_JanitorsRoom = "Janitor'sRoom";
-    public static final String  RoomName_TeachersLounge = "Teachers'Lounge";
-    public static final String  RoomName_WinningRoom = "WinningRoom";
+    public static final String RoomName_TeachersLounge = "Teachers'Lounge";
+    public static final String RoomName_WinningRoom = "WinningRoom";
     public static final long randomSeed = 69;
+
+    public static final HashMap<Integer, String> JANITOR_NAMES = new HashMap<>();
+    public static final String JANITOR_NAME_END = " the janitor";
+
+    public static final HashMap<Integer, String> PROFESSOR_NAMES = new HashMap<>();
+    public static final String PROFESSOR_NAME_END = " the professor";
+
+    static {
+        JANITOR_NAMES.put(0, "Consuela");
+        JANITOR_NAMES.put(1, "Janice");
+        JANITOR_NAMES.put(2, "Linda");
+        JANITOR_NAMES.put(3, "Helga");
+        PROFESSOR_NAMES.put(0, "Tasihasi");
+        PROFESSOR_NAMES.put(1, "give me a fucking name");
+        PROFESSOR_NAMES.put(2, "I know where you live");
+        PROFESSOR_NAMES.put(3, "AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+    }
 
 // region GRAPHICS CONSTANTS ===========================================================================================
 
@@ -112,7 +132,6 @@ public class GameConstants {
 // region GAME =========================================================================================================
     public static final String GamePanel_ROUND_TEXT = "Round: ";
     public static final String REMAINING_ROUND_TEXT = "   -> steps left: ";
-    public static final String STUDENT_STEPS_TEXT = "Steps left: ";
 
     public static final int GamePanel_WIDTH = 1000;
     public static final int GamePanel_HEIGHT = 800;

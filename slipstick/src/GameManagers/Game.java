@@ -55,11 +55,14 @@ public class Game {
     public static Random random;
     boolean pregame = true;
     private boolean isRandom;
-//endregion
+
+//endregion ============================================================================================================
+
+// region Initialization ===============================================================================================
 
     /**
-     * Before the game starts {@link Game#InitPlayers(ArrayList)} and {@link Game#InitRandom(int)}
-     * must be called properly or during the game it will throw {@link NullPointerException}.
+     * Before the game starts {@link Game#InitPlayers(ArrayList)}, {@link Game#InitRandom(int)}
+     * and {@link Game#InitEntities()} must be called properly or during the game it will throw {@link NullPointerException}.
      */
     public Game(){
         this.students = new ArrayList<>();
@@ -71,19 +74,48 @@ public class Game {
 
     /**
      * Initialize the students based on the players' names.
-     * @param names players' names
+     * @param playerNames players' names
      */
-    public void InitPlayers(ArrayList<String> names) {
-        for (String name : names) {
-            // TODO kikommentezni majd
-            //students.add(new Student(this, name));
-            // TODO törölni majd
-            Student student = new Student(this, name);
-            students.add(student);
+    public void InitPlayers(ArrayList<String> playerNames) {
+        for (String name : playerNames) {
+            students.add(new Student(this, name));
+        }
+    }
+
+    /**
+     * Initialize the entities and puts them on the map.
+     */
+    public void InitEntities() {
+        for (Student student : students) {
             game.GetMap().GetMainHall().AddStudentToRoom(student);
         }
+
+        for (int i = 0; i < GameConstants.PROFESSOR_NUMBER; i++) {
+            Professor professor = new Professor(game);
+            professor.SetName(getRandomProfessorName());
+            this.professors.add(professor);
+            game.GetMap().GetTeachersLounge().AddProfessorToRoom(professor);
+        }
+
+        for (int i = 0; i < GameConstants.JANITOR_NUMBER; i++) {
+            Janitor janitor = new Janitor(game);
+            janitor.SetName(getRandomJanitorName());
+            this.janitors.add(janitor);
+            game.GetMap().GetJanitorsRoom().AddJanitorToRoom(janitor);
+        }
+
         this.roundManager.Init();
         os.println("TODO: majd clear a lista ha van már lebirintus generálás, addig jó így");
+    }
+
+    private String getRandomProfessorName() {
+        int key = random.nextInt(4);
+        return GameConstants.PROFESSOR_NAMES.get(key) + GameConstants.PROFESSOR_NAME_END;
+    }
+
+    private String getRandomJanitorName() {
+        int key = random.nextInt(4);
+        return GameConstants.JANITOR_NAMES.get(key) + GameConstants.JANITOR_NAME_END;
     }
 
     /**
@@ -102,6 +134,8 @@ public class Game {
             isRandom = false;
         }
     }
+
+//endregion ============================================================================================================
 
 //region Get/Setters ===================================================================================================
     /**

@@ -15,7 +15,7 @@ import java.io.PrintStream;
 public class Main {
 
     public static PrintStream os = System.out;
-    public static Game game = new Game(); // TODO NO INIT HERE AFTER LAB GEN
+    public static Game game;
     public static final Menu menu = new Menu();
     public static final GameController gameController = new GameController();
     public static final ImageManager imageManager = new ImageManager();
@@ -23,11 +23,11 @@ public class Main {
 
     public static void main(String[] args) {
 
-        try {
+        /*try {
             game.LoadGame("slipstick/testmap.txt");
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
-        }
+        }*/
         MenuWindowFrame menuWF = new MenuWindowFrame();
         soundManager.playSoundLooped("menu");
 

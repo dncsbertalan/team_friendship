@@ -1,6 +1,5 @@
 package GameManagers;
 import Constants.GameConstants;
-import Control.GameController;
 import Entities.*;
 
 import java.util.ArrayList;
@@ -32,7 +31,7 @@ public class RoundManager{
     }
 
     /**
-     * Must be called in {@link Game#InitPlayers(ArrayList)} before the game starts
+     * Must be called in {@link Game#InitEntities(ArrayList)} before the game starts
      * or it will throw {@link NullPointerException}.
      */
     public void Init() {
@@ -140,8 +139,7 @@ public class RoundManager{
             }
             // if there are no students left this round
             activeStudent = null;
-            if (!aiEntities.isEmpty()) {
-                //activeAIEntity = aiEntities.get(0);
+            if (!aiEntities.isEmpty()) {                                                                                                                                                                                                                                                                                                                                                                                     //activeAIEntity = aiEntities.get(0);
                 // Because the ai entity array is not empty so this professor is just temporary,
                 // it will be deleted right away in the next loop and never used again.
                 // Hopefully the Garbage Collector finds it and devourers it <33 ^^

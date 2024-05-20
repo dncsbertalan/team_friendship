@@ -22,7 +22,7 @@ public class GameController {
     private GameWindowPanel gamePanel;
     private Thread gameThread;
     private Item selectedItemInRoom;
-    private final RoundManager roundManager = game.GetRoundManager();
+    private RoundManager roundManager;
 
     /**
      * The core of the game. It "pulls" the required information from the game.
@@ -89,12 +89,20 @@ public class GameController {
     }
 
     public void StartGame(){
+        // Start the game thread
         gameThread = new Thread(this::MainGameLoop);
         isRunning = true;
         gameThread.start();
+
+        // Init the game
+        roundManager = game.GetRoundManager();
         imageManager.LoadGameImages();
         soundManager.LoadGameSounds();
-        //game.GetMap().GenerateLabyrinth(game.GetStudents().size());
+        game.GetMap().GenerateLabyrinth(game.GetStudents().size());
+        game.InitRandom(5);
+        game.InitEntities();
+
+        // Finished init
         game.SetPreGame();
     }
 
@@ -142,16 +150,14 @@ public class GameController {
                 }
                 break;
             case 'a':
-                if(selectedItemInRoom !=null) {
+                if(student.GetSelectedItem() !=null) {
                     student.ActivateItem(selectedItemInRoom);
                 }
                 break;
             case 'e':
                 roundManager.EndTurn();
-                //isFirstMove = true;
                 return;
             case 'c':
-                //TODO ITEMS IN ROOM
                 student.PickUpItem(selectedItemInRoom);
                 selectedItemInRoom = null;
                 break;
