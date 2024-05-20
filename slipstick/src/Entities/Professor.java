@@ -95,6 +95,7 @@ public class Professor extends Entity implements IAI {
 
         //if not, the entity does nothing
         if(stepIntoThis == null){
+            game.GetRoundManager().EndTurn();
             return;
         }
 
@@ -126,7 +127,7 @@ public class Professor extends Entity implements IAI {
               gameController.NewScreenMessage(60, new Color(98, 9, 119), message2);
           }
         }
-
+        game.GetRoundManager().EndTurn();
         return;
     }
 }
