@@ -172,6 +172,35 @@ public class Map {
                 randomRoom.AddItemToRoom(item);
             }
         }
+
+        // Knowing where the SlipStick is, initialize the winning room around that
+        Room slipStickRooom = null;
+        boolean slipStickFound = false;
+        for (Room room : rooms) {
+            for (Item item : room.GetInventory()) {
+                if (item.GetName().startsWith("SlipStick")); {
+                    slipStickRooom = room;
+                    slipStickFound = true;
+                    break;
+                }
+            }
+
+            if (slipStickFound) {
+                break;
+            }
+        }
+
+        HashMap<Room, Integer> distancesFromSlipStick = getDistancesFrom(slipStickRooom);
+        List<Room> potentialWinningRooms = new ArrayList<>();
+        for (HashMap.Entry<Room, Integer> entry : distancesFromSlipStick.entrySet()) {
+            int distance = entry.getValue();
+            if (distance > 3 && distance < 6) {
+                potentialWinningRooms.add(entry.getKey());
+            }
+        }
+
+        int randomRoomIndex = random.nextInt(potentialWinningRooms.size());
+        winningRoom = potentialWinningRooms.get(randomRoomIndex);
     }
 
     private int initializeTheNumberOfRooms(int players) {
