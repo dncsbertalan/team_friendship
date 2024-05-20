@@ -45,6 +45,9 @@ public class GameConstants {
     public static final HashMap<Integer, String> PROFESSOR_NAMES = new HashMap<>();
     public static final String PROFESSOR_NAME_END = " the professor";
 
+    public static final int POSSIBLE_PROF_NAMES_COUNT = 4;
+    public static final int POSSIBLE_JANITOR_NAMES_COUNT = 4;
+
     static {
         JANITOR_NAMES.put(0, "Consuela");
         JANITOR_NAMES.put(1, "Janice");

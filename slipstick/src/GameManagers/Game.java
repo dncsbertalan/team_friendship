@@ -109,12 +109,12 @@ public class Game {
     }
 
     private String getRandomProfessorName() {
-        int key = random.nextInt(4);
+        int key = random.nextInt(GameConstants.POSSIBLE_PROF_NAMES_COUNT);
         return GameConstants.PROFESSOR_NAMES.get(key) + GameConstants.PROFESSOR_NAME_END;
     }
 
     private String getRandomJanitorName() {
-        int key = random.nextInt(4);
+        int key = random.nextInt(GameConstants.POSSIBLE_JANITOR_NAMES_COUNT);
         return GameConstants.JANITOR_NAMES.get(key) + GameConstants.JANITOR_NAME_END;
     }
 
