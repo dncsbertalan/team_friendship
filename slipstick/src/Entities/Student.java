@@ -93,11 +93,6 @@ public class Student extends Entity{
         if (slot < 1 || slot > GameConstants.InventoryMaxSize) throw new IllegalArgumentException();
 
         this.selectedInventorySlot = slot - 1;
-        try {
-            this.selectedItem = this.inventory.get(this.selectedInventorySlot);
-        } catch (IndexOutOfBoundsException ex) {
-            this.selectedItem = null;
-        }
     }
 
     /**
@@ -198,7 +193,7 @@ public class Student extends Entity{
             System.out.println(this.Name + "'s inventory is full");
             return;
         }
-        if(item.getClass()== SlipStick.class){
+        if(item instanceof SlipStick){
             game.LastPhase(true,this);
         }
         if(this.GetCurrentRoom().GetUnpickupableItems().contains(item) == false){
@@ -238,7 +233,7 @@ public class Student extends Entity{
     public void DropItem(Item item) {
         super.DropItem(item);
 
-        if (item.getClass() == Transistor.class) {
+        if (item instanceof Transistor) {
             item.UseItem(this);
         }
     }
@@ -267,6 +262,11 @@ public class Student extends Entity{
     }
 
     public Item GetSelectedItem() {
+        try {
+            this.selectedItem = this.inventory.get(this.selectedInventorySlot);
+        } catch (IndexOutOfBoundsException ex) {
+            this.selectedItem = null;
+        }
         return selectedItem;
     }
 
