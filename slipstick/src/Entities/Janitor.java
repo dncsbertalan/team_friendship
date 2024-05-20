@@ -62,6 +62,7 @@ public class Janitor extends Entity implements IAI {
         }
 
         if(stepIntoThis == null){
+            game.GetRoundManager().EndTurn();
             return;
         }
 
@@ -70,8 +71,8 @@ public class Janitor extends Entity implements IAI {
         String message = this.GetName() + " went from " + stepFromThis.GetName() + " to " + stepIntoThis.GetName();
         gameController.NewScreenMessage(60, new Color(98, 9, 119), message);
 
+        game.GetRoundManager().EndTurn();
         return;
-
     }
     /**
      * Evicts every entity that is not paralysed from the room.

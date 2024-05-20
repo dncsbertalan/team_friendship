@@ -495,63 +495,63 @@ public class GameWindowPanel extends JPanel {
             if(selectedItem.getClass() == AirFreshener.class){
                 name = "air freshener";
                 usable = "-useable";
-                graphics2D.drawString(name, x_second_text_coord, y_second_text_coord + 1 * textHeight);
-                graphics2D.drawString(usable, x_second_text_coord, y_second_text_coord + 2 * textHeight);
+                graphics2D.drawString(name, x_second_text_coord, y_second_text_coord + 2 * textHeight);
+                graphics2D.drawString(usable, x_second_text_coord, y_second_text_coord + 3 * textHeight);
             } else if(selectedItem.getClass() == Beer.class){
                 name = "beer";
                 usable = "-useable";
-                graphics2D.drawString(name, x_second_text_coord, y_second_text_coord+ 1 * textHeight);
-                graphics2D.drawString(usable, x_second_text_coord, y_second_text_coord + 2 * textHeight);
+                graphics2D.drawString(name, x_second_text_coord, y_second_text_coord+ 2 * textHeight);
+                graphics2D.drawString(usable, x_second_text_coord, y_second_text_coord + 3 * textHeight);
             } else if(selectedItem.getClass() == Cheese.class){
                 name = "stinky ass cheese";
                 usable = "-useable";
-                graphics2D.drawString(name, x_second_text_coord, y_second_text_coord + 1 * textHeight);
-                graphics2D.drawString(usable, x_second_text_coord, y_second_text_coord + 2 * textHeight);
+                graphics2D.drawString(name, x_second_text_coord, y_second_text_coord + 2 * textHeight);
+                graphics2D.drawString(usable, x_second_text_coord, y_second_text_coord + 3 * textHeight);
             } else if(selectedItem.getClass() == FFP2Mask.class){
                 name = "ffp2 mask";
                 remainingUsages = "-" + ((FFP2Mask) selectedItem).GetRemainingUsages() + " active rounds left";
-                graphics2D.drawString(name, x_second_text_coord, y_second_text_coord + 1 * textHeight);
-                graphics2D.drawString(remainingUsages, x_second_text_coord, y_second_text_coord + 2 * textHeight);
+                graphics2D.drawString(name, x_second_text_coord, y_second_text_coord + 2 * textHeight);
+                graphics2D.drawString(remainingUsages, x_second_text_coord, y_second_text_coord + 3 * textHeight);
             } else if(selectedItem.getClass() == SlipStick.class){
                 name = "slipstick";
                 usable = "-take to winning room";
-                graphics2D.drawString(name, x_second_text_coord, y_second_text_coord + 1 * textHeight);
-                graphics2D.drawString(usable, x_second_text_coord, y_second_text_coord + 2 * textHeight);
+                graphics2D.drawString(name, x_second_text_coord, y_second_text_coord + 2 * textHeight);
+                graphics2D.drawString(usable, x_second_text_coord, y_second_text_coord + 3 * textHeight);
             } else if(selectedItem.getClass() == Transistor.class){
                 name = "transistor";
-                graphics2D.drawString(name, x_second_text_coord, y_second_text_coord + 1 * textHeight);
+                graphics2D.drawString(name, x_second_text_coord, y_second_text_coord + 2 * textHeight);
                 if(((Transistor) selectedItem).GetPair() == null){
                     activateable = "-not paired";
-                    graphics2D.drawString(activateable, x_second_text_coord, y_second_text_coord + 2 * textHeight);
+                    graphics2D.drawString(activateable, x_second_text_coord, y_second_text_coord + 3 * textHeight);
                 } else if(((Transistor) selectedItem).GetPairReadyToTeleport() == false){
                     activateable = "-paired";
                     usable = "-not activated";
-                    graphics2D.drawString(activateable, x_second_text_coord, y_second_text_coord + 2 * textHeight);
-                    graphics2D.drawString(usable, x_second_text_coord, y_second_text_coord + 3 * textHeight);
+                    graphics2D.drawString(activateable, x_second_text_coord, y_second_text_coord + 3 * textHeight);
+                    graphics2D.drawString(usable, x_second_text_coord, y_second_text_coord + 4 * textHeight);
                 } else{
                     activateable = "-paired";
                     usable = "-activated";
-                    graphics2D.drawString(activateable, x_second_text_coord, y_second_text_coord + 2 * textHeight);
-                    graphics2D.drawString(usable, x_second_text_coord, y_second_text_coord + 3 * textHeight);
+                    graphics2D.drawString(activateable, x_second_text_coord, y_second_text_coord + 3 * textHeight);
+                    graphics2D.drawString(usable, x_second_text_coord, y_second_text_coord + 4 * textHeight);
                 }
             } else if(selectedItem.getClass() == TVSZ.class){
                 name = "tvsz";
                 remainingUsages = "-" + ((TVSZ) selectedItem).GetRemainingPages() + " pages left";
-                graphics2D.drawString(name, x_second_text_coord, y_second_text_coord + 2 * textHeight);
-                graphics2D.drawString(remainingUsages, x_second_text_coord, y_second_text_coord + 3 * textHeight);
+                graphics2D.drawString(name, x_second_text_coord, y_second_text_coord + 3 * textHeight);
+                graphics2D.drawString(remainingUsages, x_second_text_coord, y_second_text_coord + 4 * textHeight);
             } else if(selectedItem.getClass() == WetCloth.class){
                 name = "wet cloth";
-                graphics2D.drawString(name, x_second_text_coord, y_second_text_coord + 1 * textHeight);
+                graphics2D.drawString(name, x_second_text_coord, y_second_text_coord + 2 * textHeight);
                 if(((WetCloth) selectedItem).GetActivation() == false){
                     activateable = "-not activated";
-                    graphics2D.drawString(activateable, x_second_text_coord, y_second_text_coord + 2 * textHeight);
+                    graphics2D.drawString(activateable, x_second_text_coord, y_second_text_coord + 3 * textHeight);
                 } else {
                     activateable = "-activated";
-                    graphics2D.drawString(activateable, x_second_text_coord, y_second_text_coord + 2 * textHeight);
+                    graphics2D.drawString(activateable, x_second_text_coord, y_second_text_coord + 3 * textHeight);
                 }
             } else if(selectedItem.getClass() == Fake.class){
                 name = "szoptad bohoc";
-                graphics2D.drawString(name, x_second_text_coord, y_second_text_coord + 1 * textHeight);
+                graphics2D.drawString(name, x_second_text_coord, y_second_text_coord + 2 * textHeight);
             }
         }
     }
