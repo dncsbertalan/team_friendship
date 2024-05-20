@@ -7,6 +7,7 @@ import Labyrinth.*;
 import Constants.*;
 import Labyrinth.Map;
 
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 import java.io.*;
 import java.util.*;
 
@@ -110,16 +111,17 @@ public class Game {
 
     private String getRandomProfessorName() {
         HashMap<Integer, String> temp = new HashMap<>(GameConstants.PROFESSOR_NAMES);
-        for (int i = 0; i < GameConstants.PROFESSOR_NUMBER; i++) {
+        for (int i = 0; i < GameConstants.POSSIBLE_PROF_NAMES_COUNT; i++) {
             for (Professor professor : professors) {
                 if (temp.get(i) != null && Objects.equals(temp.get(i), professor.GetName())) {
                     temp.remove(i);
                 }
             }
         }
+        final int max = temp.size();
 
-        int key = random.nextInt(GameConstants.POSSIBLE_PROF_NAMES_COUNT);
-        return GameConstants.PROFESSOR_NAMES.get(key) + GameConstants.PROFESSOR_NAME_END;
+        int key = random.nextInt(max);
+        return temp.get(key) + GameConstants.PROFESSOR_NAME_END;
     }
 
     private String getRandomJanitorName() {
@@ -131,9 +133,10 @@ public class Game {
                 }
             }
         }
+        final int max = temp.size();
 
-        int key = random.nextInt(GameConstants.POSSIBLE_JANITOR_NAMES_COUNT);
-        return GameConstants.JANITOR_NAMES.get(key) + GameConstants.JANITOR_NAME_END;
+        int key = random.nextInt(max);
+        return temp.get(key) + GameConstants.JANITOR_NAME_END;
     }
 
     /**
