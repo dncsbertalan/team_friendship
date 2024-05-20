@@ -45,8 +45,8 @@ public class GameConstants {
     public static final HashMap<Integer, String> PROFESSOR_NAMES = new HashMap<>();
     public static final String PROFESSOR_NAME_END = " the professor";
 
-    public static final int POSSIBLE_PROF_NAMES_COUNT = 4;
-    public static final int POSSIBLE_JANITOR_NAMES_COUNT = 4;
+    public static final int POSSIBLE_PROF_NAMES_COUNT = 5;
+    public static final int POSSIBLE_JANITOR_NAMES_COUNT = 6;
 
     static {
         JANITOR_NAMES.put(0, "Consuela");
@@ -58,8 +58,8 @@ public class GameConstants {
         PROFESSOR_NAMES.put(1, "give me a fucking name");
         PROFESSOR_NAMES.put(2, "I know where you live");
         PROFESSOR_NAMES.put(3, "AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
-        PROFESSOR_NAMES.put(2, "papoka");
-        PROFESSOR_NAMES.put(3, "csengoce");
+        PROFESSOR_NAMES.put(4, "papoka");
+        PROFESSOR_NAMES.put(5, "csengoce");
     }
 
 // region GRAPHICS CONSTANTS ===========================================================================================
