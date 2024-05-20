@@ -31,12 +31,21 @@ public class RoomObject {
     private final GameWindowPanel gamePanel;
     private final boolean isSmallRoom;
     private final static HashMap<String, BufferedImage> skins = new HashMap<>();
+    private float rotation;
+    private final int indexOfMainRoom;
 
     public RoomObject(GameWindowPanel gamePanel, Vector2 centerPos, Room room, boolean isSmallRoom) {
+        this(gamePanel, centerPos, room, isSmallRoom, 0, 0);
+    }
+
+    public RoomObject(GameWindowPanel gamePanel, Vector2 centerPos, Room room, boolean isSmallRoom,
+                      float rotation, int indexOfMainRoom) {
         this.gamePanel = gamePanel;
         this.centerPos = centerPos;
         this.room = room;
         this.isSmallRoom = isSmallRoom;
+        this.rotation = rotation;
+        this.indexOfMainRoom = indexOfMainRoom;
     }
 
     /**
@@ -50,6 +59,14 @@ public class RoomObject {
         final float angleBetween = 360f / neighbours;
         final int y = isSmallRoom ? (int) (GameConstants.ROOM_SIZE * GameConstants.SMALL_ROOM_SIZE_RATIO) : GameConstants.ROOM_SIZE;
         final Vector2 distanceFromCenter = new Vector2(0, -y);
+
+        if (rotation != 0) {
+            final float doorAng = 360f / Math.max(room.GetNeighbours().size(), GameConstants.ROOM_MIN_SIDES);
+            final float angleOfConnectingDoor = doorAng / 2f + doorAng * indexOfMainRoom - 90;
+            final float rotationReversed = rotation - 180;
+            this.rotation = rotationReversed - angleOfConnectingDoor;
+            distanceFromCenter.RotateBy(rotation);
+        }
 
         Vector2 point;
         Polygon polygon = new Polygon();
@@ -85,6 +102,16 @@ public class RoomObject {
     private void DrawInside(Graphics2D graphics2D) {
 
         // Entities ====================================================================================================
+        DrawEntities(graphics2D);
+
+        // Items =======================================================================================================
+        DrawItems(graphics2D);
+
+        // Doors =======================================================================================================
+        DrawDoors(graphics2D);
+    }
+
+    private  void DrawEntities(Graphics2D graphics2D) {
         final float angleBetween = 360f / room.GetCapacity();
         final int _dist = isSmallRoom ? (int) (50 * GameConstants.SMALL_ROOM_SIZE_RATIO) : 50;
         Vector2 distanceFromCenter = new Vector2(_dist, 0);
@@ -123,32 +150,47 @@ public class RoomObject {
                 graphics2D.drawImage(entityImage, pos.x - entityImage.getWidth() / 2, pos.y - entityImage.getHeight() / 2, null);
             }
         }
+    }
 
-        // Items =======================================================================================================
-        final float itemAng = 360f / room.GetInventory().size();
+    private void DrawItems(Graphics2D graphics2D) {
+        final float itemAng = 360f / (room.GetInventory().size() + room.GetUnpickupableItems().size());
         final int itemDist = isSmallRoom ? (int) (90 * GameConstants.SMALL_ROOM_SIZE_RATIO) : 90;
         Vector2 itemDistFromCenter = new Vector2(itemDist, 0);
 
-        ArrayList<Item> items = (ArrayList<Item>) room.GetInventory();
         int drawnItems = 0;
 
-        for (Item item : items) {
+        // Pickupable
+        for (Item item : room.GetInventory()) {
             Vector2 pos = Vector2.Add(centerPos, Vector2.RotateBy(itemDistFromCenter,drawnItems++ * itemAng));
-            ItemObject itemObject = new ItemObject(pos, item, true);
+            ItemObject itemObject = new ItemObject(pos, item, 200, !isSmallRoom, false);
             gamePanel.AddClickable(itemObject);
             itemObject.Draw(graphics2D, gameController.GetMousePosition());
         }
 
-        // Doors =======================================================================================================
+        // Unpickupable
+        for (Item item : room.GetUnpickupableItems()) {
+            Vector2 pos = Vector2.Add(centerPos, Vector2.RotateBy(itemDistFromCenter,drawnItems++ * itemAng));
+            ItemObject itemObject = new ItemObject(pos, item, 200, !isSmallRoom, true);
+            gamePanel.AddClickable(itemObject);
+            itemObject.Draw(graphics2D, gameController.GetMousePosition());
+        }
+    }
+
+    private void DrawDoors(Graphics2D graphics2D) {
         final float doorAng = 360f / Math.max(room.GetNeighbours().size(), GameConstants.ROOM_MIN_SIDES);
         final int y = isSmallRoom ? (int) (GameConstants.ROOM_SIZE * GameConstants.SMALL_ROOM_SIZE_RATIO) : GameConstants.ROOM_SIZE;
         final int dist = (int) ((float) y * Math.cos(Math.toRadians(doorAng / 2.0)));
-        Vector2 doorPosFromCenter = new Vector2(0, -dist);
+        final int doorOffset = isSmallRoom ? (int) (24 * GameConstants.SMALL_ROOM_SIZE_RATIO) : 24;
+        Vector2 doorPosFromCenter = new Vector2(0, -dist - doorOffset);
         doorPosFromCenter.RotateBy(doorAng / 2f);
+        doorPosFromCenter.RotateBy(rotation);
         int drawnDoor = 0;
+
         for (Room neighbour : room.GetNeighbours()) {
-            Vector2 pos = Vector2.Add(centerPos, Vector2.RotateBy(doorPosFromCenter,drawnDoor++ * doorAng));
-            DoorObject door = new DoorObject(pos, neighbour, !isSmallRoom);
+            Vector2 doorPos = Vector2.RotateBy(doorPosFromCenter,drawnDoor++ * doorAng);
+            Vector2 pos = Vector2.Add(centerPos, doorPos);
+            float doorScale = isSmallRoom ? 90 * GameConstants.SMALL_ROOM_SIZE_RATIO : 90;
+            DoorObject door = new DoorObject(pos, neighbour, doorScale,(float) Math.toDegrees(doorPos.ToRotation()) + 90, !isSmallRoom);
             gamePanel.AddClickable(door);
             door.Draw(graphics2D, gamePanel.GetMousePosition());
         }
@@ -203,13 +245,15 @@ public class RoomObject {
         int y2 = polygon.ypoints[(i + 1) % polygon.npoints];
 
         // Calculate the remaining coordinates for the trapezoid
+        final int wallSize = isSmallRoom ? (int) (GameConstants.WALL_SIZE * GameConstants.SMALL_ROOM_SIZE_RATIO) : GameConstants.WALL_SIZE;
+
         AffineTransform originalTransform = g.getTransform();
         double wallAngle = Math.PI/polygon.npoints;
-        double z = GameConstants.WALL_SIZE / Math.cos(wallAngle);
+        double z = wallSize / Math.cos(wallAngle);
         int x2n = (int) (x1+ Point2D.distance(x1,y1,x2,y2));
         int y2n = y1;
         int x3n = (int) (x2n + Math.sin(wallAngle)*z);
-        int y3n = y2n - GameConstants.WALL_SIZE;
+        int y3n = y2n - wallSize;
         int x4n = (int) (x1 - Math.sin(wallAngle)*z);
         int y4n = y3n;
 
@@ -224,7 +268,7 @@ public class RoomObject {
 
         // Create a new TexturePaint with the original image
         BufferedImage wallImage = imageManager.GetImage(GameConstants.IMAGE_WALL);
-        Rectangle2D anchorRect = new Rectangle2D.Float(wallBounds.x, wallBounds.y, GameConstants.WALL_SIZE, GameConstants.WALL_SIZE);
+        Rectangle2D anchorRect = new Rectangle2D.Float(wallBounds.x, wallBounds.y, wallSize, wallSize);
         TexturePaint wallPaint = new TexturePaint(wallImage, anchorRect);
 
         // Rotate the Graphics2D context to align the texture
@@ -270,7 +314,4 @@ public class RoomObject {
             }
             return (imagePath != null) ? imageManager.resizeImage(imagePath, GameConstants.CHARACTERIZE) : null;
         }
-
-
-
 }

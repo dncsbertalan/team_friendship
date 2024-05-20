@@ -90,11 +90,28 @@ public class RoundManager{
     public void EndOfRound() {
 
         // Reset the entity lists
-        this.studentsLeftThisRound.addAll(this.game.GetStudents());
+        //this.studentsLeftThisRound.addAll(this.game.GetStudents());
+        for (Student student : studentsLeftThisRound) {
+            if (!student.IsDead()) {
+                this.studentsLeftThisRound.add(student);
+            }
+        }
         this.aiEntities.addAll(this.game.GetProfessors());
         this.aiEntities.addAll(this.game.GetJanitors());
 
-        
+        // Reset student steps
+        for (Student student : studentsLeftThisRound) {
+            if (!student.IsDead()) {
+                student.IncreaseMoveCount(GameConstants.STEPS_IN_ONE_ROUND);
+            }
+        }
+
+        // Reset janitor and prof steps
+        for (IAI entity : aiEntities) {
+            ((Entity) entity).IncreaseMoveCount(GameConstants.STEPS_IN_ONE_ROUND);
+        }
+
+        // Reset active
         activeStudent = this.studentsLeftThisRound.get(0);
         activeAIEntity = null;
 
@@ -132,7 +149,8 @@ public class RoundManager{
                 return;
             }
         }
-        // if there are no entities left this round
+
+        // If there are no entities left this round
         this.EndOfRound();
     }
 }

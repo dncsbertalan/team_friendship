@@ -3,19 +3,20 @@ package Graphics.Clickable;
 import Graphics.Utils.Vector2;
 
 import java.awt.*;
+import java.awt.image.AreaAveragingScaleFilter;
 
 public abstract class ClickableObject {
 
-    protected final Vector2 position;
+    protected Vector2 position;
     protected final Vector2 centerPosition;
-    protected final int size;
+    protected int size;
     protected boolean canBeClicked;
+    protected final float scale;
 
-    public ClickableObject(Vector2 centerPosition, boolean canBeClicked) {
-        this.size = 25;
+    public ClickableObject(Vector2 centerPosition, boolean canBeClicked, float scale) {
         this.centerPosition = centerPosition;
-        this.position = new Vector2(centerPosition.x - this.size  / 2, centerPosition.y - this.size / 2);
         this.canBeClicked = canBeClicked;
+        this.scale = scale;
     }
 
     /**
@@ -25,14 +26,14 @@ public abstract class ClickableObject {
      */
     public void Draw(Graphics2D graphics2D, Vector2 mousePos) {
         boolean inside = IsInside(mousePos);
-        // TODO INSIDE NEM ITT HANEM MÁSHOL CHECK?
+
         if (canBeClicked && inside) {
             graphics2D.setColor(Color.yellow);
-            graphics2D.fillRect(this.position.x - 2, this.position.y - 2, this.size + 4, this.size + 4);
+            graphics2D.fillRect(centerPosition.x - size / 2 - 2, centerPosition.y - size / 2 - 2, this.size + 4, this.size + 4);
         }
 
         graphics2D.setColor(new Color(150, 75, 0));
-        graphics2D.fillRect(this.position.x, this.position.y, this.size, this.size);
+        graphics2D.fillRect(centerPosition.x - size / 2, centerPosition.y - size / 2, this.size, this.size);
     }
 
     /**

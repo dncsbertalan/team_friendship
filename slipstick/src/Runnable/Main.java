@@ -5,8 +5,8 @@ import GameManagers.CommandController;
 import GameManagers.Game;
 import GameManagers.Menu;
 import Graphics.MenuWindowFrame;
-import Graphics.SoundManager;
-import Graphics.Utils.ImageManager;
+import Graphics.Managers.SoundManager;
+import Graphics.Managers.ImageManager;
 
 import java.io.FileNotFoundException;
 import java.io.PrintStream;

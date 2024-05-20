@@ -134,7 +134,8 @@ public class GameConstants {
     public static final int ROOM_SIZE = 250;
     public static final int ROOM_MIN_SIDES = 3;
     public static final float SMALL_ROOM_SIZE_RATIO = 0.5f;
-    public static int CHARACTERIZE = 250;
+    public static final int CHARACTERIZE = 250;
+    public static final int SMALL_ROOM_DISTANCE = 170;
     // Wall
     public static final int WALL_SIZE = 50;
 
@@ -152,13 +153,21 @@ public class GameConstants {
 
 // region IMAGES =======================================================================================================
 
+    // Logo
     public static final String IMAGE_LOGO_FILEPATH = "slipstick/rsc/logo.png";
+    public static final String IMAGE_LOGO = "logo";
+
+    // Room paths
     public static final String IMAGE_BG_FILEPATH = "slipstick/rsc/bg2.png";
     public static final String IMAGE_WALL_FILEPATH = "slipstick/rsc/wall3.png";
+    public static final String IMAGE_DOOR_FILEPATH = "slipstick/rsc/door.png";
+    public static final String IMAGE_DOOR_OUTLINE_FILEPATH = "slipstick/rsc/door_outline.png";
 
-    public static final String IMAGE_LOGO = "logo";
+    // Room keys
     public static final String IMAGE_BG = "room_bg";
     public static final String IMAGE_WALL = "room_wall";
+    public static final String IMAGE_DOOR = "door";
+    public static final String IMAGE_DOOR_OUTLINE = "door_outline";
 
     // Item keys
     public static final String IMAGE_AIR_FRESHENER = "air_freshener";
@@ -170,6 +179,24 @@ public class GameConstants {
     public static final String IMAGE_TRANSISTOR = "transistor";
     public static final String IMAGE_TVSZ = "tvsz";
 
+    public static final String IMAGE_AIR_FRESHENER_OUTLINE = "air_freshener_outline";
+    public static final String IMAGE_BEER_OUTLINE = "beer_outline";
+    public static final String IMAGE_CHEESE_OUTLINE = "cheese_outline";
+    public static final String IMAGE_WET_CLOTH_OUTLINE = "cloth_outline";
+    public static final String IMAGE_FFP2_MASK_OUTLINE = "mask_outline";
+    public static final String IMAGE_SLIPSTICK_OUTLINE = "slipstick_outline";
+    public static final String IMAGE_TRANSISTOR_OUTLINE = "transistor_outline";
+    public static final String IMAGE_TVSZ_OUTLINE = "tvsz_outline";
+
+    public static final String IMAGE_AIR_FRESHENER_OUTLINE_UNPICKABLE = "air_freshener_outline_unpickable";
+    public static final String IMAGE_BEER_OUTLINE_UNPICKABLE = "beer_outline_unpickable";
+    public static final String IMAGE_CHEESE_OUTLINE_UNPICKABLE = "cheese_outline_unpickable";
+    public static final String IMAGE_WET_CLOTH_OUTLINE_UNPICKABLE = "cloth_outline_unpickable";
+    public static final String IMAGE_FFP2_MASK_OUTLINE_UNPICKABLE = "mask_outline_unpickable";
+    public static final String IMAGE_SLIPSTICK_OUTLINE_UNPICKABLE = "slipstick_outline_unpickable";
+    public static final String IMAGE_TRANSISTOR_OUTLINE_UNPICKABLE = "transistor_outline_unpickable";
+    public static final String IMAGE_TVSZ_OUTLINE_UNPICKABLE = "tvsz_outline_unpickable";
+
     // Item paths
     public static final String IMAGE_AIR_FRESHENER_FILEPATH = "slipstick/rsc/items/AirFreshener.png";
     public static final String IMAGE_BEER_FILEPATH = "slipstick/rsc/items/Beer.png";
@@ -179,6 +206,24 @@ public class GameConstants {
     public static final String IMAGE_SLIPSTICK_FILEPATH = "slipstick/rsc/items/Slipstick.png";
     public static final String IMAGE_TRANSISTOR_FILEPATH = "slipstick/rsc/items/Transistor.png";
     public static final String IMAGE_TVSZ_FILEPATH = "slipstick/rsc/items/TVSZ.png";
+
+    public static final String IMAGE_AIR_FRESHENER_OUTLINE_FILEPATH = "slipstick/rsc/items/AirFreshener_outline.png";
+    public static final String IMAGE_BEER_OUTLINE_FILEPATH = "slipstick/rsc/items/Beer_outline.png";
+    public static final String IMAGE_CHEESE_OUTLINE_FILEPATH = "slipstick/rsc/items/Cheese_outline.png";
+    public static final String IMAGE_WET_CLOTH_OUTLINE_FILEPATH = "slipstick/rsc/items/Cloth_outline.png";
+    public static final String IMAGE_FFP2_MASK_OUTLINE_FILEPATH = "slipstick/rsc/items/Mask_outline.png";
+    public static final String IMAGE_SLIPSTICK_OUTLINE_FILEPATH = "slipstick/rsc/items/Slipstick_outline.png";
+    public static final String IMAGE_TRANSISTOR_OUTLINE_FILEPATH = "slipstick/rsc/items/Transistor_outline.png";
+    public static final String IMAGE_TVSZ_OUTLINE_FILEPATH = "slipstick/rsc/items/TVSZ_outline.png";
+
+    public static final String IMAGE_AIR_FRESHENER_OUTLINE_UNPICKABLE_FILEPATH = "slipstick/rsc/items/AirFreshener_outline_unpickable.png";
+    public static final String IMAGE_BEER_OUTLINE_UNPICKABLE_FILEPATH = "slipstick/rsc/items/Beer_outline_unpickable.png";
+    public static final String IMAGE_CHEESE_OUTLINE_UNPICKABLE_FILEPATH = "slipstick/rsc/items/Cheese_outline_unpickable.png";
+    public static final String IMAGE_WET_CLOTH_OUTLINE_UNPICKABLE_FILEPATH = "slipstick/rsc/items/Cloth_outline_unpickable.png";
+    public static final String IMAGE_FFP2_MASK_OUTLINE_UNPICKABLE_FILEPATH = "slipstick/rsc/items/Mask_outline_unpickable.png";
+    public static final String IMAGE_SLIPSTICK_OUTLINE_UNPICKABLE_FILEPATH = "slipstick/rsc/items/Slipstick_outline_unpickable.png";
+    public static final String IMAGE_TRANSISTOR_OUTLINE_UNPICKABLE_FILEPATH = "slipstick/rsc/items/Transistor_outline_unpickable.png";
+    public static final String IMAGE_TVSZ_OUTLINE_UNPICKABLE_FILEPATH = "slipstick/rsc/items/TVSZ_outline_unpickable.png";
 
     // Entity keys
     public static final String IMAGE_STUDENT1 = "Player1";

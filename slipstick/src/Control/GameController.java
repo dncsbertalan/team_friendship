@@ -94,6 +94,7 @@ public class GameController {
         gameThread.start();
         imageManager.LoadGameImages();
         soundManager.LoadGameSounds();
+        //game.GetMap().GenerateLabyrinth(game.GetStudents().size());
         game.SetPreGame();
     }
 
@@ -127,7 +128,7 @@ public class GameController {
                 break;
             case 'p':
                 Item transistor1 = selectedItemInRoom;
-                if (selectedItemInRoom !=null && transistor1.getClass() == Items.Transistor.class) {
+                if (selectedItemInRoom !=null && transistor1 instanceof Transistor) {
                     for (Item transistor2 : student.GetInventory()) {
                         if (transistor2 != transistor1 && transistor2.getClass() == Items.Transistor.class) {
                             student.PairTransistors((Transistor) transistor1, (Transistor) transistor2);
@@ -171,7 +172,6 @@ public class GameController {
             gamePanel.CreateScreenMessage(240, Color.red, "The room is full");
             return;
         }
-        student.MissRounds(1);
 
         Random rand = new Random();
         if (rand.nextBoolean()) soundManager.playSoundOnce(GameConstants.SOUND_DOOR1);

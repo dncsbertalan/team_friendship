@@ -104,6 +104,23 @@ public class Vector2 {
     }
 
     /**
+     * Gets the rotation of the vector.
+     * @param vector    the vector
+     * @return          the rotation of the vector
+     */
+    public static float ToRotation(Vector2 vector) {
+        return (float) Math.atan2(vector.y, vector.x);
+    }
+
+    /**
+     * Gets the rotation of the vector.
+     * @return          the rotation of the vector
+     */
+    public float ToRotation() {
+        return (float) Math.atan2(this.y, this.x);
+    }
+
+    /**
      * Multiplies the vector by the specified amount.
      * @param vector a vector
      * @param mult the number the vector is multiplied by

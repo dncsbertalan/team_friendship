@@ -172,24 +172,27 @@ public class GameWindowPanel extends JPanel {
      */
     private void DrawRoom(Graphics2D graphics2D) {
 
-        Student active = game.GetRoundManager().GetActiveStudent();
+        final Student active = game.GetRoundManager().GetActiveStudent();
         if (active == null) return;
 
-        Room curRoom = active.GetCurrentRoom();
-        RoomObject roomObject = new RoomObject(this, Vector2.Mult(windowSize, 0.5f), curRoom, active.GetRemainingTurns()<=0);
+        final Room curRoom = active.GetCurrentRoom();
+        RoomObject roomObject = new RoomObject(this, Vector2.Mult(windowSize, 0.5f), curRoom, false);
         roomObject.Draw(graphics2D);
 
         // Draw the neighbours
         float angle = 360f / Math.max(curRoom.GetNeighbours().size(), GameConstants.ROOM_MIN_SIDES);
         int dist = (int) ((float) GameConstants.ROOM_SIZE * Math.cos(Math.toRadians(angle / 2.0)));
-        Vector2 neighbourDistanceFromCenter = new Vector2(0, -dist - 300);
+        Vector2 neighbourDistanceFromCenter = new Vector2(0, -dist - GameConstants.SMALL_ROOM_DISTANCE);
         neighbourDistanceFromCenter.RotateBy(angle / 2f);
         int drawnRoom = 0;
         Vector2 centerPos = Vector2.Mult(windowSize, 0.5f);
 
         for (Room neighbour : curRoom.GetNeighbours()) {
-            Vector2 pos = Vector2.Add(centerPos, Vector2.RotateBy(neighbourDistanceFromCenter,drawnRoom++ * angle));
-            RoomObject ro = new RoomObject(this, pos, neighbour, true);
+            final Vector2 doorPos = Vector2.RotateBy(neighbourDistanceFromCenter,drawnRoom++ * angle);
+            Vector2 pos = Vector2.Add(centerPos, doorPos);
+            final float rot = (float) Math.toDegrees(Vector2.ToRotation(doorPos));
+            RoomObject ro = new RoomObject(this, pos, neighbour,
+                    true, rot, neighbour.GetNeighbours().indexOf(curRoom));
             ro.Draw(graphics2D);
         }
     }

@@ -1,4 +1,4 @@
-package Graphics.Utils;
+package Graphics.Managers;
 
 import Constants.GameConstants;
 
@@ -73,6 +73,10 @@ public class ImageManager {
         loadImageAs(GameConstants.IMAGE_BG, GameConstants.IMAGE_BG_FILEPATH);
         loadImageAs(GameConstants.IMAGE_WALL, GameConstants.IMAGE_WALL_FILEPATH);
 
+        loadImageAs(GameConstants.IMAGE_DOOR, GameConstants.IMAGE_DOOR_FILEPATH);
+        loadImageAs(GameConstants.IMAGE_DOOR_OUTLINE, GameConstants.IMAGE_DOOR_OUTLINE_FILEPATH);
+
+        // Items
         loadImageAs(GameConstants.IMAGE_AIR_FRESHENER, GameConstants.IMAGE_AIR_FRESHENER_FILEPATH);
         loadImageAs(GameConstants.IMAGE_BEER, GameConstants.IMAGE_BEER_FILEPATH);
         loadImageAs(GameConstants.IMAGE_CHEESE, GameConstants.IMAGE_CHEESE_FILEPATH);
@@ -81,6 +85,26 @@ public class ImageManager {
         loadImageAs(GameConstants.IMAGE_SLIPSTICK, GameConstants.IMAGE_SLIPSTICK_FILEPATH);
         loadImageAs(GameConstants.IMAGE_TRANSISTOR, GameConstants.IMAGE_TRANSISTOR_FILEPATH);
         loadImageAs(GameConstants.IMAGE_TVSZ, GameConstants.IMAGE_TVSZ_FILEPATH);
+
+        // Item outlines
+        loadImageAs(GameConstants.IMAGE_AIR_FRESHENER_OUTLINE, GameConstants.IMAGE_AIR_FRESHENER_OUTLINE_FILEPATH);
+        loadImageAs(GameConstants.IMAGE_BEER_OUTLINE, GameConstants.IMAGE_BEER_OUTLINE_FILEPATH);
+        loadImageAs(GameConstants.IMAGE_CHEESE_OUTLINE, GameConstants.IMAGE_CHEESE_OUTLINE_FILEPATH);
+        loadImageAs(GameConstants.IMAGE_WET_CLOTH_OUTLINE, GameConstants.IMAGE_WET_CLOTH_OUTLINE_FILEPATH);
+        loadImageAs(GameConstants.IMAGE_FFP2_MASK_OUTLINE, GameConstants.IMAGE_FFP2_MASK_OUTLINE_FILEPATH);
+        loadImageAs(GameConstants.IMAGE_SLIPSTICK_OUTLINE, GameConstants.IMAGE_SLIPSTICK_OUTLINE_FILEPATH);
+        loadImageAs(GameConstants.IMAGE_TRANSISTOR_OUTLINE, GameConstants.IMAGE_TRANSISTOR_OUTLINE_FILEPATH);
+        loadImageAs(GameConstants.IMAGE_TVSZ_OUTLINE, GameConstants.IMAGE_TVSZ_OUTLINE_FILEPATH);
+
+        // Item outlines unpickable
+        loadImageAs(GameConstants.IMAGE_AIR_FRESHENER_OUTLINE_UNPICKABLE, GameConstants.IMAGE_AIR_FRESHENER_OUTLINE_UNPICKABLE_FILEPATH);
+        loadImageAs(GameConstants.IMAGE_BEER_OUTLINE_UNPICKABLE, GameConstants.IMAGE_BEER_OUTLINE_UNPICKABLE_FILEPATH);
+        loadImageAs(GameConstants.IMAGE_CHEESE_OUTLINE_UNPICKABLE, GameConstants.IMAGE_CHEESE_OUTLINE_UNPICKABLE_FILEPATH);
+        loadImageAs(GameConstants.IMAGE_WET_CLOTH_OUTLINE_UNPICKABLE, GameConstants.IMAGE_WET_CLOTH_OUTLINE_UNPICKABLE_FILEPATH);
+        loadImageAs(GameConstants.IMAGE_FFP2_MASK_OUTLINE_UNPICKABLE, GameConstants.IMAGE_FFP2_MASK_OUTLINE_UNPICKABLE_FILEPATH);
+        loadImageAs(GameConstants.IMAGE_SLIPSTICK_OUTLINE_UNPICKABLE, GameConstants.IMAGE_SLIPSTICK_OUTLINE_UNPICKABLE_FILEPATH);
+        loadImageAs(GameConstants.IMAGE_TRANSISTOR_OUTLINE_UNPICKABLE, GameConstants.IMAGE_TRANSISTOR_OUTLINE_UNPICKABLE_FILEPATH);
+        loadImageAs(GameConstants.IMAGE_TVSZ_OUTLINE_UNPICKABLE, GameConstants.IMAGE_TVSZ_OUTLINE_UNPICKABLE_FILEPATH);
 
         loadImageAs(GameConstants.IMAGE_STUDENT1, GameConstants.IMAGE_STUDENT1_FILEPATH);
         loadImageAs(GameConstants.IMAGE_STUDENT2, GameConstants.IMAGE_STUDENT2_FILEPATH);

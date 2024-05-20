@@ -277,11 +277,8 @@ public class Room {
      * Makes all items placed in the room pickupable for entities.
      */
     public void MakeAllItemsPickupable(){
-        int unpickSize = listOfUnpickupableItems.size();
-        for(int i = 0; i < unpickSize; i++){
-            roomsListOfItems.add(listOfUnpickupableItems.get(i));
-            listOfUnpickupableItems.remove(i);
-        }
+        roomsListOfItems.addAll(listOfUnpickupableItems);
+        listOfUnpickupableItems.clear();;
     }
 
     /**

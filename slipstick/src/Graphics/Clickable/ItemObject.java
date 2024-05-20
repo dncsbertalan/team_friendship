@@ -14,10 +14,14 @@ public class ItemObject extends ClickableObject {
      * The item this item object represents.
      */
     private final Item item;
+    private final boolean unpickable;
 
-    public ItemObject(Vector2 centerPosition, Item item, boolean canBeClicked) {
-        super(centerPosition, canBeClicked);
+    public ItemObject(Vector2 centerPosition, Item item, float scale, boolean canBeClicked, boolean unpickable) {
+        super(centerPosition, canBeClicked, scale);
         this.item = item;
+        this.size = (int) (20 * scale / 100);
+        this.position = new Vector2(centerPosition.x - size / 2, centerPosition.y - size / 2);
+        this.unpickable = unpickable;
     }
 
     public Item GetItem() { return item; }
@@ -28,8 +32,10 @@ public class ItemObject extends ClickableObject {
         final boolean selected = gameController.GetSelectedItem() == item;
 
         if (canBeClicked && (inside || selected)) {
-            graphics2D.setColor(Color.yellow);
-            graphics2D.fillRect(this.position.x - 2, this.position.y - 2, this.size + 10, this.size + 10);
+            graphics2D.setColor(Color.cyan);
+            //graphics2D.fillRect(this.position.x - 2, this.position.y - 2, this.size, this.size);
+
+            DrawUtils.DrawItemOutline(graphics2D, item, centerPosition, 100, unpickable);
         }
 
         DrawUtils.DrawItem(graphics2D, item, centerPosition, 100);

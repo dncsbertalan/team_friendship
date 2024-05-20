@@ -1,4 +1,4 @@
-package Graphics;
+package Graphics.Managers;
 
 import Constants.GameConstants;
 
