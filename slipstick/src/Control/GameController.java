@@ -89,6 +89,8 @@ public class GameController {
                 //String formattedNumber = String.format("%.8f", res);
                 //NewScreenMessage(60, Color.black, "Avarage draw time: " + formattedNumber + " ms");
                 //drawtime = 0;
+                NewScreenMessage(60, Color.black, "Draw count: " + gamePanel.drawCount);
+                gamePanel.drawCount = 0;
             }
 
         }

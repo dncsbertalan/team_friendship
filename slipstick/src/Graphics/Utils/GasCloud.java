@@ -19,7 +19,7 @@ public class GasCloud {
     public GasCloud(int timeLeft, Vector2 position, float scale, int direction) {
         this.timeLeft = timeLeft;
         this.position = position;
-        this.scale = scale * 50;
+        this.scale = scale * 70;
         this.dir = direction;
     }
 

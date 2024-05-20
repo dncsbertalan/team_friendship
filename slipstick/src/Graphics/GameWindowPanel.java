@@ -28,6 +28,7 @@ public class GameWindowPanel extends JPanel {
     private Vector2 mousePosition;
     private final Vector2 windowSize;
     private final MenuButton exitButton;
+    public int drawCount;
 
     public GameWindowPanel(GameWindowFrame frame) {
         // Set constant fields
@@ -108,6 +109,7 @@ public class GameWindowPanel extends JPanel {
         DrawInventory(graphics2D);
         DrawScreenMessages(graphics2D);
         DrawItemInformationTable(graphics2D);
+        drawCount++;
     }
 
 // region Getters/Setters ==============================================================================================
@@ -156,8 +158,8 @@ public class GameWindowPanel extends JPanel {
         Random random = new Random();
         if (random.nextFloat() < GameConstants.GAS_PROBABILITY) {
             NewGasCloud((int) (random.nextFloat(0.5f, 1f) * 180),
-                    new Vector2(windowSize.x / 2 + random.nextInt(-GameConstants.ROOM_SIZE / 2, GameConstants.ROOM_SIZE / 2),
-                            windowSize.y / 2 + random.nextInt(-GameConstants.ROOM_SIZE / 2, GameConstants.ROOM_SIZE / 2)),
+                    new Vector2(windowSize.x / 2 + random.nextInt(-GameConstants.GAS_RANGE, GameConstants.GAS_RANGE),
+                            windowSize.y / 2 + random.nextInt(-GameConstants.GAS_RANGE, GameConstants.GAS_RANGE)),
                     random.nextFloat(0.5f, 1f),
                     random.nextBoolean() ? 1 : -1
             );
@@ -557,8 +559,10 @@ public class GameWindowPanel extends JPanel {
     private void DrawGasClouds(Graphics2D graphics2D) {
         if (gasClouds.isEmpty()) return;
 
-        for (GasCloud gc : gasClouds) {
-            gc.Draw(graphics2D);
+        synchronized (gasClouds) {
+            for (GasCloud gc : gasClouds) {
+                gc.Draw(graphics2D);
+            }
         }
     }
 
@@ -709,7 +713,10 @@ public class GameWindowPanel extends JPanel {
     private final ArrayList<GasCloud> toBeKilledGasClouds = new ArrayList<>();
 
     public void NewGasCloud(int timeLeft, Vector2 position, float scale, int direction) {
-        gasClouds.add(new GasCloud(timeLeft, position, scale, direction));
+        synchronized (gasClouds) {
+
+            gasClouds.add(new GasCloud(timeLeft, position, scale, direction));
+        }
     }
 
     public void UpdateGasClouds() {
@@ -718,19 +725,22 @@ public class GameWindowPanel extends JPanel {
         Student active = game.GetRoundManager().GetActiveStudent();
         if (active == null) return;
 
-        if (!active.GetCurrentRoom().IsGassed()) {
-            gasClouds.clear();
-            return;
-        }
+        synchronized (gasClouds) {
+            if (!active.GetCurrentRoom().IsGassed()) {
+                gasClouds.clear();
+                return;
+            }
 
-        for (GasCloud gasCloud : gasClouds) {
-            gasCloud.Update();
-        }
+            for (GasCloud gasCloud : gasClouds) {
+                gasCloud.Update();
+            }
 
-        for (GasCloud gasCloud : toBeKilledGasClouds) {
-            gasClouds.remove(gasCloud);
+            for (GasCloud gasCloud : toBeKilledGasClouds) {
+                gasClouds.remove(gasCloud);
+            }
+
+            toBeKilledGasClouds.clear();
         }
-        toBeKilledGasClouds.clear();
     }
 
     public void KillGasCloud(GasCloud gasCloud) {

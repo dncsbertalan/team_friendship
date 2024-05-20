@@ -175,7 +175,6 @@ public class GameConstants {
 
     // Screen messages
     public static final int MAX_SCREEN_MESSAGES = 10;
-    public static final int SCREEN_MESSAGE_DISTANCE = 7;
     public static final Font SCREEN_MESSAGE_FONT = new Font("Courier New", Font.BOLD, 20);
     public static final Color SCREEN_MESSAGE_DEFAUL_COLOR = Color.black;
     public static final int GamePanel_SCREEN_MESSAGE_BOTTOM_LEFT = 20;
@@ -194,6 +193,7 @@ public class GameConstants {
 
     public static final int MAX_VISUAL_TIME_HOUR = DesiredFPS * 60 * 60;
     public static final float GAS_PROBABILITY = 0.2f;
+    public static final int GAS_RANGE = 300;
 
 // endregion
 
