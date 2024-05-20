@@ -3,6 +3,7 @@ package Graphics;
 import Constants.GameConstants;
 import Control.GameController;
 import Entities.Student;
+import Graphics.Listeners.GamePanelExitButtonListener;
 import Graphics.Listeners.GameWindowMouseWheelListener;
 import Graphics.Clickable.ClickableObject;
 import Graphics.Listeners.GameWindowMouseListener;
@@ -35,35 +36,17 @@ public class GameWindowPanel extends JPanel {
     private final MenuButton exitButton;
 
     public GameWindowPanel(GameWindowFrame frame) {
-
+        // Set constant fields
         gameWindowFrame = frame;
         windowSize = new Vector2(frame.getWidth(), frame.getHeight());
 
         this.setBackground(Color.lightGray);
         this.setPreferredSize(new Dimension(GameConstants.GamePanel_WIDTH, GameConstants.GamePanel_HEIGHT));
-        /*int width = GameConstants.GamePanel_WIDTH;
-        int height = GameConstants.GamePanel_HEIGHT;
-        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        Graphics g = image.getGraphics();
-        g.setColor(Color.BLACK);
-        g.fillRect(0, 0, width, height);
-        int centerX = width / 2;
-        int centerY = height / 2;
-        int circleRadius = 100;
-        g.setColor(Color.yellow);
-        g.fillOval(centerX - circleRadius, centerY - circleRadius, 2 * circleRadius, 2 * circleRadius);
-        g.dispose();
-        File outputFile = new File("TransparentCircleImage.png");
-        try {
-            ImageIO.write(image, "png", outputFile);
-            System.out.println("A kép sikeresen létrejött: " + outputFile.getAbsolutePath());
-        } catch (IOException e) {
-            System.err.println("Hiba a kép létrehozása közben: " + e.getMessage());
-        }*/
 
-        // Panel init
+        // Enable double buffering
         this.setDoubleBuffered(true);
 
+        // Add listeners
         GameWindowMouseListener mouseListener = new GameWindowMouseListener(this);
         this.addMouseListener(mouseListener);
         GameWindowMouseWheelListener mouseWheelListener = new GameWindowMouseWheelListener();
@@ -71,9 +54,7 @@ public class GameWindowPanel extends JPanel {
         // Add the KeyListener
         KeyListener keyListener = new KeyListener() {
             @Override
-            public void keyTyped(KeyEvent e) {
-
-            }
+            public void keyTyped(KeyEvent e) {}
 
             @Override
             public void keyPressed(KeyEvent e) {
@@ -82,50 +63,28 @@ public class GameWindowPanel extends JPanel {
             }
 
             @Override
-            public void keyReleased(KeyEvent e) {
-            }
+            public void keyReleased(KeyEvent e) {}
         };
         this.addKeyListener(keyListener);
 
+        // Add the exit button
         this.setLayout(null);
         exitButton = new MenuButton(
                 GameConstants.GamePanel_EXIT_BUTTON,
                 GameConstants.GamePanel_EXIT_BUTTON_BACKGROUND_COLOR,
                 GameConstants.GamePanel_EXIT_BUTTON_BORDER_COLOR,
                 GameConstants.GamePanel_EXIT_BUTTON_BORDER_THICKNESS);
+            exitButton.setLayout(null);
+            exitButton.setBounds(windowSize.x - 125 - 20, windowSize.y - 75 - 20, 125, 75 );
+            exitButton.setFont(GameConstants.MenuPanel1_BUTTON_FONT);
+            exitButton.addMouseListener(new GamePanelExitButtonListener(frame));
         this.add(exitButton);
-        exitButton.setLayout(null);
-        exitButton.setBounds(windowSize.x - 125 - 20, windowSize.y - 75 - 20, 125, 75 );
-        exitButton.setFont(GameConstants.MenuPanel1_BUTTON_FONT);
-        exitButton.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                frame.dispose();
-                soundManager.playSoundLooped("menu");
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
-        });
     }
 
+    /**
+     * This method draws the game window.
+     * @param g the <code>Graphics</code> object to protect
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -185,11 +144,11 @@ public class GameWindowPanel extends JPanel {
         Vector2 neighbourDistanceFromCenter = new Vector2(0, -dist - GameConstants.SMALL_ROOM_DISTANCE);
         neighbourDistanceFromCenter.RotateBy(angle / 2f);
         int drawnRoom = 0;
-        Vector2 centerPos = Vector2.Mult(windowSize, 0.5f);
+        Vector2 windowCent = Vector2.Mult(windowSize, 0.5f);
 
         for (Room neighbour : curRoom.GetNeighbours()) {
             final Vector2 doorPos = Vector2.RotateBy(neighbourDistanceFromCenter,drawnRoom++ * angle);
-            Vector2 pos = Vector2.Add(centerPos, doorPos);
+            Vector2 pos = Vector2.Add(windowCent, doorPos);
             final float rot = (float) Math.toDegrees(Vector2.ToRotation(doorPos));
             RoomObject ro = new RoomObject(this, pos, neighbour,
                     true, rot, neighbour.GetNeighbours().indexOf(curRoom));
@@ -379,10 +338,12 @@ public class GameWindowPanel extends JPanel {
 
         Vector2 pos = new Vector2(x_calculated_coord, y_calculated_coord);
 
+        final int arc = 10;
+
         g.setColor(GameConstants.GamePanel_ITEM_INFORMATION_BORDER_COLOR);
-        g.fillRoundRect(pos.x - 5, pos.y - 5, infoPanelWidth + 10, infoPanelHeight + 10, 5, 5);
+        g.fillRoundRect(pos.x - 5, pos.y - 5, infoPanelWidth + 10, infoPanelHeight + 10, arc, arc);
         g.setColor(GameConstants.GamePanel_ITEM_INFORMATION_FILL_COLOR);
-        g.fillRoundRect(pos.x, pos.y, infoPanelWidth, infoPanelHeight, 5, 5);
+        g.fillRoundRect(pos.x, pos.y, infoPanelWidth, infoPanelHeight, arc, arc);
         g.setFont(new Font("Courier New", Font.BOLD, 22));
         g.setColor(Color.black);
 
@@ -631,9 +592,9 @@ public class GameWindowPanel extends JPanel {
         graphics2D.drawString(message, messagePos.x, messagePos.y);
 
         Vector2 janitorCen = new Vector2((int) (windowSize.x * 0.15f), (int)  (windowSize.y * 0.7f));
-        Vector2 profCen = new Vector2((int) (windowSize.x * 0.2f), (int)  (windowSize.y * 0.7f));
+        Vector2 profCen = new Vector2(janitorCen.x + 77, (int)  (windowSize.y * 0.7f));
         Vector2 stud1Cen = new Vector2((int) (windowSize.x * 0.8f), (int)  (windowSize.y * 0.7f));
-        Vector2 stud2Cen = new Vector2((int) (windowSize.x * 0.85f), (int)  (windowSize.y * 0.7f));
+        Vector2 stud2Cen = new Vector2(stud1Cen.x + 77, (int)  (windowSize.y * 0.7f));
 
         DrawUtils.DrawImageCentered(graphics2D, DrawUtils.RotateImage(imageManager.resizeImage(GameConstants.IMAGE_JANITOR2, 500), -10.), janitorCen);
         DrawUtils.DrawImageCentered(graphics2D, DrawUtils.RotateImage(imageManager.resizeImage(GameConstants.IMAGE_PROFESSOR3, 500), 10.), profCen);

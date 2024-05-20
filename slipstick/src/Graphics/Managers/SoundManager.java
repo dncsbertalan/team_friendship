@@ -14,7 +14,7 @@ public class SoundManager {
 
     public SoundManager() {
         // Initialize sounds with the audio clips
-        loadSound("menu", GameConstants.MENU_MUSIC_FILEPATH);
+        loadSound(GameConstants.MENU_MUSIC, GameConstants.MENU_MUSIC_FILEPATH);
     }
 
     /**
@@ -22,10 +22,11 @@ public class SoundManager {
      */
     public void LoadGameSounds() {
 
-        loadSound("game", GameConstants.GAME_MUSIC_FILEPATH);
-        loadSound("endgame", GameConstants.ENDGAME_MUSIC_FILEPATH);
+        loadSound(GameConstants.GAME_MUSIC, GameConstants.GAME_MUSIC_FILEPATH);
+        loadSound(GameConstants.ENDGAME_MUSIC, GameConstants.ENDGAME_MUSIC_FILEPATH);
         loadSound(GameConstants.SOUND_DOOR1, GameConstants.SOUND_DOOR1_FILEPATH);
         loadSound(GameConstants.SOUND_DOOR2, GameConstants.SOUND_DOOR2_FILEPATH);
+        loadSound(GameConstants.INVENTORY, GameConstants.INVENTORY_FILEPATH);
     }
 
     // Method to load a sound file and put it in the sounds' hashmap

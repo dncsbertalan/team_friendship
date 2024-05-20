@@ -23,11 +23,6 @@ public class Main {
 
     public static void main(String[] args) {
 
-        /*try {
-            game.LoadGame("slipstick/testmap.txt");
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }*/
         MenuWindowFrame menuWF = new MenuWindowFrame();
         soundManager.playSoundLooped("menu");
 

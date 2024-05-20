@@ -17,12 +17,13 @@ import java.util.Random;
 import static Runnable.Main.*;
 
 public class GameController {
-    //a student can only use 1 door in a turn
+
     private boolean isRunning;
     private GameWindowPanel gamePanel;
     private Thread gameThread;
     private Item selectedItemInRoom;
     private RoundManager roundManager;
+    private boolean lastPhaseStarted;
 
     /**
      * The core of the game. It "pulls" the required information from the game.
@@ -36,8 +37,7 @@ public class GameController {
         long currentTime;
         long timer = 0;
 
-        //long ellapsedTime = 0;
-        long drawtime = 0;
+        //long drawtime = 0;
 
         while (isRunning) {
 
@@ -53,26 +53,34 @@ public class GameController {
                     GameLogic();
                     gamePanel.UpdateScreenMessages();
                 }
-                //long t1 = System.currentTimeMillis();
-                long t1 = System.nanoTime();
+
+                if (game.IsLastPhase()) {
+                    if (!lastPhaseStarted) {
+                        soundManager.playSoundLooped(GameConstants.ENDGAME_MUSIC);
+                        lastPhaseStarted = true;
+                    }
+                } else {
+                    if (lastPhaseStarted) {
+                        soundManager.playSoundLooped(GameConstants.GAME_MUSIC);
+                        lastPhaseStarted = false;
+                    }
+                }
+
+                //long t1 = System.nanoTime();
                 gamePanel.repaint();
-                //long t2 = System.currentTimeMillis();
-                long t2 = System.nanoTime();
-                long dt = t2 - t1;
-                drawtime += dt;
-                //System.out.println(dt + " ns");
-                //System.out.println(dt + " ms");
+                //long t2 = System.nanoTime();
+                //long dt = t2 - t1;
+                //drawtime += dt;
 
                 delta--;
             }
 
             if (timer >= 1_000_000_000) {
                 timer = 0;
-                //System.out.println(++ellapsedTime);
                 //double res = drawtime / (double) GameConstants.DesiredFPS / 1_000_000.0;
                 //String formattedNumber = String.format("%.8f", res);
                 //NewScreenMessage(60, Color.black, "Avarage draw time: " + formattedNumber + " ms");
-                drawtime = 0;
+                //drawtime = 0;
             }
 
         }
@@ -88,6 +96,7 @@ public class GameController {
         this.gamePanel = panel;
     }
 
+// region Start and stop ===============================================================================================
     public void StartGame(){
         // Start the game thread
         gameThread = new Thread(this::MainGameLoop);
@@ -95,12 +104,17 @@ public class GameController {
         gameThread.start();
 
         // Init the game
+        long t1 = System.nanoTime();
         roundManager = game.GetRoundManager();
         imageManager.LoadGameImages();
         soundManager.LoadGameSounds();
         game.GetMap().GenerateLabyrinth(game.GetStudents().size());
         game.InitRandom(1);
         game.InitEntities();
+        long t2 = System.nanoTime();
+        double res = (t2 - t1) / 1_000_000.0;
+        String formattedNumber = String.format("%.6f", res);
+        NewScreenMessage(3010, Color.black, "Resources loaded in " + formattedNumber + " ms");
 
         // Finished init
         game.SetPreGame();
@@ -109,6 +123,8 @@ public class GameController {
     public void StopGame() {
         isRunning = false;
     }
+
+// endregion ===========================================================================================================
 
     public void HandleInput(Student student,char input) {
 
@@ -166,6 +182,8 @@ public class GameController {
 
     }
 
+// region Methods that connct the control and view =====================================================================
+
     /**
      * The given student tries to step into the given room.
      * @param student   the student that steps into the room
@@ -175,7 +193,7 @@ public class GameController {
         boolean success = student.StepInto(stepInto);
 
         if (!success) {
-            if(student.GetRemainingTurns()>0) {
+            if(student.GetRemainingTurns() > 0) {
                 gamePanel.CreateScreenMessage(240, Color.red, "The room is full");
             }else{
                 gamePanel.CreateScreenMessage(240, Color.red, "You've already changed rooms in this round");
@@ -237,6 +255,8 @@ public class GameController {
     public Vector2 GetMousePosition() {
         return gamePanel.GetMousePosition();
     }
+
+// endregion ===========================================================================================================
 
 //region Game logic ====================================================================================================
 

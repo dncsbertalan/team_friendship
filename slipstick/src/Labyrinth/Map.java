@@ -46,8 +46,6 @@ public class Map {
 
     private Random random;
 
-    private HashMap<Room, List<Room>> roomAndTheirNeighbourList;
-
     //################################################################################
     //                                  METHODS
     //################################################################################
@@ -570,40 +568,9 @@ public class Map {
         return room == winningRoom;
     }
 
-    /**
-     * Gets the rooms of the labyrinth.
-     */
     public List<Room> GetRooms() { return rooms; }
 
-    /**
-     * Gets the "main hall" room of the labyrinth.
-     */
     public Room GetMainHall() { return mainHall; }
-
-    /**
-     * Gets the "teachers lounge" room of the labyrinth.
-     */
     public Room GetTeachersLounge() { return teachersLounge; }
-
-    /**
-     * Gets the "janitors room" room of the labyrinth.
-     */
     public Room GetJanitorsRoom() { return janitorsRoom; }
-
-    /**
-     * Gets the rooms and their neighbour list in a hashmap.
-     */
-    public HashMap<Room, List<Room>> GetRoomAndTheirNeighbourList() {
-        return roomAndTheirNeighbourList;
-    }
-
-    /**
-     * Uploads the rooms and their neighbour list into a hashmap.
-     */
-
-    public void UploadRoomAndTheirNeighbourList(){
-        for(Room roomIter : game.GetMap().GetRooms()){
-            roomAndTheirNeighbourList.put(roomIter, roomIter.GetNeighbours());
-        }
-    }
 }

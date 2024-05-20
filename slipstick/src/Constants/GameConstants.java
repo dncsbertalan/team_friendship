@@ -3,6 +3,7 @@ package Constants;
 import Graphics.Utils.Vector2;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class GameConstants {
@@ -39,27 +40,35 @@ public class GameConstants {
     public static final String RoomName_WinningRoom = "WinningRoom";
     public static final long randomSeed = 69;
 
-    public static final HashMap<Integer, String> JANITOR_NAMES = new HashMap<>();
+    public static final ArrayList<String> JANITOR_NAMES = new ArrayList<>();
     public static final String JANITOR_NAME_END = " the janitor";
 
-    public static final HashMap<Integer, String> PROFESSOR_NAMES = new HashMap<>();
+    public static final ArrayList<String> PROFESSOR_NAMES = new ArrayList<>();
     public static final String PROFESSOR_NAME_END = " the professor";
 
-    public static final int POSSIBLE_JANITOR_NAMES_COUNT = 5;
+    public static final int POSSIBLE_JANITOR_NAMES_COUNT = 14;
     public static final int POSSIBLE_PROF_NAMES_COUNT = 6;
 
     static {
-        JANITOR_NAMES.put(0, "Consuela");
-        JANITOR_NAMES.put(1, "Janice");
-        JANITOR_NAMES.put(2, "Linda");
-        JANITOR_NAMES.put(3, "Helga");
-        JANITOR_NAMES.put(4, "oh- that's not...");
-        PROFESSOR_NAMES.put(0, "Tasihasi");
-        PROFESSOR_NAMES.put(1, "give me a fucking name");
-        PROFESSOR_NAMES.put(2, "I know where you live");
-        PROFESSOR_NAMES.put(3, "AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
-        PROFESSOR_NAMES.put(4, "papoka");
-        PROFESSOR_NAMES.put(5, "csengoce");
+        JANITOR_NAMES.add("Consuela");
+        JANITOR_NAMES.add("Janice");
+        JANITOR_NAMES.add("Linda");
+        JANITOR_NAMES.add("Helga");
+        JANITOR_NAMES.add("oh- that's not...");
+        JANITOR_NAMES.add("Rosie");
+        JANITOR_NAMES.add("Berta");
+        JANITOR_NAMES.add("God");
+        JANITOR_NAMES.add("Elisa Esposito");
+        JANITOR_NAMES.add("Carl Reed");
+        JANITOR_NAMES.add("Mrs Doubtfire");
+        JANITOR_NAMES.add("Mr Svenson");
+        JANITOR_NAMES.add("WALL-E");
+        PROFESSOR_NAMES.add("Dr. Cassandra Blake");
+        PROFESSOR_NAMES.add("give me a fucking name");
+        PROFESSOR_NAMES.add("I know where you live");
+        PROFESSOR_NAMES.add("AHHHHHHHHH");
+        PROFESSOR_NAMES.add("Papoka");
+        PROFESSOR_NAMES.add("Csengoce");
     }
 
 // region GRAPHICS CONSTANTS ===========================================================================================
@@ -137,7 +146,7 @@ public class GameConstants {
 
 // region GAME =========================================================================================================
     public static final String GamePanel_ROUND_TEXT = "Round: ";
-    public static final String REMAINING_ROUND_TEXT = "   -> steps left: ";
+    public static final String REMAINING_ROUND_TEXT = "  ¤ steps left: ";
 
     public static final int GamePanel_WIDTH = 1000;
     public static final int GamePanel_HEIGHT = 800;
@@ -147,7 +156,7 @@ public class GameConstants {
     public static final float GamePanel_EXIT_BUTTON_BORDER_THICKNESS = 5.0f;
 
     // Item information panel
-    public static final Color GamePanel_ITEM_INFORMATION_BORDER_COLOR = new Color(115,85,90,255);
+    public static final Color GamePanel_ITEM_INFORMATION_BORDER_COLOR = new Color(115,85,90,150);
     public static final Color GamePanel_ITEM_INFORMATION_FILL_COLOR = new Color(255, 255, 255, 186);
 
     public static final String GamePanel_ROOM_ITEM_TEXT_1 = "Selected item";
@@ -160,7 +169,8 @@ public class GameConstants {
     public static final int ROOM_MIN_SIDES = 3;
     public static final float SMALL_ROOM_SIZE_RATIO = 0.5f;
     public static final int CHARACTERIZE = 250;
-    public static final int SMALL_ROOM_DISTANCE = 170;
+    public static final int SMALL_ROOM_DISTANCE = 190;
+
     // Wall
     public static final int WALL_SIZE = 50;
 
@@ -286,13 +296,19 @@ public class GameConstants {
 // region SOUNDS =======================================================================================================
 
     public static final String MENU_MUSIC_FILEPATH = "slipstick/rsc/sounds/menu.wav";
+    public static final String MENU_MUSIC = "menu";
     public static final String GAME_MUSIC_FILEPATH = "slipstick/rsc/sounds/game.wav";
+    public static final String GAME_MUSIC = "game";
     public static final String ENDGAME_MUSIC_FILEPATH = "slipstick/rsc/sounds/endgame.wav";
+    public static final String ENDGAME_MUSIC = "endgame";
 
     public static final String SOUND_DOOR1_FILEPATH = "slipstick/rsc/sounds/door1.wav";
     public static final String SOUND_DOOR2_FILEPATH = "slipstick/rsc/sounds/door2.wav";
     public static final String SOUND_DOOR1 = "door1";
     public static final String SOUND_DOOR2 = "door2";
+
+    public static final String INVENTORY_FILEPATH = "slipstick/rsc/sounds/inventory.wav";
+    public static final String INVENTORY = "inventory";
 
 // endregion
 }

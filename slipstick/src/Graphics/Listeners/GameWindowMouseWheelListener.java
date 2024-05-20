@@ -1,5 +1,6 @@
 package Graphics.Listeners;
 
+import Constants.GameConstants;
 import Entities.Student;
 
 import static Runnable.Main.*;
@@ -16,6 +17,8 @@ public class GameWindowMouseWheelListener implements MouseWheelListener {
             Student active = game.GetRoundManager().GetActiveStudent();
             if (active == null) return;
 
+            soundManager.playSoundOnce(GameConstants.INVENTORY);
+
             int curr = active.GetSelectedInventorySlot();
             curr--;
             if (curr < 0) {
@@ -28,6 +31,8 @@ public class GameWindowMouseWheelListener implements MouseWheelListener {
         {
             Student active = game.GetRoundManager().GetActiveStudent();
             if (active == null) return;
+
+            soundManager.playSoundOnce(GameConstants.INVENTORY);
 
             int curr = active.GetSelectedInventorySlot();
             curr++;

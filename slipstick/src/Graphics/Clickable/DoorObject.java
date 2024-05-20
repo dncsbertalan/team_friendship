@@ -46,8 +46,5 @@ public class DoorObject extends ClickableObject {
         if (active == null) return;
 
         gameController.StepStudent(active, roomToGo);
-
-        // TODO: temporary
-        gameController.NewScreenMessage(240, "Clicked door in " + active.GetCurrentRoom().GetName());
     }
 }

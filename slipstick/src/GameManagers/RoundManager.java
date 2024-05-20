@@ -31,8 +31,7 @@ public class RoundManager{
     }
 
     /**
-     * Must be called in {@link Game#InitEntities(ArrayList)} before the game starts
-     * or it will throw {@link NullPointerException}.
+     * Must be called in {@link Game#InitEntities()} before the game starts or it will throw {@link NullPointerException}.
      */
     public void Init() {
         activeStudent = null;

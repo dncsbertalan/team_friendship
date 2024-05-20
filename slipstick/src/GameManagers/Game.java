@@ -116,37 +116,38 @@ public class Game {
         }
 
         this.roundManager.Init();
-        os.println("TODO: majd clear a lista ha van már lebirintus generálás, addig jó így");
     }
 
     private String getRandomProfessorName() {
-        HashMap<Integer, String> temp = new HashMap<>(GameConstants.PROFESSOR_NAMES);
-        for (int i = 0; i < GameConstants.POSSIBLE_PROF_NAMES_COUNT; i++) {
+        ArrayList<String> temp = new ArrayList<>(GameConstants.PROFESSOR_NAMES);
+        ArrayList<String> namePool = new ArrayList<>(GameConstants.PROFESSOR_NAMES);
+        for (String name : temp) {
             for (Professor professor : professors) {
-                if (temp.get(i) != null && Objects.equals(temp.get(i), professor.GetName())) {
-                    temp.remove(i);
+                if (Objects.equals(name, professor.GetName())) {
+                    namePool.remove(name);
                 }
             }
         }
-        final int max = temp.size();
+        final int max = namePool.size();
 
         int key = random.nextInt(max);
-        return temp.get(key);
+        return namePool.get(key);
     }
 
     private String getRandomJanitorName() {
-        HashMap<Integer, String> temp = new HashMap<>(GameConstants.JANITOR_NAMES);
-        for (int i = 0; i < GameConstants.POSSIBLE_JANITOR_NAMES_COUNT; i++) {
+        ArrayList<String> temp = new ArrayList<>(GameConstants.JANITOR_NAMES);
+        ArrayList<String> namePool = new ArrayList<>(GameConstants.JANITOR_NAMES);
+        for (String name : temp) {
             for (Janitor janitor : janitors) {
-                if (temp.get(i) != null && Objects.equals(temp.get(i), janitor.GetName())) {
-                    temp.remove(i);
+                if (Objects.equals(name, janitor.GetName())) {
+                    namePool.remove(name);
                 }
             }
         }
-        final int max = temp.size();
+        final int max = namePool.size();
 
         int key = random.nextInt(max);
-        return temp.get(key);
+        return namePool.get(key);
     }
 
     /**
@@ -208,10 +209,6 @@ public class Game {
     public boolean IsPreGame() {return pregame;}
 
     public void SetPreGame() { pregame = false; }
-
-    public Student GetHuntedStudent(){
-        return hunted;
-    }
 //endregion
 
 //region Methods =======================================================================================================

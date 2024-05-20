@@ -100,8 +100,8 @@ public class DrawUtils {
                     : imageManager.resizeImage(GameConstants.IMAGE_WET_CLOTH_OUTLINE, scale);
         }
         else {  // FAKE ITEM
-            image = unpickable ? imageManager.resizeImage("temp", scale)
-                    : imageManager.resizeImage("temp1", scale);
+            image = null;
+            DrawItem(graphics2D, ((Fake) item).GetFakedItem(), center, scale);
         }
 
         if (image == null) return;
