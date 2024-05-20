@@ -32,7 +32,7 @@ public class Student extends Entity{
 
     @Override
     public boolean StepInto(Room room) {
-        if (room.GetNeighbours().contains(this.room) && room.CanStepIn()){
+        if (room.GetNeighbours().contains(this.room) && room.CanStepIn() && remainingTurns>0){
             ChangeRoom(room);
             this.remainingTurns--;
             return true;

@@ -175,7 +175,11 @@ public class GameController {
         boolean success = student.StepInto(stepInto);
 
         if (!success) {
-            gamePanel.CreateScreenMessage(240, Color.red, "The room is full");
+            if(student.GetRemainingTurns()>0) {
+                gamePanel.CreateScreenMessage(240, Color.red, "The room is full");
+            }else{
+                gamePanel.CreateScreenMessage(240, Color.red, "You've already changed rooms in this round");
+            }
             return;
         }
 
