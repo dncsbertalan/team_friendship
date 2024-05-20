@@ -171,6 +171,9 @@ public class GameConstants {
     public static Vector2 GamePanel_INVENTORY_POS() { return new Vector2(20, 20); }
     public static Vector2 GamePanel_ENTITY_INFO_POS() { return new Vector2(20, 100); }
 
+    public static final String WIN_MESSAGE = "CONGRATULATION! YOU WON! <3";
+    public static final String LOST_MESSAGE = "LOSERS...";
+
 // endregion
 
 // region IMAGES =======================================================================================================

@@ -109,11 +109,29 @@ public class Game {
     }
 
     private String getRandomProfessorName() {
+        HashMap<Integer, String> temp = new HashMap<>(GameConstants.PROFESSOR_NAMES);
+        for (int i = 0; i < GameConstants.PROFESSOR_NUMBER; i++) {
+            for (Professor professor : professors) {
+                if (temp.get(i) != null && Objects.equals(temp.get(i), professor.GetName())) {
+                    temp.remove(i);
+                }
+            }
+        }
+
         int key = random.nextInt(GameConstants.POSSIBLE_PROF_NAMES_COUNT);
         return GameConstants.PROFESSOR_NAMES.get(key) + GameConstants.PROFESSOR_NAME_END;
     }
 
     private String getRandomJanitorName() {
+        HashMap<Integer, String> temp = new HashMap<>(GameConstants.JANITOR_NAMES);
+        for (int i = 0; i < GameConstants.POSSIBLE_JANITOR_NAMES_COUNT; i++) {
+            for (Janitor janitor : janitors) {
+                if (temp.get(i) != null && Objects.equals(temp.get(i), janitor.GetName())) {
+                    temp.remove(i);
+                }
+            }
+        }
+
         int key = random.nextInt(GameConstants.POSSIBLE_JANITOR_NAMES_COUNT);
         return GameConstants.JANITOR_NAMES.get(key) + GameConstants.JANITOR_NAME_END;
     }

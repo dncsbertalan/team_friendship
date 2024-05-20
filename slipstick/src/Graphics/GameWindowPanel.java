@@ -32,6 +32,7 @@ public class GameWindowPanel extends JPanel {
     private final GameWindowFrame gameWindowFrame;
     private Vector2 mousePosition;
     private final Vector2 windowSize;
+    private final MenuButton exitButton;
 
     public GameWindowPanel(GameWindowFrame frame) {
 
@@ -87,16 +88,16 @@ public class GameWindowPanel extends JPanel {
         this.addKeyListener(keyListener);
 
         this.setLayout(null);
-        MenuButton menuButton = new MenuButton(
+        exitButton = new MenuButton(
                 GameConstants.GamePanel_EXIT_BUTTON,
                 GameConstants.GamePanel_EXIT_BUTTON_BACKGROUND_COLOR,
                 GameConstants.GamePanel_EXIT_BUTTON_BORDER_COLOR,
                 GameConstants.GamePanel_EXIT_BUTTON_BORDER_THICKNESS);
-        this.add(menuButton);
-        menuButton.setLayout(null);
-        menuButton.setBounds(windowSize.x - 125 - 20, windowSize.y - 75 - 20, 125, 75 );
-        menuButton.setFont(GameConstants.MenuPanel1_BUTTON_FONT);
-        menuButton.addMouseListener(new MouseListener() {
+        this.add(exitButton);
+        exitButton.setLayout(null);
+        exitButton.setBounds(windowSize.x - 125 - 20, windowSize.y - 75 - 20, 125, 75 );
+        exitButton.setFont(GameConstants.MenuPanel1_BUTTON_FONT);
+        exitButton.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 frame.dispose();
@@ -123,7 +124,6 @@ public class GameWindowPanel extends JPanel {
 
             }
         });
-        //menuButton.setVisible(false);
     }
 
     @Override
@@ -594,16 +594,8 @@ public class GameWindowPanel extends JPanel {
      * @param graphics2D graphics instance
      */
     private void DrawLoadingScreen(Graphics2D graphics2D) {
-        // Load the image
-        BufferedImage image;
-        try {
-            File file = new File(GameConstants.MenuPanel1_LOGO_FILEPATH);
-            image = ImageIO.read(file);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
         // Draw the logo image
+        BufferedImage image = imageManager.resizeImage(GameConstants.IMAGE_LOGO, 150);
         Vector2 center = Vector2.Mult(windowSize, 0.5f);
         graphics2D.drawImage(image, center.x - (image.getWidth() / 2), center.y - (image.getHeight() / 2), null);
     }
@@ -613,12 +605,40 @@ public class GameWindowPanel extends JPanel {
      * @param graphics2D graphics instance
      */
     private void DrawEndScreen(Graphics2D graphics2D) {
-        // TODO: reposion exit button
-        if (game.GetWin()) {    // If the game was won
+        // Exit Button reposition
+        exitButton.setBounds((int)  (windowSize.x * 0.5f) - 125 / 2, windowSize.y - 75 - 20, 125, 75 );
 
-            return;
+        // Logo
+        BufferedImage image = imageManager.resizeImage(GameConstants.IMAGE_LOGO, 150);
+        Vector2 logoCenter = new Vector2((int)  (windowSize.x * 0.5f),  (int) (windowSize.y * 0.3f));
+        DrawUtils.DrawImageCentered(graphics2D, image, logoCenter);
+
+        graphics2D.setFont(new Font("Courier new", Font.BOLD, 60));
+        graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        Rectangle2D rect;
+        String message;
+
+        if (game.GetWin()) {    // If the game was won
+            rect = graphics2D.getFontMetrics().getStringBounds(GameConstants.WIN_MESSAGE, graphics2D);
+            message = GameConstants.WIN_MESSAGE;
         }
-        // If the game was lost
+        else {                  // If the game was lost
+            rect = graphics2D.getFontMetrics().getStringBounds(GameConstants.LOST_MESSAGE, graphics2D);
+            message = GameConstants.LOST_MESSAGE;
+        }
+
+        Vector2 messagePos = new Vector2((int) (windowSize.x * 0.5f - rect.getWidth() / 2), (int)  (windowSize.y * 0.7f + rect.getHeight()));
+        graphics2D.drawString(message, messagePos.x, messagePos.y);
+
+        Vector2 janitorCen = new Vector2((int) (windowSize.x * 0.15f), (int)  (windowSize.y * 0.7f));
+        Vector2 profCen = new Vector2((int) (windowSize.x * 0.2f), (int)  (windowSize.y * 0.7f));
+        Vector2 stud1Cen = new Vector2((int) (windowSize.x * 0.8f), (int)  (windowSize.y * 0.7f));
+        Vector2 stud2Cen = new Vector2((int) (windowSize.x * 0.85f), (int)  (windowSize.y * 0.7f));
+
+        DrawUtils.DrawImageCentered(graphics2D, DrawUtils.RotateImage(imageManager.resizeImage(GameConstants.IMAGE_JANITOR2, 500), -10.), janitorCen);
+        DrawUtils.DrawImageCentered(graphics2D, DrawUtils.RotateImage(imageManager.resizeImage(GameConstants.IMAGE_PROFESSOR3, 500), 10.), profCen);
+        DrawUtils.DrawImageCentered(graphics2D, DrawUtils.RotateImage(imageManager.resizeImage(GameConstants.IMAGE_STUDENT1, 500), -10.), stud1Cen);
+        DrawUtils.DrawImageCentered(graphics2D, DrawUtils.RotateImage(imageManager.resizeImage(GameConstants.IMAGE_STUDENT4, 500), 10.), stud2Cen);
     }
 
 // endregion ===========================================================================================================

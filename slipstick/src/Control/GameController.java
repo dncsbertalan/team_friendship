@@ -99,7 +99,7 @@ public class GameController {
         imageManager.LoadGameImages();
         soundManager.LoadGameSounds();
         game.GetMap().GenerateLabyrinth(game.GetStudents().size());
-        game.InitRandom(5);
+        game.InitRandom(1);
         game.InitEntities();
 
         // Finished init
