@@ -10,9 +10,8 @@ import Labyrinth.Room;
 import Items.FFP2Mask;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Random;
 
 import static Runnable.Main.gameController;
 
@@ -87,14 +86,18 @@ public class Professor extends Entity implements IAI {
         Room stepIntoThis = null;
         Random random = new Random();
 
-        //trys to catch a random room from neighbours
-        int stopFromEndlessLoop = 0;
-        while(stepIntoThis == null && stopFromEndlessLoop < 15){
-            int id = (int)(Math.random() * this.GetCurrentRoom().GetNeighbours().size());
-            Room tryThis = this.GetCurrentRoom().GetNeighbours().get(id);
-            //if a room is available, the entity will step into it
-            if(tryThis.CanStepIn()){
-                stepIntoThis = tryThis;
+        if(game.IsLastPhase()){
+            stepIntoThis = ClosestRoomToHuntedStudent();
+        } else {
+            //trys to catch a random room from neighbours
+            int stopFromEndlessLoop = 0;
+            while(stepIntoThis == null && stopFromEndlessLoop < 15){
+                int id = (int)(Math.random() * this.GetCurrentRoom().GetNeighbours().size());
+                Room tryThis = this.GetCurrentRoom().GetNeighbours().get(id);
+                //if a room is available, the entity will step into it
+                if(tryThis.CanStepIn()){
+                    stepIntoThis = tryThis;
+                }
             }
         }
 
@@ -133,5 +136,97 @@ public class Professor extends Entity implements IAI {
         }
         game.GetRoundManager().EndTurn();
         return;
+    }
+
+    public Room ClosestRoomToHuntedStudent(){
+        Room result = null;
+
+        //////////////////
+        //**BFS KEZDETE**//
+        ///////////////////
+        List<Room> resultBFS = new ArrayList<>();
+        //összes olyan szoba, amin keresztül elindulhatok a source szobából
+        List<Room> roomsOfSource = this.GetCurrentRoom().GetNeighbours();
+        //összes olyan szoba, amin keresztül elérhetem a destination szobát
+        List<Room> roomsOfDestination = game.GetHuntedStudent().GetCurrentRoom().GetNeighbours();
+
+        java.util.Map<Room, Boolean> visitedThisStop = new HashMap<>();
+        java.util.Map<Room, Room> cameFromThisStop = new HashMap<>();
+
+        //mivel BFS-t egy csúcsból lehet indítani egy gráfban, de a teljes roomsOfSource listából lehetne indulni, ezért mindegyiket "összekötjük" egy kiinduló ponttal: superSourceRoom
+        Room superSourceRoom = new Room(game);
+        //a fifoForRooms alapján fog menni az algoritmus
+        //ha egy room-ot újonnan meglátogat, bekerül a fifo-ba és elmentődik, hogy melyik stop-ból éri el
+        //az éppen vizsgálandó room-ot mindig a fifo legtetejéről veszi ki
+        Queue<Room> fifoForRooms = new LinkedList<>();
+        initializeBFSMaps(game.GetMap().GetRoomAndTheirNeighbourList(), visitedThisStop, cameFromThisStop);
+
+        //a source-hoz tartozó room-okra beállítom, hogy a superSourceRoom-ból értük el, meglátogatta az algoritmus és beteszi a fifo-ba
+        for(Room roomIter : roomsOfSource){
+                cameFromThisStop.put(roomIter, superSourceRoom);
+                visitedThisStop.put(roomIter, true);
+                fifoForRooms.add(roomIter);
+        }
+        //ezzel vizsgálom majd, hogy sikeresen elérte-e az algoritmus a destination egy room-ját
+        Boolean gotDestination = false;
+        //ebbe fogom elmenteni, hogy pontosan melyik room-ból érte el a destination egy room-ját
+        Room gotDestinationFromThis = new Room(game);
+        //a ciklus addig megy, amíg minden room-on végig nem érünk, vagyis amíg a fifo ki nem ürül
+        while(!fifoForRooms.isEmpty()){
+            //a fifo-ból kiveszem a legfelső elemet, és elmentem az értékét
+            Room currentRoom = fifoForRooms.poll();
+            //ha az éppen vizsgált room a destination-höz tartozik, akkor
+            //  1. elmentem, hogy ebből értük el a destination-t
+            //  2. beállítom igaz értékre, hogy sikerült elérni a destination-t
+            //  3. kilépek a ciklusból
+            if(roomsOfDestination.contains(currentRoom)){
+                gotDestinationFromThis = currentRoom;
+                gotDestination = true;
+                break;
+            }
+            //ha még nem értem el a destination-t, akkor megnézem az éppen vizsgált stop szomszédjait
+            //ha még nem járta be az algoritmus a szomszédot, akkor most bejárja, elmenti, hogy az éppen vizsgált stop-ból érte el, és beteszi fifo-ba
+            for(Room roomIter : game.GetMap().GetRoomAndTheirNeighbourList().get(currentRoom)){
+                if(Boolean.FALSE.equals(visitedThisStop.get(roomIter))){
+                    fifoForRooms.add(roomIter);
+                    visitedThisStop.put(roomIter, true);
+                    cameFromThisStop.put(roomIter, currentRoom);
+                }
+            }
+        }
+        //hogyha az algoritmus bejárása után sem sikerült elérni a destination-t, akkor az elérhetetlen, null-t adok vissza
+        if(Boolean.FALSE.equals(gotDestination)){
+            return null;
+        }
+        //safety-net változó, hogy véletlenül se birizgáljam meg rosszul azt, hogy honnan értem el a destination-t
+        Room gotDestinationFromThis2 = gotDestinationFromThis;
+
+        //bejárom visszafelé destination-től a source-ig az algoritmus által talált utat, elmentem a stop-okat a reverse listába
+        List<Room> reverse = new ArrayList<>();
+        while(cameFromThisStop.get(gotDestinationFromThis2) != superSourceRoom){
+            reverse.add(gotDestinationFromThis2);
+            gotDestinationFromThis2 = cameFromThisStop.get(gotDestinationFromThis2);
+        }
+        reverse.add(gotDestinationFromThis2);
+        ///////////////////
+        //***BFS VÉGE****//
+        ///////////////////
+        //az eredmény az egyenlő lesz a reverse lista fordítottjával
+        for(Room roomIter : reverse){
+            resultBFS.add(0, roomIter);
+        }
+
+        result = resultBFS.get(0);
+
+        return result;
+    }
+
+    public static void initializeBFSMaps(java.util.Map<Room, List<Room>> hashmapOfNeighbours, java.util.Map<Room, Boolean> visitedThisStop, java.util.Map<Room, Room> cameFromThisStop){
+        for(int i = 0; i < hashmapOfNeighbours.size(); i++){
+            for (Room stopKey : hashmapOfNeighbours.keySet() ) {
+                visitedThisStop.put(stopKey, false);
+                cameFromThisStop.put(stopKey, null);
+            }
+        }
     }
 }

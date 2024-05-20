@@ -209,6 +209,10 @@ public class Game {
     public boolean IsPreGame() {return pregame;}
 
     public void SetPreGame() { pregame = false; }
+
+    public Student GetHuntedStudent(){
+        return hunted;
+    }
 //endregion
 
 //region Methods =======================================================================================================
