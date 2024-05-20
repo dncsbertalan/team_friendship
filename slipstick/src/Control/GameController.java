@@ -69,9 +69,9 @@ public class GameController {
             if (timer >= 1_000_000_000) {
                 timer = 0;
                 //System.out.println(++ellapsedTime);
-                double res = drawtime / (double) GameConstants.DesiredFPS / 1_000_000.0;
-                String formattedNumber = String.format("%.8f", res);
-                NewScreenMessage(60, Color.black, "Avarage draw time: " + formattedNumber + " ms");
+                //double res = drawtime / (double) GameConstants.DesiredFPS / 1_000_000.0;
+                //String formattedNumber = String.format("%.8f", res);
+                //NewScreenMessage(60, Color.black, "Avarage draw time: " + formattedNumber + " ms");
                 drawtime = 0;
             }
 

@@ -105,6 +105,16 @@ public class Game {
             game.GetMap().GetJanitorsRoom().AddJanitorToRoom(janitor);
         }
 
+        for (Professor professor : professors) {
+            String name = professor.GetName() + GameConstants.PROFESSOR_NAME_END;
+            professor.SetName(name);
+        }
+
+        for (Janitor janitor : janitors) {
+            String name = janitor.GetName() + GameConstants.JANITOR_NAME_END;
+            janitor.SetName(name);
+        }
+
         this.roundManager.Init();
         os.println("TODO: majd clear a lista ha van már lebirintus generálás, addig jó így");
     }
@@ -121,7 +131,7 @@ public class Game {
         final int max = temp.size();
 
         int key = random.nextInt(max);
-        return temp.get(key) + GameConstants.PROFESSOR_NAME_END;
+        return temp.get(key);
     }
 
     private String getRandomJanitorName() {
@@ -136,7 +146,7 @@ public class Game {
         final int max = temp.size();
 
         int key = random.nextInt(max);
-        return temp.get(key) + GameConstants.JANITOR_NAME_END;
+        return temp.get(key);
     }
 
     /**
