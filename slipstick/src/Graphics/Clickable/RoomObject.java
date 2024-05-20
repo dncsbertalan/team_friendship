@@ -90,6 +90,7 @@ public class RoomObject {
         Rectangle2D bounding = graphics2D.getFontMetrics().getStringBounds(room.GetName(), graphics2D);
         Vector2 pos = new Vector2(centerPos.x - (int) bounding.getCenterX(), centerPos.y - (int) bounding.getCenterY());
         graphics2D.drawString(room.GetName(), pos.x, pos.y);
+        if (room.IsGassed()) graphics2D.drawString("GASSED", pos.x, pos.y + (int) bounding.getHeight());
 
         // Draw the inside
         DrawInside(graphics2D);

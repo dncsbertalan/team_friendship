@@ -1,7 +1,6 @@
 package Graphics;
 
 import Constants.GameConstants;
-import Control.GameController;
 import Entities.Student;
 import Graphics.Listeners.GamePanelExitButtonListener;
 import Graphics.Listeners.GameWindowMouseWheelListener;
@@ -12,20 +11,15 @@ import Graphics.Utils.*;
 import Items.*;
 import Labyrinth.Room;
 
-import javax.imageio.ImageIO;
-import javax.print.attribute.standard.ReferenceUriSchemesSupported;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 import static Runnable.Main.*;
 
@@ -108,6 +102,7 @@ public class GameWindowPanel extends JPanel {
         mousePosition = new Vector2(point.x, point.y);
 
         DrawRoom(graphics2D);
+        DrawGasClouds(graphics2D);
         DrawCurrentRound(graphics2D);
         DrawStudentsInfo(graphics2D);
         DrawInventory(graphics2D);
@@ -153,6 +148,19 @@ public class GameWindowPanel extends JPanel {
             RoomObject ro = new RoomObject(this, pos, neighbour,
                     true, rot, neighbour.GetNeighbours().indexOf(curRoom));
             ro.Draw(graphics2D);
+        }
+
+        // Add gas effect if gas room
+        if (!curRoom.IsGassed()) return;
+
+        Random random = new Random();
+        if (random.nextFloat() < GameConstants.GAS_PROBABILITY) {
+            NewGasCloud((int) (random.nextFloat(0.5f, 1f) * 180),
+                    new Vector2(windowSize.x / 2 + random.nextInt(-GameConstants.ROOM_SIZE / 2, GameConstants.ROOM_SIZE / 2),
+                            windowSize.y / 2 + random.nextInt(-GameConstants.ROOM_SIZE / 2, GameConstants.ROOM_SIZE / 2)),
+                    random.nextFloat(0.5f, 1f),
+                    random.nextBoolean() ? 1 : -1
+            );
         }
     }
 
@@ -271,7 +279,7 @@ public class GameWindowPanel extends JPanel {
         final float activeStudentBoxOutlineWidth = 2f;
         final int activeStudentBoxPosY = activeCharacterHeight * activeStudentLine + activeCharacterHeight / 4;
         final int activeStudentBoxHeight = activeCharacterHeight * (1 + activeStudentPlusInfo);
-        Vector2 pos = new Vector2(GameConstants.GamePanel_ENTITY_INFO_POS().x, windowSize.y / 2 - infoBoxBackHeight / 2);
+        Vector2 pos = new Vector2(GameConstants.GamePanel_ENTITY_INFO_POS_X, windowSize.y / 2 - infoBoxBackHeight / 2);
 
         // Background box
         final Color infoBackBoxColor = new Color(115,85,90,150);
@@ -527,27 +535,31 @@ public class GameWindowPanel extends JPanel {
         Graphics2D g = (Graphics2D) graphics2D.create();
 
         // Calculates the height of the texts
-        int textsHeight = (screenMessages.size() - 1) * GameConstants.SCREEN_MESSAGE_DISTANCE;
-        int textHeight = (int) -g.getFontMetrics().getStringBounds("GetHeight!<3", g).getY();
         g.setFont(GameConstants.SCREEN_MESSAGE_FONT);
+        int characterHeight = (int) -g.getFontMetrics().getStringBounds("GetHeight!<3", g).getY();
+        int textsHeight = screenMessages.size() * characterHeight;
 
-        for (ScreenMessage sc : screenMessages) {
-            textsHeight += textHeight;
-        }
-
-        Vector2 posOnScreen = new Vector2(GameConstants.GamePanel_SCREEN_MESSAGE_BOTTOM_LEFT().x,
-                windowSize.y - GameConstants.GamePanel_SCREEN_MESSAGE_BOTTOM_LEFT().y - textsHeight);
+        Vector2 posOnScreen = new Vector2(GameConstants.GamePanel_SCREEN_MESSAGE_BOTTOM_LEFT,
+                windowSize.y - GameConstants.GamePanel_SCREEN_MESSAGE_BOTTOM_LEFT - textsHeight);
 
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         for (ScreenMessage sc : screenMessages) {
+            posOnScreen.AddY(characterHeight);
             int alpha = (int) HelperMethods.Remap(sc.GetTimeLeft(), 60, 0, 255, 0, true);
             g.setColor(new Color(sc.GetColor().getRed(), sc.GetColor().getGreen(), sc.GetColor().getBlue(), alpha));
             g.drawString(sc.GetMessage(), posOnScreen.x, posOnScreen.y);
-            posOnScreen.AddY(textHeight + GameConstants.SCREEN_MESSAGE_DISTANCE);
         }
 
         g.dispose();
+    }
+
+    private void DrawGasClouds(Graphics2D graphics2D) {
+        if (gasClouds.isEmpty()) return;
+
+        for (GasCloud gc : gasClouds) {
+            gc.Draw(graphics2D);
+        }
     }
 
     /**
@@ -635,6 +647,7 @@ public class GameWindowPanel extends JPanel {
                 return;
             }
         }
+        gameController.ClearSelectedItem();
     }
 
 // endregion ===========================================================================================================
@@ -686,6 +699,42 @@ public class GameWindowPanel extends JPanel {
         for (ScreenMessage del : toDelete) {
             screenMessages.remove(del);
         }
+    }
+
+// endregion ===========================================================================================================
+
+// region Gas ==========================================================================================================
+
+    private final ArrayList<GasCloud> gasClouds = new ArrayList<>();
+    private final ArrayList<GasCloud> toBeKilledGasClouds = new ArrayList<>();
+
+    public void NewGasCloud(int timeLeft, Vector2 position, float scale, int direction) {
+        gasClouds.add(new GasCloud(timeLeft, position, scale, direction));
+    }
+
+    public void UpdateGasClouds() {
+        if (gasClouds.isEmpty()) return;
+
+        Student active = game.GetRoundManager().GetActiveStudent();
+        if (active == null) return;
+
+        if (!active.GetCurrentRoom().IsGassed()) {
+            gasClouds.clear();
+            return;
+        }
+
+        for (GasCloud gasCloud : gasClouds) {
+            gasCloud.Update();
+        }
+
+        for (GasCloud gasCloud : toBeKilledGasClouds) {
+            gasClouds.remove(gasCloud);
+        }
+        toBeKilledGasClouds.clear();
+    }
+
+    public void KillGasCloud(GasCloud gasCloud) {
+        toBeKilledGasClouds.add(gasCloud);
     }
 
 // endregion ===========================================================================================================
