@@ -141,7 +141,8 @@ public class RoundManager{
             // if there are no students left this round
             activeStudent = null;
             if (!aiEntities.isEmpty()) {
-                activeAIEntity = aiEntities.get(0);
+                //activeAIEntity = aiEntities.get(0);
+                    activeAIEntity = new Professor(game);
             }
         }
         if (activeAIEntity != null) {
