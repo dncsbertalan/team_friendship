@@ -93,6 +93,23 @@ public class Map {
             rooms.add(i, new Room(random.nextInt(6) + 1, game, "Room_" + roomNum));
         }
 
+        // Turn some rooms into gassed rooms
+        int numberOfGassedRooms = initializeTheNumberOfGassedRooms(players);
+        List<Room> gassedRooms = new ArrayList<>();
+
+        for (int i = 0; i < numberOfGassedRooms; i++) {
+            int randomRoomIndex = 0;
+            Room gassedRoom = null;
+
+            do {
+                randomRoomIndex = random.nextInt(rooms.size());
+                gassedRoom = rooms.get(randomRoomIndex);
+            } while (gassedRooms.contains(gassedRoom));
+
+            gassedRoom.SetToxicity();
+            gassedRooms.add(gassedRoom);
+        }
+
         // Randomly connect rooms to each other
         randomlyConnectRooms(numberOfRooms);
 
@@ -223,6 +240,25 @@ public class Map {
                 break;
         }
         return numberOfRooms;
+    }
+
+    private int initializeTheNumberOfGassedRooms(int players) {
+        int numberOfGassedRooms = 0;
+        switch (players) {
+            case 1:
+                numberOfGassedRooms = 3;
+                break;
+            case 2:
+                numberOfGassedRooms = 5;
+                break;
+            case 3:
+                numberOfGassedRooms = 8;
+                break;
+            case 4:
+                numberOfGassedRooms = 13;
+                break;
+        }
+        return numberOfGassedRooms;
     }
 
     private void initializeItemQuantities(HashMap<String, Integer> itemQuantities, int players) {
