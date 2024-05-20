@@ -103,7 +103,7 @@ public class Professor extends Entity implements IAI {
         this.StepInto(stepIntoThis);
 
         String message1 = this.GetName() + " went from " + stepFromThis.GetName() + " to " + stepIntoThis.GetName();
-        gameController.NewScreenMessage(60, new Color(98, 9, 119), message1);
+        gameController.NewScreenMessage(300, new Color(98, 9, 119), message1);
 
         //the entity randomly picks up an item from its current room
         Random random = new Random();
