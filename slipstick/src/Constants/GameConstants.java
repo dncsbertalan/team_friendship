@@ -183,7 +183,7 @@ public class GameConstants {
     public static final int GamePanel_ENTITY_INFO_POS_X = 20;
 
     // End screen
-    public static final String WIN_MESSAGE = "CONGRATULATION! YOU WON! <3";
+    public static final String WIN_MESSAGE = "CONGRATULATIONS! YOU WON!";
     public static final String LOST_MESSAGE = "LOSERS...";
 
     public static final String FAKE_ITEM_USE_MESSAGE = "Looks like it was a fake item";
