@@ -11,6 +11,7 @@ import static Runnable.Main.os;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Janitor extends Entity implements IAI {
 
@@ -52,6 +53,7 @@ public class Janitor extends Entity implements IAI {
     @Override
     public void AI() {
 
+        //try to see if any neighbouring rooms has enough capacity
         Room stepFromThis = this.GetCurrentRoom();
         Room stepIntoThis = null;
         for(Room roomIter : this.GetCurrentRoom().GetNeighbours()){
@@ -61,6 +63,7 @@ public class Janitor extends Entity implements IAI {
             }
         }
 
+        //if not, the entity does nothing
         if(stepIntoThis == null){
             game.GetRoundManager().EndTurn();
             return;
@@ -69,7 +72,7 @@ public class Janitor extends Entity implements IAI {
         this.StepInto(stepIntoThis);
 
         String message = this.GetName() + " went from " + stepFromThis.GetName() + " to " + stepIntoThis.GetName();
-        gameController.NewScreenMessage(60, new Color(98, 9, 119), message);
+        gameController.NewScreenMessage(300, new Color(98, 9, 119), message);
 
         game.GetRoundManager().EndTurn();
         return;

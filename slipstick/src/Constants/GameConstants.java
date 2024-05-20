@@ -53,10 +53,13 @@ public class GameConstants {
         JANITOR_NAMES.put(1, "Janice");
         JANITOR_NAMES.put(2, "Linda");
         JANITOR_NAMES.put(3, "Helga");
+        JANITOR_NAMES.put(4, "oh- that's not...");
         PROFESSOR_NAMES.put(0, "Tasihasi");
         PROFESSOR_NAMES.put(1, "give me a fucking name");
         PROFESSOR_NAMES.put(2, "I know where you live");
         PROFESSOR_NAMES.put(3, "AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+        PROFESSOR_NAMES.put(2, "papoka");
+        PROFESSOR_NAMES.put(3, "csengoce");
     }
 
 // region GRAPHICS CONSTANTS ===========================================================================================
