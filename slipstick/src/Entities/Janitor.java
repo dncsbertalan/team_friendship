@@ -53,17 +53,22 @@ public class Janitor extends Entity implements IAI {
     @Override
     public void AI() {
 
-        //try to see if any neighbouring rooms has enough capacity
         Room stepFromThis = this.GetCurrentRoom();
         Room stepIntoThis = null;
-        for(Room roomIter : this.GetCurrentRoom().GetNeighbours()){
-            if(roomIter.CanStepIn() == true){
-                stepIntoThis = roomIter;
-                break;
+        Random random = new Random();
+
+        //trys to catch a random room from neighbours
+        int stopFromEndlessLoop = 0;
+        while(stepIntoThis == null && stopFromEndlessLoop < 15){
+            int id = (int)(Math.random() * this.GetCurrentRoom().GetNeighbours().size());
+            Room tryThis = this.GetCurrentRoom().GetNeighbours().get(id);
+            //if a room is available, the entity will step into it
+            if(tryThis.CanStepIn()){
+                stepIntoThis = tryThis;
             }
         }
 
-        //if not, the entity does nothing
+        //if no room is available, the entity does nothing
         if(stepIntoThis == null){
             game.GetRoundManager().EndTurn();
             return;
