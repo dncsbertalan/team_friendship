@@ -84,6 +84,8 @@ public abstract class Entity {
         remainingTurns += turns;
     }
 
+    public  void ResetMoveCount() { remainingTurns = GameConstants.STEPS_IN_ONE_ROUND; }
+
     /**
      * Gives back the remaining turns of the entity.
      * @return: the remaining turns of the entity.

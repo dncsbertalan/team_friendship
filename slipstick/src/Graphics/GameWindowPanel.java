@@ -494,7 +494,7 @@ public class GameWindowPanel extends JPanel {
                 if(((Transistor) selectedItem).GetPair() == null){
                     activateable = "-not paired";
                     graphics2D.drawString(activateable, x_second_text_coord, y_second_text_coord + 3 * textHeight);
-                } else if(((Transistor) selectedItem).GetPairReadyToTeleport() == false){
+                } else if(!((Transistor) selectedItem).GetPairReadyToTeleport()){
                     activateable = "-paired";
                     usable = "-not activated";
                     graphics2D.drawString(activateable, x_second_text_coord, y_second_text_coord + 3 * textHeight);

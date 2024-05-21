@@ -99,12 +99,12 @@ public class RoundManager{
 
         // Reset student steps
         for (Student student : studentsLeftThisRound) {
-            student.IncreaseMoveCount(GameConstants.STEPS_IN_ONE_ROUND);
+            student.ResetMoveCount();
         }
 
         // Reset janitor and prof steps
         for (IAI entity : aiEntities) {
-            ((Entity) entity).IncreaseMoveCount(GameConstants.STEPS_IN_ONE_ROUND);
+            ((Entity) entity).ResetMoveCount();
         }
 
         // Check if everyone is dead
