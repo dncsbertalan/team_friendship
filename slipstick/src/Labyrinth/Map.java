@@ -213,8 +213,8 @@ public class Map {
         List<Room> potentialWinningRooms = new ArrayList<>();
         for (HashMap.Entry<Room, Integer> entry : distancesFromSlipStick.entrySet()) {
             int distance = entry.getValue();
-            if (distance > 2 && distance < 5 && (!entry.getKey().equals(mainHall) ||
-                    !entry.getKey().equals(teachersLounge) || !entry.getKey().equals(janitorsRoom))) {
+            if (distance > 2 && distance < 5 && !entry.getKey().equals(mainHall) &&
+                    !entry.getKey().equals(teachersLounge) && !entry.getKey().equals(janitorsRoom)) {
                 potentialWinningRooms.add(entry.getKey());
             }
         }
