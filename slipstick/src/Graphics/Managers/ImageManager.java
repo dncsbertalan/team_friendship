@@ -106,6 +106,7 @@ public class ImageManager {
         loadImageAs(GameConstants.IMAGE_TRANSISTOR_OUTLINE_UNPICKABLE, GameConstants.IMAGE_TRANSISTOR_OUTLINE_UNPICKABLE_FILEPATH);
         loadImageAs(GameConstants.IMAGE_TVSZ_OUTLINE_UNPICKABLE, GameConstants.IMAGE_TVSZ_OUTLINE_UNPICKABLE_FILEPATH);
 
+        // Entities
         loadImageAs(GameConstants.IMAGE_STUDENT1, GameConstants.IMAGE_STUDENT1_FILEPATH);
         loadImageAs(GameConstants.IMAGE_STUDENT2, GameConstants.IMAGE_STUDENT2_FILEPATH);
         loadImageAs(GameConstants.IMAGE_STUDENT3, GameConstants.IMAGE_STUDENT3_FILEPATH);
@@ -118,5 +119,8 @@ public class ImageManager {
         loadImageAs(GameConstants.IMAGE_JANITOR2, GameConstants.IMAGE_JANITOR2_FILEPATH);
         loadImageAs(GameConstants.IMAGE_JANITOR3, GameConstants.IMAGE_JANITOR3_FILEPATH);
         loadImageAs(GameConstants.IMAGE_JANITOR4, GameConstants.IMAGE_JANITOR4_FILEPATH);
+
+        // Gas
+        loadImageAs(GameConstants.IMAGE_GAS_CLOUD, GameConstants.IMAGE_GAS_CLOUD_FILEPATH);
     }
 }

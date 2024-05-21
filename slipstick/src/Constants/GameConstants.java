@@ -4,7 +4,6 @@ import Graphics.Utils.Vector2;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class GameConstants {
     public static int MaxRounds = 20;
@@ -176,16 +175,25 @@ public class GameConstants {
 
     // Screen messages
     public static final int MAX_SCREEN_MESSAGES = 10;
-    public static final int SCREEN_MESSAGE_DISTANCE = 7;
     public static final Font SCREEN_MESSAGE_FONT = new Font("Courier New", Font.BOLD, 20);
     public static final Color SCREEN_MESSAGE_DEFAUL_COLOR = Color.black;
-    public static Vector2 GamePanel_SCREEN_MESSAGE_BOTTOM_LEFT() { return new Vector2(20, 20); }
+    public static final int GamePanel_SCREEN_MESSAGE_BOTTOM_LEFT = 20;
 
     public static Vector2 GamePanel_INVENTORY_POS() { return new Vector2(20, 20); }
-    public static Vector2 GamePanel_ENTITY_INFO_POS() { return new Vector2(20, 100); }
+    public static final int GamePanel_ENTITY_INFO_POS_X = 20;
 
-    public static final String WIN_MESSAGE = "CONGRATULATION! YOU WON! <3";
+    // End screen
+    public static final String WIN_MESSAGE = "CONGRATULATIONS! YOU WON!";
     public static final String LOST_MESSAGE = "LOSERS...";
+
+    public static final String FAKE_ITEM_USE_MESSAGE = "Looks like it was a fake item";
+    public static final int FAKE_ITEM_USE_MESSAGE_TIMELEFT = DesiredFPS * 3;
+    public static final String TRANSISTOR_PAIR_MESSAGE = "Successfully paired transistors";
+    public static final int TRANSISTOR_PAIR_MESSAGE_TIMELEFT = DesiredFPS * 3;
+
+    public static final int MAX_VISUAL_TIME_HOUR = DesiredFPS * 60 * 60;
+    public static final float GAS_PROBABILITY = 0.2f;
+    public static final int GAS_RANGE = 300;
 
 // endregion
 
@@ -194,6 +202,10 @@ public class GameConstants {
     // Logo
     public static final String IMAGE_LOGO_FILEPATH = "slipstick/rsc/logo.png";
     public static final String IMAGE_LOGO = "logo";
+
+    // Gas cloud
+    public static final String IMAGE_GAS_CLOUD = "gas";
+    public static final String IMAGE_GAS_CLOUD_FILEPATH = "slipstick/rsc/gas.png";
 
     // Room paths
     public static final String IMAGE_BG_FILEPATH = "slipstick/rsc/bg2.png";
@@ -309,6 +321,9 @@ public class GameConstants {
 
     public static final String INVENTORY_FILEPATH = "slipstick/rsc/sounds/inventory.wav";
     public static final String INVENTORY = "inventory";
+
+    public static final String SOUND_FAKE_ITEM_USE_FILEPATH = "slipstick/rsc/sounds/fake_item_use.wav";
+    public static final String SOUND_FAKE_ITEM_USE = "fake";
 
 // endregion
 }

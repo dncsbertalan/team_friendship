@@ -5,13 +5,16 @@ import Entities.IAI;
 import Entities.Student;
 import GameManagers.RoundManager;
 import Graphics.GameWindowPanel;
+import Graphics.Utils.GasCloud;
 import Graphics.Utils.ScreenMessage;
 import Graphics.Utils.Vector2;
+import Items.Fake;
 import Items.Item;
 import Items.Transistor;
 import Labyrinth.Room;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Random;
 
 import static Runnable.Main.*;
@@ -24,6 +27,7 @@ public class GameController {
     private Item selectedItemInRoom;
     private RoundManager roundManager;
     private boolean lastPhaseStarted;
+    public int timeForVisual;
 
     /**
      * The core of the game. It "pulls" the required information from the game.
@@ -52,6 +56,10 @@ public class GameController {
                 if (!game.IsPreGame()) {     // If the game is not initialized yet
                     GameLogic();
                     gamePanel.UpdateScreenMessages();
+                    gamePanel.UpdateGasClouds();
+
+                    timeForVisual++;
+                    if (timeForVisual > GameConstants.MAX_VISUAL_TIME_HOUR) timeForVisual = 0;
                 }
 
                 if (game.IsLastPhase()) {
@@ -81,6 +89,8 @@ public class GameController {
                 //String formattedNumber = String.format("%.8f", res);
                 //NewScreenMessage(60, Color.black, "Avarage draw time: " + formattedNumber + " ms");
                 //drawtime = 0;
+                NewScreenMessage(60, Color.black, "Draw count: " + gamePanel.drawCount);
+                gamePanel.drawCount = 0;
             }
 
         }
@@ -114,7 +124,7 @@ public class GameController {
         long t2 = System.nanoTime();
         double res = (t2 - t1) / 1_000_000.0;
         String formattedNumber = String.format("%.6f", res);
-        NewScreenMessage(3010, Color.black, "Resources loaded in " + formattedNumber + " ms");
+        NewScreenMessage(300, Color.black, "Resources loaded in " + formattedNumber + " ms");
 
         // Finished init
         game.SetPreGame();
@@ -126,7 +136,9 @@ public class GameController {
 
 // endregion ===========================================================================================================
 
-    public void HandleInput(Student student,char input) {
+    public void HandleInput(Student student, char input) {
+
+        input = Character.toLowerCase(input);
 
         switch (input) {
             case '1':
@@ -150,26 +162,56 @@ public class GameController {
                     student.DropSelectedItem();
                 }
                 break;
-            case 'p':
-                Item transistor1 = selectedItemInRoom;
-                if (selectedItemInRoom !=null && transistor1 instanceof Transistor) {
-                    for (Item transistor2 : student.GetInventory()) {
-                        if (transistor2 != transistor1 && transistor2.getClass() == Items.Transistor.class) {
-                            student.PairTransistors((Transistor) transistor1, (Transistor) transistor2);
+            case 'p': {
+                Item transistor1 = student.GetSelectedItem();
+                if (transistor1 !=null ) {
+
+                    if (transistor1 instanceof Transistor) {
+                        for (Item transistor2 : student.GetInventory()) {
+                            if (transistor2 != transistor1 && transistor2 instanceof Transistor) {
+                                student.PairTransistors((Transistor) transistor1, (Transistor) transistor2);
+
+                                NewScreenMessage(GameConstants.TRANSISTOR_PAIR_MESSAGE_TIMELEFT, GameConstants.TRANSISTOR_PAIR_MESSAGE);
+                            }
                         }
+                    }
+
+                    if (transistor1 instanceof Fake) {
+                        soundManager.playSoundOnce(GameConstants.SOUND_FAKE_ITEM_USE);
+                        student.UseSelectedItem();
+                        NewScreenMessage(GameConstants.FAKE_ITEM_USE_MESSAGE_TIMELEFT, GameConstants.FAKE_ITEM_USE_MESSAGE);
                     }
                 }
                 break;
-            case 'u':
-                if(student.GetSelectedItem() != null) {
+            }
+            case 'u': {
+                Item useItem = student.GetSelectedItem();
+                if(useItem != null) {
+
+                    if (useItem instanceof Fake) {
+                        soundManager.playSoundOnce(GameConstants.SOUND_FAKE_ITEM_USE);
+                        NewScreenMessage(GameConstants.FAKE_ITEM_USE_MESSAGE_TIMELEFT, GameConstants.FAKE_ITEM_USE_MESSAGE);
+                    }
+
                     student.UseSelectedItem();
                 }
                 break;
-            case 'a':
-                if(student.GetSelectedItem() !=null) {
-                    student.ActivateItem(selectedItemInRoom);
+            }
+            case 'a': {
+                Item activateItem = student.GetSelectedItem();
+                if(activateItem !=null) {
+
+                    if (activateItem instanceof Fake) {
+                        soundManager.playSoundOnce(GameConstants.SOUND_FAKE_ITEM_USE);
+                        student.UseSelectedItem();
+                        NewScreenMessage(GameConstants.FAKE_ITEM_USE_MESSAGE_TIMELEFT, GameConstants.FAKE_ITEM_USE_MESSAGE);
+                        break;
+                    }
+
+                    student.ActivateItem(activateItem);
                 }
                 break;
+            }
             case 'e':
                 roundManager.EndTurn();
                 return;
@@ -231,6 +273,25 @@ public class GameController {
     }
 
     /**
+     * Creates new gas cloud.
+     * @param timeLeft  the time left of this cloud
+     * @param position  the position
+     * @param scale     the scale
+     * @param direction the direction
+     */
+    public void NewGasCloud(int timeLeft, Vector2 position, float scale, int direction) {
+        gamePanel.NewGasCloud(timeLeft, position, scale, direction);
+    }
+
+    /**
+     * Removes gas cloud.
+     * @param gasCloud the gas cloud to be removed.
+     */
+    public void KillGasCloud(GasCloud gasCloud) {
+        gamePanel.KillGasCloud(gasCloud);
+    }
+
+    /**
      * Sets the currently selected item.
      * @param newSelectedItem the item
      */
@@ -287,4 +348,5 @@ public class GameController {
     }
 
 //endregion
+
 }

@@ -93,6 +93,23 @@ public class Map {
             rooms.add(i, new Room(random.nextInt(6) + 1, game, "Room_" + roomNum));
         }
 
+        // Turn some rooms into gassed rooms
+        int numberOfGassedRooms = initializeTheNumberOfGassedRooms(players);
+        List<Room> gassedRooms = new ArrayList<>();
+
+        for (int i = 0; i < numberOfGassedRooms; i++) {
+            int randomRoomIndex = 0;
+            Room gassedRoom = null;
+
+            do {
+                randomRoomIndex = random.nextInt(rooms.size());
+                gassedRoom = rooms.get(randomRoomIndex);
+            } while (gassedRooms.contains(gassedRoom));
+
+            gassedRoom.SetToxicity();
+            gassedRooms.add(gassedRoom);
+        }
+
         // Randomly connect rooms to each other
         randomlyConnectRooms(numberOfRooms);
 
@@ -101,16 +118,13 @@ public class Map {
         List<Pair<Room, Room>> spanningTree = dfsResult.getFirst();
         List<List<Room>> components = dfsResult.getSecond();
 
-        // If it's not connected, then randomly connect the components
+        // If it's not connected, then connect the components
         if (spanningTree.isEmpty()) {
             for (int i = 0; i < components.size() - 1; i++) {
-                int numOfConnections= random.nextInt(3) + 1;
-                for (int j = 0; j < numOfConnections; j++) {
-                    Room r1 = components.get(i).get(0);
-                    Room r2 = components.get(i + 1).get(0);
-                    r1.AddNeighbour(r2);
-                    r2.AddNeighbour(r1);
-                }
+                Room r1 = components.get(i).get(0);
+                Room r2 = components.get(i + 1).get(0);
+                r1.AddNeighbour(r2);
+                r2.AddNeighbour(r1);
             }
         }
 
@@ -127,6 +141,7 @@ public class Map {
         // Initialize special rooms
         mainHall = new Room(4, game, "MainHall");
         Room connectionPointOfMainHall = spanningTree.get(0).getFirst();
+        randomizeConnectionPoints(connectionPointOfMainHall, mainHall);
         mainHall.AddNeighbour(connectionPointOfMainHall);
         connectionPointOfMainHall.AddNeighbour(mainHall);
         rooms.add(mainHall);
@@ -140,12 +155,14 @@ public class Map {
 
         teachersLounge = new Room(4, game, "TeachersLounge");
         Room furthestRoom = sortedDistances.get(0).getFirst();
+        randomizeConnectionPoints(furthestRoom, teachersLounge);
         teachersLounge.AddNeighbour(furthestRoom);
         furthestRoom.AddNeighbour(teachersLounge);
         rooms.add(teachersLounge);
 
         janitorsRoom = new Room(4, game, "JanitorsRoom");
         Room secondFurthestRoom = sortedDistances.get(1).getFirst();
+        randomizeConnectionPoints(secondFurthestRoom, janitorsRoom);
         janitorsRoom.AddNeighbour(secondFurthestRoom);
         secondFurthestRoom.AddNeighbour(janitorsRoom);
         rooms.add(janitorsRoom);
@@ -196,7 +213,8 @@ public class Map {
         List<Room> potentialWinningRooms = new ArrayList<>();
         for (HashMap.Entry<Room, Integer> entry : distancesFromSlipStick.entrySet()) {
             int distance = entry.getValue();
-            if (distance > 3 && distance < 6) {
+            if (distance > 3 && distance < 6 && (!entry.getKey().equals(mainHall) ||
+                    !entry.getKey().equals(teachersLounge) || !entry.getKey().equals(janitorsRoom))) {
                 potentialWinningRooms.add(entry.getKey());
             }
         }
@@ -222,6 +240,25 @@ public class Map {
                 break;
         }
         return numberOfRooms;
+    }
+
+    private int initializeTheNumberOfGassedRooms(int players) {
+        int numberOfGassedRooms = 0;
+        switch (players) {
+            case 1:
+                numberOfGassedRooms = 3;
+                break;
+            case 2:
+                numberOfGassedRooms = 5;
+                break;
+            case 3:
+                numberOfGassedRooms = 8;
+                break;
+            case 4:
+                numberOfGassedRooms = 13;
+                break;
+        }
+        return numberOfGassedRooms;
     }
 
     private void initializeItemQuantities(HashMap<String, Integer> itemQuantities, int players) {
@@ -270,21 +307,34 @@ public class Map {
             int numberOfNeighbours = random.nextInt(6) + 1;
 
             if (numberOfNeighbours <= remainingRooms) {
-                remainingRooms = remainingRooms - numberOfNeighbours;
-            }
-            else {
+                remainingRooms -= numberOfNeighbours;
+            } else {
                 numberOfNeighbours = remainingRooms;
                 remainingRooms = 0;
             }
 
+            Set<Room> usedNeighbours = new HashSet<>(room.GetNeighbours());
+
             for (int i = 0; i < numberOfNeighbours; i++) {
                 Room newNeighbour = null;
-                do {
+                int attempts = 0;
+                while (attempts < 100) {
                     newNeighbour = rooms.get(random.nextInt(numberOfRooms));
-                } while (newNeighbour.equals(room) || newNeighbour.GetNeighbours().size() > 5 || room.GetNeighbours().contains(newNeighbour));
+                    if (!newNeighbour.equals(room) && !usedNeighbours.contains(newNeighbour) &&
+                            newNeighbour.GetNeighbours().size() < 6 && room.GetNeighbours().size() < 6) {
+                        break;
+                    }
+                    newNeighbour = null;
+                    attempts++;
+                }
 
-                room.AddNeighbour(newNeighbour);
-                newNeighbour.AddNeighbour(room);
+                if (newNeighbour != null) {
+                    room.AddNeighbour(newNeighbour);
+                    newNeighbour.AddNeighbour(room);
+                    usedNeighbours.add(newNeighbour);
+                } else {
+                    break;
+                }
             }
 
             if (remainingRooms == 0) break;
@@ -355,6 +405,15 @@ public class Map {
         }
 
         return distances;
+    }
+
+    private void randomizeConnectionPoints(Room previousConnectionPoint, Room targetRoom) {
+        if (random.nextInt(2) == 0) {
+            int randomRoomIndex = random.nextInt(previousConnectionPoint.GetNeighbours().size());
+            Room otherConnectionPoint = previousConnectionPoint.GetNeighbours().get(randomRoomIndex);
+            targetRoom.AddNeighbour(otherConnectionPoint);
+            otherConnectionPoint.AddNeighbour(targetRoom);
+        }
     }
 
     private HashMap<String, Supplier<Item>> createItemSuppliers() {

@@ -47,7 +47,8 @@ public class DrawUtils {
             image = imageManager.resizeImage(GameConstants.IMAGE_WET_CLOTH, scale);
         }
         else {  // FAKE ITEM
-            image = imageManager.resizeImage("temp", scale);
+            image = null;
+            DrawUtils.DrawItem(graphics2D, ((Fake) item).GetFakedItem(), center, scale);
         }
 
         if (image == null) return;
@@ -101,7 +102,8 @@ public class DrawUtils {
         }
         else {  // FAKE ITEM
             image = null;
-            DrawItem(graphics2D, ((Fake) item).GetFakedItem(), center, scale);
+            if (unpickable) DrawItemOutline(graphics2D, ((Fake) item).GetFakedItem(), center, scale, unpickable);
+            else DrawItemOutline(graphics2D, ((Fake) item).GetFakedItem(), center, scale, unpickable);
         }
 
         if (image == null) return;
