@@ -197,7 +197,7 @@ public class Map {
         boolean slipStickFound = false;
         for (Room room : rooms) {
             for (Item item : room.GetInventory()) {
-                if (item.GetName().startsWith("SlipStick")); {
+                if (item instanceof SlipStick) {
                     slipStickRooom = room;
                     slipStickFound = true;
                     break;
@@ -213,13 +213,13 @@ public class Map {
         List<Room> potentialWinningRooms = new ArrayList<>();
         for (HashMap.Entry<Room, Integer> entry : distancesFromSlipStick.entrySet()) {
             int distance = entry.getValue();
-            if (distance > 3 && distance < 6 && (!entry.getKey().equals(mainHall) ||
+            if (distance > 2 && distance < 5 && (!entry.getKey().equals(mainHall) ||
                     !entry.getKey().equals(teachersLounge) || !entry.getKey().equals(janitorsRoom))) {
                 potentialWinningRooms.add(entry.getKey());
             }
         }
 
-        int randomRoomIndex = random.nextInt(potentialWinningRooms.size());
+        int randomRoomIndex = (!potentialWinningRooms.isEmpty()) ? random.nextInt(potentialWinningRooms.size()) : 1;
         winningRoom = potentialWinningRooms.get(randomRoomIndex);
     }
 
