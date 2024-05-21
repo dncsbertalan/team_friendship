@@ -336,12 +336,16 @@ public class GameController {
 
     private void HandleStudent(Student student) {
         if (student == null) return;
-        if(student.IsDead()) {
+        if (student.IsDead()) {
             NewScreenMessage(240, Color.RED,"Student " + student.GetName() + " is dead.");
             roundManager.EndTurn();
            // isFirstMove = true;
         }
-
+        else if (student.IsParalysed()) {
+            NewScreenMessage(240, Color.RED,"Student " + student.GetName() + " stepped into a gassed room.");
+            NewScreenMessage(240, Color.RED,"Student " + student.GetName() + " got paralyzed.");
+            roundManager.EndTurn();
+        }
     }
 
     private void HandleAIEntities(IAI entities) {

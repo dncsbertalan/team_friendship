@@ -17,6 +17,7 @@ public class RoundManager{
     private Student activeStudent;
     private IAI activeAIEntity;
     private final ArrayList<Student> studentsLeftThisRound;
+    private final ArrayList<Student> studentsParalyzedThisRound;
     private final ArrayList<IAI> aiEntities;
 //endregion
 
@@ -24,6 +25,7 @@ public class RoundManager{
         this.game = game;
 
         this.studentsLeftThisRound = new ArrayList<>();
+        this.studentsParalyzedThisRound = new ArrayList<>();
         this.aiEntities = new ArrayList<>();
 
         activeStudent = null;
@@ -88,10 +90,11 @@ public class RoundManager{
     public void EndOfRound() {
 
         // Reset the entity lists
-        //this.studentsLeftThisRound.addAll(this.game.GetStudents());
         for (Student student : game.GetStudents()) {
-            if (!student.IsDead()) {
+            if (!student.IsDead() && !student.IsParalysed()) {
                 this.studentsLeftThisRound.add(student);
+            } else if (student.IsParalysed()) {
+                this.studentsParalyzedThisRound.add(student);
             }
         }
         this.aiEntities.addAll(this.game.GetProfessors());
@@ -108,18 +111,25 @@ public class RoundManager{
         }
 
         // Check if everyone is dead
-        if (studentsLeftThisRound.isEmpty()) {
+        if (studentsLeftThisRound.isEmpty() && studentsParalyzedThisRound.isEmpty()) {
             game.EndGame(false);
             return;
         }
 
-        // Reset active
-        activeStudent = this.studentsLeftThisRound.get(0);
+        // Reset active student
+        if (!studentsLeftThisRound.isEmpty()) {
+            activeStudent = studentsLeftThisRound.get(0);
+        } else if (!studentsParalyzedThisRound.isEmpty()) {
+            activeStudent = studentsParalyzedThisRound.get(0);
+        } else {
+            activeStudent = null;
+        }
+
         activeAIEntity = null;
 
         // TODO: kör vége logikák számlálók...
 
-        // start a new round
+        // Start a new round
         this.NextRound();
     }
 
@@ -135,6 +145,15 @@ public class RoundManager{
             // Make the next student active
             if (!studentsLeftThisRound.isEmpty()) {
                 activeStudent = studentsLeftThisRound.get(0);
+                return;
+            }
+
+            if (!studentsParalyzedThisRound.isEmpty()) {
+                activeStudent = studentsParalyzedThisRound.get(0);
+                if (activeStudent.GetRemainingTurns() == -1) {
+                    activeStudent.SetParalysed(false);
+                    activeStudent.ResetMoveCount();
+                }
                 return;
             }
             // if there are no students left this round
