@@ -49,8 +49,9 @@ public class Student extends Entity{
         this.room = room;
         room.AddStudentToRoom(this);
 
-        if(game.GetMap().IsWinningRoom(room))
+        if (game.GetMap().IsWinningRoom(room) && this.CheckForSlipstick()) {
             game.EndGame(true);
+        }
     }
 
     @Override
