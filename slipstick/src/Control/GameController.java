@@ -213,6 +213,9 @@ public class GameController {
                 break;
             }
             case 'e':
+                if(student.GetRemainingTurns()>0) {
+                    student.MissRounds(1);
+                }
                 roundManager.EndTurn();
                 return;
             case 'c':
