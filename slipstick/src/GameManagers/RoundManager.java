@@ -1,6 +1,7 @@
 package GameManagers;
 import Constants.GameConstants;
 import Entities.*;
+import GameManagers.Commands.Commands;
 
 import java.util.ArrayList;
 
@@ -79,6 +80,11 @@ public class RoundManager{
         rounds++;
         if (rounds == GameConstants.MaxRounds) {
             game.EndGame(false);
+        }
+
+        if (rounds % 7 == 0) {
+            Commands.Merge("merge".split(" "));
+            Commands.Separate("separate".split(" "));
         }
     }
 
