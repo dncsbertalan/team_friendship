@@ -138,6 +138,8 @@ public class GameController {
 
     public void HandleInput(Student student, char input) {
 
+        if (student == null) return;
+
         input = Character.toLowerCase(input);
 
         switch (input) {
@@ -336,11 +338,12 @@ public class GameController {
 
     private void HandleStudent(Student student) {
         if (student == null) return;
+
         if (student.IsDead()) {
             NewScreenMessage(240, Color.RED,"Student " + student.GetName() + " is dead.");
             roundManager.EndTurn();
-           // isFirstMove = true;
         }
+
         else if (student.IsParalysed()) {
             NewScreenMessage(240, Color.RED,"Student " + student.GetName() + " stepped into a gassed room.");
             NewScreenMessage(240, Color.RED,"Student " + student.GetName() + " got paralyzed.");

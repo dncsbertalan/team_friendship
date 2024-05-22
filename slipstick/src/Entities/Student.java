@@ -7,6 +7,8 @@ import Items.*;
 import Labyrinth.Map;
 import Labyrinth.Room;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 public class Student extends Entity{
@@ -20,6 +22,9 @@ public class Student extends Entity{
      * The selected item
      */
     Item selectedItem;
+
+    private final ArrayList<Item> tempUnpickableItems = new ArrayList<>();
+    private final HashMap<Item, Room> tempUnpickableRooms = new HashMap<>();
 
     public Student(Game g) {
         super(g);
@@ -61,7 +66,6 @@ public class Student extends Entity{
         if (protectionItem == null) {   // no protection
             this.MissRounds(GameConstants.RoundsMissed_GasRoom);
             this.DropAllItems();
-            Map map = this.game.GetMap();
             this.SetParalysed(true);
         }
         else {  // has protection
@@ -145,6 +149,28 @@ public class Student extends Entity{
      */
     public void ActivateItem(Item item) {
         item.ActivateItem();
+    }
+
+    /**
+     * Adds a temporary unpickable item.
+     * @param item  the item
+     */
+    public void AddTemporaryUnpickableItem(Item item, Room room) {
+        tempUnpickableItems.add(item);
+        tempUnpickableRooms.put(item, room);
+    }
+
+    /**
+     * Clears temporary unpickable item.s
+     */
+    public void ClearTemporaryUnpickableItems() {
+        for (Item item : tempUnpickableItems) {
+            Room curRoom = tempUnpickableRooms.get(item);
+            curRoom.GetUnpickupableItems().remove(item);
+            curRoom.AddItemToRoom(item);
+        }
+        tempUnpickableItems.clear();
+        tempUnpickableRooms.clear();
     }
 
     /**

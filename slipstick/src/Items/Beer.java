@@ -31,6 +31,7 @@ public class Beer extends Item {
                 dropThisItem = student.GetRandomItemFromStudent();
             } while (dropThisItem == this);
             student.GetCurrentRoom().AddUnpickupableItemToRoom(dropThisItem);
+            student.AddTemporaryUnpickableItem(dropThisItem, student.GetCurrentRoom());
             student.GetInventory().remove(dropThisItem);
         }
         student.GetInventory().remove(this);

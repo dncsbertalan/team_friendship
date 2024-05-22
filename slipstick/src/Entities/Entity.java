@@ -8,12 +8,10 @@ import Items.SlipStick;
 import Labyrinth.Room;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Objects;
 
-import static Runnable.Main.os;
-
 public abstract class Entity {
+
 //region Attributes ====================================================================================================
     /**
      * Name of the Entity
@@ -44,6 +42,8 @@ public abstract class Entity {
      * Whether the entity is KO from toxic gas.
      */
     private boolean paralysed;
+    private int missedRounds;
+
 //endregion ============================================================================================================
 
     public Entity(Game g) {
@@ -64,6 +64,34 @@ public abstract class Entity {
     public void SetName(String name) {
         this.Name = name;
     }
+
+// region PARALYZED ====================================================================================================
+
+    /**
+     * Makes Entity miss n turns
+     * @param missedRounds number of turns to be missed
+     */
+    public void MissRounds(int missedRounds) {
+        // The + 1 is for that the current round does not count
+        this.missedRounds += missedRounds + 1;
+    }
+
+    public void UpdateMissedRounds() {
+        missedRounds = Math.max(0, --missedRounds);
+        if (missedRounds == 0) paralysed = false;
+    }
+
+    /**
+     * Checks if player misses this turn
+     * @return true if player misses turn
+     */
+    public boolean CheckRoundMiss() { return missedRounds > 0; }
+
+    public void SetParalysed(boolean isParalysed) { paralysed = isParalysed; }
+
+    public boolean IsParalysed() { return paralysed; }
+
+// endregion ===========================================================================================================
 
     /**
      * Tries to move to the specified room
@@ -91,7 +119,6 @@ public abstract class Entity {
      * @return: the remaining turns of the entity.
      */
     public int GetRemainingTurns(){
-        this.paralysed = remainingTurns <= -1;
         return remainingTurns;
     }
 
@@ -142,22 +169,6 @@ public abstract class Entity {
      */
     public void DeleteItemFromInventory(Item item) {
         inventory.remove(item);
-    }
-
-    /**
-     * Makes Entity miss n turns
-     * @param missedTurns number of turns to be missed
-     */
-    public void MissRounds(int missedTurns) {
-        remainingTurns -= missedTurns;
-    }
-
-    /**
-     * Checks if player misses this turn
-     * @return true if player misses turn
-     */
-    public boolean CheckRoundMiss() {
-        return remainingTurns<=0;
     }
 
     /**
@@ -225,13 +236,5 @@ public abstract class Entity {
             return;
         }
         this.inventory.add(item);
-    }
-
-    public void SetParalysed(boolean isParalysed){
-        paralysed = isParalysed;
-    }
-
-    public boolean IsParalysed(){
-        return paralysed;
     }
 }

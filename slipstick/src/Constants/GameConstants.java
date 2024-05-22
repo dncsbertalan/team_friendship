@@ -14,7 +14,7 @@ public class GameConstants {
     public static final int WetCloth_MissRoundCount = 1;
     public static final int EntitiesToBecomeSticky = 5; // idk
 
-    public static final int STEPS_IN_ONE_ROUND = 1;
+    public static final int STEPS_IN_ONE_ROUND = 100;
     public static final int JANITOR_NUMBER = 2;
     public static final int PROFESSOR_NUMBER = 2;
 
