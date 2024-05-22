@@ -60,7 +60,7 @@ public class DrawUtils {
      */
     public static void DrawItemOutline(final Graphics2D graphics2D, final Item item, final Vector2 center, final float scale, boolean unpickable) {
 
-        BufferedImage image;
+        BufferedImage image = null;
 
         if (item instanceof AirFreshener) {
             image = unpickable ? imageManager.resizeImage(GameConstants.IMAGE_AIR_FRESHENER_OUTLINE_UNPICKABLE, scale)
@@ -93,15 +93,16 @@ public class DrawUtils {
         else if (item instanceof WetCloth) {
             image = unpickable ? imageManager.resizeImage(GameConstants.IMAGE_WET_CLOTH_OUTLINE_UNPICKABLE, scale)
                     : imageManager.resizeImage(GameConstants.IMAGE_WET_CLOTH_OUTLINE, scale);
-        }
-        else {  // FAKE ITEM
-            image = null;
-            if (unpickable) DrawItemOutline(graphics2D, ((Fake) item).GetFakedItem(), center, scale, unpickable);
-            else DrawItemOutline(graphics2D, ((Fake) item).GetFakedItem(), center, scale, unpickable);
+        } else if (item instanceof Fake) {  // FAKE ITEM
+            Item fakedItem = ((Fake) item).GetFakedItem();
+            if (fakedItem != null) {
+                if (unpickable) DrawItemOutline(graphics2D, fakedItem, center, scale, unpickable);
+                else DrawItemOutline(graphics2D, fakedItem, center, scale, unpickable);
+            }
+            return;
         }
 
-        if (image == null) return;
-
+        if (image != null)
         graphics2D.drawImage(image, center.x - image.getWidth() / 2, center.y - image.getHeight() / 2, null);
     }
 
