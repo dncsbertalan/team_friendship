@@ -15,7 +15,7 @@ public class GameConstants {
     public static final int WetCloth_RoundsUsable = 5;
     public static final int EntitiesToBecomeSticky = 5; // idk
 
-    public static final int STEPS_IN_ONE_ROUND = 100;
+    public static final int STEPS_IN_ONE_ROUND = 2;
     public static final int JANITOR_NUMBER = 2;
     public static final int PROFESSOR_NUMBER = 2;
 
@@ -45,9 +45,6 @@ public class GameConstants {
 
     public static final ArrayList<String> PROFESSOR_NAMES = new ArrayList<>();
     public static final String PROFESSOR_NAME_END = " the professor";
-
-    public static final int POSSIBLE_JANITOR_NAMES_COUNT = 14;
-    public static final int POSSIBLE_PROF_NAMES_COUNT = 6;
 
     static {
         JANITOR_NAMES.add("Consuela");

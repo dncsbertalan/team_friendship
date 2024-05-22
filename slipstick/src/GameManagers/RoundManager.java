@@ -120,7 +120,7 @@ public class RoundManager{
 
             for (Item item : student.GetInventory()) {
                 if (item instanceof WetCloth wetCloth) {
-                    wetCloth.DeacreaseRounds(student);
+                    wetCloth.DeacreaseRounds(student, null);
                 }
             }
         }
@@ -145,6 +145,12 @@ public class RoundManager{
         // Decrease cheese gas
         for (Room room : game.GetMap().GetRooms()) {
             room.DecreaseRemainingRoundsBeingGassed();
+
+            for (Item item : room.GetInventory()) {
+                if (item instanceof WetCloth wetCloth) {
+                    wetCloth.DeacreaseRounds(null, room);
+                }
+            }
         }
         // TODO: kör vége logikák számlálók...
 

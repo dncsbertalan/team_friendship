@@ -28,7 +28,6 @@ public class GameWindowPanel extends JPanel {
     private Vector2 mousePosition;
     private final Vector2 windowSize;
     private final MenuButton exitButton;
-    public int drawCount;
 
     public GameWindowPanel(GameWindowFrame frame) {
         // Set constant fields
@@ -91,7 +90,7 @@ public class GameWindowPanel extends JPanel {
             return;
         }
 
-        if (game.IsEnded()) {      // If th game ended
+        if (game.IsEnded()) {      // If the game ended
             DrawEndScreen(graphics2D);
             return;
         }
@@ -109,7 +108,6 @@ public class GameWindowPanel extends JPanel {
         DrawInventory(graphics2D);
         DrawScreenMessages(graphics2D);
         DrawItemInformationTable(graphics2D);
-        drawCount++;
     }
 
 // region Getters/Setters ==============================================================================================

@@ -4,6 +4,7 @@ import Constants.Enums;
 import Constants.GameConstants;
 import Entities.Professor;
 import Entities.Student;
+import Labyrinth.Room;
 
 public class WetCloth extends Item {
     private static int ID = 0;
@@ -30,9 +31,13 @@ public class WetCloth extends Item {
         p.DropAllItems();
     }
 
-    public void DeacreaseRounds(Student student) {
+    public void DeacreaseRounds(Student student, Room room) {
+        if (!activated) return;
         roundsLeft = Math.max(0, --roundsLeft);
-        if (roundsLeft == 0) student.DeleteItemFromInventory(this);
+        if (roundsLeft != 0) return;
+
+        if (student != null) student.DeleteItemFromInventory(this);
+        if (room != null) room.GetInventory().remove(this);
     }
 
     public int GetRoundsLeft() {
