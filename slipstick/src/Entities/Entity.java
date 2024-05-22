@@ -82,10 +82,10 @@ public abstract class Entity {
     }
 
     /**
-     * Checks if player misses this turn
-     * @return true if player misses turn
+     * Returns the missed rounds.
+     * @return the missed rounds
      */
-    public boolean CheckRoundMiss() { return missedRounds > 0; }
+    public int GetMissedRounds() { return missedRounds; }
 
     public void SetParalysed(boolean isParalysed) { paralysed = isParalysed; }
 

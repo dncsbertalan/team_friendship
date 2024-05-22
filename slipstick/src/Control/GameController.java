@@ -215,9 +215,6 @@ public class GameController {
                 break;
             }
             case 'e':
-                if(student.GetRemainingTurns()>0) {
-                    student.MissRounds(1);
-                }
                 roundManager.EndTurn();
                 return;
             case 'c':
@@ -243,14 +240,21 @@ public class GameController {
             if(student.GetRemainingTurns() > 0) {
                 gamePanel.CreateScreenMessage(240, Color.red, "The room is full");
             }else{
-                gamePanel.CreateScreenMessage(240, Color.red, "You've already changed rooms in this round");
+                gamePanel.CreateScreenMessage(240, Color.red, "You have no steps left");
             }
             return;
         }
 
+        // Messages
+        if (stepInto.IsGassed())
+            NewScreenMessage(240, Color.RED,student.GetName() + GameConstants.MESSAGE_GAS_ROOM_STEP);
+
+        // Plays door sound
         Random rand = new Random();
         if (rand.nextBoolean()) soundManager.playSoundOnce(GameConstants.SOUND_DOOR1);
         else soundManager.playSoundOnce(GameConstants.SOUND_DOOR2);
+
+        // Clears selected item
         ClearSelectedItem();
     }
 
@@ -345,8 +349,7 @@ public class GameController {
         }
 
         else if (student.IsParalysed()) {
-            NewScreenMessage(240, Color.RED,"Student " + student.GetName() + " stepped into a gassed room.");
-            NewScreenMessage(240, Color.RED,"Student " + student.GetName() + " got paralyzed.");
+            NewScreenMessage(240, Color.RED, student.GetName() + GameConstants.MESSAGE_PARALYZED_SKIP);
             roundManager.EndTurn();
         }
     }

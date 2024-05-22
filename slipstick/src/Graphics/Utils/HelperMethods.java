@@ -2,6 +2,7 @@ package Graphics.Utils;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class HelperMethods {
 
@@ -74,6 +75,19 @@ public class HelperMethods {
             currentLongest = Math.max((int) g.getFontMetrics().getStringBounds(line, g).getWidth(), currentLongest);
         }
 
+        return currentLongest;
+    }
+
+    public static int GetLongestLineLength(ArrayList<String> lines, HashMap<String, Font> lineFonts, Graphics2D g) {
+        Graphics2D _g = (Graphics2D) g.create();
+        int currentLongest = 0;
+
+        for (String line : lines) {
+            g.setFont(lineFonts.get(line));
+            currentLongest = Math.max((int) g.getFontMetrics().getStringBounds(line, g).getWidth(), currentLongest);
+        }
+
+        _g.dispose();
         return currentLongest;
     }
 }

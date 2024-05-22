@@ -145,7 +145,15 @@ public class GameConstants {
 
 // region GAME =========================================================================================================
     public static final String GamePanel_ROUND_TEXT = "Round: ";
-    public static final String REMAINING_ROUND_TEXT = "  ¤ steps left: ";
+
+    // Student info panel
+    public static final String REMAINING_ROUND_TEXT = " ¤ steps left: ";
+    public static final String INFO_ALIVE = "";
+    public static final String INFO_PARALYZED = " ¤ paralyzed";
+    public static final String INFO_DEAD = " is dead";
+    public static final String INFO_MISSED_ROUND1 = " ¤ remains out of ";
+    public static final String INFO_MISSED_ROUND2 = " rounds";
+    public static final String INFO_MISSED_ROUND3 = " ¤ remains out of this round";
 
     public static final int GamePanel_WIDTH = 1000;
     public static final int GamePanel_HEIGHT = 800;
@@ -190,6 +198,9 @@ public class GameConstants {
     public static final int FAKE_ITEM_USE_MESSAGE_TIMELEFT = DesiredFPS * 3;
     public static final String TRANSISTOR_PAIR_MESSAGE = "Successfully paired transistors";
     public static final int TRANSISTOR_PAIR_MESSAGE_TIMELEFT = DesiredFPS * 3;
+
+    public static final String MESSAGE_PARALYZED_SKIP = " misses this round because they are paralyzed";
+    public static final String MESSAGE_GAS_ROOM_STEP = " stepped into a gassed room";
 
     public static final int MAX_VISUAL_TIME_HOUR = DesiredFPS * 60 * 60;
     public static final float GAS_PROBABILITY = 0.2f;

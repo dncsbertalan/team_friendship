@@ -245,20 +245,34 @@ public class GameWindowPanel extends JPanel {
         for (Student student : game.GetStudents()) {
             String line = student.GetName();
 
-            if(student.IsParalysed()){
-                line += " : paralysed";
-            } else if(student.IsDead()){
-                line += " : R.I.P.";
+            if(student.IsDead()) {
+                line += GameConstants.INFO_DEAD;
             } else {
-                line += " : alive and well";
+                line += GameConstants.INFO_ALIVE;
             }
 
             infoLines.add(line);
 
+            // paralyzed info
+            if (student.IsParalysed()) {
+                infoLines.add(GameConstants.INFO_PARALYZED);
+                infoLineFonts.put(GameConstants.INFO_PARALYZED, basicFont);
+            }
+
+            // missed rounds info
+            if (student.GetMissedRounds() > 1) {
+                infoLines.add(GameConstants.INFO_MISSED_ROUND1 + (student.GetMissedRounds() - 1) + GameConstants.INFO_MISSED_ROUND2);
+                infoLineFonts.put(GameConstants.INFO_MISSED_ROUND1 + (student.GetMissedRounds() - 1) + GameConstants.INFO_MISSED_ROUND2, basicFont);
+            }
+            else if (student.GetMissedRounds() == 1) {
+                infoLines.add(GameConstants.INFO_MISSED_ROUND3);
+                infoLineFonts.put(GameConstants.INFO_MISSED_ROUND3, basicFont);
+            }
+
             if(student == game.GetRoundManager().GetActiveStudent()){
+                activeStudentLine = infoLines.size() - 1;
                 String plusInfoLine1 = GameConstants.REMAINING_ROUND_TEXT + student.GetRemainingTurns();
                 infoLines.add(plusInfoLine1);
-                activeStudentLine = game.GetStudents().indexOf(student);
                 infoLineFonts.put(plusInfoLine1, activeFont);
                 infoLineFonts.put(line, activeFont);
             }
@@ -271,7 +285,7 @@ public class GameWindowPanel extends JPanel {
         final int bottomPadding = 10;
         final int rightLeftPadding = 10;
         final int backBoxSizeDiff = 3;
-        final int infoBoxTextsWidth = HelperMethods.GetLongestLineLength(infoLines, g);
+        final int infoBoxTextsWidth = HelperMethods.GetLongestLineLength(infoLines, infoLineFonts, g);
         final int infoBoxTextsHeight = (infoLines.size() - 1 - activeStudentPlusInfo) * characterHeight + (1 + activeStudentPlusInfo) * activeCharacterHeight;
         final int infoBoxBackWidth = infoBoxTextsWidth + rightLeftPadding * 2 + backBoxSizeDiff * 2;
         final int infoBoxBackHeight = infoBoxTextsHeight + topPadding + bottomPadding + backBoxSizeDiff * 2;
@@ -279,7 +293,7 @@ public class GameWindowPanel extends JPanel {
         final int infoBoxHeight = infoBoxTextsHeight + topPadding + bottomPadding;
         final int arc = 10;
         final float activeStudentBoxOutlineWidth = 2f;
-        final int activeStudentBoxPosY = activeCharacterHeight * activeStudentLine + activeCharacterHeight / 4;
+        final int activeStudentBoxPosY = characterHeight * activeStudentLine + activeCharacterHeight / 4;
         final int activeStudentBoxHeight = activeCharacterHeight * (1 + activeStudentPlusInfo);
         Vector2 pos = new Vector2(GameConstants.GamePanel_ENTITY_INFO_POS_X, windowSize.y / 2 - infoBoxBackHeight / 2);
 
