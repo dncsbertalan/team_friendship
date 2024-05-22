@@ -402,7 +402,7 @@ public class GameWindowPanel extends JPanel {
         String remainingUsages = null;
 
         if (selectedItem != null){
-            if(selectedItem.getClass() == AirFreshener.class){
+            if(selectedItem instanceof AirFreshener){
                 name = "air freshener";
                 usable = "-useable";
                 graphics2D.drawString(name, x_first_text_coord, y_first_text_coord + 2 * textHeight);
@@ -427,23 +427,17 @@ public class GameWindowPanel extends JPanel {
                 usable = "-take to winning room";
                 graphics2D.drawString(name, x_first_text_coord, y_first_text_coord + 2 * textHeight);
                 graphics2D.drawString(usable, x_first_text_coord, y_first_text_coord + 3 * textHeight);
-            } else if(selectedItem.getClass() == Transistor.class){
-                name = "transistor";
+            } else if (selectedItem instanceof Transistor) {
+                name = "Transistor";
                 graphics2D.drawString(name, x_first_text_coord, y_first_text_coord + 2 * textHeight);
-                if(((Transistor) selectedItem).GetPair() == null){
-                    activateable = "-not paired";
-                    graphics2D.drawString(activateable, x_first_text_coord, y_first_text_coord + 3 * textHeight);
-                } else if(((Transistor) selectedItem).GetPairReadyToTeleport() == false){
-                    activateable = "-paired";
-                    usable = "-not activated";
-                    graphics2D.drawString(activateable, x_first_text_coord, y_first_text_coord + 3 * textHeight);
-                    graphics2D.drawString(usable, x_first_text_coord, y_first_text_coord + 4 * textHeight);
-                } else{
-                    activateable = "-paired";
-                    usable = "-activated";
-                    graphics2D.drawString(activateable, x_first_text_coord, y_first_text_coord + 3 * textHeight);
-                    graphics2D.drawString(usable, x_first_text_coord, y_first_text_coord + 4 * textHeight);
-                }
+
+                Transistor transistor = (Transistor) selectedItem;
+                activateable = transistor.GetActivation() ? " ¤ activated" : " ¤ deactivated";
+                graphics2D.drawString(activateable, x_first_text_coord, y_first_text_coord + 3 * textHeight);
+
+                usable = transistor.GetPairReadyToTeleport() ? " ¤ pair ready" : " ¤ pair not ready";
+                graphics2D.drawString(usable, x_first_text_coord, y_first_text_coord + 4 * textHeight);
+
             } else if(selectedItem.getClass() == TVSZ.class){
                 name = "tvsz";
                 remainingUsages = "-" + ((TVSZ) selectedItem).GetRemainingPages() + " pages left";

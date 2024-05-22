@@ -253,19 +253,6 @@ public class Student extends Entity{
     }
 
     /**
-     * Override of DropItem for transistor usage
-     * @param item the selected item
-     */
-    @Override
-    public void DropItem(Item item) {
-        super.DropItem(item);
-
-        if (item instanceof Transistor) {
-            item.UseItem(this);
-        }
-    }
-
-    /**
      * Pairs two transistors
      * @param t1 first transistor (this will start the pairing)
      * @param t2 second transistor

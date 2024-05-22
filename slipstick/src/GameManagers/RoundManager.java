@@ -1,7 +1,9 @@
 package GameManagers;
+
 import Constants.GameConstants;
 import Entities.*;
 import GameManagers.Commands.Commands;
+import static Runnable.Main.gameController;
 
 import java.util.ArrayList;
 
@@ -77,6 +79,8 @@ public class RoundManager{
      *Start new round.
      */
     public void NextRound() {
+        gameController.NewScreenMessage(300, "Round " + rounds + " ended");
+
         rounds++;
         if (rounds == GameConstants.MaxRounds) {
             game.EndGame(false);
@@ -85,6 +89,8 @@ public class RoundManager{
         if (rounds % 7 == 0) {
             Commands.Merge("merge".split(" "));
             Commands.Separate("separate".split(" "));
+
+            gameController.NewScreenMessage(300, "Mystical force chanegd the labyrinth");
         }
     }
 

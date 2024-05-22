@@ -166,6 +166,12 @@ public class Commands {
                     for (Room neighbours : room.GetNeighbours()) {
                         os.println("\t-> " + neighbours.GetName() + (neighbours.IsGassed() ? " (gassed)" : "") + (room.IsSticky() ? " (sticky)" : ""));
                     }
+                    for (Item item : room.GetInventory()) {
+                        os.println("\t-> " + item.GetName());
+                    }
+                    for (Item item : room.GetUnpickupableItems()) {
+                        os.println("\t-> " + item.GetName());
+                    }
                 }
                 break;
             }
