@@ -19,41 +19,35 @@ public class DrawUtils {
      * @param scale         the scale of the item's image
      */
     public static void DrawItem(final Graphics2D graphics2D, final Item item, final Vector2 center, final float scale) {
-
-        BufferedImage image;
+        BufferedImage image = null;
 
         if (item instanceof AirFreshener) {
             image = imageManager.resizeImage(GameConstants.IMAGE_AIR_FRESHENER, scale);
-        }
-        else if (item instanceof Beer) {
+        } else if (item instanceof Beer) {
             image = imageManager.resizeImage(GameConstants.IMAGE_BEER, scale);
-        }
-        else if (item instanceof Cheese) {
+        } else if (item instanceof Cheese) {
             image = imageManager.resizeImage(GameConstants.IMAGE_CHEESE, scale);
-        }
-        else if (item instanceof FFP2Mask) {
+        } else if (item instanceof FFP2Mask) {
             image = imageManager.resizeImage(GameConstants.IMAGE_FFP2_MASK, scale);
-        }
-        else if (item instanceof SlipStick) {
+        } else if (item instanceof SlipStick) {
             image = imageManager.resizeImage(GameConstants.IMAGE_SLIPSTICK, scale);
-        }
-        else if (item instanceof Transistor) {
+        } else if (item instanceof Transistor) {
             image = imageManager.resizeImage(GameConstants.IMAGE_TRANSISTOR, scale);
-        }
-        else if (item instanceof TVSZ) {
+        } else if (item instanceof TVSZ) {
             image = imageManager.resizeImage(GameConstants.IMAGE_TVSZ, scale);
-        }
-        else if (item instanceof WetCloth) {
+        } else if (item instanceof WetCloth) {
             image = imageManager.resizeImage(GameConstants.IMAGE_WET_CLOTH, scale);
-        }
-        else {  // FAKE ITEM
-            image = null;
-            DrawUtils.DrawItem(graphics2D, ((Fake) item).GetFakedItem(), center, scale);
+        } else if (item instanceof Fake) {  // FAKE ITEM
+            Item fakedItem = ((Fake) item).GetFakedItem();
+            if (fakedItem != null) {
+                DrawItem(graphics2D, fakedItem, center, scale);
+            }
+            return;
         }
 
-        if (image == null) return;
-
-        graphics2D.drawImage(image, center.x - image.getWidth() / 2, center.y - image.getHeight() / 2, null);
+        if (image != null) {
+            graphics2D.drawImage(image, center.x - image.getWidth() / 2, center.y - image.getHeight() / 2, null);
+        }
     }
 
     /**
