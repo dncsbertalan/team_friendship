@@ -3,6 +3,10 @@ package GameManagers;
 import Constants.GameConstants;
 import Entities.*;
 import GameManagers.Commands.Commands;
+import Items.Item;
+import Items.WetCloth;
+import Labyrinth.Room;
+
 import static Runnable.Main.gameController;
 
 import java.util.ArrayList;
@@ -113,11 +117,19 @@ public class RoundManager{
         for (Student student : studentsLeftThisRound) {
             student.ResetMoveCount();
             student.UpdateMissedRounds();
+
+            for (Item item : student.GetInventory()) {
+                if (item instanceof WetCloth wetCloth) {
+                    wetCloth.DeacreaseRounds(student);
+                }
+            }
         }
 
         // Reset janitor and prof steps
+        // Decrease entities missed rounds
         for (IAI entity : aiEntities) {
             ((Entity) entity).ResetMoveCount();
+            ((Entity) entity).UpdateMissedRounds();
         }
 
         // Check if everyone is dead
@@ -130,6 +142,10 @@ public class RoundManager{
         activeStudent = studentsLeftThisRound.get(0);
         activeAIEntity = null;
 
+        // Decrease cheese gas
+        for (Room room : game.GetMap().GetRooms()) {
+            room.DecreaseRemainingRoundsBeingGassed();
+        }
         // TODO: kör vége logikák számlálók...
 
         // Start a new round

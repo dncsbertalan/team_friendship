@@ -340,6 +340,9 @@ public class GameWindowPanel extends JPanel {
      * @param graphics2D graphics instance
      */
     private void DrawItemInformationTable (Graphics2D graphics2D){
+        final Student activeStudent = game.GetRoundManager().GetActiveStudent();
+        if (activeStudent == null) return;
+
         Graphics2D g = (Graphics2D) graphics2D.create();
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
@@ -376,162 +379,32 @@ public class GameWindowPanel extends JPanel {
 
         int textHeight = (int) -g.getFontMetrics().getStringBounds("GetHeight!<3", g).getY();
 
-        g.drawString(GameConstants.GamePanel_INVENTORY_ITEM_TEXT_2, x_first_text_coord, (y_first_text_coord + 1 * textHeight));
+        g.drawString(GameConstants.GamePanel_INVENTORY_ITEM_TEXT_2, x_first_text_coord, (y_first_text_coord + textHeight));
 
         g.drawString(GameConstants.GamePanel_ROOM_ITEM_TEXT_1, x_second_text_coord, y_second_text_coord);
 
-        g.drawString(GameConstants.GamePanel_ROOM_ITEM_TEXT_2, x_second_text_coord, (y_second_text_coord + 1 * textHeight));
+        g.drawString(GameConstants.GamePanel_ROOM_ITEM_TEXT_2, x_second_text_coord, (y_second_text_coord + textHeight));
 
         g.setFont(new Font("Courier New", Font.BOLD, 17));
 
-        DrawItemInformation1(g, textHeight, x_first_text_coord, y_first_text_coord);
-        DrawItemInformation2(g, textHeight, x_second_text_coord, y_second_text_coord);
+        final Item selectedItem = activeStudent.GetSelectedItem();
+        if (selectedItem != null) DrawItemInformation1(g, textHeight, x_first_text_coord, y_first_text_coord, selectedItem);
+
+        final Item item = gameController.GetSelectedItem();
+        if (item != null) DrawItemInformation1(g, textHeight, x_second_text_coord, y_second_text_coord, item);
+        //DrawItemInformation2(g, textHeight, x_second_text_coord, y_second_text_coord);
 
         g.dispose();
     }
 
-    private void DrawItemInformation1(Graphics2D graphics2D, int textHeight, int x_first_text_coord, int y_first_text_coord){
+    private void DrawItemInformation1(Graphics2D graphics2D, int textHeight, int x_first_text_coord, int y_first_text_coord, Item item){
 
-        Student activeStudent = game.GetRoundManager().GetActiveStudent();
-        if (activeStudent == null) return;
 
-        Item selectedItem = activeStudent.GetSelectedItem();
-        String name = null;
-        String usable = null;
-        String activateable = null;
-        String remainingUsages = null;
 
-        if (selectedItem != null){
-            if(selectedItem instanceof AirFreshener){
-                name = "air freshener";
-                usable = "-useable";
-                graphics2D.drawString(name, x_first_text_coord, y_first_text_coord + 2 * textHeight);
-                graphics2D.drawString(usable, x_first_text_coord, y_first_text_coord + 3 * textHeight);
-            } else if(selectedItem.getClass() == Beer.class){
-                name = "beer";
-                usable = "-useable";
-                graphics2D.drawString(name, x_first_text_coord, y_first_text_coord + 2 * textHeight);
-                graphics2D.drawString(usable, x_first_text_coord, y_first_text_coord + 3 * textHeight);
-            } else if(selectedItem.getClass() == Cheese.class){
-                name = "stinky ass cheese";
-                usable = "-useable";
-                graphics2D.drawString(name, x_first_text_coord, y_first_text_coord + 2 * textHeight);
-                graphics2D.drawString(usable, x_first_text_coord, y_first_text_coord + 3 * textHeight);
-            } else if(selectedItem.getClass() == FFP2Mask.class){
-                name = "ffp2 mask";
-                remainingUsages = "-" + ((FFP2Mask) selectedItem).GetRemainingUsages() + " active rounds left";
-                graphics2D.drawString(name, x_first_text_coord, y_first_text_coord + 2 * textHeight);
-                graphics2D.drawString(remainingUsages, x_first_text_coord, y_first_text_coord + 3 * textHeight);
-            } else if(selectedItem.getClass() == SlipStick.class){
-                name = "slipstick";
-                usable = "-take to winning room";
-                graphics2D.drawString(name, x_first_text_coord, y_first_text_coord + 2 * textHeight);
-                graphics2D.drawString(usable, x_first_text_coord, y_first_text_coord + 3 * textHeight);
-            } else if (selectedItem instanceof Transistor) {
-                name = "Transistor";
-                graphics2D.drawString(name, x_first_text_coord, y_first_text_coord + 2 * textHeight);
+        final ArrayList<String> info = GetItemInfo(item);
 
-                Transistor transistor = (Transistor) selectedItem;
-                activateable = transistor.GetActivation() ? " ¤ activated" : " ¤ deactivated";
-                graphics2D.drawString(activateable, x_first_text_coord, y_first_text_coord + 3 * textHeight);
-
-                usable = transistor.GetPairReadyToTeleport() ? " ¤ pair ready" : " ¤ pair not ready";
-                graphics2D.drawString(usable, x_first_text_coord, y_first_text_coord + 4 * textHeight);
-
-            } else if(selectedItem.getClass() == TVSZ.class){
-                name = "tvsz";
-                remainingUsages = "-" + ((TVSZ) selectedItem).GetRemainingPages() + " pages left";
-                graphics2D.drawString(name, x_first_text_coord, y_first_text_coord + 2 * textHeight);
-                graphics2D.drawString(remainingUsages, x_first_text_coord, y_first_text_coord + 3 * textHeight);
-            } else if(selectedItem.getClass() == WetCloth.class){
-                name = "wet cloth";
-                graphics2D.drawString(name, x_first_text_coord, y_first_text_coord + 2 * textHeight);
-                if(((WetCloth) selectedItem).GetActivation() == false){
-                    activateable = "-not activated";
-                    graphics2D.drawString(activateable, x_first_text_coord, y_first_text_coord + 3 * textHeight);
-                } else {
-                    activateable = "-activated";
-                    graphics2D.drawString(activateable, x_first_text_coord, y_first_text_coord + 3 * textHeight);
-                }
-            } else if(selectedItem.getClass() == Fake.class){
-                name = "szoptad bohoc";
-                graphics2D.drawString(name, x_first_text_coord, y_first_text_coord + 2 * textHeight);
-            }
-        }
-    }
-
-    private void DrawItemInformation2(Graphics2D graphics2D, int textHeight, int x_second_text_coord, int y_second_text_coord){
-
-        //Student activeStudent = game.GetRoundManager().GetActiveStudent(); //ig ez nem fog kelleni de meglatjuk
-        Item selectedItem = gameController.GetSelectedItem();
-        String name = null;
-        String usable = null;
-        String activateable = null;
-        String remainingUsages = null;
-
-        //if(activeStudent != null && selectedItem != null){
-        if(selectedItem != null){
-            if(selectedItem.getClass() == AirFreshener.class){
-                name = "air freshener";
-                usable = "-useable";
-                graphics2D.drawString(name, x_second_text_coord, y_second_text_coord + 2 * textHeight);
-                graphics2D.drawString(usable, x_second_text_coord, y_second_text_coord + 3 * textHeight);
-            } else if(selectedItem.getClass() == Beer.class){
-                name = "beer";
-                usable = "-useable";
-                graphics2D.drawString(name, x_second_text_coord, y_second_text_coord+ 2 * textHeight);
-                graphics2D.drawString(usable, x_second_text_coord, y_second_text_coord + 3 * textHeight);
-            } else if(selectedItem.getClass() == Cheese.class){
-                name = "stinky ass cheese";
-                usable = "-useable";
-                graphics2D.drawString(name, x_second_text_coord, y_second_text_coord + 2 * textHeight);
-                graphics2D.drawString(usable, x_second_text_coord, y_second_text_coord + 3 * textHeight);
-            } else if(selectedItem.getClass() == FFP2Mask.class){
-                name = "ffp2 mask";
-                remainingUsages = "-" + ((FFP2Mask) selectedItem).GetRemainingUsages() + " active rounds left";
-                graphics2D.drawString(name, x_second_text_coord, y_second_text_coord + 2 * textHeight);
-                graphics2D.drawString(remainingUsages, x_second_text_coord, y_second_text_coord + 3 * textHeight);
-            } else if(selectedItem.getClass() == SlipStick.class){
-                name = "slipstick";
-                usable = "-take to winning room";
-                graphics2D.drawString(name, x_second_text_coord, y_second_text_coord + 2 * textHeight);
-                graphics2D.drawString(usable, x_second_text_coord, y_second_text_coord + 3 * textHeight);
-            } else if(selectedItem.getClass() == Transistor.class){
-                name = "transistor";
-                graphics2D.drawString(name, x_second_text_coord, y_second_text_coord + 2 * textHeight);
-                if(((Transistor) selectedItem).GetPair() == null){
-                    activateable = "-not paired";
-                    graphics2D.drawString(activateable, x_second_text_coord, y_second_text_coord + 3 * textHeight);
-                } else if(!((Transistor) selectedItem).GetPairReadyToTeleport()){
-                    activateable = "-paired";
-                    usable = "-not activated";
-                    graphics2D.drawString(activateable, x_second_text_coord, y_second_text_coord + 3 * textHeight);
-                    graphics2D.drawString(usable, x_second_text_coord, y_second_text_coord + 4 * textHeight);
-                } else{
-                    activateable = "-paired";
-                    usable = "-activated";
-                    graphics2D.drawString(activateable, x_second_text_coord, y_second_text_coord + 3 * textHeight);
-                    graphics2D.drawString(usable, x_second_text_coord, y_second_text_coord + 4 * textHeight);
-                }
-            } else if(selectedItem.getClass() == TVSZ.class){
-                name = "tvsz";
-                remainingUsages = "-" + ((TVSZ) selectedItem).GetRemainingPages() + " pages left";
-                graphics2D.drawString(name, x_second_text_coord, y_second_text_coord + 3 * textHeight);
-                graphics2D.drawString(remainingUsages, x_second_text_coord, y_second_text_coord + 4 * textHeight);
-            } else if(selectedItem.getClass() == WetCloth.class){
-                name = "wet cloth";
-                graphics2D.drawString(name, x_second_text_coord, y_second_text_coord + 2 * textHeight);
-                if(((WetCloth) selectedItem).GetActivation() == false){
-                    activateable = "-not activated";
-                    graphics2D.drawString(activateable, x_second_text_coord, y_second_text_coord + 3 * textHeight);
-                } else {
-                    activateable = "-activated";
-                    graphics2D.drawString(activateable, x_second_text_coord, y_second_text_coord + 3 * textHeight);
-                }
-            } else if(selectedItem.getClass() == Fake.class){
-                name = "szoptad bohoc";
-                graphics2D.drawString(name, x_second_text_coord, y_second_text_coord + 2 * textHeight);
-            }
+        for (int i = 0; i < info.size(); i++) {
+            graphics2D.drawString(info.get(i), x_first_text_coord, y_first_text_coord + (i + 2) * textHeight);
         }
     }
 
@@ -756,4 +629,54 @@ public class GameWindowPanel extends JPanel {
     }
 
 // endregion ===========================================================================================================
+
+    private ArrayList<String> GetItemInfo(Item item) {
+        final ArrayList<String> info = new ArrayList<>();
+
+        if (item instanceof AirFreshener) {
+            info.add("Air Freshener");
+            info.add(" ¤ usable");
+        }
+        else if (item instanceof Beer) {
+            info.add("Holy Beer");
+            info.add(" ¤ usable");
+        }
+        else if (item instanceof Cheese) {
+            info.add("Camambert");
+            info.add(item.GetActivation() ? " ¤ activated" : " ¤ deactivated");
+            info.add(" ¤ usable");
+        }
+        else if (item instanceof FFP2Mask ffp2Mask) {
+            info.add("FFP2 Mask");
+            info.add(" ¤ " + ffp2Mask.GetRemainingUsages() + " uses left");
+        }
+        else if (item instanceof SlipStick) {
+            info.add("Slipstick");
+            info.add(" ¤ take it to the winning room");
+            info.add("   winning room");
+        }
+        else if (item instanceof Transistor transistor) {
+            info.add("Transistor");
+            info.add(transistor.GetPairReadyToTeleport() ? " ¤ use to teleport" : " ¤ use to setup");
+            info.add(transistor.GetActivation() ? " ¤ activated" : " ¤ deactivated");
+            info.add(transistor.GetPair() == null ? " ¤ not paired" : " ¤ paired");
+
+        }
+        else if (item instanceof TVSZ) {
+            info.add("TVSZ written onto");
+            info.add("bat leather");
+            info.add(" ¤ " + ((TVSZ) item).GetRemainingPages() + " pages left");
+        }
+        else if (item instanceof WetCloth wetCloth) {
+            info.add("Wet Cloth");
+            info.add(item.GetActivation() ? " ¤ activated" : " ¤ deactivated");
+            info.add(" ¤ can be used for");
+            info.add("   " + wetCloth.GetRoundsLeft() + " rounds");
+        }
+        else if (item instanceof Fake fake) {
+            return GetItemInfo(fake.GetFakedItem());
+        }
+        return info;
+    }
+
 }

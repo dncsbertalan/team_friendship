@@ -320,8 +320,9 @@ public class Room {
      * The room is no longer is filled with toxic gas for one less round, if not already 0.
      */
     public void DecreaseRemainingRoundsBeingGassed(){
-        if(remainingRoundsBeingGassed > 0){
-            remainingRoundsBeingGassed--;
+        remainingRoundsBeingGassed = Math.max(0, --remainingRoundsBeingGassed);
+        if (remainingRoundsBeingGassed == 0) {
+            gassed = false;
         }
     }
 

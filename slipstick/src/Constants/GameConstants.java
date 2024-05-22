@@ -12,6 +12,7 @@ public class GameConstants {
     public static final int FFP2Mask_MoveCountIncrease = 1;
     public static final int FFP2Mask_MaxUses = 3;
     public static final int WetCloth_MissRoundCount = 1;
+    public static final int WetCloth_RoundsUsable = 5;
     public static final int EntitiesToBecomeSticky = 5; // idk
 
     public static final int STEPS_IN_ONE_ROUND = 100;
