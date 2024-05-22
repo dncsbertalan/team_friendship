@@ -7,6 +7,8 @@ import Items.*;
 import Labyrinth.Map;
 import Labyrinth.Room;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 public class Student extends Entity{
@@ -21,6 +23,9 @@ public class Student extends Entity{
      */
     Item selectedItem;
 
+    private final ArrayList<Item> tempUnpickableItems = new ArrayList<>();
+    private final HashMap<Item, Room> tempUnpickableRooms = new HashMap<>();
+
     public Student(Game g) {
         super(g);
     }
@@ -31,10 +36,13 @@ public class Student extends Entity{
     }
 
     @Override
-    public void StepInto(Room room) {
-        if (room.GetNeighbours().contains(this.room) && room.CanStepIn()){
+    public boolean StepInto(Room room) {
+        if (room.GetNeighbours().contains(this.room) && room.CanStepIn() && remainingTurns>0){
             ChangeRoom(room);
+            this.remainingTurns--;
+            return true;
         }
+        return false;
     }
 
     /**
@@ -46,8 +54,9 @@ public class Student extends Entity{
         this.room = room;
         room.AddStudentToRoom(this);
 
-        if(game.GetMap().IsWinningRoom(room))
+        if (game.GetMap().IsWinningRoom(room) && this.CheckForSlipstick()) {
             game.EndGame(true);
+        }
     }
 
     @Override
@@ -57,7 +66,6 @@ public class Student extends Entity{
         if (protectionItem == null) {   // no protection
             this.MissRounds(GameConstants.RoundsMissed_GasRoom);
             this.DropAllItems();
-            Map map = this.game.GetMap();
             this.SetParalysed(true);
         }
         else {  // has protection
@@ -65,6 +73,7 @@ public class Student extends Entity{
                 FFP2Mask ffp2Mask = (FFP2Mask) protectionItem;
                 ffp2Mask.DecreaseDurability();
                 this.IncreaseMoveCount(GameConstants.FFP2Mask_MoveCountIncrease);
+                if (ffp2Mask.GetRemainingUsages() == 0) this.inventory.remove(ffp2Mask);
             }
         }
     }
@@ -89,11 +98,14 @@ public class Student extends Entity{
         if (slot < 1 || slot > GameConstants.InventoryMaxSize) throw new IllegalArgumentException();
 
         this.selectedInventorySlot = slot - 1;
-        try {
-            this.selectedItem = this.inventory.get(this.selectedInventorySlot);
-        } catch (IndexOutOfBoundsException ex) {
-            this.selectedItem = null;
-        }
+    }
+
+    /**
+     * Return the index of the selected inventory slot of the student.
+     * @return the selected slot's index.
+     */
+    public int GetSelectedInventorySlot() {
+        return this.selectedInventorySlot;
     }
 
     /**
@@ -114,6 +126,7 @@ public class Student extends Entity{
         DropItem(selectedItem);
         selectedItem = null;
     }
+
 
     /**
      * Uses the specified Item
@@ -139,6 +152,28 @@ public class Student extends Entity{
     }
 
     /**
+     * Adds a temporary unpickable item.
+     * @param item  the item
+     */
+    public void AddTemporaryUnpickableItem(Item item, Room room) {
+        tempUnpickableItems.add(item);
+        tempUnpickableRooms.put(item, room);
+    }
+
+    /**
+     * Clears temporary unpickable item.s
+     */
+    public void ClearTemporaryUnpickableItems() {
+        for (Item item : tempUnpickableItems) {
+            Room curRoom = tempUnpickableRooms.get(item);
+            curRoom.GetUnpickupableItems().remove(item);
+            curRoom.AddItemToRoom(item);
+        }
+        tempUnpickableItems.clear();
+        tempUnpickableRooms.clear();
+    }
+
+    /**
      * Kills the student
      */
     public void Kill(Professor professor) {
@@ -148,7 +183,7 @@ public class Student extends Entity{
         if (protectionItem == null) {   // HAS NO PROTECTION
             DropAllItems();
             isDead = true;
-            this.game.GetRoundManager().EndTurn();
+            //this.game.GetRoundManager().EndTurn();
             return;
         }
 
@@ -185,7 +220,7 @@ public class Student extends Entity{
             System.out.println(this.Name + "'s inventory is full");
             return;
         }
-        if(item.getClass()== SlipStick.class){
+        if(item instanceof SlipStick){
             game.LastPhase(true,this);
         }
         if(this.GetCurrentRoom().GetUnpickupableItems().contains(item) == false){
@@ -218,19 +253,6 @@ public class Student extends Entity{
     }
 
     /**
-     * Override of DropItem for transistor usage
-     * @param item the selected item
-     */
-    @Override
-    public void DropItem(Item item) {
-        super.DropItem(item);
-
-        if (item.getClass() == Transistor.class) {
-            item.UseItem(this);
-        }
-    }
-
-    /**
      * Pairs two transistors
      * @param t1 first transistor (this will start the pairing)
      * @param t2 second transistor
@@ -254,6 +276,11 @@ public class Student extends Entity{
     }
 
     public Item GetSelectedItem() {
+        try {
+            this.selectedItem = this.inventory.get(this.selectedInventorySlot);
+        } catch (IndexOutOfBoundsException ex) {
+            this.selectedItem = null;
+        }
         return selectedItem;
     }
 

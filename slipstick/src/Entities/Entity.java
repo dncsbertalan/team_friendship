@@ -1,17 +1,17 @@
 package Entities;
 
 import Constants.Enums.*;
+import Constants.GameConstants;
 import GameManagers.Game;
 import Items.Item;
 import Items.SlipStick;
 import Labyrinth.Room;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-
-import static Runnable.Main.os;
+import java.util.Objects;
 
 public abstract class Entity {
+
 //region Attributes ====================================================================================================
     /**
      * Name of the Entity
@@ -21,11 +21,13 @@ public abstract class Entity {
      * Current Room of the Entity
      */
     protected Room room;
+    static int id = 0;
 
     /**
      * Items belonging to the Entity (5 max)
      */
     protected ArrayList<Item> inventory = new ArrayList<>();
+
     /**
      * Number of moves left this Round
      */
@@ -40,10 +42,19 @@ public abstract class Entity {
      * Whether the entity is KO from toxic gas.
      */
     private boolean paralysed;
-//endregion
+    private int missedRounds;
+
+//endregion ============================================================================================================
 
     public Entity(Game g) {
         game = g;
+        id++;
+        remainingTurns = GameConstants.STEPS_IN_ONE_ROUND;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(Name);
     }
 
     public String GetName() {
@@ -54,12 +65,39 @@ public abstract class Entity {
         this.Name = name;
     }
 
+// region PARALYZED ====================================================================================================
+
+    /**
+     * Makes Entity miss n turns
+     * @param missedRounds number of turns to be missed
+     */
+    public void MissRounds(int missedRounds) {
+        // The + 1 is for that the current round does not count
+        this.missedRounds += missedRounds + 1;
+    }
+
+    public void UpdateMissedRounds() {
+        missedRounds = Math.max(0, --missedRounds);
+        if (missedRounds == 0) paralysed = false;
+    }
+
+    /**
+     * Returns the missed rounds.
+     * @return the missed rounds
+     */
+    public int GetMissedRounds() { return missedRounds; }
+
+    public void SetParalysed(boolean isParalysed) { paralysed = isParalysed; }
+
+    public boolean IsParalysed() { return paralysed; }
+
+// endregion ===========================================================================================================
+
     /**
      * Tries to move to the specified room
      * @param room the room it's trying to move into
      */
-
-    public abstract void StepInto(Room room);
+    public abstract boolean StepInto(Room room);
 
     /**
      * Notifies the entity that it stepped into a gassed room.
@@ -74,14 +112,16 @@ public abstract class Entity {
         remainingTurns += turns;
     }
 
+    public  void ResetMoveCount() { remainingTurns = GameConstants.STEPS_IN_ONE_ROUND; }
+
     /**
      * Gives back the remaining turns of the entity.
      * @return: the remaining turns of the entity.
      */
     public int GetRemainingTurns(){
-        this.paralysed = remainingTurns <= -1;
         return remainingTurns;
     }
+
     /**
      * Picks up specified item from current room
      * @param item the item getting picked up
@@ -91,16 +131,15 @@ public abstract class Entity {
             System.out.println("Inventory full");
             return;
         }
-        if (item.getClass() == SlipStick.class) {
-            //studentnel megvalositva
+        if (item instanceof SlipStick) {
+            // Studentnel megvalositva
             return;
         }
-        if(this.GetCurrentRoom().GetUnpickupableItems().contains(item) == false){
+        if(!this.GetCurrentRoom().GetUnpickupableItems().contains(item)){
             this.inventory.add(item);
             this.room.RemoveItemFromRoom(item);
         } else {
             System.out.println("Item is not pickupable.");
-            return;
         }
 
     }
@@ -112,7 +151,6 @@ public abstract class Entity {
     public void DropItem(Item item) {
         room.AddItemToRoom(item);
         inventory.remove(item);
-        //System.out.println(this.GetName() + " dropped " + item.GetName());
     }
 
     /**
@@ -131,22 +169,6 @@ public abstract class Entity {
      */
     public void DeleteItemFromInventory(Item item) {
         inventory.remove(item);
-    }
-
-    /**
-     * Makes Entity miss n turns
-     * @param missedTurns number of turns to be missed
-     */
-    public void MissRounds(int missedTurns) {
-        remainingTurns -= missedTurns;
-    }
-
-    /**
-     * Checks if player misses this turn
-     * @return true if player misses turn
-     */
-    public boolean CheckRoundMiss() {
-        return remainingTurns<=0;
     }
 
     /**
@@ -204,19 +226,15 @@ public abstract class Entity {
         return inventory;
     }
 
+    /**
+     * Adds and item to the students inventory.
+     * @param item  the added item.
+     */
     public void AddItem(Item item) {
         if (inventory.size() == 5) {
             System.out.println("Inventory full");
             return;
         }
         this.inventory.add(item);
-    }
-
-    public void SetParalysed(boolean isParalysed){
-        paralysed = isParalysed;
-    }
-
-    public boolean IsParalysed(){
-        return paralysed;
     }
 }

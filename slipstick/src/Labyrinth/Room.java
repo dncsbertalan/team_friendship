@@ -136,9 +136,11 @@ public class Room {
      * Sets the room's capacity to the value given as argument.
      * @param c: the new value for the room's capacity.
      */
-    public void setCapacity(int c){
+    public void SetCapacity(int c){
         capacity = c;
     }
+
+    public int GetCapacity() { return capacity; }
 
     /**
      * Returns the maximum of entities that can be placed in the room.
@@ -275,11 +277,8 @@ public class Room {
      * Makes all items placed in the room pickupable for entities.
      */
     public void MakeAllItemsPickupable(){
-        int unpickSize = listOfUnpickupableItems.size();
-        for(int i = 0; i < unpickSize; i++){
-            roomsListOfItems.add(listOfUnpickupableItems.get(i));
-            listOfUnpickupableItems.remove(i);
-        }
+        roomsListOfItems.addAll(listOfUnpickupableItems);
+        listOfUnpickupableItems.clear();;
     }
 
     /**
@@ -321,8 +320,9 @@ public class Room {
      * The room is no longer is filled with toxic gas for one less round, if not already 0.
      */
     public void DecreaseRemainingRoundsBeingGassed(){
-        if(remainingRoundsBeingGassed > 0){
-            remainingRoundsBeingGassed--;
+        remainingRoundsBeingGassed = Math.max(0, --remainingRoundsBeingGassed);
+        if (remainingRoundsBeingGassed == 0) {
+            gassed = false;
         }
     }
 

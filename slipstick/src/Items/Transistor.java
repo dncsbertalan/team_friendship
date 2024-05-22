@@ -28,25 +28,24 @@ public class Transistor extends Item {
 
     @Override
     public void UseItem(Student student) {
-        //if not activated or not paired it just gets dropped
-        if(!activated || pair == null) {
+        // If not activated or not paired
+        if (!activated || pair == null) {
             return;
         }
-        //First active transistor to be set down
-        if(!pairReadyToTeleport) {
+
+        // If the pair is not ready to teleport then this transistor will be set ready
+        if (!pairReadyToTeleport) {
             SetCurrentRoom(student.GetCurrentRoom());
             NotifyPairImReady();
+            student.DropItem(this);
+            return;
         }
-        //Second transistor
-        if (pairReadyToTeleport) {
-            SetCurrentRoom(student.GetCurrentRoom());
 
-            //teleport worked => both transistors deleted
-            if(pair.GetCurrentRoom().CanStepIn()){
-                student.ChangeRoom(pair.GetCurrentRoom());
-                pair.GetCurrentRoom().RemoveItemFromRoom(pair);
-                this.GetCurrentRoom().RemoveItemFromRoom(this);
-            }
+        // If the pair is ready then teleport
+        if(pair.GetCurrentRoom().CanStepIn()){
+            student.ChangeRoom(pair.GetCurrentRoom());
+            pair.GetCurrentRoom().RemoveItemFromRoom(pair);
+            student.DeleteItemFromInventory(this);
         }
     }
 
@@ -66,7 +65,6 @@ public class Transistor extends Item {
         return this.room;
     }
 
-    //possibly useless
     /**
      * Sets the pair ready, so it can now teleport.
      */
@@ -97,5 +95,13 @@ public class Transistor extends Item {
      */
     public Transistor GetPair() {
         return pair;
+    }
+
+    /**
+     * Gets whether the transistor is ready to teleport.
+     * @return is ready to teleport
+     */
+    public boolean GetPairReadyToTeleport(){
+        return pairReadyToTeleport;
     }
 }

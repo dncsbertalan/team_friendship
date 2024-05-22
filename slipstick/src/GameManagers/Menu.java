@@ -6,15 +6,15 @@ import java.util.ArrayList;
 
 public class Menu {
 
-    private ArrayList<String> playerNames;
+    private final ArrayList<String> playerNames = new ArrayList<>();
 
     /**
      * Starts the game from the menu.
      */
-    public void StartGame(Game game) {
-        game.pregame = false;
+    public void StartGame() {
+        Main.game = new Game();
         Main.game.InitPlayers(playerNames);
-        Main.game.GetRoundManager(); // TODO: start method here
+        Main.gameController.StartGame();
     }
 
     /**
@@ -30,5 +30,4 @@ public class Menu {
             }
         }
         playerNames.add(newName);
-    }
-}
+    }}

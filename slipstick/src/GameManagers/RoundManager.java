@@ -1,6 +1,13 @@
 package GameManagers;
+
 import Constants.GameConstants;
 import Entities.*;
+import GameManagers.Commands.Commands;
+import Items.Item;
+import Items.WetCloth;
+import Labyrinth.Room;
+
+import static Runnable.Main.gameController;
 
 import java.util.ArrayList;
 
@@ -13,7 +20,7 @@ public class RoundManager{
 
 //region Attributes ====================================================================================================
     private final Game game;
-    private int rounds = 0;
+    private int rounds = 1;
     private Student activeStudent;
     private IAI activeAIEntity;
     private final ArrayList<Student> studentsLeftThisRound;
@@ -26,20 +33,24 @@ public class RoundManager{
         this.studentsLeftThisRound = new ArrayList<>();
         this.aiEntities = new ArrayList<>();
 
-
         activeStudent = null;
         activeAIEntity = null;
     }
 
     /**
-     * Must be called in {@link Game#InitPlayers(ArrayList)} before the game starts
-     * or it will throw {@link NullPointerException}.
+     * Must be called in {@link Game#InitEntities()} before the game starts or it will throw {@link NullPointerException}.
      */
     public void Init() {
+        activeStudent = null;
+        activeAIEntity = null;
+        studentsLeftThisRound.clear();
+        aiEntities.clear();
+
         this.studentsLeftThisRound.addAll(this.game.GetStudents());
-        this.aiEntities.addAll(this.game.GetProfessors());  // TODO: takarító
-        this.aiEntities.addAll(this.game.GetJanitors());  // TODO: takarító
+        this.aiEntities.addAll(this.game.GetProfessors());
+        this.aiEntities.addAll(this.game.GetJanitors());
         activeStudent = this.studentsLeftThisRound.get(0);
+
     }
 
     /**
@@ -72,9 +83,18 @@ public class RoundManager{
      *Start new round.
      */
     public void NextRound() {
+        gameController.NewScreenMessage(300, "Round " + rounds + " ended");
+
         rounds++;
         if (rounds == GameConstants.MaxRounds) {
             game.EndGame(false);
+        }
+
+        if (rounds % 7 == 0) {
+            Commands.Merge("merge".split(" "));
+            Commands.Separate("separate".split(" "));
+
+            gameController.NewScreenMessage(300, "Mystical force chanegd the labyrinth");
         }
     }
 
@@ -83,17 +103,58 @@ public class RoundManager{
      */
     public void EndOfRound() {
 
-        // TODO: reset remaining lists
-        // reset the entities
-        this.studentsLeftThisRound.addAll(this.game.GetStudents());
-        this.aiEntities.addAll(this.game.GetProfessors());  // TODO: takarító
+        // Reset the entity lists
+        for (Student student : game.GetStudents()) {
+            if (!student.IsDead()) {
+                this.studentsLeftThisRound.add(student);
+            }
+        }
+        this.aiEntities.addAll(this.game.GetProfessors());
+        this.aiEntities.addAll(this.game.GetJanitors());
 
-        activeStudent = this.studentsLeftThisRound.get(0);   // TODO: ennek kezdetben az első playernek kell lenni
+        // Reset student steps
+        // Decrease student missed rounds
+        for (Student student : studentsLeftThisRound) {
+            student.ResetMoveCount();
+            student.UpdateMissedRounds();
+
+            for (Item item : student.GetInventory()) {
+                if (item instanceof WetCloth wetCloth) {
+                    wetCloth.DeacreaseRounds(student, null);
+                }
+            }
+        }
+
+        // Reset janitor and prof steps
+        // Decrease entities missed rounds
+        for (IAI entity : aiEntities) {
+            ((Entity) entity).ResetMoveCount();
+            ((Entity) entity).UpdateMissedRounds();
+        }
+
+        // Check if everyone is dead
+        if (studentsLeftThisRound.isEmpty()) {
+            game.EndGame(false);
+            return;
+        }
+
+        // Reset active student
+        activeStudent = studentsLeftThisRound.get(0);
         activeAIEntity = null;
 
+        // Decrease cheese gas
+        for (Room room : game.GetMap().GetRooms()) {
+            room.DecreaseRemainingRoundsBeingGassed();
+
+            for (Item item : room.GetInventory()) {
+                if (item instanceof WetCloth wetCloth) {
+                    wetCloth.DeacreaseRounds(null, room);
+                }
+            }
+        }
         // TODO: kör vége logikák számlálók...
 
-        // start a new round
+        // Start a new round
         this.NextRound();
     }
 
@@ -102,19 +163,23 @@ public class RoundManager{
      */
     public void EndTurn(){
 
-        // TODO: unpickable items reset
-
         if (activeStudent != null) {
+            activeStudent.ClearTemporaryUnpickableItems();
             studentsLeftThisRound.remove(activeStudent);
+
             // Make the next student active
             if (!studentsLeftThisRound.isEmpty()) {
                 activeStudent = studentsLeftThisRound.get(0);
                 return;
             }
+
             // if there are no students left this round
             activeStudent = null;
-            if (!aiEntities.isEmpty()) {
-                activeAIEntity = aiEntities.get(0);
+            if (!aiEntities.isEmpty()) {                                                                                                                                                                                                                                                                                                                                                                                     //activeAIEntity = aiEntities.get(0);
+                // Because the ai entity array is not empty so this professor is just temporary,
+                // it will be deleted right away in the next loop and never used again.
+                // Hopefully the Garbage Collector finds it and devourers it <33 ^^
+                activeAIEntity = new Professor(game);
             }
         }
         if (activeAIEntity != null) {
@@ -125,7 +190,8 @@ public class RoundManager{
                 return;
             }
         }
-        // if there are no entities left this round
+
+        // If there are no entities left this round
         this.EndOfRound();
     }
 }

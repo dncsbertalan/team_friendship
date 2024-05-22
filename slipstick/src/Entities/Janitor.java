@@ -4,10 +4,14 @@ import Constants.GameConstants;
 import GameManagers.Commands.Commands;
 import GameManagers.Game;
 import Labyrinth.Room;
+
+import static Runnable.Main.gameController;
 import static Runnable.Main.os;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Janitor extends Entity implements IAI {
 
@@ -24,12 +28,15 @@ public class Janitor extends Entity implements IAI {
      * @param room the room it's trying to move into
      */
     @Override
-    public void StepInto(Room room) {
+    public boolean StepInto(Room room) {
         if (room.CanStepIn()) {
             this.room.RemoveJanitorFromRoom(this);
             this.room = room;
             room.AddJanitorToRoom(this);
+            this.remainingTurns--;
+            return true;
         }
+        return false;
     }
 
     /**
@@ -40,11 +47,44 @@ public class Janitor extends Entity implements IAI {
         room.SetRoomAsCleaned();
     }
 
+    /**
+     * The function is responsible for moving the janitor and ending the janitors turn.
+     */
     @Override
     public void AI() {
 
-    }
+        Room stepFromThis = this.GetCurrentRoom();
+        Room stepIntoThis = null;
+        Random random = new Random();
 
+        //trys to catch a random room from neighbours
+        int stopFromEndlessLoop = 0;
+        while(stepIntoThis == null && stopFromEndlessLoop < 15){
+            int id = (int)(Math.random() * this.GetCurrentRoom().GetNeighbours().size());
+            Room tryThis = this.GetCurrentRoom().GetNeighbours().get(id);
+            //if a room is available, the entity will step into it
+            if(tryThis.CanStepIn()){
+                stepIntoThis = tryThis;
+            }
+        }
+
+        //if no room is available, the entity does nothing
+        if(stepIntoThis == null){
+            game.GetRoundManager().EndTurn();
+            return;
+        }
+
+        this.StepInto(stepIntoThis);
+
+        String message = this.GetName() + " went from " + stepFromThis.GetName() + " to " + stepIntoThis.GetName();
+        gameController.NewScreenMessage(300, new Color(98, 9, 119), message);
+
+        game.GetRoundManager().EndTurn();
+        return;
+    }
+    /**
+     * Evicts every entity that is not paralysed from the room.
+     */
 
     public void EvictEveryone() {
         //no students or professors in the room
@@ -119,7 +159,7 @@ public class Janitor extends Entity implements IAI {
                     neighboursOfRoom = neighboursOfRoom_;
                 }
             }
-        } while(!professorsOfRoom.isEmpty()); // TODO: ! FIXED IT BUT THE TEST IS STILL WRONG :(
+        } while(!professorsOfRoom.isEmpty());
 
     }
 }

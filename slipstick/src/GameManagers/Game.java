@@ -1,16 +1,18 @@
 package GameManagers;
 
+import Control.GameController;
 import Entities.*;
 import Items.*;
 import Labyrinth.*;
 import Constants.*;
 import Labyrinth.Map;
 
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 import static Constants.GameConstants.randomSeed;
+import static Runnable.Main.*;
 
 /**
  * Initializes the game. Its main task is to handle the actions of the currently active student
@@ -51,16 +53,17 @@ public class Game {
      */
     private final List<Professor> professors;
     private final List<Janitor> janitors;
-
-    private boolean isRunning;
     public static Random random;
     boolean pregame = true;
     private boolean isRandom;
-//endregion
+
+//endregion ============================================================================================================
+
+// region Initialization ===============================================================================================
 
     /**
-     * Before the game starts {@link Game#InitPlayers(ArrayList)} and {@link Game#InitRandom(int)}
-     * must be called properly or during the game it will throw {@link NullPointerException}.
+     * Before the game starts {@link Game#InitPlayers(ArrayList)}, {@link Game#InitRandom(int)}
+     * and {@link Game#InitEntities()} must be called properly or during the game it will throw {@link NullPointerException}.
      */
     public Game(){
         this.students = new ArrayList<>();
@@ -68,18 +71,83 @@ public class Game {
         this.janitors = new ArrayList<>();
         this.roundManager = new RoundManager(this);
         this.map = new Map(this);
-        this.isRunning = true;
     }
 
     /**
      * Initialize the students based on the players' names.
-     * @param names players' names
+     * @param playerNames players' names
      */
-    public void InitPlayers(ArrayList<String> names) {
-        for (String name : names) {
+    public void InitPlayers(ArrayList<String> playerNames) {
+        for (String name : playerNames) {
             students.add(new Student(this, name));
         }
+    }
+
+    /**
+     * Initialize the entities and puts them on the map.
+     */
+    public void InitEntities() {
+        for (Student student : students) {
+            game.GetMap().GetMainHall().AddStudentToRoom(student);
+        }
+
+        for (int i = 0; i < GameConstants.PROFESSOR_NUMBER; i++) {
+            Professor professor = new Professor(game);
+            professor.SetName(getRandomProfessorName());
+            this.professors.add(professor);
+            game.GetMap().GetTeachersLounge().AddProfessorToRoom(professor);
+        }
+
+        for (int i = 0; i < GameConstants.JANITOR_NUMBER; i++) {
+            Janitor janitor = new Janitor(game);
+            janitor.SetName(getRandomJanitorName());
+            this.janitors.add(janitor);
+            game.GetMap().GetJanitorsRoom().AddJanitorToRoom(janitor);
+        }
+
+        for (Professor professor : professors) {
+            String name = professor.GetName() + GameConstants.PROFESSOR_NAME_END;
+            professor.SetName(name);
+        }
+
+        for (Janitor janitor : janitors) {
+            String name = janitor.GetName() + GameConstants.JANITOR_NAME_END;
+            janitor.SetName(name);
+        }
+
         this.roundManager.Init();
+    }
+
+    private String getRandomProfessorName() {
+        ArrayList<String> temp = new ArrayList<>(GameConstants.PROFESSOR_NAMES);
+        ArrayList<String> namePool = new ArrayList<>(GameConstants.PROFESSOR_NAMES);
+        for (String name : temp) {
+            for (Professor professor : professors) {
+                if (Objects.equals(name, professor.GetName())) {
+                    namePool.remove(name);
+                }
+            }
+        }
+        final int max = namePool.size();
+
+        int key = random.nextInt(max);
+        return namePool.get(key);
+    }
+
+    private String getRandomJanitorName() {
+        ArrayList<String> temp = new ArrayList<>(GameConstants.JANITOR_NAMES);
+        ArrayList<String> namePool = new ArrayList<>(GameConstants.JANITOR_NAMES);
+        for (String name : temp) {
+            for (Janitor janitor : janitors) {
+                if (Objects.equals(name, janitor.GetName())) {
+                    namePool.remove(name);
+                }
+            }
+        }
+        final int max = namePool.size();
+
+        int key = random.nextInt(max);
+        return namePool.get(key);
     }
 
     /**
@@ -98,6 +166,8 @@ public class Game {
             isRandom = false;
         }
     }
+
+//endregion ============================================================================================================
 
 //region Get/Setters ===================================================================================================
     /**
@@ -137,9 +207,15 @@ public class Game {
     }
 
     public boolean IsPreGame() {return pregame;}
+
+    public void SetPreGame() { pregame = false; }
+
+    public Student GetHuntedStudent(){
+        return hunted;
+    }
 //endregion
 
-//region Methods
+//region Methods =======================================================================================================
     /**
      * Enables/disables lastPhase
      * @param state: desired state of the attribute
@@ -183,7 +259,7 @@ public class Game {
     public void SaveGame(String fileName) {
 
         try {
-            PrintWriter printWriter = new PrintWriter(new File(fileName));
+            PrintWriter printWriter = new PrintWriter(fileName);
             printWriter.println("rounds:" + GameConstants.MaxRounds);
 
             for (Room room : this.map.GetRooms()) {
@@ -337,6 +413,7 @@ public class Game {
                     }
                     else {
                         this.students.add((Student) newEntity);
+                        newEntity.IncreaseMoveCount(1);
                         newRoom.AddStudentToRoom((Student) newEntity);
                     }
                 }
@@ -352,7 +429,6 @@ public class Game {
 
         // FINALLY
         this.roundManager.Init();
-        pregame = false;
     }
 
     private Item GetItemFromName(String itemName) {
@@ -384,59 +460,10 @@ public class Game {
         }
         return new Student(this, name);
     }
+
+    public GameController GetGameController() {
+        return gameController;
+    }
 //endregion
 
-//region Game loop and logic ===========================================================================================
-
-    public void MainGameLoop() {
-
-        double drawInterval = 1_000_000_000.0 / GameConstants.DesiredFPS;
-        double delta = 0;
-        long lastTime = System.nanoTime();
-        long currentTime;
-        long timer = 0;
-
-        while (isRunning) {
-
-            currentTime = System.nanoTime();
-
-            delta += (currentTime - lastTime) / drawInterval;
-            timer += currentTime - lastTime;
-            lastTime = currentTime;
-
-            if (delta >= 1) {
-                GameLogic();
-
-                delta--;
-            }
-
-            if (timer >= 1_000_000_000) {
-                timer = 0;
-            }
-
-        }
-    }
-
-    private void GameLogic() {
-
-        Student activeStudent = roundManager.GetActiveStudent();
-        IAI activeAIEntity = roundManager.GetActiveAIEntity();
-
-        // Handle student and professor
-        this.HandleStudent(activeStudent);
-        this.HandleAIEntities(activeAIEntity);
-    }
-
-    private void HandleStudent(Student student) {
-        if (student == null) return;
-
-    }
-
-    private void HandleAIEntities(IAI entities) {
-        if (entities == null) return;
-
-        entities.AI();
-    }
-
-//endregion
 }
