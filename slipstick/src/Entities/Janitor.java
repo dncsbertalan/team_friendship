@@ -103,6 +103,7 @@ public class Janitor extends Entity implements IAI {
         //nr is for choosing a room from the original neighbourslist (neighboursOfRoom), and making its neighbours as the list for iteration (neighboursOfRoom_)
         int roomID = 0;
         int nr = 0;
+        int tries = 0;
         do{
             ArrayList<Student> studentToRemove = new ArrayList<>();
             int index = 0;
@@ -121,23 +122,36 @@ public class Janitor extends Entity implements IAI {
                 index++;
             }
             studentsOfRoom.removeAll(studentToRemove);
+            tries++;
 
+        } while(!studentsOfRoom.isEmpty() && tries < 15);
 
-        } while(!studentsOfRoom.isEmpty());
-
+        tries = 0;
         do{
             ArrayList<Professor> professorToRemove = new ArrayList<>();
             int index = 0;
             while (index < professorsOfRoom.size()) {
                 Professor professorIter = professorsOfRoom.get(index);
                 if (!professorIter.IsParalysed()) {
-                    //roomID % sizeOfList, for there might be more professors than neighbouring rooms
-                    Room currentNeighbour = neighboursOfRoom_.get(roomID % neighboursOfRoom_.size());
-                    if (currentNeighbour.CanStepIn()) {
-                        os.println("Moved " + professorIter.GetName() + " from " + professorIter.GetCurrentRoom().GetName() + " to " + currentNeighbour.GetName());
-                        professorIter.StepInto(currentNeighbour);
-                        professorToRemove.add(professorIter);
+                    // ensure that the professor in question cannot be put in the same room with a student
+                    // if that would happen and there are no possible rooms to move the professor to, send him back to teachers lounge
+                    ArrayList<Room> potentialRoomsForProf = new ArrayList<>();
+                    for (Room currentNeighbour : neighboursOfRoom_) {
+                        if (currentNeighbour.CanStepIn() && currentNeighbour.GetStudents().isEmpty())
+                            potentialRoomsForProf.add(currentNeighbour);
                     }
+
+                    if (potentialRoomsForProf.isEmpty()) {
+                        professorIter.StepInto(game.GetMap().GetTeachersLounge());
+                        professorToRemove.add(professorIter);
+                        break;
+                    }
+
+                    //roomID % sizeOfList, for there might be more professors than neighbouring rooms
+                    Room targetRoomForProf = potentialRoomsForProf.get(roomID % potentialRoomsForProf.size());
+                    os.println("Moved " + professorIter.GetName() + " from " + professorIter.GetCurrentRoom().GetName() + " to " + targetRoomForProf.GetName());
+                    professorIter.StepInto(targetRoomForProf);
+                    professorToRemove.add(professorIter);
                     roomID++;
                 }
                 index++;
@@ -146,7 +160,7 @@ public class Janitor extends Entity implements IAI {
             professorsOfRoom.removeAll(professorToRemove);
 
 
-            //if all the professors couldn't fit into the neighbours of current iteration list
+            /*if all the professors couldn't fit into the neighbours of current iteration list
             if(!professorsOfRoom.isEmpty()){
                 //if the original still has rooms that we have not tried the neighbours of
                 if(nr < neighboursOfRoom.size()){
@@ -158,8 +172,9 @@ public class Janitor extends Entity implements IAI {
                     nr = 0;
                     neighboursOfRoom = neighboursOfRoom_;
                 }
-            }
-        } while(!professorsOfRoom.isEmpty());
+            }*/
+            tries++;
+        } while(!professorsOfRoom.isEmpty() && tries < 15);
 
     }
 }

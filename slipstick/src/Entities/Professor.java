@@ -155,6 +155,7 @@ public class Professor extends Entity implements IAI {
 
         //mivel BFS-t egy csúcsból lehet indítani egy gráfban, de a teljes roomsOfSource listából lehetne indulni, ezért mindegyiket "összekötjük" egy kiinduló ponttal: superSourceRoom
         Room superSourceRoom = new Room(game);
+
         //a fifoForRooms alapján fog menni az algoritmus
         //ha egy room-ot újonnan meglátogat, bekerül a fifo-ba és elmentődik, hogy melyik stop-ból éri el
         //az éppen vizsgálandó room-ot mindig a fifo legtetejéről veszi ki
@@ -186,6 +187,9 @@ public class Professor extends Entity implements IAI {
             }
             //ha még nem értem el a destination-t, akkor megnézem az éppen vizsgált stop szomszédjait
             //ha még nem járta be az algoritmus a szomszédot, akkor most bejárja, elmenti, hogy az éppen vizsgált stop-ból érte el, és beteszi fifo-ba
+            if (game.GetMap().GetRoomAndTheirNeighbourList().get(currentRoom) == null)
+                continue;
+
             for(Room roomIter : game.GetMap().GetRoomAndTheirNeighbourList().get(currentRoom)){
                 if(Boolean.FALSE.equals(visitedThisStop.get(roomIter))){
                     fifoForRooms.add(roomIter);

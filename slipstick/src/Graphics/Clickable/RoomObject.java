@@ -18,6 +18,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 
 import static Runnable.Main.*;
 
@@ -33,6 +34,7 @@ public class RoomObject {
     private final static HashMap<String, BufferedImage> skins = new HashMap<>();
     private float rotation;
     private final int indexOfMainRoom;
+    private Polygon shape;
 
     public RoomObject(GameWindowPanel gamePanel, Vector2 centerPos, Room room, boolean isSmallRoom) {
         this(gamePanel, centerPos, room, isSmallRoom, 0, 0);
@@ -46,14 +48,11 @@ public class RoomObject {
         this.isSmallRoom = isSmallRoom;
         this.rotation = rotation;
         this.indexOfMainRoom = indexOfMainRoom;
+        this.shape = createShape();
     }
 
-    /**
-     * Draws the room and its content to the screen.
-     * @param graphics2D graphics2D instance
-     */
-    public void Draw(Graphics2D graphics2D) {
-        // Make a polygon that is at least 3 sided
+    private Polygon createShape() {
+        //Make a polygon at least 3 sides
         int neighbours = room.GetNeighbours().size();
         neighbours = Math.max(neighbours, GameConstants.ROOM_MIN_SIDES);
         final float angleBetween = 360f / neighbours;
@@ -72,16 +71,24 @@ public class RoomObject {
         Polygon polygon = new Polygon();
 
         for (int i = 0; i < neighbours; i++) {
-            point = Vector2.Add(centerPos, Vector2.RotateBy(distanceFromCenter,i * angleBetween));
+            point = Vector2.Add(centerPos, Vector2.RotateBy(distanceFromCenter, i * angleBetween));
             polygon.addPoint(point.x, point.y);
         }
 
+        return polygon;
+    }
+
+    /**
+     * Draws the room and its content to the screen.
+     * @param graphics2D graphics2D instance
+     */
+    public void Draw(Graphics2D graphics2D) {
         graphics2D.setColor(Color.pink);
-        Rectangle rectangle = polygon.getBounds();
+        Rectangle rectangle = shape.getBounds();
         rectangle.x -= 2*GameConstants.WALL_SIZE;
         rectangle.y -= 2*GameConstants.WALL_SIZE;
 
-        graphics2D.drawImage(GetRoomImage(polygon), rectangle.x , rectangle.y , null);
+        graphics2D.drawImage(GetRoomImage(shape), rectangle.x , rectangle.y , null);
 
         // Room name
         Font font = new Font("Courier New", Font.BOLD, isSmallRoom ? 25 : 35);
@@ -98,8 +105,27 @@ public class RoomObject {
         if (room.IsSticky()) graphics2D.drawString("STICKY", pos.x, pos.y + (int) bounding.getHeight());
         if (room.IsCleaned()) graphics2D.drawString("CLEANED", pos.x, pos.y + (int) bounding.getHeight());
 
+        if (game.IsLastPhase())
+            highlightShortestPath(graphics2D);
+
         // Draw the inside
         DrawInside(graphics2D);
+    }
+
+    private void highlightShortestPath(Graphics2D graphics2D) {
+        List<Room> shortestPath = game.GetMap().findShortestPath(
+                game.GetHuntedStudent().GetCurrentRoom(),
+                game.GetMap().GetWinningRoom());
+
+        if (shortestPath == null || shortestPath.isEmpty()) {
+            return;
+        }
+
+        graphics2D.setColor(Color.YELLOW);
+        graphics2D.setStroke(new BasicStroke(8));
+
+        if (shortestPath.contains(room))
+            graphics2D.drawPolygon(shape);
     }
 
     /**

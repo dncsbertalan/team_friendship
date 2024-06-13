@@ -94,7 +94,7 @@ public class RoundManager{
             Commands.Merge("merge".split(" "));
             Commands.Separate("separate".split(" "));
 
-            gameController.NewScreenMessage(300, "Mystical force chanegd the labyrinth");
+            gameController.NewScreenMessage(300, "Mystical force changed the labyrinth");
         }
     }
 

@@ -221,6 +221,8 @@ public class Map {
 
         int randomRoomIndex = (!potentialWinningRooms.isEmpty()) ? random.nextInt(potentialWinningRooms.size()) : 1;
         winningRoom = potentialWinningRooms.get(randomRoomIndex);
+
+        roomAndTheirNeighbourList = gatherRoomsAndTheirNeighbours();
     }
 
     private int initializeTheNumberOfRooms(int players) {
@@ -304,7 +306,7 @@ public class Map {
     private void randomlyConnectRooms(int numberOfRooms) {
         int remainingRooms = numberOfRooms;
         for (Room room : rooms) {
-            int numberOfNeighbours = random.nextInt(6) + 1;
+            int numberOfNeighbours = random.nextInt(5) + 1;
 
             if (numberOfNeighbours <= remainingRooms) {
                 remainingRooms -= numberOfNeighbours;
@@ -454,6 +456,53 @@ public class Map {
         }
     }
 
+    public HashMap<Room, List<Room>> gatherRoomsAndTheirNeighbours() {
+        HashMap<Room, List<Room>> result = new HashMap<>();
+        for (Room r : rooms) {
+            result.put(r, r.GetNeighbours());
+        }
+
+        return result;
+    }
+
+    public List<Room> findShortestPath(Room start, Room end) {
+        if (start == null || end == null) {
+            return null;
+        }
+
+        Queue<List<Room>> queue = new LinkedList<>();
+        Set<Room> visited = new HashSet<>();
+
+        // Initialize the queue with the start room
+        List<Room> initialPath = new ArrayList<>();
+        initialPath.add(start);
+        queue.add(initialPath);
+        visited.add(start);
+
+        while (!queue.isEmpty()) {
+            List<Room> currentPath = queue.poll();
+            Room currentRoom = currentPath.get(currentPath.size() - 1);
+
+            // If we reached the end room, return the current path
+            if (currentRoom.equals(end)) {
+                return currentPath;
+            }
+
+            // Explore the neighbors
+            for (Room neighbor : currentRoom.GetNeighbours()) {
+                if (!visited.contains(neighbor)) {
+                    visited.add(neighbor);
+                    List<Room> newPath = new ArrayList<>(currentPath);
+                    newPath.add(neighbor);
+                    queue.add(newPath);
+                }
+            }
+        }
+
+        // If no path is found, return null
+        return null;
+    }
+
     /**
      * Merge 2 randomly selected rooms.
      * @param r1 The first randomly selected room.
@@ -544,40 +593,6 @@ public class Map {
     }
 
     /**
-     * Transfer a student to given room.
-     * @param student
-     * @param room
-     */
-    public void TransferStudentToRoom(Student student, Room room) {
-        //nem kell ig
-    }
-
-    /**
-     * Transfer professor to given room.
-     * @param professor
-     * @param room
-     */
-    public void TransferProfessorToRoom(Professor professor, Room room) {
-        //mar ezse ig
-    }
-
-    /**
-     * Release toxic gas in given room.
-     * @param room
-     */
-    public void ReleaseToxicGas(Room room) {
-
-    }
-
-    /**
-     * Deactivate toxic gas in given room.
-     * @param room
-     */
-    public void DeactivateToxicGas(Room room) {
-
-    }
-
-    /**
      * Chooses the room the students have to secure the slipstick in.
      */
     public void AddWinningRoom(Room room) {
@@ -649,6 +664,7 @@ public class Map {
      */
     public Room GetJanitorsRoom() { return janitorsRoom; }
 
+    public Room GetWinningRoom() { return winningRoom; }
     /**
      * Gets the rooms and their neighbour list in a hashmap.
      */
@@ -665,4 +681,6 @@ public class Map {
             roomAndTheirNeighbourList.put(roomIter, roomIter.GetNeighbours());
         }
     }
+
+
 }
