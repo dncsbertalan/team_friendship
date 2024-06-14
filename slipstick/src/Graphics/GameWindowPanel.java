@@ -2,6 +2,7 @@ package Graphics;
 
 import Constants.GameConstants;
 import Entities.Student;
+import GameManagers.OUTCOME;
 import Graphics.Listeners.GamePanelExitButtonListener;
 import Graphics.Listeners.GameWindowMouseWheelListener;
 import Graphics.Clickable.ClickableObject;
@@ -471,8 +472,8 @@ public class GameWindowPanel extends JPanel {
 
         graphics2D.setFont(new Font("Courier new", Font.BOLD, 60));
         graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        Rectangle2D rect;
-        String message;
+        Rectangle2D rect, CODRect = null;
+        String message, CODMessage = "";
 
         if (game.GetWin()) {    // If the game was won
             rect = graphics2D.getFontMetrics().getStringBounds(GameConstants.WIN_MESSAGE, graphics2D);
@@ -481,10 +482,23 @@ public class GameWindowPanel extends JPanel {
         else {                  // If the game was lost
             rect = graphics2D.getFontMetrics().getStringBounds(GameConstants.LOST_MESSAGE, graphics2D);
             message = GameConstants.LOST_MESSAGE;
+            if (game.GetOutcome() == OUTCOME.AllPlayersAreDead) {
+                CODRect = graphics2D.getFontMetrics().getStringBounds(GameConstants.LOST_ALL_DEAD, graphics2D);
+                CODMessage = GameConstants.LOST_ALL_DEAD;
+            }
+            else if (game.GetOutcome() == OUTCOME.PlayersRanOutOfRounds) {
+                CODRect = graphics2D.getFontMetrics().getStringBounds(GameConstants.LOST_ALL_DEAD, graphics2D);
+                CODMessage = GameConstants.LOST_NO_MORE_ROUNDS;
+            }
         }
 
-        Vector2 messagePos = new Vector2((int) (windowSize.x * 0.5f - rect.getWidth() / 2), (int)  (windowSize.y * 0.7f + rect.getHeight()));
+        Vector2 messagePos = new Vector2((int) (windowSize.x * 0.5f - rect.getWidth() / 2), (int)  (windowSize.y * 0.62f + rect.getHeight()));
         graphics2D.drawString(message, messagePos.x, messagePos.y);
+
+        if (CODRect != null) {
+            Vector2 CODMessagePos = new Vector2((int) (windowSize.x * 0.5f - CODRect.getWidth() / 2), (int)  (windowSize.y * 0.7f + rect.getHeight()));
+            graphics2D.drawString(CODMessage, CODMessagePos.x, CODMessagePos.y);
+        }
 
         Vector2 janitorCen = new Vector2((int) (windowSize.x * 0.15f), (int)  (windowSize.y * 0.7f));
         Vector2 profCen = new Vector2(janitorCen.x + 77, (int)  (windowSize.y * 0.7f));

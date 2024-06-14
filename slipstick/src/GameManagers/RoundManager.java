@@ -87,7 +87,7 @@ public class RoundManager{
 
         rounds++;
         if (rounds == GameConstants.MaxRounds) {
-            game.EndGame(false);
+            game.EndGame(false, OUTCOME.PlayersRanOutOfRounds);
         }
 
         if (rounds % 7 == 0) {
@@ -134,7 +134,7 @@ public class RoundManager{
 
         // Check if everyone is dead
         if (studentsLeftThisRound.isEmpty()) {
-            game.EndGame(false);
+            game.EndGame(false, OUTCOME.AllPlayersAreDead);
             return;
         }
 

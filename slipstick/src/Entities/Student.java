@@ -3,6 +3,7 @@ package Entities;
 import Constants.Enums;
 import Constants.GameConstants;
 import GameManagers.Game;
+import GameManagers.OUTCOME;
 import Items.*;
 import Labyrinth.Map;
 import Labyrinth.Room;
@@ -55,7 +56,7 @@ public class Student extends Entity{
         room.AddStudentToRoom(this);
 
         if (game.GetMap().IsWinningRoom(room) && this.CheckForSlipstick()) {
-            game.EndGame(true);
+            game.EndGame(true, OUTCOME.Win);
         }
     }
 

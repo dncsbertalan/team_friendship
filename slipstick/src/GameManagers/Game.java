@@ -7,7 +7,6 @@ import Labyrinth.*;
 import Constants.*;
 import Labyrinth.Map;
 
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 import java.io.*;
 import java.util.*;
 
@@ -24,6 +23,7 @@ public class Game {
 //region Attributes ====================================================================================================
     private boolean over;
     private boolean win = false;
+    private OUTCOME outcome;
     /**
      * The map where the Game takes place.
      */
@@ -71,6 +71,7 @@ public class Game {
         this.janitors = new ArrayList<>();
         this.roundManager = new RoundManager(this);
         this.map = new Map(this);
+        this.outcome = OUTCOME.None;
     }
 
     /**
@@ -239,9 +240,10 @@ public class Game {
      * Ends the game with the given output.
      * @param isWin win/lose
      */
-    public void EndGame(boolean isWin) {
+    public void EndGame(boolean isWin, OUTCOME cod) {
         over = true;
         win = isWin;
+        this.outcome = cod;
     }
 
     public boolean IsEnded() {
@@ -251,6 +253,8 @@ public class Game {
         return win;
     }
     public boolean IsRandom() { return isRandom; }
+
+    public OUTCOME GetOutcome() { return outcome; }
 
     /**
      * Saves the game into the given file.

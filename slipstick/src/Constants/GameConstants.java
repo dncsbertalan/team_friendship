@@ -191,6 +191,8 @@ public class GameConstants {
     // End screen
     public static final String WIN_MESSAGE = "CONGRATULATIONS! YOU WON!";
     public static final String LOST_MESSAGE = "LOSERS...";
+    public static final String LOST_ALL_DEAD = "All players are dead";
+    public static final String LOST_NO_MORE_ROUNDS = "You ran out of time";
 
     public static final String FAKE_ITEM_USE_MESSAGE = "Looks like it was a fake item";
     public static final int FAKE_ITEM_USE_MESSAGE_TIMELEFT = DesiredFPS * 3;
