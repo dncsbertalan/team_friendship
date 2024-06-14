@@ -61,9 +61,11 @@ public class Professor extends Entity implements IAI {
      * Kills all students in the current room.
      */
     public void KillEveryoneInTheRoom() {
-        List<Student> studentsAboutToBeAssassinated = new ArrayList<>(this.room.GetStudents());
-        for(Student sIter : studentsAboutToBeAssassinated){
-            this.KillStudent(sIter);
+        if (!IsParalysed()) {
+            List<Student> studentsAboutToBeAssassinated = new ArrayList<>(this.room.GetStudents());
+            for(Student sIter : studentsAboutToBeAssassinated){
+                this.KillStudent(sIter);
+            }
         }
     }
 
@@ -141,10 +143,23 @@ public class Professor extends Entity implements IAI {
     public Room ClosestRoomToHuntedStudent(){
         Room result = null;
 
+        List<Room> shortestPathToStudent = game.GetMap().findShortestPath(room, game.GetHuntedStudent().GetCurrentRoom());
+        if (shortestPathToStudent == null || shortestPathToStudent.isEmpty()) {
+            return result;
+        }
+
+        for (Room n : room.GetNeighbours()) {
+            if (shortestPathToStudent.contains(n)) {
+                result = n;
+                break;
+            }
+        }
+
+        return result;
         //////////////////
         //**BFS KEZDETE**//
         ///////////////////
-        List<Room> resultBFS = new ArrayList<>();
+        /*List<Room> resultBFS = new ArrayList<>();
         //összes olyan szoba, amin keresztül elindulhatok a source szobából
         List<Room> roomsOfSource = this.GetCurrentRoom().GetNeighbours();
         //összes olyan szoba, amin keresztül elérhetem a destination szobát
@@ -211,18 +226,16 @@ public class Professor extends Entity implements IAI {
             reverse.add(gotDestinationFromThis2);
             gotDestinationFromThis2 = cameFromThisStop.get(gotDestinationFromThis2);
         }
-        reverse.add(gotDestinationFromThis2);
+        reverse.add(gotDestinationFromThis2);*/
         ///////////////////
         //***BFS VÉGE****//
         ///////////////////
         //az eredmény az egyenlő lesz a reverse lista fordítottjával
-        for(Room roomIter : reverse){
-            resultBFS.add(0, roomIter);
-        }
+        //for(Room roomIter : reverse){
+        //    resultBFS.add(0, roomIter);
+        //}
 
-        result = resultBFS.get(0);
-
-        return result;
+        //result = resultBFS.get(0);
     }
 
     public static void initializeBFSMaps(java.util.Map<Room, List<Room>> hashmapOfNeighbours, java.util.Map<Room, Boolean> visitedThisStop, java.util.Map<Room, Room> cameFromThisStop){

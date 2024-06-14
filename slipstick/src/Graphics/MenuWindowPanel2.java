@@ -19,7 +19,7 @@ import static Runnable.Main.soundManager;
 public class MenuWindowPanel2 extends JPanel implements ActionListener {
     private final JButton doneButton;
     private final JButton cancelButton;
-    private final List<JTextField> nameFields = new ArrayList<>();
+    private final static List<JTextField> nameFields = new ArrayList<>();
 
     private final MenuWindowFrame menuWF;
 
@@ -167,4 +167,6 @@ public class MenuWindowPanel2 extends JPanel implements ActionListener {
             menuWF.SetMenuPanel1Visible();
         }
     }
+
+    public static List<JTextField> GetNameFields() { return nameFields; }
 }

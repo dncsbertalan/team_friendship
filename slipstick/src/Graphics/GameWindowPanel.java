@@ -676,6 +676,4 @@ public class GameWindowPanel extends JPanel {
         }
         return info;
     }
-
-    public Vector2 GetWindowSize() { return windowSize; }
 }

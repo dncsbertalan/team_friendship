@@ -1,7 +1,9 @@
 package GameManagers;
 
+import Graphics.MenuWindowPanel2;
 import Runnable.Main;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class Menu {
@@ -30,4 +32,12 @@ public class Menu {
             }
         }
         playerNames.add(newName);
-    }}
+    }
+
+    public void ResetGame() {
+        playerNames.clear();
+        for (JTextField f : MenuWindowPanel2.GetNameFields()) {
+            f.setText("");
+        }
+    }
+}

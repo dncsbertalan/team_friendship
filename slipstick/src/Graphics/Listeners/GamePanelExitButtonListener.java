@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import static Runnable.Main.menu;
 import static Runnable.Main.soundManager;
 
 public class GamePanelExitButtonListener implements MouseListener {
@@ -21,6 +22,7 @@ public class GamePanelExitButtonListener implements MouseListener {
     public void mouseClicked(MouseEvent e) {
         frame.dispose();
         soundManager.playSoundLooped("menu");
+        menu.ResetGame();
     }
 
     @Override
