@@ -3,15 +3,15 @@ package Entities;
 import Constants.GameConstants;
 import GameManagers.Commands.Commands;
 import GameManagers.Game;
+import Labyrinth.Pair;
 import Labyrinth.Room;
 
 import static Runnable.Main.gameController;
 import static Runnable.Main.os;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Random;
 
 public class Janitor extends Entity implements IAI {
 
@@ -125,6 +125,32 @@ public class Janitor extends Entity implements IAI {
             tries++;
 
         } while(!studentsOfRoom.isEmpty() && tries < 15);
+
+        // if for some reason the janitor didn't find a room to evict students, puts them in the closest available room
+        if (!studentsOfRoom.isEmpty()) {
+            ArrayList<Student> studentsToRemove = new ArrayList<>();
+            for (Student s : studentsOfRoom) {
+                HashMap<Room, Integer> distancesFromJanitor = game.GetMap().getDistancesFrom(this.GetCurrentRoom());
+                List<Pair<Room, Integer>> sortedDistancesFromJanitor = new ArrayList<>();
+                for (HashMap.Entry<Room, Integer> entry : distancesFromJanitor.entrySet()) {
+                    sortedDistancesFromJanitor.add(new Pair<>(entry.getKey(), entry.getValue()));
+                }
+
+                // ascending order by distance
+                sortedDistancesFromJanitor.sort(Comparator.comparingInt(Pair::getSecond));
+
+                for (Pair<Room, Integer> pair : sortedDistancesFromJanitor) {
+                    Room r = pair.getFirst();
+                    if (r.CanStepIn()) {
+                        String command = "move " + s.GetName() + " " + r.GetName();
+                        Commands.Move(command.split(" "));
+                        studentsToRemove.add(s);
+                        break;
+                    }
+                }
+            }
+            studentsOfRoom.removeAll(studentsToRemove);
+        }
 
         tries = 0;
         do{

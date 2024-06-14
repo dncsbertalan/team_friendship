@@ -103,7 +103,7 @@ public class RoomObject {
         Rectangle2D bounding = graphics2D.getFontMetrics().getStringBounds(room.GetName(), graphics2D);
         Vector2 pos = isSmallRoom ?
                 new Vector2(centerPos.x - (int) bounding.getCenterX(), centerPos.y - (int) bounding.getCenterY()) :
-                new Vector2(centerPos.x - (int) bounding.getCenterX(), 30);
+                new Vector2(20, 150);
         graphics2D.drawString(room.GetName(), pos.x, pos.y);
         if (room.IsGassed()) {
             graphics2D.drawString("GASSED", pos.x, pos.y + (int) bounding.getHeight());

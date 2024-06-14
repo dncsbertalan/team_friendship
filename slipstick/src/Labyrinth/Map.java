@@ -384,7 +384,7 @@ public class Map {
     }
 
     // Returns the distances of the map's rooms from a given room
-    private HashMap<Room, Integer> getDistancesFrom(Room startRoom) {
+    public HashMap<Room, Integer> getDistancesFrom(Room startRoom) {
         HashMap<Room, Integer> distances = new HashMap<>();
         Queue<Room> queue = new LinkedList<>();
         Set<Room> visited = new HashSet<>();
