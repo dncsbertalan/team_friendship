@@ -90,12 +90,20 @@ public class RoomObject {
 
         graphics2D.drawImage(GetRoomImage(shape), rectangle.x , rectangle.y , null);
 
+        // Draw the inside
+        DrawInside(graphics2D);
+
         // Room name
         Font font = new Font("Courier New", Font.BOLD, isSmallRoom ? 25 : 35);
         graphics2D.setFont(font);
-        graphics2D.setColor(new Color(Color.black.getRed(), Color.black.getGreen(), Color.black.getBlue(), 150));
+        Color roomNameColor = isSmallRoom ?
+                new Color(Color.white.getRed(), Color.white.getGreen(), Color.white.getBlue(), 255) :
+                new Color(Color.black.getRed(), Color.black.getGreen(), Color.black.getBlue(), 255);
+        graphics2D.setColor(roomNameColor);
         Rectangle2D bounding = graphics2D.getFontMetrics().getStringBounds(room.GetName(), graphics2D);
-        Vector2 pos = new Vector2(centerPos.x - (int) bounding.getCenterX(), centerPos.y - (int) bounding.getCenterY());
+        Vector2 pos = isSmallRoom ?
+                new Vector2(centerPos.x - (int) bounding.getCenterX(), centerPos.y - (int) bounding.getCenterY()) :
+                new Vector2(centerPos.x - (int) bounding.getCenterX(), 30);
         graphics2D.drawString(room.GetName(), pos.x, pos.y);
         if (room.IsGassed()) {
             graphics2D.drawString("GASSED", pos.x, pos.y + (int) bounding.getHeight());
@@ -107,9 +115,6 @@ public class RoomObject {
 
         if (game.IsLastPhase())
             highlightShortestPath(graphics2D);
-
-        // Draw the inside
-        DrawInside(graphics2D);
     }
 
     private void highlightShortestPath(Graphics2D graphics2D) {
