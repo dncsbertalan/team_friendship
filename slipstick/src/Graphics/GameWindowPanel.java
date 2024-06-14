@@ -239,7 +239,7 @@ public class GameWindowPanel extends JPanel {
         // Puts the information into a string array
         final ArrayList<String> infoLines = new ArrayList<>();
         final HashMap<String, Font> infoLineFonts = new HashMap<>();
-        final int activeStudentPlusInfo = 1;
+        final int activeStudentPlusInfo = 2;
         int activeStudentLine = 0;
         for (Student student : game.GetStudents()) {
             String line = student.GetName();
@@ -273,6 +273,10 @@ public class GameWindowPanel extends JPanel {
                 String plusInfoLine1 = GameConstants.REMAINING_ROUND_TEXT + student.GetRemainingTurns();
                 infoLines.add(plusInfoLine1);
                 infoLineFonts.put(plusInfoLine1, activeFont);
+
+                String plusOnfoLine2 = GameConstants.REMAINING_ITEM_PICK_UP + student.getRemainingItemPickUp();
+                infoLines.add(plusOnfoLine2);
+                infoLineFonts.put(plusOnfoLine2, activeFont);
                 infoLineFonts.put(line, activeFont);
             }
             else {

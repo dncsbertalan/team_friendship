@@ -27,6 +27,8 @@ public class Student extends Entity{
     private final ArrayList<Item> tempUnpickableItems = new ArrayList<>();
     private final HashMap<Item, Room> tempUnpickableRooms = new HashMap<>();
 
+    private int remainingItemPickUp = GameConstants.ITEM_PICK_UP_IN_ONE_ROUND;
+
     public Student(Game g) {
         super(g);
     }
@@ -221,20 +223,22 @@ public class Student extends Entity{
             System.out.println(this.Name + "'s inventory is full");
             return;
         }
-        if(item instanceof SlipStick){
-            game.LastPhase(true,this);
-        }
-        if(this.GetCurrentRoom().GetUnpickupableItems().contains(item) == false){
-            this.inventory.add(item);
-            try {   // if the new item is in the same index as the selected inventory slot than the item gets selected.
-                this.selectedItem = this.inventory.get(this.selectedInventorySlot);
-            } catch (IndexOutOfBoundsException ex) {
-                this.selectedItem = null;
+        if (remainingItemPickUp > 0) {
+            if (item instanceof SlipStick){
+                game.LastPhase(true,this);
             }
-            this.room.RemoveItemFromRoom(item);
-        } else {
-            System.out.println("Item is not pickupable.");
-            return;
+            if(this.GetCurrentRoom().GetUnpickupableItems().contains(item) == false){
+                this.inventory.add(item);
+                try {   // if the new item is in the same index as the selected inventory slot than the item gets selected.
+                    this.selectedItem = this.inventory.get(this.selectedInventorySlot);
+                } catch (IndexOutOfBoundsException ex) {
+                    this.selectedItem = null;
+                }
+                this.room.RemoveItemFromRoom(item);
+            } else {
+                System.out.println("Item is not pickupable.");
+            }
+            remainingItemPickUp--;
         }
     }
 
@@ -287,5 +291,13 @@ public class Student extends Entity{
 
     public void SetSelectedItem(Item item) {
         selectedItem = item;
+    }
+
+    public int getRemainingItemPickUp() {
+        return remainingItemPickUp;
+    }
+
+    public void resetRemainingItemPickUp() {
+        this.remainingItemPickUp = GameConstants.ITEM_PICK_UP_IN_ONE_ROUND;
     }
 }

@@ -165,6 +165,7 @@ public class RoundManager{
 
         if (activeStudent != null) {
             activeStudent.ClearTemporaryUnpickableItems();
+            activeStudent.resetRemainingItemPickUp();
             studentsLeftThisRound.remove(activeStudent);
 
             // Make the next student active

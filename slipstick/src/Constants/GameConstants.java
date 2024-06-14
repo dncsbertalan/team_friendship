@@ -16,6 +16,7 @@ public class GameConstants {
     public static final int EntitiesToBecomeSticky = 5; // idk
 
     public static final int STEPS_IN_ONE_ROUND = 2;
+    public static final int ITEM_PICK_UP_IN_ONE_ROUND = 2;
     public static final int JANITOR_NUMBER = 2;
     public static final int PROFESSOR_NUMBER = 2;
 
@@ -146,6 +147,7 @@ public class GameConstants {
 
     // Student info panel
     public static final String REMAINING_ROUND_TEXT = " ¤ steps left: ";
+    public static final String REMAINING_ITEM_PICK_UP = " ¤ item pick-ups left: ";
     public static final String INFO_ALIVE = "";
     public static final String INFO_PARALYZED = " ¤ paralyzed";
     public static final String INFO_DEAD = " is dead";
