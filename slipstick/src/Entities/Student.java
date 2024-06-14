@@ -2,12 +2,14 @@ package Entities;
 
 import Constants.Enums;
 import Constants.GameConstants;
+import Control.GameController;
 import GameManagers.Game;
 import GameManagers.OUTCOME;
 import Items.*;
 import Labyrinth.Map;
 import Labyrinth.Room;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -186,6 +188,8 @@ public class Student extends Entity{
         if (protectionItem == null) {   // HAS NO PROTECTION
             DropAllItems();
             isDead = true;
+            String message = professor.GetName() + " killed " + this.Name;
+            game.GetGameController().NewScreenMessage(300, Color.RED, message);
             //this.game.GetRoundManager().EndTurn();
             return;
         }
@@ -226,6 +230,7 @@ public class Student extends Entity{
         if (remainingItemPickUp > 0) {
             if (item instanceof SlipStick){
                 game.LastPhase(true,this);
+                remainingItemPickUp--;
             }
             if(this.GetCurrentRoom().GetUnpickupableItems().contains(item) == false){
                 this.inventory.add(item);
@@ -235,10 +240,10 @@ public class Student extends Entity{
                     this.selectedItem = null;
                 }
                 this.room.RemoveItemFromRoom(item);
+                remainingItemPickUp--;
             } else {
                 System.out.println("Item is not pickupable.");
             }
-            remainingItemPickUp--;
         }
     }
 

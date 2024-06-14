@@ -150,7 +150,7 @@ public class GameController {
                 break;
             case 'd':
                 if(student.GetSelectedItem() != null ) {
-                    NewScreenMessage(270, "Dropped " + student.GetSelectedItem().GetName());
+                    //NewScreenMessage(270, "Dropped " + student.GetSelectedItem().GetName());
                     student.DropSelectedItem();
                 }
                 break;
@@ -208,6 +208,7 @@ public class GameController {
                 roundManager.EndTurn();
                 return;
             case 'c':
+                if (selectedItemInRoom == null) break;
                 student.PickUpItem(selectedItemInRoom);
                 selectedItemInRoom = null;
                 break;

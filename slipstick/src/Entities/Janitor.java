@@ -76,8 +76,8 @@ public class Janitor extends Entity implements IAI {
 
         this.StepInto(stepIntoThis);
 
-        String message = this.GetName() + " went from " + stepFromThis.GetName() + " to " + stepIntoThis.GetName();
-        gameController.NewScreenMessage(300, new Color(98, 9, 119), message);
+        //String message = this.GetName() + " went from " + stepFromThis.GetName() + " to " + stepIntoThis.GetName();
+        //gameController.NewScreenMessage(300, new Color(98, 9, 119), message);
 
         game.GetRoundManager().EndTurn();
         return;

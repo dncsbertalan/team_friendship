@@ -64,7 +64,8 @@ public class Professor extends Entity implements IAI {
         if (!IsParalysed()) {
             List<Student> studentsAboutToBeAssassinated = new ArrayList<>(this.room.GetStudents());
             for(Student sIter : studentsAboutToBeAssassinated){
-                this.KillStudent(sIter);
+                if (!sIter.IsDead())
+                    this.KillStudent(sIter);
             }
         }
     }
@@ -112,8 +113,8 @@ public class Professor extends Entity implements IAI {
         //if yes, the entity steps into the room
         this.StepInto(stepIntoThis);
 
-        String message1 = this.GetName() + " went from " + stepFromThis.GetName() + " to " + stepIntoThis.GetName();
-        gameController.NewScreenMessage(300, new Color(98, 9, 119), message1);
+        //String message1 = this.GetName() + " went from " + stepFromThis.GetName() + " to " + stepIntoThis.GetName();
+        //gameController.NewScreenMessage(300, new Color(98, 9, 119), message1);
 
         //the entity randomly picks up an item from its current room
         if(random.nextBoolean()){
@@ -132,8 +133,8 @@ public class Professor extends Entity implements IAI {
 
           if(pickThisUp != null){
               this.PickUpItem(pickThisUp);
-              String message2 = "   " + this.GetName() + " picked up " + pickThisUp.GetName();
-              gameController.NewScreenMessage(300, new Color(98, 9, 119), message2);
+              //String message2 = "   " + this.GetName() + " picked up " + pickThisUp.GetName();
+              //gameController.NewScreenMessage(300, new Color(98, 9, 119), message2);
           }
         }
         game.GetRoundManager().EndTurn();
