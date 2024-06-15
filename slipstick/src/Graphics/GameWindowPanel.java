@@ -102,7 +102,6 @@ public class GameWindowPanel extends JPanel {
         SwingUtilities.convertPointFromScreen(point, this);
         mousePosition = new Vector2(point.x, point.y);
 
-        DrawControlInformationTable(graphics2D);
         DrawRoom(graphics2D);
         DrawGasClouds(graphics2D);
         DrawCurrentRound(graphics2D);
@@ -110,6 +109,7 @@ public class GameWindowPanel extends JPanel {
         DrawInventory(graphics2D);
         DrawScreenMessages(graphics2D);
         DrawItemInformationTable(graphics2D);
+        DrawControlInformationTable(graphics2D);
     }
 
 // region Getters/Setters ==============================================================================================
@@ -299,7 +299,7 @@ public class GameWindowPanel extends JPanel {
         final float activeStudentBoxOutlineWidth = 2f;
         final int activeStudentBoxPosY = characterHeight * activeStudentLine + activeCharacterHeight / 4;
         final int activeStudentBoxHeight = activeCharacterHeight * (1 + activeStudentPlusInfo);
-        Vector2 pos = new Vector2(GameConstants.GamePanel_ENTITY_INFO_POS_X, windowSize.y / 2 - infoBoxBackHeight / 2);
+        Vector2 pos = new Vector2(GameConstants.GamePanel_ENTITY_INFO_POS_X, windowSize.y / 4 - infoBoxBackHeight / 2);
 
         // Background box
         final Color infoBackBoxColor = new Color(115,85,90,150);
