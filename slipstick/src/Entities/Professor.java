@@ -14,6 +14,7 @@ import java.util.*;
 import java.util.List;
 
 import static Runnable.Main.gameController;
+import static Runnable.Main.os;
 
 public class Professor extends Entity implements IAI {
 
@@ -138,6 +139,7 @@ public class Professor extends Entity implements IAI {
           }
         }
         game.GetRoundManager().EndTurn();
+        os.println("prof AI ok");
         return;
     }
 

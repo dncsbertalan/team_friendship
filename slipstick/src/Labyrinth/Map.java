@@ -209,11 +209,32 @@ public class Map {
             }
         }
 
+        int winningRoomDistanceFromSlipstickMIN = 0;
+        int winningRoomDistanceFromSlipstickMAX = 0;
+        switch (players) {
+            case 1:
+                winningRoomDistanceFromSlipstickMIN = 3;
+                winningRoomDistanceFromSlipstickMAX = 4;
+                break;
+            case 2:
+                winningRoomDistanceFromSlipstickMIN = 4;
+                winningRoomDistanceFromSlipstickMAX = 5;
+                break;
+            case 3:
+                winningRoomDistanceFromSlipstickMIN = 4;
+                winningRoomDistanceFromSlipstickMAX = 6;
+                break;
+            case 4:
+                winningRoomDistanceFromSlipstickMIN = 6;
+                winningRoomDistanceFromSlipstickMAX = 7;
+                break;
+        }
+
         HashMap<Room, Integer> distancesFromSlipStick = getDistancesFrom(slipStickRooom);
         List<Room> potentialWinningRooms = new ArrayList<>();
         for (HashMap.Entry<Room, Integer> entry : distancesFromSlipStick.entrySet()) {
             int distance = entry.getValue();
-            if (distance > 2 && distance < 5 && !entry.getKey().equals(mainHall) &&
+            if (distance >= winningRoomDistanceFromSlipstickMIN && distance <= winningRoomDistanceFromSlipstickMAX && !entry.getKey().equals(mainHall) &&
                     !entry.getKey().equals(teachersLounge) && !entry.getKey().equals(janitorsRoom)) {
                 potentialWinningRooms.add(entry.getKey());
             }
@@ -434,7 +455,7 @@ public class Map {
 
     private void initializeKeyItems(List<Pair<Room, Integer>> sortedDistances, HashMap<String, Integer> itemQuantities, HashMap<String, Supplier<Item>> itemSuppliers) {
         // SlipStick (farthest from MainHall)
-        Room slipStickRoom = sortedDistances.get(0).getFirst();
+        Room slipStickRoom = sortedDistances.get(random.nextInt(2)).getFirst();
         slipStickRoom.AddItemToRoom(itemSuppliers.get("SlipStick").get());
 
         // Key items (closest to MainHall)

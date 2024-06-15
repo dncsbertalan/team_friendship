@@ -15,10 +15,14 @@ public class GameConstants {
     public static final int WetCloth_RoundsUsable = 5;
     public static final int EntitiesToBecomeSticky = 5; // idk
 
-    public static final int STEPS_IN_ONE_ROUND = 100;
+    public static final int STEPS_IN_ONE_ROUND = 2;
     public static final int ITEM_PICK_UP_IN_ONE_ROUND = 2;
-    public static final int JANITOR_NUMBER = 2;
-    public static final int PROFESSOR_NUMBER = 2;
+    public static final int JANITOR_NUMBER_ONE_AND_TWO_PLAYERS = 2;
+    public static final int PROFESSOR_NUMBER_ONE_AND_TWO_PLAYERS = 2;
+    public static final int JANITOR_NUMBER_THREE_PLAYERS = 3;
+    public static final int PROFESSOR_NUMBER_THREE_PLAYERS = 3;
+    public static final int JANITOR_NUMBER_FOUR_PLAYERS = 4;
+    public static final int PROFESSOR_NUMBER_FOUR_PLAYERS = 4;
 
     public static final int InventoryMaxSize = 5;
     public static final int DesiredFPS = 60;

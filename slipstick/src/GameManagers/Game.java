@@ -92,31 +92,54 @@ public class Game {
             game.GetMap().GetMainHall().AddStudentToRoom(student);
         }
 
-        for (int i = 0; i < GameConstants.PROFESSOR_NUMBER; i++) {
+        switch (students.size()) {
+            case 1:
+                InitProfs(GameConstants.JANITOR_NUMBER_ONE_AND_TWO_PLAYERS);
+                InitJanitors(GameConstants.JANITOR_NUMBER_ONE_AND_TWO_PLAYERS);
+                break;
+            case 2:
+                InitProfs(GameConstants.JANITOR_NUMBER_ONE_AND_TWO_PLAYERS);
+                InitJanitors(GameConstants.JANITOR_NUMBER_ONE_AND_TWO_PLAYERS);
+                break;
+            case 3:
+                InitProfs(GameConstants.JANITOR_NUMBER_THREE_PLAYERS);
+                InitJanitors(GameConstants.JANITOR_NUMBER_THREE_PLAYERS);
+                break;
+            case 4:
+                InitProfs(GameConstants.JANITOR_NUMBER_FOUR_PLAYERS);
+                InitJanitors(GameConstants.JANITOR_NUMBER_FOUR_PLAYERS);
+                break;
+        }
+
+        this.roundManager.Init();
+    }
+
+    private void InitProfs(int num) {
+        for (int i = 0; i < num; i++) {
             Professor professor = new Professor(game);
             professor.SetName(getRandomProfessorName());
             this.professors.add(professor);
             game.GetMap().GetTeachersLounge().AddProfessorToRoom(professor);
         }
 
-        for (int i = 0; i < GameConstants.JANITOR_NUMBER; i++) {
+        for (Professor professor : professors) {
+            String name = professor.GetName() + GameConstants.PROFESSOR_NAME_END;
+            professor.SetName(name);
+        }
+    }
+
+    private void InitJanitors(int num) {
+        for (int i = 0; i < num; i++) {
             Janitor janitor = new Janitor(game);
             janitor.SetName(getRandomJanitorName());
             this.janitors.add(janitor);
             game.GetMap().GetJanitorsRoom().AddJanitorToRoom(janitor);
         }
 
-        for (Professor professor : professors) {
-            String name = professor.GetName() + GameConstants.PROFESSOR_NAME_END;
-            professor.SetName(name);
-        }
-
         for (Janitor janitor : janitors) {
             String name = janitor.GetName() + GameConstants.JANITOR_NAME_END;
             janitor.SetName(name);
         }
-
-        this.roundManager.Init();
     }
 
     private String getRandomProfessorName() {

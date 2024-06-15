@@ -80,6 +80,7 @@ public class Janitor extends Entity implements IAI {
         //gameController.NewScreenMessage(300, new Color(98, 9, 119), message);
 
         game.GetRoundManager().EndTurn();
+        os.println("janitor AI ok");
         return;
     }
     /**
@@ -112,7 +113,7 @@ public class Janitor extends Entity implements IAI {
                 if (!studentIter.IsParalysed()) {
                     //roomID % sizeOfList, for there might be more students than neighbouring rooms
                     Room currentNeighbour = neighboursOfRoom_.get(roomID % neighboursOfRoom_.size());
-                    if (currentNeighbour.CanStepIn()) {
+                    if (currentNeighbour.CanStepIn() && !currentNeighbour.equals(studentIter.GetCurrentRoom())) {
                         String asd = "move " + studentIter.GetName() + " " + currentNeighbour.GetName();
                         Commands.Move(asd.split(" "));
                         studentToRemove.add(studentIter);
@@ -144,7 +145,7 @@ public class Janitor extends Entity implements IAI {
 
                 for (Pair<Room, Integer> pair : sortedDistancesFromJanitor) {
                     Room r = pair.getFirst();
-                    if (r.CanStepIn()) {
+                    if (r.CanStepIn() && !r.equals(s.GetCurrentRoom())) {
                         boolean thereIsAJanitor = false;
                         for (Entity e : r.GetEntities()) {
                             if (e instanceof Janitor) {
