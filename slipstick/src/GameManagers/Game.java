@@ -94,19 +94,19 @@ public class Game {
 
         switch (students.size()) {
             case 1:
-                InitProfs(GameConstants.JANITOR_NUMBER_ONE_AND_TWO_PLAYERS);
+                InitProfs(GameConstants.PROFESSOR_NUMBER_ONE_AND_TWO_PLAYERS);
                 InitJanitors(GameConstants.JANITOR_NUMBER_ONE_AND_TWO_PLAYERS);
                 break;
             case 2:
-                InitProfs(GameConstants.JANITOR_NUMBER_ONE_AND_TWO_PLAYERS);
+                InitProfs(GameConstants.PROFESSOR_NUMBER_ONE_AND_TWO_PLAYERS);
                 InitJanitors(GameConstants.JANITOR_NUMBER_ONE_AND_TWO_PLAYERS);
                 break;
             case 3:
-                InitProfs(GameConstants.JANITOR_NUMBER_THREE_PLAYERS);
+                InitProfs(GameConstants.PROFESSOR_NUMBER_THREE_PLAYERS);
                 InitJanitors(GameConstants.JANITOR_NUMBER_THREE_PLAYERS);
                 break;
             case 4:
-                InitProfs(GameConstants.JANITOR_NUMBER_FOUR_PLAYERS);
+                InitProfs(GameConstants.PROFESSOR_NUMBER_FOUR_PLAYERS);
                 InitJanitors(GameConstants.JANITOR_NUMBER_FOUR_PLAYERS);
                 break;
         }

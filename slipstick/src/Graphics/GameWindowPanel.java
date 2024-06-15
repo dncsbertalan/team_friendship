@@ -102,6 +102,7 @@ public class GameWindowPanel extends JPanel {
         SwingUtilities.convertPointFromScreen(point, this);
         mousePosition = new Vector2(point.x, point.y);
 
+        DrawControlInformationTable(graphics2D);
         DrawRoom(graphics2D);
         DrawGasClouds(graphics2D);
         DrawCurrentRound(graphics2D);
@@ -353,18 +354,18 @@ public class GameWindowPanel extends JPanel {
         int infoPanelHeight = (int) (windowSize.x * 0.25);
 
         int x_coordinate_16_percent = (int) (windowSize.x * 0.165);
-        int y_coordinate_79_percent = (int) (windowSize.y * 0.79);
-        int y_coordinate_60_percent = (int) (windowSize.y * 0.6);
-        int y_coordinate_77_percent = (int) (windowSize.y * 0.77);
+        int y_coordinate_90_percent = (int) (windowSize.y * 0.90);
+        int y_coordinate_71_percent = (int) (windowSize.y * 0.71);
+        int y_coordinate_88_percent = (int) (windowSize.y * 0.88);
 
         int x_calculated_coord = windowSize.x - x_coordinate_16_percent;
-        int y_calculated_coord = windowSize.y - y_coordinate_79_percent;
+        int y_calculated_coord = windowSize.y - y_coordinate_90_percent;
 
         int x_first_text_coord = windowSize.x - x_coordinate_16_percent;;
-        int y_first_text_coord = windowSize.y - y_coordinate_77_percent;;
+        int y_first_text_coord = windowSize.y - y_coordinate_88_percent;;
 
         int x_second_text_coord = windowSize.x - x_coordinate_16_percent;
-        int y_second_text_coord = windowSize.y - y_coordinate_60_percent;
+        int y_second_text_coord = windowSize.y - y_coordinate_71_percent;
 
         Vector2 pos = new Vector2(x_calculated_coord, y_calculated_coord);
 
@@ -410,6 +411,67 @@ public class GameWindowPanel extends JPanel {
             graphics2D.drawString(info.get(i), x_first_text_coord, y_first_text_coord + (i + 2) * textHeight);
         }
     }
+
+    private void DrawControlInformationTable(Graphics2D graphics2D) {
+        Graphics2D g = (Graphics2D) graphics2D.create();
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        int infoPanelWidth = (int) (windowSize.x * 0.15);
+        int infoPanelHeight = (int) (windowSize.y * 0.25);
+
+        int x_coordinate_16_percent = (int) (windowSize.x * 0.165);
+        int y_coordinate_42_percent = (int) (windowSize.y * 0.42);
+        int y_coordinate_40_percent = (int) (windowSize.y * 0.40);
+
+        int x_calculated_coord = windowSize.x - x_coordinate_16_percent;
+        int y_calculated_coord = windowSize.y - y_coordinate_42_percent;
+
+        int x_first_text_coord = windowSize.x - x_coordinate_16_percent;
+        int y_first_text_coord = windowSize.y - y_coordinate_40_percent;
+
+        final int arc = 10;
+
+        g.setFont(new Font("Courier New", Font.BOLD, 22));
+        int titleHeight = g.getFontMetrics().getHeight();
+
+        g.setFont(new Font("Courier New", Font.BOLD, 17));
+        int textHeight = g.getFontMetrics().getHeight();
+
+        ArrayList<String> controls = new ArrayList<>();
+        controls.add("¤ lmb: click door/item");
+        controls.add("¤ mwhl: inventory");
+        controls.add("¤ c: pick up item");
+        controls.add("¤ d: drop item");
+        controls.add("¤ a: activate item");
+        controls.add("¤ u: use item");
+        controls.add("¤ p: pair transistor");
+        controls.add("¤ e: end turn");
+
+        int totalTextHeight = titleHeight + (controls.size() + 1) * textHeight;
+
+        // Ensure the panel is tall enough to hold all the text
+        if (infoPanelHeight < totalTextHeight + 20) { // add some padding
+            infoPanelHeight = totalTextHeight + 20;
+        }
+
+        g.setColor(GameConstants.GamePanel_ITEM_INFORMATION_BORDER_COLOR);
+        g.fillRoundRect(x_calculated_coord - 5, y_calculated_coord - 5, infoPanelWidth + 10, infoPanelHeight + 10, arc, arc);
+        g.setColor(GameConstants.GamePanel_ITEM_INFORMATION_FILL_COLOR);
+        g.fillRoundRect(x_calculated_coord, y_calculated_coord, infoPanelWidth, infoPanelHeight, arc, arc);
+
+        g.setFont(new Font("Courier New", Font.BOLD, 22));
+        g.setColor(Color.black);
+        g.drawString("Controls:", x_first_text_coord, y_first_text_coord);
+
+        g.setFont(new Font("Courier New", Font.BOLD, 17));
+
+        for (int i = 0; i < controls.size(); i++) {
+            g.drawString(controls.get(i), x_first_text_coord, y_first_text_coord + (i + 2) * textHeight);
+        }
+
+        g.dispose();
+    }
+
 
     /**
      * Draws the screen messages to the screen.
