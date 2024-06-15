@@ -668,7 +668,7 @@ public class GameWindowPanel extends JPanel {
         }
         else if (item instanceof SlipStick) {
             info.add("Slipstick");
-            info.add(" ¤ take it to the winning room");
+            info.add(" ¤ take it to the");
             info.add("   winning room");
         }
         else if (item instanceof Transistor transistor) {

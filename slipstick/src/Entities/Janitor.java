@@ -129,7 +129,10 @@ public class Janitor extends Entity implements IAI {
         // if for some reason the janitor didn't find a room to evict students, puts them in the closest available room
         if (!studentsOfRoom.isEmpty()) {
             ArrayList<Student> studentsToRemove = new ArrayList<>();
-            for (Student s : studentsOfRoom) {
+            Iterator<Student> iterator = studentsOfRoom.iterator();
+
+            while (iterator.hasNext()) {
+                Student s = iterator.next();
                 HashMap<Room, Integer> distancesFromJanitor = game.GetMap().getDistancesFrom(this.GetCurrentRoom());
                 List<Pair<Room, Integer>> sortedDistancesFromJanitor = new ArrayList<>();
                 for (HashMap.Entry<Room, Integer> entry : distancesFromJanitor.entrySet()) {
@@ -142,6 +145,16 @@ public class Janitor extends Entity implements IAI {
                 for (Pair<Room, Integer> pair : sortedDistancesFromJanitor) {
                     Room r = pair.getFirst();
                     if (r.CanStepIn()) {
+                        boolean thereIsAJanitor = false;
+                        for (Entity e : r.GetEntities()) {
+                            if (e instanceof Janitor) {
+                                thereIsAJanitor = true;
+                                break;
+                            }
+                        }
+                        if (thereIsAJanitor)
+                            continue;
+
                         String command = "move " + s.GetName() + " " + r.GetName();
                         Commands.Move(command.split(" "));
                         studentsToRemove.add(s);
@@ -151,6 +164,7 @@ public class Janitor extends Entity implements IAI {
             }
             studentsOfRoom.removeAll(studentsToRemove);
         }
+
 
         tries = 0;
         do{

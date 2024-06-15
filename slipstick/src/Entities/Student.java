@@ -230,7 +230,6 @@ public class Student extends Entity{
         if (remainingItemPickUp > 0) {
             if (item instanceof SlipStick){
                 game.LastPhase(true,this);
-                remainingItemPickUp--;
             }
             if(this.GetCurrentRoom().GetUnpickupableItems().contains(item) == false){
                 this.inventory.add(item);
