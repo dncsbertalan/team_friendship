@@ -225,7 +225,7 @@ public class GameController {
      * @param stepInto  the room the student wants to step into
      */
     public void StepStudent(Student student, Room stepInto) {
-        boolean success = student.StepInto(stepInto);
+        boolean success = student.StepInto(stepInto, false);
 
         if (!success) {
             if(student.GetRemainingTurns() > 0) {

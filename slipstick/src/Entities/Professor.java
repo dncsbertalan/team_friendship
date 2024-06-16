@@ -26,7 +26,7 @@ public class Professor extends Entity implements IAI {
     }
 
     @Override
-    public boolean StepInto(Room room) {
+    public boolean StepInto(Room room, boolean sentByJanitor) {
         if (room.CanStepIn()) {
             this.room.RemoveProfessorFromRoom(this);
             this.room = room;
@@ -111,7 +111,7 @@ public class Professor extends Entity implements IAI {
         }
 
         //if yes, the entity steps into the room
-        this.StepInto(stepIntoThis);
+        this.StepInto(stepIntoThis, false);
 
         //String message1 = this.GetName() + " went from " + stepFromThis.GetName() + " to " + stepIntoThis.GetName();
         //gameController.NewScreenMessage(300, new Color(98, 9, 119), message1);

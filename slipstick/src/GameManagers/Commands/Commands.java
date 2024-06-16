@@ -25,14 +25,14 @@ public class Commands {
 
 //region ==================== COMMAND METHODS ====================
     public static void Move(String[] args) {
-        if (args.length != 3) {
-            os.println("Usage: move <-s/-j/-p/entity name> <room name>");
+        if (args.length != 4) {
+            os.println("Usage: move <-s/-j/-p/entity name> <room name> <true/false>");
             return;
         }
 
         String option_name = args[1];
         String roomName = args[2];
-
+        boolean sentByJanitor = args[3].equals("true");
         Entity entityToMove;
 
         switch (option_name) {
@@ -86,7 +86,7 @@ public class Commands {
 
         if (isNeighbour) {
             os.println("Moving " + entityToMove.GetName() + " from " + entityToMove.GetCurrentRoom().GetName() + " to " + roomName);
-            entityToMove.StepInto(roomToMoveInto);
+            entityToMove.StepInto(roomToMoveInto, sentByJanitor);
         } else {
             os.println("Moving " + entityToMove.GetName() + " to " + roomName + " was unsuccessful");
         }

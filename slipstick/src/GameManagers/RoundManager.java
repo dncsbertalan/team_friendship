@@ -87,7 +87,7 @@ public class RoundManager{
         gameController.NewScreenMessage(300, "Round " + rounds + " ended");
 
         rounds++;
-        if (rounds == GameConstants.MaxRounds) {
+        if (rounds > GameConstants.MaxRounds) {
             game.EndGame(false, OUTCOME.PlayersRanOutOfRounds);
         }
 

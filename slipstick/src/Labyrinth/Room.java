@@ -424,12 +424,13 @@ public class Room {
      * When a student enters the room, it signals all the professors currently in the room to try and kill the student
      * @param s The student about to get assassinated.
      */
-    public void NotifyProfessors(Student s){
+    public void NotifyProfessors(Student s) {
+        List<Professor> copyOfProfessors = new ArrayList<>(roomsListOfProfessors);
         // to be fair only one professor tries to kill the student
-        for(Professor profIter : roomsListOfProfessors){
+        for(Professor profIter : copyOfProfessors){
             profIter.KillStudent(s);
             //break;
-            // nope, skill issue
+            //nope, skill issue
         }
     }
 

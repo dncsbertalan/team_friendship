@@ -28,7 +28,7 @@ public class Janitor extends Entity implements IAI {
      * @param room the room it's trying to move into
      */
     @Override
-    public boolean StepInto(Room room) {
+    public boolean StepInto(Room room, boolean sentByJanitor) {
         if (room.CanStepIn()) {
             this.room.RemoveJanitorFromRoom(this);
             this.room = room;
@@ -74,7 +74,7 @@ public class Janitor extends Entity implements IAI {
             return;
         }
 
-        this.StepInto(stepIntoThis);
+        this.StepInto(stepIntoThis, false);
 
         //String message = this.GetName() + " went from " + stepFromThis.GetName() + " to " + stepIntoThis.GetName();
         //gameController.NewScreenMessage(300, new Color(98, 9, 119), message);
@@ -114,7 +114,7 @@ public class Janitor extends Entity implements IAI {
                     //roomID % sizeOfList, for there might be more students than neighbouring rooms
                     Room currentNeighbour = neighboursOfRoom_.get(roomID % neighboursOfRoom_.size());
                     if (currentNeighbour.CanStepIn() && !currentNeighbour.equals(studentIter.GetCurrentRoom())) {
-                        String asd = "move " + studentIter.GetName() + " " + currentNeighbour.GetName();
+                        String asd = "move " + studentIter.GetName() + " " + currentNeighbour.GetName() + " " + "true";
                         Commands.Move(asd.split(" "));
                         studentToRemove.add(studentIter);
                     }
@@ -146,7 +146,7 @@ public class Janitor extends Entity implements IAI {
                 for (Pair<Room, Integer> pair : sortedDistancesFromJanitor) {
                     Room r = pair.getFirst();
                     if (r.CanStepIn() && !r.equals(s.GetCurrentRoom())) {
-                        String command = "move " + s.GetName() + " " + r.GetName();
+                        String command = "move " + s.GetName() + " " + r.GetName() + " " + "true";
                         Commands.Move(command.split(" "));
                         studentsToRemove.add(s);
                         break;
@@ -173,7 +173,7 @@ public class Janitor extends Entity implements IAI {
                     }
 
                     if (potentialRoomsForProf.isEmpty()) {
-                        professorIter.StepInto(game.GetMap().GetTeachersLounge());
+                        professorIter.StepInto(game.GetMap().GetTeachersLounge(), false);
                         professorToRemove.add(professorIter);
                         break;
                     }
@@ -181,7 +181,7 @@ public class Janitor extends Entity implements IAI {
                     //roomID % sizeOfList, for there might be more professors than neighbouring rooms
                     Room targetRoomForProf = potentialRoomsForProf.get(roomID % potentialRoomsForProf.size());
                     os.println("Moved " + professorIter.GetName() + " from " + professorIter.GetCurrentRoom().GetName() + " to " + targetRoomForProf.GetName());
-                    professorIter.StepInto(targetRoomForProf);
+                    professorIter.StepInto(targetRoomForProf, false);
                     professorToRemove.add(professorIter);
                     roomID++;
                 }

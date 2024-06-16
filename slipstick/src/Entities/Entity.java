@@ -97,7 +97,7 @@ public abstract class Entity {
      * Tries to move to the specified room
      * @param room the room it's trying to move into
      */
-    public abstract boolean StepInto(Room room);
+    public abstract boolean StepInto(Room room, boolean sentByJanitor);
 
     /**
      * Notifies the entity that it stepped into a gassed room.
