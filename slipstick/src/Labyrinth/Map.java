@@ -171,7 +171,7 @@ public class Map {
         HashMap<String, Supplier<Item>> itemSuppliers = createItemSuppliers();
 
         // Place items
-        initializeKeyItems(sortedDistances, itemQuantities, itemSuppliers);
+        initializeKeyItems(sortedDistances, itemQuantities, itemSuppliers, players);
 
         // Collect the remaining items in a list
         List<Item> otherItems = new ArrayList<>();
@@ -453,29 +453,70 @@ public class Map {
         return itemSuppliers;
     }
 
-    private void initializeKeyItems(List<Pair<Room, Integer>> sortedDistances, HashMap<String, Integer> itemQuantities, HashMap<String, Supplier<Item>> itemSuppliers) {
+    private void initializeKeyItems(List<Pair<Room, Integer>> sortedDistances, HashMap<String, Integer> itemQuantities, HashMap<String, Supplier<Item>> itemSuppliers, int players) {
+        // Determine the range of distances to use based on the number of players
+        int closeRange = (players > 2) ? 3 : 2;
+        int midRange = (players > 2) ? 5 : 3;
+
         // SlipStick (farthest from MainHall)
-        Room slipStickRoom = sortedDistances.get(random.nextInt(2)).getFirst();
+        Room slipStickRoom = sortedDistances.get(random.nextInt(closeRange)).getFirst();
         slipStickRoom.AddItemToRoom(itemSuppliers.get("SlipStick").get());
 
-        // Key items (closest to MainHall)
+        // Key items (closest to MainHall for fewer players, mixed for more players)
         int placedTVSZ = 0;
         int placedFFP2 = 0;
-        for (Pair<Room, Integer> pair : sortedDistances) {
+        int totalTVSZ = itemQuantities.get("TVSZ");
+        int totalFFP2 = itemQuantities.get("FFP2");
+
+        for (Pair<Room, Integer> pair : sortedDistances.reversed()) {
             Room room = pair.getFirst();
-            if (placedTVSZ < itemQuantities.get("TVSZ")) {
-                room.AddItemToRoom(itemSuppliers.get("TVSZ").get());
-                placedTVSZ++;
+            boolean placedItem = false;
+
+            if (players <= 2) {
+                // Place items closer for fewer players
+                if (placedTVSZ < totalTVSZ && placedTVSZ < closeRange) {
+                    room.AddItemToRoom(itemSuppliers.get("TVSZ").get());
+                    placedTVSZ++;
+                    placedItem = true;
+                }
+                if (placedFFP2 < totalFFP2 && placedFFP2 < closeRange) {
+                    room.AddItemToRoom(itemSuppliers.get("FFP2").get());
+                    placedFFP2++;
+                    placedItem = true;
+                }
+            } else {
+                // Mixed placement for more players
+                if (placedTVSZ < totalTVSZ && random.nextBoolean()) {
+                    room.AddItemToRoom(itemSuppliers.get("TVSZ").get());
+                    placedTVSZ++;
+                    placedItem = true;
+                }
+                if (placedFFP2 < totalFFP2 && !placedItem) {
+                    room.AddItemToRoom(itemSuppliers.get("FFP2").get());
+                    placedFFP2++;
+                }
             }
-            if (placedFFP2 < itemQuantities.get("FFP2")) {
-                room.AddItemToRoom(itemSuppliers.get("FFP2").get());
-                placedFFP2++;
-            }
-            if (placedTVSZ >= itemQuantities.get("TVSZ") && placedFFP2 >= itemQuantities.get("FFP2")) {
+
+            // Exit early if all items are placed
+            if (placedTVSZ >= totalTVSZ && placedFFP2 >= totalFFP2) {
                 return;
             }
         }
+
+        // For more players, place remaining items randomly in mid-range rooms
+        List<Pair<Room, Integer>> midRangeRooms = sortedDistances.subList(closeRange, midRange);
+        while (placedTVSZ < totalTVSZ) {
+            Room room = midRangeRooms.get(random.nextInt(midRangeRooms.size())).getFirst();
+            room.AddItemToRoom(itemSuppliers.get("TVSZ").get());
+            placedTVSZ++;
+        }
+        while (placedFFP2 < totalFFP2) {
+            Room room = midRangeRooms.get(random.nextInt(midRangeRooms.size())).getFirst();
+            room.AddItemToRoom(itemSuppliers.get("FFP2").get());
+            placedFFP2++;
+        }
     }
+
 
     public HashMap<Room, List<Room>> gatherRoomsAndTheirNeighbours() {
         HashMap<Room, List<Room>> result = new HashMap<>();

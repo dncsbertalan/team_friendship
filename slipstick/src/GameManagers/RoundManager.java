@@ -10,6 +10,7 @@ import Labyrinth.Room;
 import static Runnable.Main.gameController;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Responsible for the functioning of game rounds.
@@ -114,7 +115,9 @@ public class RoundManager{
 
         // Reset student steps
         // Decrease student missed rounds
-        for (Student student : studentsLeftThisRound) {
+        // make snapshot to avoid concurrent modification
+        List<Student> studentsSnapshot = new ArrayList<>(studentsLeftThisRound);
+        for (Student student : studentsSnapshot) {
             student.ResetMoveCount();
             student.UpdateMissedRounds();
 
@@ -124,6 +127,7 @@ public class RoundManager{
                 }
             }
         }
+
 
         // Reset janitor and prof steps
         // Decrease entities missed rounds
