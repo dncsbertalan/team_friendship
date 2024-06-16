@@ -52,7 +52,7 @@ public class Janitor extends Entity implements IAI {
      */
     @Override
     public void AI() {
-
+        os.println(this.Name + " AI started");
         Room stepFromThis = this.GetCurrentRoom();
         Room stepIntoThis = null;
         Random random = new Random();
@@ -80,7 +80,7 @@ public class Janitor extends Entity implements IAI {
         //gameController.NewScreenMessage(300, new Color(98, 9, 119), message);
 
         game.GetRoundManager().EndTurn();
-        os.println("janitor AI ok");
+        os.println(this.Name + " AI ok");
         return;
     }
     /**
@@ -146,16 +146,6 @@ public class Janitor extends Entity implements IAI {
                 for (Pair<Room, Integer> pair : sortedDistancesFromJanitor) {
                     Room r = pair.getFirst();
                     if (r.CanStepIn() && !r.equals(s.GetCurrentRoom())) {
-                        boolean thereIsAJanitor = false;
-                        for (Entity e : r.GetEntities()) {
-                            if (e instanceof Janitor) {
-                                thereIsAJanitor = true;
-                                break;
-                            }
-                        }
-                        if (thereIsAJanitor)
-                            continue;
-
                         String command = "move " + s.GetName() + " " + r.GetName();
                         Commands.Move(command.split(" "));
                         studentsToRemove.add(s);
@@ -199,7 +189,6 @@ public class Janitor extends Entity implements IAI {
             }
 
             professorsOfRoom.removeAll(professorToRemove);
-
 
             /*if all the professors couldn't fit into the neighbours of current iteration list
             if(!professorsOfRoom.isEmpty()){

@@ -85,7 +85,7 @@ public class Professor extends Entity implements IAI {
      */
     @Override
     public void AI() {
-
+        os.println(this.Name + " AI started");
         Room stepFromThis = this.GetCurrentRoom();
         Room stepIntoThis = null;
         Random random = new Random();
@@ -102,6 +102,7 @@ public class Professor extends Entity implements IAI {
                 if(tryThis.CanStepIn()){
                     stepIntoThis = tryThis;
                 }
+                stopFromEndlessLoop++;
             }
         }
 
@@ -139,7 +140,7 @@ public class Professor extends Entity implements IAI {
           }
         }
         game.GetRoundManager().EndTurn();
-        os.println("prof AI ok");
+        os.println(this.Name  + " AI ok");
         return;
     }
 
