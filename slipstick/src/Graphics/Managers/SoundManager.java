@@ -28,6 +28,7 @@ public class SoundManager {
         loadSound(GameConstants.SOUND_DOOR2, GameConstants.SOUND_DOOR2_FILEPATH);
         loadSound(GameConstants.INVENTORY, GameConstants.INVENTORY_FILEPATH);
         loadSound(GameConstants.SOUND_FAKE_ITEM_USE, GameConstants.SOUND_FAKE_ITEM_USE_FILEPATH);
+        loadSound(GameConstants.SOUND_TVSZ_NO_REMAINING_PAGES, GameConstants.SOUND_TVSZ_NO_REMAINING_PAGES_FILEPATH);
     }
 
     // Method to load a sound file and put it in the sounds' hashmap

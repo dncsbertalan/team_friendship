@@ -341,6 +341,7 @@ public class GameConstants {
 
     public static final String SOUND_FAKE_ITEM_USE_FILEPATH = "slipstick/rsc/sounds/fake_item_use.wav";
     public static final String SOUND_FAKE_ITEM_USE = "fake";
-
+    public static final String SOUND_TVSZ_NO_REMAINING_PAGES_FILEPATH = "slipstick/rsc/sounds/tvsz_ranoutofpages.wav";
+    public static final String SOUND_TVSZ_NO_REMAINING_PAGES = "tvsz";
 // endregion
 }

@@ -46,6 +46,7 @@ public class Transistor extends Item {
             student.ChangeRoom(pair.GetCurrentRoom());
             pair.GetCurrentRoom().RemoveItemFromRoom(pair);
             student.DeleteItemFromInventory(this);
+            ResetTransistorsAfterUsage(this, pair);
         }
     }
 
@@ -103,5 +104,16 @@ public class Transistor extends Item {
      */
     public boolean GetPairReadyToTeleport(){
         return pairReadyToTeleport;
+    }
+
+    private void ResetTransistorsAfterUsage(Transistor transistor, Transistor pair) {
+        transistor.pair = null;
+        pair.pair = null;
+
+        transistor.pairReadyToTeleport = false;
+        pair.pairReadyToTeleport = false;
+
+        transistor.activated = false;
+        pair.activated = false;
     }
 }

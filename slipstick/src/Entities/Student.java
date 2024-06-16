@@ -13,6 +13,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import static Runnable.Main.soundManager;
 
 public class Student extends Entity{
     
@@ -203,9 +204,19 @@ public class Student extends Entity{
 
         if (protectionItem.GetProtectionType() == Enums.ProtectionType.tvsz) {
             TVSZ tvsz = (TVSZ) protectionItem;
-            tvsz.DecreaseUsability();
-            Map map = this.game.GetMap();
-            map.TransferProfessorToTeachersLounge(professor);
+            if (tvsz.GetRemainingPages() > 0) {
+                if (tvsz.GetRemainingPages() == 1)
+                    soundManager.playSoundOnce(GameConstants.SOUND_TVSZ_NO_REMAINING_PAGES);
+                tvsz.DecreaseUsability();
+                Map map = this.game.GetMap();
+                map.TransferProfessorToTeachersLounge(professor);
+            }
+            else {
+                DropAllItems();
+                isDead = true;
+                String message = professor.GetName() + " killed " + this.Name;
+                game.GetGameController().NewScreenMessage(300, Color.RED, message);
+            }
         }
     }
 
