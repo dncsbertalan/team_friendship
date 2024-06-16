@@ -468,21 +468,23 @@ public class Map {
         int totalTVSZ = itemQuantities.get("TVSZ");
         int totalFFP2 = itemQuantities.get("FFP2");
 
-        for (Pair<Room, Integer> pair : sortedDistances.reversed()) {
+        List<Pair<Room, Integer>> sortedDistancesAscending = sortedDistances.reversed();
+        //don't let them have it in the MainHall
+        sortedDistancesAscending.remove(0);
+
+        for (Pair<Room, Integer> pair : sortedDistancesAscending) {
             Room room = pair.getFirst();
             boolean placedItem = false;
 
             if (players <= 2) {
                 // Place items closer for fewer players
-                if (placedTVSZ < totalTVSZ && placedTVSZ < closeRange) {
+                if (placedTVSZ < totalTVSZ && pair.getSecond() <= closeRange) {
                     room.AddItemToRoom(itemSuppliers.get("TVSZ").get());
                     placedTVSZ++;
-                    placedItem = true;
                 }
-                if (placedFFP2 < totalFFP2 && placedFFP2 < closeRange) {
+                if (placedFFP2 < totalFFP2 && pair.getSecond() <= closeRange) {
                     room.AddItemToRoom(itemSuppliers.get("FFP2").get());
                     placedFFP2++;
-                    placedItem = true;
                 }
             } else {
                 // Mixed placement for more players

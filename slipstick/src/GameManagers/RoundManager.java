@@ -8,6 +8,7 @@ import Items.WetCloth;
 import Labyrinth.Room;
 
 import static Runnable.Main.gameController;
+import static Runnable.Main.soundManager;
 
 import java.util.ArrayList;
 import java.util.List;

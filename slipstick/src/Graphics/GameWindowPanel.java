@@ -576,10 +576,10 @@ public class GameWindowPanel extends JPanel {
             graphics2D.drawString(CODMessage, CODMessagePos.x, CODMessagePos.y);
         }
 
-        Vector2 janitorCen = new Vector2((int) (windowSize.x * 0.15f), (int)  (windowSize.y * 0.7f));
-        Vector2 profCen = new Vector2(janitorCen.x + 77, (int)  (windowSize.y * 0.7f));
-        Vector2 stud1Cen = new Vector2((int) (windowSize.x * 0.8f), (int)  (windowSize.y * 0.7f));
-        Vector2 stud2Cen = new Vector2(stud1Cen.x + 77, (int)  (windowSize.y * 0.7f));
+        Vector2 janitorCen = new Vector2((int) (windowSize.x * 0.10f), (int)  (windowSize.y * 0.7f));
+        Vector2 profCen = new Vector2(janitorCen.x + 97, (int)  (windowSize.y * 0.7f));
+        Vector2 stud1Cen = new Vector2((int) (windowSize.x * 0.85f), (int)  (windowSize.y * 0.7f));
+        Vector2 stud2Cen = new Vector2(stud1Cen.x + 97, (int)  (windowSize.y * 0.7f));
 
         DrawUtils.DrawImageCentered(graphics2D, DrawUtils.RotateImage(imageManager.resizeImage(GameConstants.IMAGE_JANITOR2, 500), -10.), janitorCen);
         DrawUtils.DrawImageCentered(graphics2D, DrawUtils.RotateImage(imageManager.resizeImage(GameConstants.IMAGE_PROFESSOR3, 500), 10.), profCen);

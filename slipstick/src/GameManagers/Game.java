@@ -267,6 +267,7 @@ public class Game {
         over = true;
         win = isWin;
         this.outcome = cod;
+        soundManager.playSoundLooped(isWin ? GameConstants.WIN_MUSIC : GameConstants.LOSE_MUSIC);
     }
 
     public boolean IsEnded() {

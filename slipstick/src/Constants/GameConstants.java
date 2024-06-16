@@ -330,6 +330,10 @@ public class GameConstants {
     public static final String GAME_MUSIC = "game";
     public static final String ENDGAME_MUSIC_FILEPATH = "slipstick/rsc/sounds/endgame.wav";
     public static final String ENDGAME_MUSIC = "endgame";
+    public static final String LOSE_MUSIC_FILEPATH = "slipstick/rsc/sounds/lose.wav";
+    public static final String LOSE_MUSIC = "lose";
+    public static final String WIN_MUSIC_FILEPATH = "slipstick/rsc/sounds/win.wav";
+    public static final String WIN_MUSIC = "win";
 
     public static final String SOUND_DOOR1_FILEPATH = "slipstick/rsc/sounds/door1.wav";
     public static final String SOUND_DOOR2_FILEPATH = "slipstick/rsc/sounds/door2.wav";
