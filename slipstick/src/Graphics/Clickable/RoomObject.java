@@ -31,21 +31,23 @@ public class RoomObject {
     private final Vector2 centerPos;
     private final GameWindowPanel gamePanel;
     private final boolean isSmallRoom;
+    private final boolean specialHexaR;
     private final static HashMap<String, BufferedImage> skins = new HashMap<>();
     private float rotation;
     private final int indexOfMainRoom;
     private Polygon shape;
 
     public RoomObject(GameWindowPanel gamePanel, Vector2 centerPos, Room room, boolean isSmallRoom) {
-        this(gamePanel, centerPos, room, isSmallRoom, 0, 0);
+        this(gamePanel, centerPos, room, isSmallRoom, 0, 0, false);
     }
 
     public RoomObject(GameWindowPanel gamePanel, Vector2 centerPos, Room room, boolean isSmallRoom,
-                      float rotation, int indexOfMainRoom) {
+                      float rotation, int indexOfMainRoom, boolean specialHexaR) {
         this.gamePanel = gamePanel;
         this.centerPos = centerPos;
         this.room = room;
         this.isSmallRoom = isSmallRoom;
+        this.specialHexaR = specialHexaR;
         this.rotation = rotation;
         this.indexOfMainRoom = indexOfMainRoom;
         this.shape = createShape();
@@ -60,6 +62,8 @@ public class RoomObject {
         final Vector2 distanceFromCenter = new Vector2(0, -y);
 
         if (rotation != 0) {
+            if (specialHexaR)
+                rotation = 0;
             final float doorAng = 360f / Math.max(room.GetNeighbours().size(), GameConstants.ROOM_MIN_SIDES);
             final float angleOfConnectingDoor = doorAng / 2f + doorAng * indexOfMainRoom - 90;
             final float rotationReversed = rotation - 180;
@@ -104,14 +108,18 @@ public class RoomObject {
         Vector2 pos = isSmallRoom ?
                 new Vector2(centerPos.x - (int) bounding.getCenterX(), centerPos.y - (int) bounding.getCenterY()) :
                 new Vector2(20, 150);
-        graphics2D.drawString(room.GetName(), pos.x, pos.y);
+        graphics2D.drawString(room.GetName(), pos.x, pos.y - 15);
         if (room.IsGassed()) {
-            graphics2D.drawString("GASSED", pos.x, pos.y + (int) bounding.getHeight());
+            graphics2D.drawString(
+                    "GASSED", isSmallRoom ? pos.x : pos.x + (int) bounding.getWidth() + 10, isSmallRoom ? pos.y + (int) bounding.getHeight() - 15 : pos.y);
             if (room.GetRemainingRoundsGassed() > 0)
-                graphics2D.drawString("       FOR " + room.GetRemainingRoundsGassed(), pos.x, pos.y + (int) bounding.getHeight());
+                graphics2D.drawString(
+                        "       FOR " + room.GetRemainingRoundsGassed(), isSmallRoom ? pos.x : pos.x + (int) bounding.getWidth() + 10, isSmallRoom ? pos.y + (int) bounding.getHeight() - 15 : pos.y);
         }
-        if (room.IsSticky()) graphics2D.drawString("STICKY", pos.x, pos.y + (int) bounding.getHeight());
-        if (room.IsCleaned()) graphics2D.drawString("CLEANED", pos.x, pos.y + (int) bounding.getHeight());
+        if (room.IsSticky()) graphics2D.drawString(
+                "STICKY", isSmallRoom ? pos.x : pos.x + (int) bounding.getWidth() + 10, isSmallRoom ? pos.y + (int) bounding.getHeight() - 15 : pos.y);
+        if (room.IsCleaned()) graphics2D.drawString(
+                "CLEANED", isSmallRoom ? pos.x : pos.x + (int) bounding.getWidth() + 10, isSmallRoom ? pos.y + (int) bounding.getHeight() - 15 : pos.y);
 
         if (game.IsLastPhase())
             highlightShortestPath(graphics2D);

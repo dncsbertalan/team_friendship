@@ -143,13 +143,23 @@ public class GameWindowPanel extends JPanel {
         int drawnRoom = 0;
         Vector2 windowCent = Vector2.Mult(windowSize, 0.5f);
 
+        int idx = 0;
         for (Room neighbour : curRoom.GetNeighbours()) {
             final Vector2 doorPos = Vector2.RotateBy(neighbourDistanceFromCenter,drawnRoom++ * angle);
             Vector2 pos = Vector2.Add(windowCent, doorPos);
-            final float rot = (float) Math.toDegrees(Vector2.ToRotation(doorPos));
+            float rot = (float) Math.toDegrees(Vector2.ToRotation(doorPos));
+
+            boolean hexaR = false;
+            if (curRoom.GetNeighbours().size() == 6 && idx == 1) {
+                rot = 1;
+                hexaR = true;
+            }
+
             RoomObject ro = new RoomObject(this, pos, neighbour,
-                    true, rot, neighbour.GetNeighbours().indexOf(curRoom));
+                    true, rot, neighbour.GetNeighbours().indexOf(curRoom), hexaR);
             ro.Draw(graphics2D);
+            os.println(curRoom.GetNeighbours().size() + " " + idx + " " + curRoom.GetNeighbours().get(idx).GetName());
+            idx++;
         }
 
         // Add gas effect if gas room
