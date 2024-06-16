@@ -62,12 +62,9 @@ public class Professor extends Entity implements IAI {
      * Kills all students in the current room.
      */
     public void KillEveryoneInTheRoom() {
-        if (!IsParalysed()) {
-            List<Student> studentsAboutToBeAssassinated = new ArrayList<>(this.room.GetStudents());
-            for(Student sIter : studentsAboutToBeAssassinated){
-                if (!sIter.IsDead())
-                    this.KillStudent(sIter);
-            }
+        List<Student> studentsAboutToBeAssassinated = new ArrayList<>(this.room.GetStudents());
+        for(Student sIter : studentsAboutToBeAssassinated){
+            this.KillStudent(sIter);
         }
     }
 
@@ -76,7 +73,8 @@ public class Professor extends Entity implements IAI {
      * @param student specified student
      */
     public void KillStudent(Student student) {
-        student.Kill(this);
+        if (!student.IsDead() && !this.IsParalysed())
+            student.Kill(this);
     }
 
     /**

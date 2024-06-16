@@ -410,7 +410,7 @@ public class Room {
      */
     public boolean CanStepIn(){
         int allEntitiesCount = roomsListOfProfessors.size() + roomsListOfStudents.size();
-        return allEntitiesCount != capacity;
+        return allEntitiesCount < capacity;
     }
     /**
      * Shows whether a room is filled with toxic gas currently.
@@ -428,7 +428,8 @@ public class Room {
         // to be fair only one professor tries to kill the student
         for(Professor profIter : roomsListOfProfessors){
             profIter.KillStudent(s);
-            break;
+            //break;
+            // nope, skill issue
         }
     }
 
