@@ -48,9 +48,14 @@ Arrow Keys: Move up, down, left, or right to navigate between rooms in the labyr
 - Turn-Based System: Each player takes turns, moving and interacting with objects before the professors take their actions.
 # Development Team
 Bíró Norbert
+
 Dancs Bertalan
-Pokó Kincső Réka
+
+Pokó Kincső 
+
 Szabó Benedek 
-Weisz Botond Máté: 
+
+Weisz Botond 
+
 # License
 This project is for educational and non-commercial use. All rights reserved by Team Friendship.
